@@ -1,0 +1,23 @@
+[gd_scene load_steps=6 format=3 uid="uid://dxaie6k0g5kqw"]
+
+[ext_resource type="Script" path="res://Player.gd" id="1_ndws6"]
+[ext_resource type="Texture2D" uid="uid://qpyy1aulwy55" path="res://icon.svg" id="2_kx870"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u2ali"]
+albedo_texture = ExtResource("2_kx870")
+billboard_mode = 1
+
+[sub_resource type="QuadMesh" id="QuadMesh_2uisb"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_jhi61"]
+
+[node name="Player" type="RigidBody3D"]
+lock_rotation = true
+script = ExtResource("1_ndws6")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+material_override = SubResource("StandardMaterial3D_u2ali")
+mesh = SubResource("QuadMesh_2uisb")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_jhi61")
