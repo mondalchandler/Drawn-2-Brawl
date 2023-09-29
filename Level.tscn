@@ -1,5 +1,6 @@
-[gd_scene load_steps=7 format=3 uid="uid://ohfqdr1tj3c1"]
+[gd_scene load_steps=8 format=3 uid="uid://ohfqdr1tj3c1"]
 
+[ext_resource type="PackedScene" uid="uid://bvv0ccg614yyh" path="res://enemy.tscn" id="1_hsc33"]
 [ext_resource type="PackedScene" uid="uid://dxaie6k0g5kqw" path="res://player.tscn" id="1_tm3ym"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_4q1ak"]
@@ -41,6 +42,9 @@ mesh = SubResource("PlaneMesh_pniol")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_knx64")
+
+[node name="Enemy" parent="." instance=ExtResource("1_hsc33")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 3)
 
 [node name="Player" parent="." instance=ExtResource("1_tm3ym")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -2)
