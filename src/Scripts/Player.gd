@@ -18,7 +18,6 @@ func get_camera_relative_input(input) -> Vector3:
 
 func _on_animation_player_animation_finished(anim_name):
 	if anim_name == "melee_attack":
-		print("in here")
 		anim_player.play("idle")
 		hitbox.monitoring = false
 

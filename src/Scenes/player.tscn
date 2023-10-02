@@ -1,7 +1,7 @@
 [gd_scene load_steps=12 format=3 uid="uid://dxaie6k0g5kqw"]
 
-[ext_resource type="Script" path="res://Player.gd" id="1_ndws6"]
-[ext_resource type="Texture2D" uid="uid://qpyy1aulwy55" path="res://icon.svg" id="2_kx870"]
+[ext_resource type="Script" path="res://src/Scripts/Player.gd" id="1_ndws6"]
+[ext_resource type="Texture2D" uid="uid://qpyy1aulwy55" path="res://resources/Images/icon.svg" id="2_kx870"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u2ali"]
 albedo_texture = ExtResource("2_kx870")
