@@ -46,13 +46,13 @@ func _process(delta):
 	apply_central_force(Vector3.DOWN * 9.8 * mass)
 
 	# Create a "Pac-Man" effect where if the player goes off one side of the stage, they appear on the other side.
-	if position.x < -5.0:
-		position.x = 5.0
-	elif position.x > 5.0:
-		position.x = -5.0
-	elif position.z < -5.0:
-		position.z = 5.0
-	elif position.z > 5.0:
-		position.z = -5.0
+	if position.x < -15.0:
+		position.x = 15.0
+	elif position.x > 15.0:
+		position.x = -15.0
+	elif position.z < -15.0:
+		position.z = 15.0
+	elif position.z > 15.0:
+		position.z = -15.0
 	else:
 		pass
