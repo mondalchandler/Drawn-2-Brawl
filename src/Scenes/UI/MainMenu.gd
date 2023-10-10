@@ -5,7 +5,7 @@ func _on_play_pressed():
 	get_tree().change_scene_to_file("res://src/Scenes/Levels/TestLevel.tscn")
 
 func _on_options_pressed():
-	pass # Replace with function body.
+	get_tree().change_scene_to_file("res://src/Scenes/UI/OptionsMenu.tscn")
 
 func _on_quit_pressed():
 	get_tree().quit()
