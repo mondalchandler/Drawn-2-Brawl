@@ -25,6 +25,15 @@ func get_camera_relative_input(input) -> Vector3:
 	# return camera relative input vector:
 	return cam_forward * input.z + cam_right * input.x
 
+func _on_animation_player_animation_finished(anim_name):
+	if anim_name == "melee_attack":
+		anim_player.play("idle")
+		hitbox.monitoring = false
+
+func _on_hitbox_area_entered(area):
+	# TODO: Let controller know what to do/what was hit
+	pass
+
 func _physics_process(delta):
 	# Add the gravity.
 	if not is_on_floor():
@@ -49,3 +58,7 @@ func _physics_process(delta):
 		velocity.z = move_toward(velocity.z, 0, SPEED)
 
 	move_and_slide()
+
+	if Input.is_action_just_pressed("melee_attack"):
+		anim_player.play("melee_attack")
+		hitbox.monitoring = true
