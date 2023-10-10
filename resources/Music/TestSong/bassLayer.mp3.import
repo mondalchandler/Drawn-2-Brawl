@@ -12,7 +12,7 @@ dest_files=["res://.godot/imported/bassLayer.mp3-4f5860c880660c78880865af6d88034
 
 [params]
 
-loop=false
+loop=true
 loop_offset=0
 bpm=0
 beat_count=0

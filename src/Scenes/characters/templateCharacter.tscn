@@ -1,7 +1,8 @@
-[gd_scene load_steps=13 format=3 uid="uid://jww4dmod3xb5"]
+[gd_scene load_steps=14 format=3 uid="uid://dxaie6k0g5kqw"]
 
 [ext_resource type="Script" path="res://src/Scenes/characters/CharacterBody3D.gd" id="1_mgcfo"]
-[ext_resource type="Texture2D" uid="uid://qpyy1aulwy55" path="res://Resources/Images/icon.svg" id="2_kvglk"]
+[ext_resource type="Texture2D" uid="uid://qpyy1aulwy55" path="res://resources/Images/icon.svg" id="2_kvglk"]
+[ext_resource type="PackedScene" uid="uid://du1ce84fu4a65" path="res://src/Scenes/UI/pause_menu.tscn" id="3_m33b8"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_jhi61"]
 
@@ -63,10 +64,10 @@ tracks/0/path = NodePath("TemplateCharacter/MeshInstance3D2:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [true, false]
+"values": [true]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_bchoe"]
@@ -120,3 +121,7 @@ shape = SubResource("ConvexPolygonShape3D_n3j6u")
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 root_path = NodePath("../..")
 replication_config = SubResource("SceneReplicationConfig_y3gwe")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="PauseMenu" parent="CanvasLayer" instance=ExtResource("3_m33b8")]
