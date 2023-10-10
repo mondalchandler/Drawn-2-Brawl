@@ -1,7 +1,8 @@
-[gd_scene load_steps=13 format=3 uid="uid://dxaie6k0g5kqw"]
+[gd_scene load_steps=14 format=3 uid="uid://dxaie6k0g5kqw"]
 
 [ext_resource type="Script" path="res://src/Scenes/characters/CharacterBody3D.gd" id="1_mgcfo"]
 [ext_resource type="Texture2D" uid="uid://qpyy1aulwy55" path="res://resources/Images/icon.svg" id="2_kvglk"]
+[ext_resource type="PackedScene" uid="uid://dawgacccs18k1" path="res://src/Scenes/ui/pause_menu.tscn" id="3_m33b8"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_jhi61"]
 
@@ -107,7 +108,6 @@ libraries = {
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0.648825, 0, -1, -2.8361e-08, 0, 0, 0, 1, 0.92743, -0.00284207, -0.00180757)
-visible = false
 visibility_parent = NodePath(".")
 mesh = SubResource("CapsuleMesh_m4eb3")
 skeleton = NodePath("../..")
@@ -122,8 +122,6 @@ shape = SubResource("ConvexPolygonShape3D_n3j6u")
 root_path = NodePath("../..")
 replication_config = SubResource("SceneReplicationConfig_y3gwe")
 
-[node name="Player" type="RigidBody3D" parent="."]
-lock_rotation = true
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[connection signal="animation_finished" from="AnimationPlayer" to="Player" method="_on_animation_player_animation_finished"]
-[connection signal="area_entered" from="MeshInstance3D2/Hitbox" to="Player" method="_on_hitbox_area_entered"]
+[node name="PauseMenu" parent="CanvasLayer" instance=ExtResource("3_m33b8")]

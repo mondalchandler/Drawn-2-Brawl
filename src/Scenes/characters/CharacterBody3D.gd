@@ -17,6 +17,8 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 @onready var hitbox = $MeshInstance3D2/Hitbox
 
 # ---------------- FUNCTIONS ---------------- #
+
+# -- translates a vector3 to the same vector3, translated to the camera's offset
 func get_camera_relative_input(input) -> Vector3:
 	var cam_right = cam.global_transform.basis.x
 	var cam_forward = cam.global_transform.basis.z
@@ -25,6 +27,8 @@ func get_camera_relative_input(input) -> Vector3:
 	# return camera relative input vector:
 	return cam_forward * input.z + cam_right * input.x
 
+
+# ---- heartbeat loop
 func _physics_process(delta):
 	# Add the gravity.
 	if not is_on_floor():
@@ -49,3 +53,23 @@ func _physics_process(delta):
 		velocity.z = move_toward(velocity.z, 0, SPEED)
 
 	move_and_slide()
+
+# ---------------- INPUT FUNCTIONS ---------------- #
+
+signal toggle_game_paused
+
+# when an input is registered
+func _input(event : InputEvent):
+	if (event.is_action_pressed("pause")):
+		emit_signal("toggle_game_paused")
+		
+		#print("YO")
+		# gamePaused = not gamePaused
+		#get_tree().paused = gamePaused
+		
+# ---------------- INIT ---------------- #
+		
+# hides the menu on game start
+#func _ready():
+	#hide()
+	#pauseMenu.connect("toggle_game_paused", toggleUI)
