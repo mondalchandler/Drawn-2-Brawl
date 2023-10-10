@@ -10,8 +10,8 @@ config_version=5
 
 [application]
 
-config/name="Testing Godot"
-run/main_scene="res://src/Scenes/Level.tscn"
+config/name="Drawn To Brawl"
+run/main_scene="res://src/Scenes/Levels/Level.tscn"
 config/features=PackedStringArray("4.1", "Forward Plus")
 config/icon="res://resources/Images/icon.svg"
 
