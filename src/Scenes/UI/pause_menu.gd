@@ -13,6 +13,9 @@ extends Control
 
 var paused = false
 
+signal on_pause_menu_open
+signal on_pause_menu_close
+
 # ----------------------- EVENTS ----------------------- #
 
 # toggles the UI visibility
@@ -20,8 +23,10 @@ func toggleUI():
 	paused = not paused
 	if (paused):
 		show()
+		emit_signal("on_pause_menu_open")
 	else:
 		hide()
+		emit_signal("on_pause_menu_close")
 		
 
 # hides the menu on game start, set up connections

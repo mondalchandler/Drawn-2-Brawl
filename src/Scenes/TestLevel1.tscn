@@ -1,13 +1,9 @@
-[gd_scene load_steps=14 format=3 uid="uid://cbbjojiw1c32c"]
+[gd_scene load_steps=10 format=3 uid="uid://u1qbc0rbe0wc"]
 
-[ext_resource type="PackedScene" uid="uid://dxaie6k0g5kqw" path="res://src/Scenes/Characters/TemplateCharacter.tscn" id="1_3hibe"]
-[ext_resource type="PackedScene" uid="uid://c1gbjohht0toa" path="res://src/Objects/TestPlatform.tscn" id="2_p30fi"]
-[ext_resource type="PackedScene" uid="uid://c6vahpoil0gw3" path="res://src/Objects/TestMovingPlatform.tscn" id="3_t2xjs"]
-[ext_resource type="PackedScene" uid="uid://i651x6gr4qni" path="res://src/Objects/TestStaircase.tscn" id="4_r14oo"]
-[ext_resource type="AudioStream" uid="uid://b7c4b8a4x2w3v" path="res://resources/Music/TestSong/beatLayer.mp3" id="5_frx3p"]
-[ext_resource type="Script" path="res://src/Scenes/Levels/MusicPlayer.gd" id="5_qep5t"]
-[ext_resource type="AudioStream" uid="uid://c1husnq4yjdg2" path="res://resources/Music/TestSong/bassLayer.mp3" id="6_ildc1"]
-[ext_resource type="AudioStream" uid="uid://dmkakluxbdvta" path="res://resources/Music/TestSong/leadLayer.mp3" id="7_yatml"]
+[ext_resource type="PackedScene" uid="uid://dxaie6k0g5kqw" path="res://src/Scenes/characters/templateCharacter.tscn" id="1_3hibe"]
+[ext_resource type="PackedScene" path="res://Objects/TestPlatform.tscn" id="2_p30fi"]
+[ext_resource type="PackedScene" path="res://Objects/TestMovingPlatform.tscn" id="3_t2xjs"]
+[ext_resource type="PackedScene" path="res://Objects/TestStaircase.tscn" id="4_r14oo"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_4q1ak"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -84,24 +80,3 @@ shape = SubResource("ConcavePolygonShape3D_3acba")
 
 [node name="TemplateCharacter" parent="." instance=ExtResource("1_3hibe")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.16181, 1.42896, 0.820872)
-
-[node name="MusicPlayer" type="Node3D" parent="."]
-script = ExtResource("5_qep5t")
-metadata/CurrentVolume = -23.0
-metadata/DefaultVolume = -23.0
-metadata/Pause_Volume = -35.0
-
-[node name="BeatLayer" type="AudioStreamPlayer" parent="MusicPlayer"]
-stream = ExtResource("5_frx3p")
-volume_db = -23.0
-autoplay = true
-
-[node name="BassLayer" type="AudioStreamPlayer" parent="MusicPlayer"]
-stream = ExtResource("6_ildc1")
-volume_db = -23.0
-autoplay = true
-
-[node name="LeadLayer" type="AudioStreamPlayer" parent="MusicPlayer"]
-stream = ExtResource("7_yatml")
-volume_db = -23.0
-autoplay = true

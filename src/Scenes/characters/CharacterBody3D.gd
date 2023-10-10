@@ -15,6 +15,11 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 @onready var cam = get_viewport().get_camera_3d()
 @onready var anim_player = $AnimationPlayer
 @onready var hitbox = $MeshInstance3D2/Hitbox
+@onready var pause_menu = $CanvasLayer/PauseMenu
+
+@onready var music_player = $"../MusicPlayer"
+
+var default_music_vol 
 
 # ---------------- FUNCTIONS ---------------- #
 
@@ -35,6 +40,15 @@ func _on_animation_player_animation_finished(anim_name):
 func _on_hitbox_area_entered(area):
 	# TODO: Let controller know what to do/what was hit
 	pass
+
+
+func on_pause():
+	music_player.emit_signal("enable_pause_music")
+	
+	
+func on_unpause():
+	music_player.emit_signal("disable_pause_music")
+		
 
 # ---- heartbeat loop
 func _physics_process(delta):
@@ -76,6 +90,10 @@ func _input(event : InputEvent):
 		emit_signal("toggle_game_paused")
 		
 		
-		
 # ---------------- INIT ---------------- #
-		
+	
+func _ready():
+	pause_menu.connect("on_pause_menu_open", on_pause)
+	pause_menu.connect("on_pause_menu_close", on_unpause)
+	
+	
