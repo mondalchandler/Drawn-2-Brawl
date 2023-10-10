@@ -17,6 +17,13 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 @onready var hitbox = $MeshInstance3D2/Hitbox
 
 # ---------------- FUNCTIONS ---------------- #
+func get_camera_relative_input(input) -> Vector3:
+	var cam_right = cam.global_transform.basis.x
+	var cam_forward = cam.global_transform.basis.z
+	# make cam_forward horizontal:
+	cam_forward = cam_forward.slide(Vector3.UP).normalized()
+	# return camera relative input vector:
+	return cam_forward * input.z + cam_right * input.x
 
 func _physics_process(delta):
 	# Add the gravity.
@@ -29,8 +36,11 @@ func _physics_process(delta):
 
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
-	var input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_back")
-	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+	var input := Vector3.ZERO
+	input.x = Input.get_axis("move_left", "move_right")
+	input.z = Input.get_axis("move_forward", "move_back")
+	var rel = get_camera_relative_input(input)
+	var direction = (transform.basis * Vector3(rel.x, 0, rel.z)).normalized()
 	if direction:
 		velocity.x = direction.x * SPEED
 		velocity.z = direction.z * SPEED
