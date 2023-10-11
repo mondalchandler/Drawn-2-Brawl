@@ -66,14 +66,20 @@ func _physics_process(delta):
 	input.x = Input.get_axis("move_left", "move_right")
 	input.z = Input.get_axis("move_forward", "move_back")
 	var rel = get_camera_relative_input(input)
-	var direction = (transform.basis * Vector3(rel.x, 0, rel.z)).normalized()
-	if direction:
-		velocity.x = direction.x * SPEED
-		velocity.z = direction.z * SPEED
-	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
-		velocity.z = move_toward(velocity.z, 0, SPEED)
 
+	var direction = (transform.basis * Vector3(rel.x, 0, rel.z)).normalized()
+
+	if is_on_floor():	
+		if direction:
+			velocity.x = direction.x * SPEED
+			velocity.z = direction.z * SPEED
+		else:
+			velocity.x = lerp(velocity.x, direction.x * SPEED, delta * 7.0)
+			velocity.z = lerp(velocity.z, direction.z * SPEED, delta * 7.0)
+	else:
+		velocity.x = lerp(velocity.x, direction.x * SPEED, delta * 3.0)
+		velocity.z = lerp(velocity.z, direction.z * SPEED, delta * 3.0)
+		
 	move_and_slide()
 	
 	if Input.is_action_just_pressed("melee_attack"):

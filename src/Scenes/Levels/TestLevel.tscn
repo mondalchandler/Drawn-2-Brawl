@@ -1,13 +1,13 @@
 [gd_scene load_steps=14 format=3 uid="uid://1ykk5cdygfdm"]
 
-[ext_resource type="PackedScene" uid="uid://dxaie6k0g5kqw" path="res://src/Scenes/Characters/templateCharacter.tscn" id="1_3hibe"]
-[ext_resource type="PackedScene" uid="uid://c1gbjohht0toa" path="res://src/Scenes/Objects/TestPlatform.tscn" id="2_p30fi"]
-[ext_resource type="PackedScene" uid="uid://c6vahpoil0gw3" path="res://src/Scenes/Objects/TestMovingPlatform.tscn" id="3_t2xjs"]
-[ext_resource type="PackedScene" uid="uid://i651x6gr4qni" path="res://src/Scenes/Objects/TestStaircase.tscn" id="4_r14oo"]
-[ext_resource type="AudioStream" uid="uid://b7c4b8a4x2w3v" path="res://Resources/Music/TestSong/beatLayer.mp3" id="5_frx3p"]
+[ext_resource type="PackedScene" uid="uid://dxaie6k0g5kqw" path="res://src/Scenes/characters/templateCharacter.tscn" id="1_3hibe"]
+[ext_resource type="PackedScene" path="res://src/Scenes/Objects/TestPlatform.tscn" id="2_p30fi"]
+[ext_resource type="PackedScene" path="res://src/Scenes/Objects/TestMovingPlatform.tscn" id="3_t2xjs"]
+[ext_resource type="PackedScene" path="res://src/Scenes/Objects/TestStaircase.tscn" id="4_r14oo"]
+[ext_resource type="AudioStream" uid="uid://b7c4b8a4x2w3v" path="res://resources/Music/TestSong/beatLayer.mp3" id="5_frx3p"]
 [ext_resource type="Script" path="res://src/Scenes/Levels/MusicPlayer.gd" id="5_qep5t"]
-[ext_resource type="AudioStream" uid="uid://c1husnq4yjdg2" path="res://Resources/Music/TestSong/bassLayer.mp3" id="6_ildc1"]
-[ext_resource type="AudioStream" uid="uid://dmkakluxbdvta" path="res://Resources/Music/TestSong/leadLayer.mp3" id="7_yatml"]
+[ext_resource type="AudioStream" uid="uid://c1husnq4yjdg2" path="res://resources/Music/TestSong/bassLayer.mp3" id="6_ildc1"]
+[ext_resource type="AudioStream" uid="uid://dmkakluxbdvta" path="res://resources/Music/TestSong/leadLayer.mp3" id="7_yatml"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_4q1ak"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
