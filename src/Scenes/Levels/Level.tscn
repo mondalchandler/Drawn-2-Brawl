@@ -1,8 +1,8 @@
 [gd_scene load_steps=9 format=3 uid="uid://ohfqdr1tj3c1"]
 
-[ext_resource type="PackedScene" uid="uid://bvv0ccg614yyh" path="res://src/Scenes/Objects/Enemy.tscn" id="1_hsc33"]
+[ext_resource type="PackedScene" uid="uid://bvv0ccg614yyh" path="res://src/Scenes/Objects/DummyEnemy.tscn" id="1_hsc33"]
 [ext_resource type="PackedScene" uid="uid://dxaie6k0g5kqw" path="res://src/Scenes/Characters/TemplateCharacter.tscn" id="2_mbr53"]
-[ext_resource type="PackedScene" uid="uid://dawgacccs18k1" path="res://src/Scenes/UI/PauseMenu.tscn" id="3_r110m"]
+[ext_resource type="PackedScene" path="res://src/Scenes/UI/PauseMenu.tscn" id="3_r110m"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_4q1ak"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)

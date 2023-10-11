@@ -3,12 +3,12 @@
 importer="mp3"
 type="AudioStreamMP3"
 uid="uid://dmkakluxbdvta"
-path="res://.godot/imported/leadLayer.mp3-c62afacb151ac489d247e03b25b235d8.mp3str"
+path="res://.godot/imported/leadLayer.mp3-9401495f4fce1a34f1deae4b3694dc01.mp3str"
 
 [deps]
 
-source_file="res://resources/Music/TestSong/leadLayer.mp3"
-dest_files=["res://.godot/imported/leadLayer.mp3-c62afacb151ac489d247e03b25b235d8.mp3str"]
+source_file="res://Resources/Music/TestSong/leadLayer.mp3"
+dest_files=["res://.godot/imported/leadLayer.mp3-9401495f4fce1a34f1deae4b3694dc01.mp3str"]
 
 [params]
 
