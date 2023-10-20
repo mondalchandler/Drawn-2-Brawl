@@ -25,6 +25,10 @@ window/size/mode=2
 
 project/assembly_name="Testing Godot"
 
+[filesystem]
+
+import/fbx/enabled=false
+
 [input]
 
 move_forward={
