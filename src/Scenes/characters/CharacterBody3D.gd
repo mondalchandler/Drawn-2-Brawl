@@ -32,10 +32,12 @@ func get_camera_relative_input(input) -> Vector3:
 	# return camera relative input vector:
 	return cam_forward * input.z + cam_right * input.x
 
+
 func _on_animation_player_animation_finished(anim_name):
 	if anim_name == "melee_attack":
 		anim_player.play("idle")
 		hitbox.monitoring = false
+
 
 func _on_hitbox_area_entered(area):
 	# TODO: Let controller know what to do/what was hit
@@ -138,14 +140,15 @@ func _input(event : InputEvent):
 				target_number = 0
 		else:
 			targeting = false
-#
-		
+
+
 func get_target_direction():
 	#need to place code here for projectile spawning when not targeting
 #	if(targeting):
 	return target.global_transform.looking_at(global_transform.origin, Vector3.UP).basis
 #	else:
 #		return self.global_transform.looking_at(global_transform.origin, Vector3.UP).basis
+
 # ---------------- INIT ---------------- #
 	
 func _ready():
