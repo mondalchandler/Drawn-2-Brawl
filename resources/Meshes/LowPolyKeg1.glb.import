@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://dhqe5ih6qexbc"
-path="res://.godot/imported/LowPolyBottleShattered.glb-1dd674f8cd039aba8f061c0c6782aad2.scn"
+uid="uid://hejbcrv51jgn"
+path="res://.godot/imported/LowPolyKeg1.glb-ad3bcf4f16eb4e4c1c0891548015bb1e.scn"
 
 [deps]
 
-source_file="res://resources/Meshes/LowPolyBottleShattered.glb"
-dest_files=["res://.godot/imported/LowPolyBottleShattered.glb-1dd674f8cd039aba8f061c0c6782aad2.scn"]
+source_file="res://resources/Meshes/LowPolyKeg1.glb"
+dest_files=["res://.godot/imported/LowPolyKeg1.glb-ad3bcf4f16eb4e4c1c0891548015bb1e.scn"]
 
 [params]
 

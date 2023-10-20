@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://b7gd8br2nmwlx"
-path="res://.godot/imported/LowPolyKeg.glb-01f64243215f08f06dae97f7951bdd27.scn"
+uid="uid://c3aw38bl5a8bm"
+path="res://.godot/imported/LowPolyKegShattered2.glb-dbe3820fa1a5effcb53b9d08a2c8f7dd.scn"
 
 [deps]
 
-source_file="res://src/Scenes/SaloonAssets/LowPolyKeg.glb"
-dest_files=["res://.godot/imported/LowPolyKeg.glb-01f64243215f08f06dae97f7951bdd27.scn"]
+source_file="res://resources/Meshes/LowPolyKegShattered2.glb"
+dest_files=["res://.godot/imported/LowPolyKegShattered2.glb-dbe3820fa1a5effcb53b9d08a2c8f7dd.scn"]
 
 [params]
 
