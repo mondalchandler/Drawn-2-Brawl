@@ -1,14 +1,16 @@
-[gd_scene load_steps=15 format=3 uid="uid://1ykk5cdygfdm"]
+[gd_scene load_steps=17 format=3 uid="uid://1ykk5cdygfdm"]
 
 [ext_resource type="PackedScene" uid="uid://dxaie6k0g5kqw" path="res://src/Scenes/characters/templateCharacter.tscn" id="1_3hibe"]
-[ext_resource type="PackedScene" uid="uid://c1gbjohht0toa" path="res://src/Scenes/Objects/TestPlatform.tscn" id="2_p30fi"]
-[ext_resource type="PackedScene" uid="uid://c6vahpoil0gw3" path="res://src/Scenes/Objects/TestMovingPlatform.tscn" id="3_t2xjs"]
-[ext_resource type="PackedScene" uid="uid://i651x6gr4qni" path="res://src/Scenes/Objects/TestStaircase.tscn" id="4_r14oo"]
+[ext_resource type="PackedScene" path="res://src/Scenes/Objects/TestPlatform.tscn" id="2_p30fi"]
+[ext_resource type="PackedScene" path="res://src/Scenes/Objects/TestMovingPlatform.tscn" id="3_t2xjs"]
+[ext_resource type="PackedScene" path="res://src/Scenes/Objects/TestStaircase.tscn" id="4_r14oo"]
 [ext_resource type="AudioStream" uid="uid://b7c4b8a4x2w3v" path="res://resources/Music/TestSong/beatLayer.mp3" id="5_frx3p"]
 [ext_resource type="Script" path="res://src/Scenes/Levels/MusicPlayer.gd" id="5_qep5t"]
 [ext_resource type="AudioStream" uid="uid://c1husnq4yjdg2" path="res://resources/Music/TestSong/bassLayer.mp3" id="6_ildc1"]
 [ext_resource type="AudioStream" uid="uid://dmkakluxbdvta" path="res://resources/Music/TestSong/leadLayer.mp3" id="7_yatml"]
-[ext_resource type="PackedScene" uid="uid://bvv0ccg614yyh" path="res://src/Scenes/Objects/DummyEnemy.tscn" id="9_bh668"]
+[ext_resource type="PackedScene" uid="uid://b3qfbre8lvqxq" path="res://src/Scenes/Objects/DummyEnemy.tscn" id="9_bh668"]
+[ext_resource type="PackedScene" uid="uid://b8ho0wqibktcr" path="res://src/Scenes/UI/all_player_health_list.tscn" id="10_606jg"]
+[ext_resource type="Script" path="res://src/Scenes/Levels/CanvasLayer.gd" id="10_r8f68"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_4q1ak"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -105,13 +107,18 @@ stream = ExtResource("7_yatml")
 volume_db = -23.0
 autoplay = true
 
-[node name="players" type="Node3D" parent="."]
+[node name="Players" type="Node3D" parent="."]
 
-[node name="Enemy" parent="players" instance=ExtResource("9_bh668")]
+[node name="Enemy" parent="Players" instance=ExtResource("9_bh668")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.709249, 0.995193, 2.01173)
 
-[node name="TemplateCharacter" parent="players" instance=ExtResource("1_3hibe")]
+[node name="TemplateCharacter" parent="Players" instance=ExtResource("1_3hibe")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.16181, 1.42896, 0.820872)
 
-[node name="Enemy2" parent="players" instance=ExtResource("9_bh668")]
+[node name="Enemy2" parent="Players" instance=ExtResource("9_bh668")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.61709, 0.742728, -3.22632)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+script = ExtResource("10_r8f68")
+
+[node name="PlayerHealthUI" parent="CanvasLayer" instance=ExtResource("10_606jg")]
