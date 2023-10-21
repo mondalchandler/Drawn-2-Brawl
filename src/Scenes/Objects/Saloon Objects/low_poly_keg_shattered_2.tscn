@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://btjpmolv8abdm"]
+
+[ext_resource type="PackedScene" uid="uid://c3aw38bl5a8bm" path="res://resources/Meshes/LowPolyKegShattered2.glb" id="1_ju6p5"]
+
+[node name="LowPolyKegShattered2" instance=ExtResource("1_ju6p5")]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)

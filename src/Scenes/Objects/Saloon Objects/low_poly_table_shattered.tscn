@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://hsoeo64uus7j"]
+
+[ext_resource type="PackedScene" uid="uid://ywfs8amfser1" path="res://resources/Meshes/LowPolyTableShattered.glb" id="1_tjx0a"]
+
+[node name="LowPolyTableShattered" instance=ExtResource("1_tjx0a")]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
+
+[node name="Cylinder" parent="Table" index="0"]
+transform = Transform3D(9.66187, 0, 0, 0, 9.66187, 2.84217e-14, 0, -5.68434e-14, 0.206041, -2.06704, 2.13163e-13, 0.849018)
+
+[node name="Cube" parent="Table" index="1"]
+transform = Transform3D(10.6115, 0, 0, 0, 10.6115, 1.13687e-13, 0, 0, 1.82876, 2.85992, -2.98428e-13, -1.23966)

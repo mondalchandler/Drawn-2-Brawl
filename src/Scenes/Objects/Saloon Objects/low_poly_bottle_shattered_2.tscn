@@ -1,0 +1,50 @@
+[gd_scene load_steps=2 format=3 uid="uid://c2rtrgmfoh1g0"]
+
+[ext_resource type="PackedScene" uid="uid://b438jpn2q8hkp" path="res://resources/Meshes/LowPolyBottleShattered2.glb" id="1_syoyb"]
+
+[node name="LowPolyBottleShattered2" instance=ExtResource("1_syoyb")]
+
+[node name="Cylinder_001_cell" parent="." index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.117759, 0.811136, 0.0216988)
+
+[node name="Cylinder_001_cell_001" parent="." index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0293774, 0.915379, -0.0898548)
+
+[node name="Cylinder_001_cell_002" parent="." index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.114951, -0.577467, 0.180011)
+
+[node name="Cylinder_001_cell_003" parent="." index="3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.128023, -0.518248, -0.195254)
+
+[node name="Cylinder_001_cell_004" parent="." index="4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0431779, 1.30317, -0.0832229)
+
+[node name="Cylinder_001_cell_005" parent="." index="5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0800525, 0.283998, 0.12161)
+
+[node name="Cylinder_001_cell_006" parent="." index="6"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.14132, -0.224105, -0.126004)
+
+[node name="Cylinder_001_cell_007" parent="." index="7"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0917321, 1.29854, 0.0514155)
+
+[node name="Cylinder_001_cell_008" parent="." index="8"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0972515, 0.663022, -0.176306)
+
+[node name="Cylinder_001_cell_009" parent="." index="9"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0094417, 1.22681, 0.0850721)
+
+[node name="Cylinder_001_cell_010" parent="." index="10"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.171019, -0.406331, -0.0317903)
+
+[node name="Cylinder_001_cell_011" parent="." index="11"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0829083, 1.28845, -0.0209967)
+
+[node name="Cylinder_001_cell_012" parent="." index="12"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.16577, 0.635996, 0.0649732)
+
+[node name="Cylinder_001_cell_013" parent="." index="13"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0487529, -0.227939, 0.21215)
+
+[node name="Cylinder_001_cell_014" parent="." index="14"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0622828, 0.275761, -0.13633)

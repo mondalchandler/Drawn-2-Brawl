@@ -32,10 +32,12 @@ func get_camera_relative_input(input) -> Vector3:
 	# return camera relative input vector:
 	return cam_forward * input.z + cam_right * input.x
 
+
 func _on_animation_player_animation_finished(anim_name):
 	if anim_name == "melee_attack":
 		anim_player.play("idle")
 		hitbox.monitoring = false
+
 
 func _on_hitbox_area_entered(area):
 	# TODO: Let controller know what to do/what was hit
@@ -71,6 +73,7 @@ func _physics_process(delta):
 
 	if is_on_floor():	
 		if direction:
+			last_direction = direction
 			velocity.x = direction.x * SPEED
 			velocity.z = direction.z * SPEED
 		else:
@@ -90,16 +93,66 @@ func _physics_process(delta):
 
 signal toggle_game_paused
 
+@onready var test_obj = load("res://src/Scenes/Objects/TestMovingPlatform2.tscn")
+var targeting = false
+@onready var target = get_node("../../Camera3D")
+var target_number = 0
+var last_direction = Vector3.ZERO
+
 # when an input is registered
 func _input(event : InputEvent):
 	if (event.is_action_pressed("pause")):
 		emit_signal("toggle_game_paused")
-		
-		
+	
+	#NOTE: this code is just test code to see if the target locking is working. This is not how attacks will actually spawn.
+	if(event.as_text() == "Q" && event.pressed):
+#		var test_obj = load("res://src/Scenes/Objects/TestMovingPlatform.tscn")
+		var spawn_obj = test_obj.instantiate()
+#		if(targeting):
+		var test_basis = get_target_direction()
+		spawn_obj.global_transform.basis = global_transform.basis.orthonormalized().slerp(test_basis, 1).scaled(scale)
+		spawn_obj.position.y = 5
+		spawn_obj.position.x = self.position.x
+		spawn_obj.position.z = self.position.z
+#			print(str(rad_to_deg(atan(last_direction.x/last_direction.z))))
+#
+#			print(str(last_direction.x/last_direction.z))
+#		else:
+#			spawn_obj.position.y = 5
+#			spawn_obj.position.x = self.position.x
+#			spawn_obj.position.z = self.position.z
+#			print(str(rad_to_deg(atan(last_direction.x/last_direction.z))))
+#			spawn_obj.rotation.y = round(rad_to_deg(atan(last_direction.x/last_direction.z)))
+		$"../../".add_child(spawn_obj)
+	
+	if(event.as_text() == "P" && event.pressed):
+		if($"../".get_children().size()>1):
+			var temp = $"../".get_child(target_number)
+			if(temp != self):
+				target = temp
+			else:
+				target_number += 1
+				if(target_number>=$"../".get_children().size()):
+					target_number = 0
+				target = $"../".get_child(target_number)
+			target_number += 1
+			if(target_number>=$"../".get_children().size()):
+				target_number = 0
+		else:
+			targeting = false
+
+
+func get_target_direction():
+	#need to place code here for projectile spawning when not targeting
+#	if(targeting):
+	return target.global_transform.looking_at(global_transform.origin, Vector3.UP).basis
+#	else:
+#		return self.global_transform.looking_at(global_transform.origin, Vector3.UP).basis
+
 # ---------------- INIT ---------------- #
 	
 func _ready():
 	pause_menu.connect("on_pause_menu_open", on_pause)
 	pause_menu.connect("on_pause_menu_close", on_unpause)
-	
-	
+
+
