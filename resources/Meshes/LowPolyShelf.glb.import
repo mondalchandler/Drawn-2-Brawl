@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://0r3ei8rspkfj"
-path="res://.godot/imported/LowPolyKeg3.glb-3be42beafb67ee187fac8ab9d86bfc79.scn"
+uid="uid://2cjclrutc4lf"
+path="res://.godot/imported/LowPolyShelf.glb-5a4c77359fbf6532d490412f23bdcc69.scn"
 
 [deps]
 
-source_file="res://resources/Meshes/LowPolyKeg3.glb"
-dest_files=["res://.godot/imported/LowPolyKeg3.glb-3be42beafb67ee187fac8ab9d86bfc79.scn"]
+source_file="res://resources/Meshes/LowPolyShelf.glb"
+dest_files=["res://.godot/imported/LowPolyShelf.glb-5a4c77359fbf6532d490412f23bdcc69.scn"]
 
 [params]
 

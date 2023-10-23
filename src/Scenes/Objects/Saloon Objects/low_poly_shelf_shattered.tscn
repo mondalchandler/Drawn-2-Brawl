@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dq17865hspf1i"]
+
+[ext_resource type="PackedScene" uid="uid://dn5f4tg3furf5" path="res://resources/meshes/LowPolyShelfShattered.glb" id="1_xbv1h"]
+
+[node name="LowPolyShelfShattered" instance=ExtResource("1_xbv1h")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
