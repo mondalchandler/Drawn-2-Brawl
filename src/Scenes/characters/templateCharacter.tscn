@@ -1,75 +1,51 @@
-[gd_scene load_steps=14 format=3 uid="uid://dxaie6k0g5kqw"]
+[gd_scene load_steps=19 format=3 uid="uid://dxaie6k0g5kqw"]
 
-[ext_resource type="Script" path="res://src/Scenes/characters/CharacterBody3D.gd" id="1_l6vxu"]
-[ext_resource type="Texture2D" uid="uid://qpyy1aulwy55" path="res://resources/Images/icon.svg" id="2_kvglk"]
+[ext_resource type="Script" path="res://src/Scenes/Characters/CharacterBody3D.gd" id="1_l6vxu"]
+[ext_resource type="Texture2D" uid="uid://k1d6ljvlbigv" path="res://resources/Images/Animations/Ranger/RangerIdle1.png" id="2_of1dh"]
 [ext_resource type="PackedScene" uid="uid://du1ce84fu4a65" path="res://src/Scenes/UI/pause_menu.tscn" id="3_m33b8"]
+[ext_resource type="Texture2D" uid="uid://kfchhnmy5uy0" path="res://resources/Images/Animations/Ranger/RangerIdle2.png" id="3_vw0by"]
+[ext_resource type="Texture2D" uid="uid://buh8fvdr6lpji" path="res://resources/Images/Animations/Ranger/RangerRun2.png" id="4_xct1f"]
+[ext_resource type="Texture2D" uid="uid://dpw7pb0cm3ah5" path="res://resources/Images/Animations/Ranger/RangerRun1.png" id="5_6knjl"]
+[ext_resource type="Texture2D" uid="uid://0sm548fs50ud" path="res://resources/Images/Animations/Ranger/RangerGNC2.png" id="5_h1niy"]
+[ext_resource type="Texture2D" uid="uid://c1ygl7tbs6jvj" path="res://resources/Images/Animations/Ranger/RangerJump.png" id="7_ult6u"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_jhi61"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u2ali"]
-albedo_texture = ExtResource("2_kvglk")
-billboard_mode = 1
-
-[sub_resource type="QuadMesh" id="QuadMesh_2uisb"]
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sn8c4"]
+height = 1.5
 
 [sub_resource type="Animation" id="Animation_na8w3"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Player1/MeshInstance3D2:scale")
+tracks/0/path = NodePath("TemplateCharacter/Sprite3D:texture")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(1, 0.648825, 1)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Player1/MeshInstance3D2:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [true]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("TemplateCharacter/MeshInstance3D2:visible")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
+"values": [ExtResource("5_6knjl")]
 }
 
 [sub_resource type="Animation" id="Animation_3cxny"]
 resource_name = "idle"
-loop_mode = 1
+length = 2.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Player1/MeshInstance3D2:visible")
+tracks/0/path = NodePath("TemplateCharacter/Sprite3D:texture")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [false]
+"values": [ExtResource("2_of1dh"), ExtResource("3_vw0by")]
 }
 
 [sub_resource type="Animation" id="Animation_0mbgy"]
 resource_name = "melee_attack"
-length = 0.5
+length = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -77,17 +53,61 @@ tracks/0/path = NodePath("TemplateCharacter/MeshInstance3D2:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5),
+"times": PackedFloat32Array(0, 0.1),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TemplateCharacter/Sprite3D:texture")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("5_h1niy")]
+}
+
+[sub_resource type="Animation" id="Animation_727vt"]
+resource_name = "run"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TemplateCharacter/Sprite3D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5, 0.75),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("5_6knjl"), ExtResource("4_xct1f"), ExtResource("5_6knjl"), ExtResource("4_xct1f")]
+}
+
+[sub_resource type="Animation" id="Animation_r88tu"]
+resource_name = "jump"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TemplateCharacter/Sprite3D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("7_ult6u")]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_bchoe"]
 _data = {
 "RESET": SubResource("Animation_na8w3"),
 "idle": SubResource("Animation_3cxny"),
-"melee_attack": SubResource("Animation_0mbgy")
+"jump": SubResource("Animation_r88tu"),
+"melee_attack": SubResource("Animation_0mbgy"),
+"run": SubResource("Animation_727vt")
 }
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_m4eb3"]
@@ -107,13 +127,9 @@ metadata/Health = 100.0
 metadata/MaxHealth = 100.0
 metadata/Blocking = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource("BoxShape3D_jhi61")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-material_override = SubResource("StandardMaterial3D_u2ali")
-mesh = SubResource("QuadMesh_2uisb")
-skeleton = NodePath("../..")
+[node name="Hurtbox" type="CollisionShape3D" parent="."]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0, 0)
+shape = SubResource("CapsuleShape3D_sn8c4")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("../..")
@@ -124,6 +140,7 @@ libraries = {
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0.648825, 0, -1, -2.8361e-08, 0, 0, 0, 1, 0.92743, -0.00284207, -0.00180757)
+visible = false
 visibility_parent = NodePath(".")
 mesh = SubResource("CapsuleMesh_m4eb3")
 skeleton = NodePath("../..")
@@ -141,3 +158,10 @@ replication_config = SubResource("SceneReplicationConfig_y3gwe")
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="PauseMenu" parent="CanvasLayer" instance=ExtResource("3_m33b8")]
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(0.33, 0, 0, 0, 0.33, 0, 0, 0, 0.33, 0, 0, 0)
+billboard = 1
+shaded = true
+alpha_cut = 2
+texture = ExtResource("5_6knjl")

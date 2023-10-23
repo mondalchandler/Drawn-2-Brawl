@@ -35,7 +35,6 @@ func get_camera_relative_input(input) -> Vector3:
 
 func _on_animation_player_animation_finished(anim_name):
 	if anim_name == "melee_attack":
-		anim_player.play("idle")
 		hitbox.monitoring = false
 
 
@@ -46,11 +45,11 @@ func _on_hitbox_area_entered(area):
 
 func on_pause():
 	music_player.emit_signal("enable_pause_music")
-	
-	
+
+
 func on_unpause():
 	music_player.emit_signal("disable_pause_music")
-		
+
 
 # ---- heartbeat loop
 func _physics_process(delta):
@@ -76,16 +75,29 @@ func _physics_process(delta):
 			last_direction = direction
 			velocity.x = direction.x * SPEED
 			velocity.z = direction.z * SPEED
+			anim_player.play("run")
+			# if player is moving left, flip the sprite
+			if direction.x < 0:
+				$Sprite3D.flip_h = true
+			else:
+				$Sprite3D.flip_h = false
 		else:
 			velocity.x = lerp(velocity.x, direction.x * SPEED, delta * 7.0)
 			velocity.z = lerp(velocity.z, direction.z * SPEED, delta * 7.0)
+			if not anim_player.is_playing():
+				anim_player.play("idle")
 	else:
 		velocity.x = lerp(velocity.x, direction.x * SPEED, delta * 3.0)
 		velocity.z = lerp(velocity.z, direction.z * SPEED, delta * 3.0)
 		
 	move_and_slide()
 	
+	if Input.is_action_just_pressed("jump"):
+		anim_player.play("jump")
+	
 	if Input.is_action_just_pressed("melee_attack"):
+		if anim_player.is_playing():
+			anim_player.stop()
 		anim_player.play("melee_attack")
 		hitbox.monitoring = true
 
@@ -154,5 +166,3 @@ func get_target_direction():
 func _ready():
 	pause_menu.connect("on_pause_menu_open", on_pause)
 	pause_menu.connect("on_pause_menu_close", on_unpause)
-
-
