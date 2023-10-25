@@ -4,6 +4,7 @@ extends RigidBody3D
 @onready var anim_player = $AnimationPlayer
 @onready var hitbox = $MeshInstance3D2/Hitbox
 var points = 0
+var stocks = 3
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -58,3 +59,10 @@ func _process(delta):
 		position.z = -15.0
 	else:
 		pass
+		
+	if position.y < -10.0:
+		position.y = 2.0
+		position.x = 0.0
+		position.z = 0.0
+		stocks -= 1
+		print("stock lost (at %d stocks)" % stocks)
