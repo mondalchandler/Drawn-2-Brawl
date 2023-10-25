@@ -3,6 +3,7 @@ extends RigidBody3D
 @onready var cam = get_viewport().get_camera_3d()
 @onready var anim_player = $AnimationPlayer
 @onready var hitbox = $MeshInstance3D2/Hitbox
+var points = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -23,7 +24,8 @@ func _on_animation_player_animation_finished(anim_name):
 
 func _on_hitbox_area_entered(area):
 	if area.is_in_group("enemy"):
-		print("enemy hit")
+		points += 1
+		print("enemy hit (%d points)" % points)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
