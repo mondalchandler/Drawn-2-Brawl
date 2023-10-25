@@ -14,12 +14,17 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 @onready var cam = get_viewport().get_camera_3d()
 @onready var anim_player = $AnimationPlayer
-@onready var hitbox = $MeshInstance3D2/Hitbox
 @onready var pause_menu = $CanvasLayer/PauseMenu
+@onready var char = $"."
 
 @onready var music_player = $"../MusicPlayer"
 
 var default_music_vol 
+
+# ---- create a hitbox
+
+# char, offset, dmg_rng, hitstun, kb_len
+var test_hitbox
 
 # ---------------- FUNCTIONS ---------------- #
 
@@ -35,7 +40,8 @@ func get_camera_relative_input(input) -> Vector3:
 
 func _on_animation_player_animation_finished(anim_name):
 	if anim_name == "melee_attack":
-		hitbox.monitoring = false
+		test_hitbox._deactivate()
+		pass
 
 
 func _on_hitbox_area_entered(area):
@@ -75,7 +81,14 @@ func _physics_process(delta):
 			last_direction = direction
 			velocity.x = direction.x * SPEED
 			velocity.z = direction.z * SPEED
-			anim_player.play("run")
+			
+			if anim_player.is_playing() and anim_player.current_animation == "idle":
+				anim_player.stop()
+				anim_player.play("run")
+				
+			if not anim_player.is_playing():
+				anim_player.play("run")
+				
 			# if player is moving left, flip the sprite
 			if direction.x < 0:
 				$Sprite3D.flip_h = true
@@ -92,14 +105,19 @@ func _physics_process(delta):
 		
 	move_and_slide()
 	
-	if Input.is_action_just_pressed("jump"):
+	if abs(velocity.y) > 1 and not anim_player.current_animation == "melee_attack":
 		anim_player.play("jump")
+	if abs(velocity.y) <= 1 and  anim_player.current_animation == "jump" and is_on_floor():
+		anim_player.play("idle")
+	#if Input.is_action_just_pressed("jump"):
+	#	anim_player.play("jump")
 	
 	if Input.is_action_just_pressed("melee_attack"):
 		if anim_player.is_playing():
 			anim_player.stop()
 		anim_player.play("melee_attack")
-		hitbox.monitoring = true
+		test_hitbox._activate()
+		# hitbox.monitoring = true
 
 # ---------------- INPUT FUNCTIONS ---------------- #
 
@@ -166,3 +184,9 @@ func get_target_direction():
 func _ready():
 	pause_menu.connect("on_pause_menu_open", on_pause)
 	pause_menu.connect("on_pause_menu_close", on_unpause)
+	anim_player.connect("animation_finished", _on_animation_player_animation_finished)
+	
+	test_hitbox = BoxHitbox.new(self, Transform3D(Basis.IDENTITY, Vector3(1, 0, 0)), [10, 15], 0, 0, Vector3(0.6, 0.8, 1))
+	test_hitbox.set_debug_mode(true)
+	char.add_child(test_hitbox.mesh_instance)
+

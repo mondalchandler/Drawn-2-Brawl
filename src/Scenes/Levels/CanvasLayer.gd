@@ -5,9 +5,7 @@ extends CanvasLayer
 
 func _ready():
 	for character in ingameCharacters.get_children():
-		print(character)
 		levelHealthUI.emit_signal("add_player", character)
-		print("sent")
 
 # --------- TEST CODE, DELETE ME LATER ---------- #
 

@@ -13,5 +13,5 @@ metadata/Blocking = false
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("CapsuleMesh_bn7ll")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="Hurtbox" type="CollisionShape3D" parent="."]
 shape = SubResource("ConvexPolygonShape3D_mkrr5")
