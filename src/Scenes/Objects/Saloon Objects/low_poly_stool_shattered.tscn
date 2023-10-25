@@ -1,5 +1,5 @@
 [gd_scene load_steps=2 format=3 uid="uid://dnnivkl7k24ng"]
 
-[ext_resource type="PackedScene" uid="uid://ytwq1x0byx0a" path="res://resources/meshes/LowPolyStoolShattered.glb" id="1_kvwed"]
+[ext_resource type="PackedScene" uid="uid://ytwq1x0byx0a" path="res://resources/Meshes/LowPolyStoolShattered.glb" id="1_kvwed"]
 
 [node name="LowPolyStoolShattered" instance=ExtResource("1_kvwed")]

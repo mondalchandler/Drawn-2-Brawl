@@ -1,5 +1,5 @@
 [gd_scene load_steps=2 format=3 uid="uid://covncmovaldvg"]
 
-[ext_resource type="PackedScene" uid="uid://b4ycar442he1j" path="res://resources/meshes/LowPolyTableShattered.glb" id="1_eka0r"]
+[ext_resource type="PackedScene" uid="uid://b4ycar442he1j" path="res://resources/Meshes/LowPolyTableShattered.glb" id="1_eka0r"]
 
 [node name="LowPolyTableShattered" instance=ExtResource("1_eka0r")]

@@ -53,10 +53,14 @@ func _add_shard(original: MeshInstance3D, explosion_power: float) -> void:
 	var body := RigidBody3D.new()
 	var mesh := MeshInstance3D.new()
 	var shape := CollisionShape3D.new()
+#	print(str(get_parent().scale) + " " + str(get_parent().global_transform))
+	mesh.scale = get_parent().scale
+	shape.scale = get_parent().scale
 	body.add_child(mesh)
 	body.add_child(shape)
 	shard_container.add_child(body, true)
 	body.global_position = get_parent().global_transform.origin + original.position
+	body.rotation = get_parent().rotation
 	body.collision_layer = collision_layer
 	body.collision_mask = collision_mask
 	shape.shape = cached_shapes[original]
