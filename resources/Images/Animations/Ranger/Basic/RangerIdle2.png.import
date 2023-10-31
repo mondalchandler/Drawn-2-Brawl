@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://buh8fvdr6lpji"
-path.s3tc="res://.godot/imported/RangerRun2.png-e8f6ffdb647d18522e687146f1fe827a.s3tc.ctex"
+uid="uid://kfchhnmy5uy0"
+path.s3tc="res://.godot/imported/RangerIdle2.png-1723b7f2ec20f9a7c725e44d427a5288.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://resources/Images/Animations/Ranger/RangerRun2.png"
-dest_files=["res://.godot/imported/RangerRun2.png-e8f6ffdb647d18522e687146f1fe827a.s3tc.ctex"]
+source_file="res://resources/Images/Animations/Ranger/Basic/RangerIdle2.png"
+dest_files=["res://.godot/imported/RangerIdle2.png-1723b7f2ec20f9a7c725e44d427a5288.s3tc.ctex"]
 
 [params]
 
