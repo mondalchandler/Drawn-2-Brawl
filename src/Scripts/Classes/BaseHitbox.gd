@@ -100,12 +100,15 @@ func deal_kb(hit_char) -> void:
 
 # computes a damage value, then updates an enemy char's hp value
 func deal_dmg(hit_char) -> int:
-	var dmg = randi() % (self.damage_range[1] - self.damage_range[0] + 1) + self.damage_range[0]
-	var new_hp = hit_char.get_meta("Health") - dmg
-	if new_hp < 0:
-		new_hp = 0
-	hit_char.set_meta("Health", new_hp)
-	return dmg
+	if(hit_char.get_meta("Invincible") == true):
+		var dmg = randi() % (self.damage_range[1] - self.damage_range[0] + 1) + self.damage_range[0]
+		var new_hp = hit_char.get_meta("Health") - dmg
+		if new_hp < 0:
+			new_hp = 0
+		hit_char.set_meta("Health", new_hp)
+		return dmg
+	else:
+		return 0
 
 
 func on_hit(hit_char) -> void:

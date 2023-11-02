@@ -18,8 +18,11 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 @onready var char = $"."
 
 @onready var music_player = $"../MusicPlayer"
+var spawn_point: Node
 
 var default_music_vol 
+var invincible_timer = false
+#var invincible = true
 
 # ---- create a hitbox
 
@@ -56,6 +59,34 @@ func on_pause():
 func on_unpause():
 	music_player.emit_signal("disable_pause_music")
 
+func _process(delta):
+	if(invincible_timer == true):
+		invincible_timer = false
+		await get_tree().create_timer(.125).timeout
+		get_node("Sprite3D").hide()
+		await get_tree().create_timer(.125).timeout
+		get_node("Sprite3D").show()
+		await get_tree().create_timer(.125).timeout
+		get_node("Sprite3D").hide()
+		await get_tree().create_timer(.125).timeout
+		get_node("Sprite3D").show()
+		await get_tree().create_timer(.125).timeout
+		get_node("Sprite3D").hide()
+		await get_tree().create_timer(.125).timeout
+		get_node("Sprite3D").show()
+		await get_tree().create_timer(.125).timeout
+		get_node("Sprite3D").hide()
+		await get_tree().create_timer(.125).timeout
+		get_node("Sprite3D").show()
+#		await get_tree().create_timer(2).timeout
+		set_meta("Invincible", false)
+#		invincible = false
+	if get_meta("Health") <= 0:
+		set_meta("Invincible", true)
+#		invincible = true
+		invincible_timer = true
+		set_meta("Health", get_meta("MaxHealth"))
+		position = spawn_point.position
 
 # ---- heartbeat loop
 func _physics_process(delta):
