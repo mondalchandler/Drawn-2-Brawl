@@ -140,7 +140,7 @@ transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, -0.302027, 0)
 shape = SubResource("CapsuleShape3D_sn8c4")
 
 [node name="FloorRing" type="Decal" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00673626, -0.891057, -0.053015)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00604342, -0.884379, -0.0541416)
 size = Vector3(1.75, 0.541, 1.75)
 texture_albedo = ExtResource("10_6gnc5")
 emission_energy = 0.25
