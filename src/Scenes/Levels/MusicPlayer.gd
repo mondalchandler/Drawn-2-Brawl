@@ -53,9 +53,9 @@ func _process(delta):
 func _ready():
 	
 	# just in case
-	self.set_meta("DefaultVolume", -23)
-	self.set_meta("CurrentVolume", -23)
-	self.set_meta("PauseVolume", -35)
+	self.set_meta("DefaultVolume", -80)#-23)
+	self.set_meta("CurrentVolume", -80)#-23)
+	self.set_meta("PauseVolume", -80)#-35)
 	
 	enable_pause_music.connect(on_pause)
 	disable_pause_music.connect(on_unpause)
