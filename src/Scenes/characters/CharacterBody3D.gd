@@ -17,6 +17,10 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 @onready var pause_menu = $CanvasLayer/PauseMenu
 @onready var char = $"."
 
+@onready var floor_raycast = $FloorRaycast
+@onready var floor_ring = $FloorRing
+@onready var floor_shadow = $FloorShadow
+
 @onready var music_player = $"../MusicPlayer"
 
 var default_music_vol 
@@ -55,6 +59,25 @@ func on_pause():
 
 func on_unpause():
 	music_player.emit_signal("disable_pause_music")
+
+
+# -- called in the heartbeat loop, updates the positions of the floor indicators
+func update_floor_shadow(dt):
+	
+	if floor_raycast.is_colliding():
+		var floor_pos = floor_raycast.get_collision_point()
+		var floor_norm = floor_raycast.get_collision_normal()
+		floor_ring.global_position = floor_pos
+		floor_ring.global_rotation = floor_norm
+		floor_shadow.global_position = floor_pos
+		floor_shadow.global_rotation = floor_norm
+		
+	if is_on_floor():
+		floor_ring.set_meta("goal_albedo_mix", 0.0)
+	else:
+		floor_ring.set_meta("goal_albedo_mix", 1.0)
+	
+	floor_ring.albedo_mix = lerp(floor_ring.albedo_mix, floor_ring.get_meta("goal_albedo_mix"), 12 * dt)
 
 
 # ---- heartbeat loop
@@ -118,6 +141,8 @@ func _physics_process(delta):
 		anim_player.play("melee_attack")
 		test_hitbox._activate()
 		# hitbox.monitoring = true
+		
+	update_floor_shadow(delta)
 
 # ---------------- INPUT FUNCTIONS ---------------- #
 
