@@ -134,7 +134,7 @@ transform = Transform3D(0.33, 0, 0, 0, 0.33, 0, 0, 0, 0.33, 0, 0, 0)
 billboard = 1
 shaded = true
 alpha_cut = 2
-texture = ExtResource("5_6knjl")
+texture = ExtResource("6_gncxh")
 
 [node name="Hurtbox" type="CollisionShape3D" parent="."]
 transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0, 0)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bxwlwvu72tam5"]
+[gd_scene load_steps=12 format=3 uid="uid://bxwlwvu72tam5"]
 
 [ext_resource type="Script" path="res://src/Scripts/GameSetup.gd" id="1_414xx"]
 [ext_resource type="PackedScene" uid="uid://7wniehuof4ce" path="res://resources/Maps/saloon.tscn" id="1_vinxw"]
@@ -9,6 +9,8 @@
 [ext_resource type="PackedScene" uid="uid://klx22fgwq5g4" path="res://src/Scenes/Objects/Saloon Objects/low_poly_shelf.tscn" id="6_igt4j"]
 [ext_resource type="PackedScene" uid="uid://igoevo7v43o3" path="res://src/Scenes/Objects/Saloon Objects/low_poly_stool.tscn" id="7_c7w48"]
 [ext_resource type="PackedScene" uid="uid://dmm2q56al3tel" path="res://src/Scenes/Spawns/SpawnPoint.tscn" id="8_dkgit"]
+[ext_resource type="Script" path="res://src/Scenes/Levels/CanvasLayer.gd" id="10_1ligi"]
+[ext_resource type="PackedScene" uid="uid://b8ho0wqibktcr" path="res://src/Scenes/UI/all_player_health_list.tscn" id="11_412a5"]
 
 [node name="SaloonMap" type="Node3D"]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
@@ -22,7 +24,7 @@ script = ExtResource("1_414xx")
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, -5.85033, 1.09536, -5.01876)
 
 [node name="LowPolyKegtest2" parent="Objects" instance=ExtResource("3_rpawf")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.92533, 3.09536, -7.39469)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.92533, 3.09536, -7.28139)
 
 [node name="LowPolyKeg2" parent="Objects" instance=ExtResource("4_3g87m")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.2009, 1.09536, -7.48545)
@@ -99,3 +101,8 @@ light_volumetric_fog_energy = 1.219
 light_size = 1.0
 omni_range = 21.715
 omni_attenuation = 0.482967
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+script = ExtResource("10_1ligi")
+
+[node name="PlayerHealthUI" parent="CanvasLayer" instance=ExtResource("11_412a5")]

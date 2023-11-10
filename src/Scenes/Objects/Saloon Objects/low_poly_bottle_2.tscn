@@ -17,7 +17,7 @@ transform = Transform3D(-0.122777, 0, -0.325262, 0, 0.627362, 0, 0.328602, 0, -0
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Cylinder_001/StaticBody3D" index="0"]
 shape = SubResource("ConcavePolygonShape3D_5hroh")
 
-[node name="Destruction" type="Node" parent="." index="1" node_paths=PackedStringArray("shard_container")]
+[node name="Destruction" type="Node" parent="Cylinder_001/StaticBody3D" index="1" node_paths=PackedStringArray("shard_container")]
 script = ExtResource("2_ihnem")
 fragmented = ExtResource("3_sy4or")
 shard_container = NodePath("")

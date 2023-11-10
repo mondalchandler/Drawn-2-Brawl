@@ -1,0 +1,43 @@
+[gd_scene load_steps=6 format=3 uid="uid://ol85gofmdv2s"]
+
+[ext_resource type="Script" path="res://src/Scenes/UI/player_select.gd" id="1_3nuvs"]
+[ext_resource type="Texture2D" uid="uid://l4kp3dy84le6" path="res://resources/Images/playerselect.jpg" id="1_ys3o5"]
+[ext_resource type="Texture2D" uid="uid://cmryud1ckk6te" path="res://resources/Images/test_character_image.PNG" id="2_dtak3"]
+[ext_resource type="PackedScene" uid="uid://bonn2b5c7ul0s" path="res://src/Scenes/UI/player_select_button.tscn" id="3_x4fw2"]
+[ext_resource type="PackedScene" uid="uid://dxaie6k0g5kqw" path="res://src/Scenes/characters/templateCharacter.tscn" id="5_2oh4r"]
+
+[node name="PlayerSelect" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_3nuvs")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("1_ys3o5")
+
+[node name="CharacterButtons" type="Node" parent="."]
+
+[node name="AssassinButton" parent="CharacterButtons" instance=ExtResource("3_x4fw2")]
+position = Vector2(639, 842)
+polygon = PackedVector2Array(0, 0, 325, -178, 592, -8, 323, 165)
+
+[node name="BanditButton" parent="CharacterButtons" instance=ExtResource("3_x4fw2")]
+position = Vector2(580, 409)
+texture = ExtResource("2_dtak3")
+polygon = PackedVector2Array(0, 0, 345, -95, 352, 210, 43, 372)
+Character = ExtResource("5_2oh4r")
+
+[node name="NobleButton" parent="CharacterButtons" instance=ExtResource("3_x4fw2")]
+position = Vector2(975, 305)
+polygon = PackedVector2Array(0, 0, 365, 160, 298, 505, 5, 308)

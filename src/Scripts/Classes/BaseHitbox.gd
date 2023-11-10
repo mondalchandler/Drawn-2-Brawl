@@ -41,6 +41,7 @@ func _init(char, offset: Transform3D, dmg_rng: Array, hitstun: float, kb_len: fl
 	self.damage_range = dmg_rng if (dmg_rng != null) else [5, 5]
 	self.hitstun_length = hitstun if (hitstun != null) else 0.5
 	self.kb_length = kb_len if (kb_len != null) else 0.2
+	self.monitoring = false
 	
 	self.hit_chars = {}
 	self.name = "Hitbox"
@@ -53,6 +54,8 @@ func set_debug_mode(state: bool) -> void:
 
 # turns on hitbox monitoring and refreshes hit character dictionary
 func _activate() -> void:
+#	self.mesh_instance.transform = origin_offset
+	
 	self.hit_chars = {}
 	self.monitoring = true
 	if self.debug_on == true and self.mesh_instance != null:
@@ -121,12 +124,16 @@ func on_hit(hit_char) -> void:
 	
 	self._after_hit_computation(hit_char, dmg)
 
-
+func node_is_object(node):
+	return node.get_node_or_null("Destruction") != null
 # determines if a hit node is a player
 func on_collision_detected(colliding_node) -> void:
+#	print(str(colliding_node))
 	if self.node_is_char(colliding_node) and colliding_node != self.owner_char and (self.hit_chars.get(colliding_node) == null or self.hit_chars.get(colliding_node) == false):
 		self.hit_chars[colliding_node] = true
 		self.on_hit(colliding_node)
+	elif(self.node_is_object(colliding_node)):
+		colliding_node.get_node("Destruction").destroy()
 
 
 # ------------------- SIGNAL CONNECTION --------------------- #

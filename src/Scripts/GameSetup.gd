@@ -7,14 +7,26 @@ extends Node
 # load("res://src/Scenes/characters/templateCharacter.tscn"),
 # load("res://src/Scenes/characters/templateCharacter.tscn")]
 
-var players = [load("res://src/Scenes/characters/templateCharacter.tscn")]
+#var players = [load("res://src/Scenes/characters/templateCharacter.tscn")]
+var players = []
 
-func _ready():
+func spawn_players():
 	for i in range(len(players)):
 		var player = players[i].instantiate()
 		player.spawn_point = get_node("Spawns").get_children()[i]
 		player.position = player.spawn_point.position
 		get_node("Players").add_child(player)
+	$CanvasLayer.start()
+
+
+func _ready():
+	pass
+#	for i in range(len(players)):
+#		var player = players[i].instantiate()
+#		player.spawn_point = get_node("Spawns").get_children()[i]
+#		player.position = player.spawn_point.position
+#		get_node("Players").add_child(player)
+#	$CanvasLayer.start()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
