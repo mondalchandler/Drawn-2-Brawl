@@ -45,6 +45,7 @@ func _init(char, offset: Transform3D, dmg_rng: Array, hitstun: float, kb_len: fl
 	self.hit_chars = {}
 	self.name = "Hitbox"
 	self.debug_on = false
+	self.monitoring = false
 
 
 func set_debug_mode(state: bool) -> void:
@@ -90,12 +91,18 @@ func _after_hit_computation(char, dmg) -> void:
 
 # TODO: Implement stun system
 func deal_stun(hit_char) -> void:
-	pass
+	# make it so that the hit_char cannot move for 3 seconds (hit_char.can_move = false)
+	hit_char.can_move = false
+	var stun_tween = hit_char.get_tree().create_tween()
+	stun_tween.tween_property(hit_char, "can_move", true, 3.0)
 
 
 # TODO: Implement knockback system
 func deal_kb(hit_char) -> void:
-	pass
+	var knockback_strength : Vector3 = Vector3(10, 10, 10)
+	hit_char.knockback = knockback_strength
+	var knockback_tween = hit_char.get_tree().create_tween()
+	knockback_tween.tween_property(hit_char, "knockback", Vector3.ZERO, 0.25)
 
 
 # computes a damage value, then updates an enemy char's hp value
@@ -109,10 +116,14 @@ func deal_dmg(hit_char) -> int:
 
 
 func on_hit(hit_char) -> void:
+	# NOTES FOR FUTURE, we will probs need to pass in the specific move, or attributes of said
+	# move so that we know what the effects should be. Should it stun/kb? If kb, what's the
+	# intensity/specific kb effect?
+	
 	self._before_hit_computation(hit_char)
 	
 	# deal values to character
-	self.deal_stun(hit_char)
+	#self.deal_stun(hit_char)
 	self.deal_kb(hit_char)
 	var dmg = self.deal_dmg(hit_char)
 	
