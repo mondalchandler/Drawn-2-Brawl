@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://dxy3vny2mm65t"]
 
-[ext_resource type="PackedScene" uid="uid://cb7fx3es10004" path="res://src/Scenes/UI/player_card.tscn" id="1_p3prg"]
+[ext_resource type="Script" path="res://src/Scenes/UI/victory_screen.gd" id="1_daebc"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_015jd"]
 bg_color = Color(0.223529, 0.223529, 0.223529, 1)
@@ -17,6 +17,7 @@ font_names = PackedStringArray("Comic Sans MS")
 [sub_resource type="SystemFont" id="SystemFont_pydmo"]
 
 [node name="VictoryScreen" type="CanvasLayer"]
+script = ExtResource("1_daebc")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 anchors_preset = 15
@@ -53,18 +54,6 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_stretch_ratio = 0.0
 theme_override_constants/separation = 100
-
-[node name="PlayerCard" parent="PanelContainer/MarginContainer/Rows/MarginContainer/PlayerStats" instance=ExtResource("1_p3prg")]
-layout_mode = 2
-
-[node name="PlayerCard2" parent="PanelContainer/MarginContainer/Rows/MarginContainer/PlayerStats" instance=ExtResource("1_p3prg")]
-layout_mode = 2
-
-[node name="PlayerCard3" parent="PanelContainer/MarginContainer/Rows/MarginContainer/PlayerStats" instance=ExtResource("1_p3prg")]
-layout_mode = 2
-
-[node name="PlayerCard4" parent="PanelContainer/MarginContainer/Rows/MarginContainer/PlayerStats" instance=ExtResource("1_p3prg")]
-layout_mode = 2
 
 [node name="Options" type="HBoxContainer" parent="PanelContainer/MarginContainer/Rows"]
 layout_mode = 2
