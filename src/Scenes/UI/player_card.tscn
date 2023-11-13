@@ -1,0 +1,47 @@
+[gd_scene load_steps=4 format=3 uid="uid://cb7fx3es10004"]
+
+[ext_resource type="Script" path="res://src/Scenes/UI/player_card.gd" id="1_j5hcx"]
+
+[sub_resource type="SystemFont" id="SystemFont_6rpqg"]
+subpixel_positioning = 0
+
+[sub_resource type="SystemFont" id="SystemFont_3s5ks"]
+subpixel_positioning = 0
+
+[node name="PlayerCard" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_j5hcx")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 40
+
+[node name="Details" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="PlayerName" type="Label" parent="MarginContainer/Details"]
+layout_mode = 2
+theme_override_fonts/font = SubResource("SystemFont_6rpqg")
+theme_override_font_sizes/font_size = 40
+text = "<player name>"
+horizontal_alignment = 1
+
+[node name="Ranking" type="Label" parent="MarginContainer/Details"]
+layout_mode = 2
+theme_override_fonts/font = SubResource("SystemFont_3s5ks")
+theme_override_font_sizes/font_size = 32
+text = "Place: 1"
+horizontal_alignment = 1
+
+[node name="Points" type="Label" parent="MarginContainer/Details"]
+layout_mode = 2
+text = "<number> points!"
+horizontal_alignment = 1
+vertical_alignment = 1
