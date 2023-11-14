@@ -22,13 +22,18 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 @onready var floor_shadow = $FloorShadow
 
 @onready var music_player = $"../MusicPlayer"
+var spawn_point: Node
 
 var default_music_vol 
+var invincible_timer = false
+#var invincible = true
 
 # ---- create a hitbox
 
 # char, offset, dmg_rng, hitstun, kb_len
 var test_hitbox
+
+var last_direction = Vector3(-.707, 0, -.707)
 
 # ---------------- FUNCTIONS ---------------- #
 
@@ -60,6 +65,41 @@ func on_pause():
 func on_unpause():
 	music_player.emit_signal("disable_pause_music")
 
+func _process(delta):
+	#The following set of code will make the player flash and be invincible while respawning
+	if(invincible_timer == true):
+		invincible_timer = false
+		await get_tree().create_timer(.125).timeout
+		get_node("Sprite3D").hide()
+		await get_tree().create_timer(.125).timeout
+		get_node("Sprite3D").show()
+		await get_tree().create_timer(.125).timeout
+		get_node("Sprite3D").hide()
+		await get_tree().create_timer(.125).timeout
+		get_node("Sprite3D").show()
+		await get_tree().create_timer(.125).timeout
+		get_node("Sprite3D").hide()
+		await get_tree().create_timer(.125).timeout
+		get_node("Sprite3D").show()
+		await get_tree().create_timer(.125).timeout
+		get_node("Sprite3D").hide()
+		await get_tree().create_timer(.125).timeout
+		get_node("Sprite3D").show()
+#		await get_tree().create_timer(2).timeout
+		set_meta("Invincible", false)
+#		invincible = false
+	#the following code will determine if a player has died, and if they have, respawn them
+	if get_meta("Health") <= 0 && self.visible:
+		self.visible = false
+		self.get_node("Hurtbox").disabled = true
+		await get_tree().create_timer(1).timeout
+		set_meta("Invincible", true)
+#		invincible = true
+		invincible_timer = true
+		set_meta("Health", get_meta("MaxHealth"))
+		self.get_node("Hurtbox").disabled = false
+		position = spawn_point.position
+		self.visible = true
 
 # -- called in the heartbeat loop, updates the positions of the floor indicators
 func update_floor_shadow(dt):
@@ -136,6 +176,12 @@ func _physics_process(delta):
 	#	anim_player.play("jump")
 	
 	if Input.is_action_just_pressed("melee_attack"):
+#		print(str(self.get_node("Hurtbox").get_children()[0].get_children()[0].get_children()[0].get_children()))
+#		self.get_node("Hurtbox").get_children()[0].get_children()[0].get_children()[0].rotation.y = 2
+		if($Sprite3D.flip_h):
+			self.get_node("Hurtbox").rotation.y = PI 
+		else:
+			self.get_node("Hurtbox").rotation.y = 0
 		if anim_player.is_playing():
 			anim_player.stop()
 		anim_player.play("melee_attack")
@@ -152,7 +198,6 @@ signal toggle_game_paused
 var targeting = false
 @onready var target = get_node("../../Camera3D")
 var target_number = 0
-var last_direction = Vector3.ZERO
 
 # when an input is registered
 func _input(event : InputEvent):
@@ -169,15 +214,6 @@ func _input(event : InputEvent):
 		spawn_obj.position.y = 5
 		spawn_obj.position.x = self.position.x
 		spawn_obj.position.z = self.position.z
-#			print(str(rad_to_deg(atan(last_direction.x/last_direction.z))))
-#
-#			print(str(last_direction.x/last_direction.z))
-#		else:
-#			spawn_obj.position.y = 5
-#			spawn_obj.position.x = self.position.x
-#			spawn_obj.position.z = self.position.z
-#			print(str(rad_to_deg(atan(last_direction.x/last_direction.z))))
-#			spawn_obj.rotation.y = round(rad_to_deg(atan(last_direction.x/last_direction.z)))
 		$"../../".add_child(spawn_obj)
 	
 	if(event.as_text() == "P" && event.pressed):
@@ -198,11 +234,7 @@ func _input(event : InputEvent):
 
 
 func get_target_direction():
-	#need to place code here for projectile spawning when not targeting
-#	if(targeting):
 	return target.global_transform.looking_at(global_transform.origin, Vector3.UP).basis
-#	else:
-#		return self.global_transform.looking_at(global_transform.origin, Vector3.UP).basis
 
 # ---------------- INIT ---------------- #
 	
@@ -211,7 +243,8 @@ func _ready():
 	pause_menu.connect("on_pause_menu_close", on_unpause)
 	anim_player.connect("animation_finished", _on_animation_player_animation_finished)
 	
-	test_hitbox = BoxHitbox.new(self, Transform3D(Basis.IDENTITY, Vector3(1, 0, 0)), [10, 15], 0, 0, Vector3(0.6, 0.8, 1))
+	test_hitbox = BoxHitbox.new(self, Transform3D(Basis.IDENTITY, Vector3(.5, 0, .5)), [10, 15], 0, 0, Vector3(1.2, .8, 1))
 	test_hitbox.set_debug_mode(true)
-	char.add_child(test_hitbox.mesh_instance)
+	test_hitbox.mesh_instance.rotation.y = deg_to_rad(45)
+	char.get_node("Hurtbox").add_child(test_hitbox.mesh_instance)
 

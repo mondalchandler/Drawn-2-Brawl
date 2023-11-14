@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://bonn2b5c7ul0s"]
+
+[ext_resource type="Script" path="res://src/Scenes/UI/player_select_button_parent.gd" id="1_dx41i"]
+[ext_resource type="Script" path="res://src/Scenes/UI/player_select_button.gd" id="1_o6ybt"]
+
+[node name="Polygon2D" type="Polygon2D"]
+texture_offset = Vector2(10, 95)
+texture_scale = Vector2(1.125, 1.125)
+polygon = PackedVector2Array(0, 0, 100, 0, 100, 100, 0, 100)
+script = ExtResource("1_dx41i")
+
+[node name="Area2D" type="Area2D" parent="."]
+script = ExtResource("1_o6ybt")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
+polygon = PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0)

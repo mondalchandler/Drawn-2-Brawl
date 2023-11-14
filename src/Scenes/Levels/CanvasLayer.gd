@@ -3,7 +3,11 @@ extends CanvasLayer
 @onready var levelHealthUI = $PlayerHealthUI
 @onready var ingameCharacters = $"../Players"
 
-func _ready():
+#func _ready():
+#	for character in ingameCharacters.get_children():
+#		levelHealthUI.emit_signal("add_player", character)
+		
+func start():
 	for character in ingameCharacters.get_children():
 		levelHealthUI.emit_signal("add_player", character)
 
@@ -25,5 +29,5 @@ func _process(delta):
 		else:
 			currentGoal = 90.0
 	
-	currentHpVal = lerp(currentHpVal, currentGoal, 8 * delta)
-	testPlayer.set_meta("Health", currentHpVal)
+#	currentHpVal = lerp(currentHpVal, currentGoal, 8 * delta)
+#	testPlayer.set_meta("Health", currentHpVal)

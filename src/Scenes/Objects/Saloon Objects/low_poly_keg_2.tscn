@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://cuujs4qkjfasc"]
 
-[ext_resource type="PackedScene" uid="uid://bn3gmtfd6tvy3" path="res://resources/meshes/LowPolyKeg2.glb" id="1_msr8m"]
+[ext_resource type="PackedScene" uid="uid://bn3gmtfd6tvy3" path="res://resources/Meshes/LowPolyKeg2.glb" id="1_msr8m"]
 [ext_resource type="Script" path="res://addons/destruction/destruction.gd" id="2_c2vml"]
 [ext_resource type="PackedScene" uid="uid://blalsir8m6loi" path="res://src/Scenes/Objects/Saloon Objects/low_poly_keg_shattered_2.tscn" id="3_0mhkj"]
 
@@ -14,6 +14,7 @@ data = PackedVector3Array(0.4716, -0.2149, -1.1656, 0.8714, 0.2071, -0.8921, 0.4
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Cylinder_002/StaticBody3D" index="0"]
 shape = SubResource("ConcavePolygonShape3D_rm2fp")
 
-[node name="Destruction" type="Node" parent="." index="1"]
+[node name="Destruction" type="Node" parent="Cylinder_002/StaticBody3D" index="1" node_paths=PackedStringArray("shard_container")]
 script = ExtResource("2_c2vml")
 fragmented = ExtResource("3_0mhkj")
+shard_container = NodePath("")
