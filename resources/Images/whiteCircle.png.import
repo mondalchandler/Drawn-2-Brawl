@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dpw7pb0cm3ah5"
-path.s3tc="res://.godot/imported/RangerRun1.png-b58ca0d65cc6702aa48758c574fa4adf.s3tc.ctex"
+uid="uid://bpeb0ux7smvj2"
+path.s3tc="res://.godot/imported/whiteCircle.png-efba3a24339245bf7fe939d3c2f0c379.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://resources/Images/Animations/Ranger/RangerRun1.png"
-dest_files=["res://.godot/imported/RangerRun1.png-b58ca0d65cc6702aa48758c574fa4adf.s3tc.ctex"]
+source_file="res://resources/Images/whiteCircle.png"
+dest_files=["res://.godot/imported/whiteCircle.png-efba3a24339245bf7fe939d3c2f0c379.s3tc.ctex"]
 
 [params]
 

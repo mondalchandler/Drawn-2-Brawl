@@ -13,7 +13,6 @@ config_version=5
 config/name="Drawn To Brawl"
 run/main_scene="res://src/Scenes/main_scene.tscn"
 config/features=PackedStringArray("4.1", "Forward Plus")
-config/icon="res://resources/Images/icon.svg"
 
 [display]
 

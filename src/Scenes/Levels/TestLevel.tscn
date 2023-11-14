@@ -1,11 +1,12 @@
-[gd_scene load_steps=17 format=3 uid="uid://1ykk5cdygfdm"]
+[gd_scene load_steps=20 format=3 uid="uid://1ykk5cdygfdm"]
 
 [ext_resource type="PackedScene" uid="uid://dxaie6k0g5kqw" path="res://src/Scenes/characters/templateCharacter.tscn" id="1_3hibe"]
+[ext_resource type="Script" path="res://src/Scripts/coreMatchController.gd" id="1_udic3"]
 [ext_resource type="PackedScene" uid="uid://c1gbjohht0toa" path="res://src/Scenes/Objects/TestPlatform.tscn" id="2_p30fi"]
 [ext_resource type="PackedScene" uid="uid://c6vahpoil0gw3" path="res://src/Scenes/Objects/TestMovingPlatform.tscn" id="3_t2xjs"]
 [ext_resource type="PackedScene" uid="uid://i651x6gr4qni" path="res://src/Scenes/Objects/TestStaircase.tscn" id="4_r14oo"]
 [ext_resource type="AudioStream" uid="uid://b7c4b8a4x2w3v" path="res://resources/Music/TestSong/beatLayer.mp3" id="5_frx3p"]
-[ext_resource type="Script" path="res://src/Scenes/Levels/MusicPlayer.gd" id="5_qep5t"]
+[ext_resource type="Script" path="res://src/Scripts/MusicPlayer.gd" id="5_km47x"]
 [ext_resource type="AudioStream" uid="uid://c1husnq4yjdg2" path="res://resources/Music/TestSong/bassLayer.mp3" id="6_ildc1"]
 [ext_resource type="AudioStream" uid="uid://dmkakluxbdvta" path="res://resources/Music/TestSong/leadLayer.mp3" id="7_yatml"]
 [ext_resource type="PackedScene" uid="uid://b3qfbre8lvqxq" path="res://src/Scenes/Objects/DummyEnemy.tscn" id="9_bh668"]
@@ -30,7 +31,12 @@ glow_enabled = true
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_3acba"]
 data = PackedVector3Array(-0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, -0.5)
 
-[node name="TestLevel1" type="Node3D"]
+[sub_resource type="BoxMesh" id="BoxMesh_t4bwd"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7vafm"]
+
+[node name="TestLevel" type="Node3D"]
+script = ExtResource("1_udic3")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_jvdpv")
@@ -87,9 +93,9 @@ mesh = SubResource("BoxMesh_ss5ve")
 shape = SubResource("ConcavePolygonShape3D_3acba")
 
 [node name="MusicPlayer" type="Node3D" parent="."]
-script = ExtResource("5_qep5t")
-metadata/CurrentVolume = -23.0
-metadata/DefaultVolume = -23.0
+script = ExtResource("5_km47x")
+metadata/CurrentVolume = -80.0
+metadata/DefaultVolume = -80.0
 metadata/Pause_Volume = -35.0
 
 [node name="BeatLayer" type="AudioStreamPlayer" parent="MusicPlayer"]
@@ -125,3 +131,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.61709, 0.742728, -3.22632)
 script = ExtResource("10_r8f68")
 
 [node name="PlayerHealthUI" parent="CanvasLayer" instance=ExtResource("10_606jg")]
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="."]
+transform = Transform3D(2.94883, 0.113102, -3.98886, -0.0850738, -0.467014, -2.683, -2.31712, 0.161084, -4.97784, 3.46977, 1.4967, -2.91553)
+mesh = SubResource("BoxMesh_t4bwd")
+skeleton = NodePath("")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D4"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D4/StaticBody3D"]
+shape = SubResource("BoxShape3D_7vafm")

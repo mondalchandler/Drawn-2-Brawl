@@ -1,14 +1,16 @@
-[gd_scene load_steps=18 format=3 uid="uid://dxaie6k0g5kqw"]
+[gd_scene load_steps=20 format=3 uid="uid://dxaie6k0g5kqw"]
 
 [ext_resource type="Script" path="res://src/Scenes/Characters/CharacterBody3D.gd" id="1_l6vxu"]
-[ext_resource type="Texture2D" uid="uid://k1d6ljvlbigv" path="res://resources/Images/Animations/Ranger/RangerIdle1.png" id="2_of1dh"]
+[ext_resource type="Texture2D" uid="uid://k1d6ljvlbigv" path="res://resources/Images/Animations/Ranger/Basic/RangerIdle1.png" id="2_of1dh"]
 [ext_resource type="PackedScene" uid="uid://du1ce84fu4a65" path="res://src/Scenes/UI/pause_menu.tscn" id="3_m33b8"]
-[ext_resource type="Texture2D" uid="uid://kfchhnmy5uy0" path="res://resources/Images/Animations/Ranger/RangerIdle2.png" id="3_vw0by"]
-[ext_resource type="Texture2D" uid="uid://buh8fvdr6lpji" path="res://resources/Images/Animations/Ranger/RangerRun2.png" id="4_xct1f"]
-[ext_resource type="Texture2D" uid="uid://dpw7pb0cm3ah5" path="res://resources/Images/Animations/Ranger/RangerRun1.png" id="5_6knjl"]
-[ext_resource type="Texture2D" uid="uid://0sm548fs50ud" path="res://resources/Images/Animations/Ranger/RangerGNC2.png" id="5_h1niy"]
-[ext_resource type="Texture2D" uid="uid://c78gwvfeiv0v8" path="res://resources/Images/Animations/Ranger/RangerGNC1.png" id="6_gncxh"]
-[ext_resource type="Texture2D" uid="uid://c1ygl7tbs6jvj" path="res://resources/Images/Animations/Ranger/RangerJump.png" id="7_ult6u"]
+[ext_resource type="Texture2D" uid="uid://kfchhnmy5uy0" path="res://resources/Images/Animations/Ranger/Basic/RangerIdle2.png" id="3_vw0by"]
+[ext_resource type="Texture2D" uid="uid://buh8fvdr6lpji" path="res://resources/Images/Animations/Ranger/Basic/RangerRun2.png" id="4_xct1f"]
+[ext_resource type="Texture2D" uid="uid://dpw7pb0cm3ah5" path="res://resources/Images/Animations/Ranger/Basic/RangerRun1.png" id="5_6knjl"]
+[ext_resource type="Texture2D" uid="uid://0sm548fs50ud" path="res://resources/Images/Animations/Ranger/Moves/RangerGNC2.png" id="5_h1niy"]
+[ext_resource type="Texture2D" uid="uid://c78gwvfeiv0v8" path="res://resources/Images/Animations/Ranger/Moves/RangerGNC1.png" id="6_gncxh"]
+[ext_resource type="Texture2D" uid="uid://c1ygl7tbs6jvj" path="res://resources/Images/Animations/Ranger/Basic/RangerJump.png" id="7_ult6u"]
+[ext_resource type="Texture2D" uid="uid://bpeb0ux7smvj2" path="res://resources/Images/whiteCircle.png" id="10_6gnc5"]
+[ext_resource type="Texture2D" uid="uid://cwhdc0fkgp4k0" path="res://resources/Images/whiteBlurCircle.png" id="11_t4kcl"]
 
 [sub_resource type="Animation" id="Animation_na8w3"]
 length = 0.001
@@ -103,7 +105,7 @@ properties/0/sync = true
 properties/0/watch = false
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sn8c4"]
-height = 1.5
+height = 1.10297
 
 [node name="TemplateCharacter" type="CharacterBody3D"]
 script = ExtResource("1_l6vxu")
@@ -130,12 +132,36 @@ replication_config = SubResource("SceneReplicationConfig_y3gwe")
 [node name="PauseMenu" parent="CanvasLayer" instance=ExtResource("3_m33b8")]
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
-transform = Transform3D(0.33, 0, 0, 0, 0.33, 0, 0, 0, 0.33, 0, 0, 0)
+transform = Transform3D(0.33, 0, 0, 0, 0.33, 0, 0, 0, 0.33, 0, -0.269739, 0)
 billboard = 1
+
 shaded = true
 alpha_cut = 2
 texture = ExtResource("6_gncxh")
 
 [node name="Hurtbox" type="CollisionShape3D" parent="."]
-transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0, 0)
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, -0.302027, 0)
 shape = SubResource("CapsuleShape3D_sn8c4")
+
+[node name="FloorRing" type="Decal" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00604342, -0.884379, -0.0541416)
+size = Vector3(1.75, 0.541, 1.75)
+texture_albedo = ExtResource("10_6gnc5")
+emission_energy = 0.25
+modulate = Color(1, 1, 0, 1)
+upper_fade = 1e-05
+lower_fade = 1e-05
+metadata/goal_albedo_mix = 1.0
+
+[node name="FloorShadow" type="Decal" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00673626, -0.891057, -0.053015)
+size = Vector3(2.25, 0.321, 2.25)
+texture_albedo = ExtResource("11_t4kcl")
+emission_energy = 0.1
+modulate = Color(0.196078, 0.196078, 0.196078, 1)
+upper_fade = 0.0001
+lower_fade = 1e-05
+
+[node name="FloorRaycast" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.46114e-05, -1.09399, 0.000412941)
+target_position = Vector3(0, -10, 0)
