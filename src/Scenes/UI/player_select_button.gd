@@ -10,12 +10,8 @@ func _ready():
 	$CollisionPolygon2D.polygon = get_parent().polygon
 	pass # Replace with function body.
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-	
-	
+#This method will check to see if a mouse has clicked on a button.
+#If it has, it will call its parents "_load_player" method using the player assigned to the button.
 func _input_event(viewport, event, shape_idx):
 	if(event is InputEventMouseButton and event.pressed):
 		parent._load_player(Character)

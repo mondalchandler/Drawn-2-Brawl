@@ -10,7 +10,7 @@ func _on_play_pressed():
 
 
 func _on_options_pressed():
-	get_tree().change_scene_to_file("res://src/Scenes/UI/options_menu.tscn")
+	get_parent()._change_scene("res://src/Scenes/UI/options_menu.tscn")
 
 
 func _on_quit_pressed():

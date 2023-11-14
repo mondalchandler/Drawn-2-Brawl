@@ -41,3 +41,10 @@ Character = ExtResource("5_2oh4r")
 [node name="NobleButton" parent="CharacterButtons" instance=ExtResource("3_x4fw2")]
 position = Vector2(975, 305)
 polygon = PackedVector2Array(0, 0, 365, 160, 298, 505, 5, 308)
+
+[node name="Polygon2D" parent="CharacterButtons" instance=ExtResource("3_x4fw2")]
+position = Vector2(604, 358)
+polygon = PackedVector2Array(0, 2, 346, -104, 208, -265)
+Character = ExtResource("5_2oh4r")
+
+[connection signal="resized" from="." to="." method="_resized"]

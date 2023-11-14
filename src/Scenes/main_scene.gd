@@ -3,16 +3,8 @@ extends Node
 @onready var current_scene = $MainMenu
 
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-
-
+#The following method will change the current scene to the scene at a given path.
+#It will then remove the previous scene as a child and add the new scene as a child. 
 func _change_scene(scene_path):
 	var scene = load(scene_path)
 	self.remove_child(current_scene)
