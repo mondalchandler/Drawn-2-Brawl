@@ -244,7 +244,7 @@ func _ready():
 	anim_player.connect("animation_finished", _on_animation_player_animation_finished)
 	
 	test_hitbox = BoxHitbox.new(self, Transform3D(Basis.IDENTITY, Vector3(.5, 0, .5)), [10, 15], 0, 0, Vector3(1.2, .8, 1))
-	#test_hitbox.set_debug_mode(true)
+	test_hitbox.set_debug_mode(true)
 	test_hitbox.mesh_instance.rotation.y = deg_to_rad(45)
 	char.get_node("Hurtbox").add_child(test_hitbox.mesh_instance)
 
