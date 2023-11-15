@@ -15,22 +15,47 @@ var player_card = preload("res://src/Scenes/UI/player_card.tscn")
 var rankings: Array = []
 var previous_match_scene: Node3D
 var level: String
+var players = []
 
 # ----------------- FUNCTIONS ------------------ #
 
 func on_rematch():
-	print(level)
+	
+	# obtain a path of the level to rematch
 	var path = "res://src/Scenes/Levels/" + level + ".tscn"
-	print(path)
-	get_tree().change_scene_to_file(path)
+	
+	# clear the main_scene 
+	var parent = get_parent()
+	for i in parent.get_children():
+		i.queue_free()
+	
+	# load a new previous level and add it to main_scene, then play
+	var game_scene = load(path).instantiate();
+	game_scene.players = players
+	game_scene.match_started = false
+	game_scene.match_ended = false
+	parent.add_child(game_scene)
+	game_scene.spawn_players()
 
 
 func on_char_select():
-	pass
+	var parent = get_parent()
+	
+	for i in parent.get_children():
+		i.queue_free()
+		
+	var main_menu_scene = load("res://src/Scenes/UI/player_select.tscn").instantiate();
+	parent.add_child(main_menu_scene)
 
 
 func on_main_menu():
-	get_tree().change_scene_to_file("res://src/Scenes/UI/main_menu.tscn")
+	var parent = get_parent()
+	
+	for i in parent.get_children():
+		i.queue_free()
+		
+	var main_menu_scene = load("res://src/Scenes/UI/main_menu.tscn").instantiate();
+	parent.add_child(main_menu_scene)
 
 
 # Called when the node enters the scene tree for the first time.

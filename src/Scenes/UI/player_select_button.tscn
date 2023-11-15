@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://bonn2b5c7ul0s"]
+[gd_scene load_steps=3 format=3 uid="uid://boo3gdl4jgjjw"]
 
 [ext_resource type="Script" path="res://src/Scenes/UI/player_select_button_parent.gd" id="1_dx41i"]
 [ext_resource type="Script" path="res://src/Scenes/UI/player_select_button.gd" id="1_o6ybt"]

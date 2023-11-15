@@ -12,6 +12,12 @@ func _load_player(character):
 #		parent.get_children()[0].players.push_front(character)
 #		parent.get_children()[0].spawn_players()
 		parent.get_node("SaloonMap").players.push_front(character)
+		# TODO: temp code: add two other players
+		var test_dummy = load("res://src/Scenes/Objects/DummyEnemy.tscn")
+		parent.get_node("SaloonMap").players.append(test_dummy)
+		var test_dummy2 = load("res://src/Scenes/Objects/DummyEnemy.tscn")
+		parent.get_node("SaloonMap").players.append(test_dummy2)
+	
 		parent.get_node("SaloonMap").spawn_players()
 	pass
 	

@@ -1,9 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://ol85gofmdv2s"]
+[gd_scene load_steps=6 format=3 uid="uid://ssf0himdamn8"]
 
 [ext_resource type="Script" path="res://src/Scenes/UI/player_select.gd" id="1_3nuvs"]
 [ext_resource type="Texture2D" uid="uid://l4kp3dy84le6" path="res://resources/Images/playerselect.jpg" id="1_ys3o5"]
 [ext_resource type="Texture2D" uid="uid://cmryud1ckk6te" path="res://resources/Images/test_character_image.PNG" id="2_dtak3"]
-[ext_resource type="PackedScene" uid="uid://bonn2b5c7ul0s" path="res://src/Scenes/UI/player_select_button.tscn" id="3_x4fw2"]
+[ext_resource type="PackedScene" uid="uid://boo3gdl4jgjjw" path="res://src/Scenes/UI/player_select_button.tscn" id="3_x4fw2"]
 [ext_resource type="PackedScene" uid="uid://dxaie6k0g5kqw" path="res://src/Scenes/characters/templateCharacter.tscn" id="5_2oh4r"]
 
 [node name="PlayerSelect" type="Control"]
