@@ -6,6 +6,8 @@ extends Node
 
 # --------------- GLOBALS ----------------- #
 
+@onready var main_scene = get_tree().root.get_node("main_scene")
+
 @onready var player_spawns: Node = $Spawns
 @onready var players_node: Node = $Players
 
@@ -57,6 +59,7 @@ func start_match():
 	match_started = true
 
 
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if not match_started:
@@ -68,12 +71,8 @@ func _process(delta):
 		match_ended = true
 		insert_char_into_next_available_slot(current_alive_players[0])
 		
-		var parent = get_parent()
-		var victory_scene = load("res://src/Scenes/UI/victory_screen.tscn").instantiate();
-		victory_scene.rankings = rankings
-		victory_scene.level = self.name
-		victory_scene.players = players
-		for i in parent.get_children():
-			i.queue_free()
-		parent.add_child(victory_scene)
-		
+		var victory_screen_setup = func(victory_scene):
+			victory_scene.rankings = rankings
+			victory_scene.level = self.name
+			victory_scene.players = players
+		main_scene._change_scene("res://src/Scenes/UI/victory_screen.tscn", victory_screen_setup)

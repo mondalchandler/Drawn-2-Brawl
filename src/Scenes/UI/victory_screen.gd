@@ -6,6 +6,8 @@ extends CanvasLayer
 
 # ----------------- GLOBALS ------------------ #
 
+@onready var main_scene = get_tree().root.get_node("main_scene")
+
 @onready var rematch_button: Button = $PanelContainer/MarginContainer/Rows/Options/RematchButton
 @onready var character_select_button: Button = $PanelContainer/MarginContainer/Rows/Options/CharacterSelectButton
 @onready var main_menu_button: Button = $PanelContainer/MarginContainer/Rows/Options/MainMenuButton
@@ -24,38 +26,20 @@ func on_rematch():
 	# obtain a path of the level to rematch
 	var path = "res://src/Scenes/Levels/" + level + ".tscn"
 	
-	# clear the main_scene 
-	var parent = get_parent()
-	for i in parent.get_children():
-		i.queue_free()
-	
-	# load a new previous level and add it to main_scene, then play
-	var game_scene = load(path).instantiate();
-	game_scene.players = players
-	game_scene.match_started = false
-	game_scene.match_ended = false
-	parent.add_child(game_scene)
-	game_scene.spawn_players()
+	var rematch_setup = func(rematch_scene):
+		rematch_scene.players = players
+		rematch_scene.match_started = false
+		rematch_scene.match_ended = false
+	var rematch_scene = main_scene._change_scene(path, rematch_setup)
+	rematch_scene.spawn_players()
 
 
 func on_char_select():
-	var parent = get_parent()
-	
-	for i in parent.get_children():
-		i.queue_free()
-		
-	var main_menu_scene = load("res://src/Scenes/UI/player_select.tscn").instantiate();
-	parent.add_child(main_menu_scene)
+	main_scene._change_scene("res://src/Scenes/UI/player_select.tscn")
 
 
 func on_main_menu():
-	var parent = get_parent()
-	
-	for i in parent.get_children():
-		i.queue_free()
-		
-	var main_menu_scene = load("res://src/Scenes/UI/main_menu.tscn").instantiate();
-	parent.add_child(main_menu_scene)
+	main_scene._change_scene("res://src/Scenes/UI/main_menu.tscn")
 
 
 # Called when the node enters the scene tree for the first time.
