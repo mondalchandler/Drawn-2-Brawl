@@ -1,15 +1,12 @@
+class_name CustomButton
 extends Polygon2D
 
-@export var Character: PackedScene
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	position_method()
 	pass # Replace with function body.
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
 
 #this method exists as a just in case, where I can't change the position any other way.
 @onready var x = self.position.x
@@ -24,4 +21,7 @@ func position_method():
 	self.position.y = y*scale_y
 	self.scale.x = scale_x
 	self.scale.y = scale_y
+	pass
+	
+func run_task():
 	pass
