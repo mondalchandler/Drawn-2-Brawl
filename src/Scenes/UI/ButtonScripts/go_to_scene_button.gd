@@ -1,6 +1,6 @@
 extends CustomButton
 @export var scene: String
+@onready var main_scene = get_tree().root.get_node("main_scene")
 
 func run_task():
-	var root = get_node("../../../")
-	root._change_scene(scene)
+	main_scene._change_scene(scene)
