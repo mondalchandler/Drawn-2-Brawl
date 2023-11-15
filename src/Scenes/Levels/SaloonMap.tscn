@@ -1,6 +1,6 @@
-[gd_scene load_steps=12 format=3 uid="uid://bxwlwvu72tam5"]
+[gd_scene load_steps=12 format=3 uid="uid://dfa5prl3tccfc"]
 
-[ext_resource type="Script" path="res://src/Scripts/GameSetup.gd" id="1_414xx"]
+[ext_resource type="Script" path="res://src/Scripts/coreMatchController.gd" id="1_orbom"]
 [ext_resource type="PackedScene" uid="uid://7wniehuof4ce" path="res://resources/Maps/saloon.tscn" id="1_vinxw"]
 [ext_resource type="PackedScene" uid="uid://bpukisvm2k7x5" path="res://src/Scenes/Objects/Saloon Objects/low_poly_keg_3.tscn" id="2_o0sdt"]
 [ext_resource type="PackedScene" uid="uid://cgf4k26lgqq7i" path="res://src/Scenes/Objects/Saloon Objects/low_poly_keg_1.tscn" id="3_rpawf"]
@@ -14,7 +14,7 @@
 
 [node name="SaloonMap" type="Node3D"]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
-script = ExtResource("1_414xx")
+script = ExtResource("1_orbom")
 
 [node name="Saloon" parent="." instance=ExtResource("1_vinxw")]
 
@@ -92,7 +92,7 @@ script = null
 [node name="Players" type="Node" parent="."]
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(-0.707107, -0.353553, 0.612372, 0, 0.866025, 0.5, -0.707107, 0.353553, -0.612372, 12, 12, -12)
+transform = Transform3D(-0.707107, -0.224368, 0.670566, 0, 0.948324, 0.317305, -0.707107, 0.224368, -0.670566, 15.8394, 10.434, -16.0228)
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12.0931, 0)

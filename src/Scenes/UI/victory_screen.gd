@@ -6,6 +6,8 @@ extends CanvasLayer
 
 # ----------------- GLOBALS ------------------ #
 
+@onready var main_scene = get_tree().root.get_node("main_scene")
+
 @onready var rematch_button: Button = $PanelContainer/MarginContainer/Rows/Options/RematchButton
 @onready var character_select_button: Button = $PanelContainer/MarginContainer/Rows/Options/CharacterSelectButton
 @onready var main_menu_button: Button = $PanelContainer/MarginContainer/Rows/Options/MainMenuButton
@@ -15,22 +17,29 @@ var player_card = preload("res://src/Scenes/UI/player_card.tscn")
 var rankings: Array = []
 var previous_match_scene: Node3D
 var level: String
+var players = []
 
 # ----------------- FUNCTIONS ------------------ #
 
 func on_rematch():
-	print(level)
+	
+	# obtain a path of the level to rematch
 	var path = "res://src/Scenes/Levels/" + level + ".tscn"
-	print(path)
-	get_tree().change_scene_to_file(path)
+	
+	var rematch_setup = func(rematch_scene):
+		rematch_scene.players = players
+		rematch_scene.match_started = false
+		rematch_scene.match_ended = false
+	var rematch_scene = main_scene._change_scene(path, rematch_setup)
+	rematch_scene.spawn_players()
 
 
 func on_char_select():
-	pass
+	main_scene._change_scene("res://src/Scenes/UI/player_select.tscn")
 
 
 func on_main_menu():
-	get_tree().change_scene_to_file("res://src/Scenes/UI/main_menu.tscn")
+	main_scene._change_scene("res://src/Scenes/UI/main_menu.tscn")
 
 
 # Called when the node enters the scene tree for the first time.

@@ -1,13 +1,27 @@
+# Chandler Frakes, Kyle Senebouttarath
+
+# ------------------ IMPORTS ------------------ #
+
 extends Node
 
-@onready var current_scene = $MainMenu
-
+# ------------------ METHODS ------------------ #
 
 #The following method will change the current scene to the scene at a given path.
-#It will then remove the previous scene as a child and add the new scene as a child. 
-func _change_scene(scene_path):
-	var scene = load(scene_path)
-	self.remove_child(current_scene)
-	current_scene = scene.instantiate()
-	self.add_child(current_scene)
-	pass
+#It will clear out the current main scene, then load the new scene to go to
+#if a callback is provided, it will call the function BEFORE adding the new scene
+func _change_scene(scene_path: String, optional_setup_callback = null):
+	# load new scene
+	var new_scene = load(scene_path).instantiate()
+	
+	# clear everything in the main scene
+	for i in self.get_children():
+		i.queue_free()
+	
+	# if the callback is provided, use it
+	if optional_setup_callback:
+		optional_setup_callback.call(new_scene)
+	
+	# load the new scene
+	self.add_child(new_scene)
+	
+	return new_scene

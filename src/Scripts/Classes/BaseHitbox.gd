@@ -103,7 +103,7 @@ func deal_kb(hit_char) -> void:
 
 # computes a damage value, then updates an enemy char's hp value
 func deal_dmg(hit_char) -> int:
-	if(hit_char.get_meta("Invincible") == true):
+	if not hit_char.get_meta("Invincible"):
 		var dmg = randi() % (self.damage_range[1] - self.damage_range[0] + 1) + self.damage_range[0]
 		var new_hp = hit_char.get_meta("Health") - dmg
 		if new_hp < 0:
@@ -124,8 +124,11 @@ func on_hit(hit_char) -> void:
 	
 	self._after_hit_computation(hit_char, dmg)
 
+
 func node_is_object(node):
 	return node.get_node_or_null("Destruction") != null
+
+
 # determines if a hit node is a player
 func on_collision_detected(colliding_node) -> void:
 #	print(str(colliding_node))
