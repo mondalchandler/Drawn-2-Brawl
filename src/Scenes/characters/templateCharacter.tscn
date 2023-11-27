@@ -112,6 +112,7 @@ script = ExtResource("1_l6vxu")
 metadata/Health = 100.0
 metadata/MaxHealth = 100.0
 metadata/Blocking = false
+metadata/Invincible = false
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("../..")
@@ -133,7 +134,10 @@ replication_config = SubResource("SceneReplicationConfig_y3gwe")
 [node name="Sprite3D" type="Sprite3D" parent="."]
 transform = Transform3D(0.33, 0, 0, 0, 0.33, 0, 0, 0, 0.33, 0, -0.269739, 0)
 billboard = 1
-texture = ExtResource("5_6knjl")
+
+shaded = true
+alpha_cut = 2
+texture = ExtResource("6_gncxh")
 
 [node name="Hurtbox" type="CollisionShape3D" parent="."]
 transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, -0.302027, 0)

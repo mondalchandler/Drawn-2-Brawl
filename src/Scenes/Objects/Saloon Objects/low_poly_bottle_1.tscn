@@ -14,7 +14,7 @@ data = PackedVector3Array(0, 0.5489, -0.9789, 0.5, 1, -0.866, 0, 1, -1, 0, 0.548
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Cylinder/StaticBody3D" index="0"]
 shape = SubResource("ConcavePolygonShape3D_i334x")
 
-[node name="Destruction" type="Node" parent="." index="1" node_paths=PackedStringArray("shard_container")]
+[node name="Destruction" type="Node" parent="Cylinder/StaticBody3D" index="1" node_paths=PackedStringArray("shard_container")]
 script = ExtResource("2_u1cse")
 fragmented = ExtResource("3_l0xl7")
 shard_container = NodePath("")

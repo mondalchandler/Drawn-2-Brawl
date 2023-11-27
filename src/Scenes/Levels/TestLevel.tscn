@@ -1,11 +1,12 @@
 [gd_scene load_steps=20 format=3 uid="uid://1ykk5cdygfdm"]
 
-[ext_resource type="PackedScene" uid="uid://dxaie6k0g5kqw" path="res://src/Scenes/Characters/TemplateCharacter.tscn" id="1_3hibe"]
+[ext_resource type="PackedScene" uid="uid://dxaie6k0g5kqw" path="res://src/Scenes/Characters/templateCharacter.tscn" id="1_3hibe"]
+[ext_resource type="Script" path="res://src/Scripts/coreMatchController.gd" id="1_udic3"]
 [ext_resource type="PackedScene" uid="uid://c1gbjohht0toa" path="res://src/Scenes/Objects/TestPlatform.tscn" id="2_p30fi"]
 [ext_resource type="PackedScene" uid="uid://c6vahpoil0gw3" path="res://src/Scenes/Objects/TestMovingPlatform.tscn" id="3_t2xjs"]
 [ext_resource type="PackedScene" uid="uid://i651x6gr4qni" path="res://src/Scenes/Objects/TestStaircase.tscn" id="4_r14oo"]
 [ext_resource type="AudioStream" uid="uid://b7c4b8a4x2w3v" path="res://resources/Music/TestSong/beatLayer.mp3" id="5_frx3p"]
-[ext_resource type="Script" path="res://src/Scenes/Levels/MusicPlayer.gd" id="5_qep5t"]
+[ext_resource type="Script" path="res://src/Scripts/MusicPlayer.gd" id="5_km47x"]
 [ext_resource type="AudioStream" uid="uid://c1husnq4yjdg2" path="res://resources/Music/TestSong/bassLayer.mp3" id="6_ildc1"]
 [ext_resource type="PackedScene" uid="uid://frlimrjye2tm" path="res://src/Scenes/Characters/AIEnemy.tscn" id="7_eyje3"]
 [ext_resource type="AudioStream" uid="uid://dmkakluxbdvta" path="res://resources/Music/TestSong/leadLayer.mp3" id="7_yatml"]
@@ -39,7 +40,8 @@ agent_height = 0.0
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_7vafm"]
 
-[node name="TestLevel1" type="Node3D"]
+[node name="TestLevel" type="Node3D"]
+script = ExtResource("1_udic3")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_jvdpv")
@@ -72,7 +74,7 @@ mesh = SubResource("BoxMesh_ss5ve")
 shape = SubResource("ConcavePolygonShape3D_3acba")
 
 [node name="MusicPlayer" type="Node3D" parent="."]
-script = ExtResource("5_qep5t")
+script = ExtResource("5_km47x")
 metadata/CurrentVolume = -80.0
 metadata/DefaultVolume = -80.0
 metadata/Pause_Volume = -35.0

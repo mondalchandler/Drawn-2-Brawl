@@ -15,7 +15,9 @@ extends Node
 ## A scene of the fragmented mesh containing multiple [MeshInstance3D]s.
 @export var fragmented: PackedScene: set = set_fragmented
 ## The node where created shards are added to.
-@onready @export var shard_container := get_node("../../")
+@onready @export var shard_container := get_node("../../../../")
+
+#var parent = get_parent().get_parent().get_parent()
 
 @export_group("Animation")
 ## How many seconds until the shards fade away. Set to -1 to disable fading.
@@ -38,6 +40,7 @@ static var cached_shapes := {}
 
 ## Remove the parent node and add shards to the shard container.
 func destroy(explosion_power := 1.0) -> void:
+	var parent = get_parent().get_parent().get_parent()
 	if not fragmented in cached_meshes:
 		cached_meshes[fragmented] = fragmented.instantiate()
 		for shard_mesh in cached_meshes[fragmented].get_children():
@@ -46,21 +49,22 @@ func destroy(explosion_power := 1.0) -> void:
 	for original in original_meshes.get_children():
 		if original is MeshInstance3D:
 			_add_shard(original, explosion_power)
-	get_parent().queue_free()
+	parent.queue_free()
 
 
 func _add_shard(original: MeshInstance3D, explosion_power: float) -> void:
+	var parent = get_parent().get_parent().get_parent()
 	var body := RigidBody3D.new()
 	var mesh := MeshInstance3D.new()
 	var shape := CollisionShape3D.new()
 #	print(str(get_parent().scale) + " " + str(get_parent().global_transform))
-	mesh.scale = get_parent().scale
-	shape.scale = get_parent().scale
+	mesh.scale = parent.scale
+	shape.scale = parent.scale
 	body.add_child(mesh)
 	body.add_child(shape)
 	shard_container.add_child(body, true)
-	body.global_position = get_parent().global_transform.origin + original.position
-	body.rotation = get_parent().rotation
+	body.global_position = parent.global_transform.origin + original.position
+	body.rotation = parent.rotation
 	body.collision_layer = collision_layer
 	body.collision_mask = collision_mask
 	shape.shape = cached_shapes[original]
