@@ -104,8 +104,8 @@ func _physics_process(delta):
 	if is_on_floor():	
 		if direction:
 			last_direction = direction
-			velocity.x = direction.x * SPEED + knockback
-			velocity.z = direction.z * SPEED + knockback
+			velocity.x = direction.x * SPEED# + knockback
+			velocity.z = direction.z * SPEED# + knockback
 			
 			if anim_player.is_playing() and anim_player.current_animation == "idle":
 				anim_player.stop()

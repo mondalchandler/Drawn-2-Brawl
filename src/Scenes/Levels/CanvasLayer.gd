@@ -26,4 +26,4 @@ func _process(delta):
 			currentGoal = 90.0
 	
 	currentHpVal = lerp(currentHpVal, currentGoal, 8 * delta)
-	testPlayer.set_meta("Health", currentHpVal)
+	#testPlayer.set_meta("Health", currentHpVal)
