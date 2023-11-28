@@ -1,16 +1,17 @@
-[gd_scene load_steps=12 format=3 uid="uid://bxwlwvu72tam5"]
+[gd_scene load_steps=13 format=3 uid="uid://bxwlwvu72tam5"]
 
 [ext_resource type="Script" path="res://src/Scripts/coreMatchController.gd" id="1_orbom"]
 [ext_resource type="PackedScene" uid="uid://7wniehuof4ce" path="res://resources/Maps/saloon.tscn" id="1_vinxw"]
-[ext_resource type="PackedScene" uid="uid://bpukisvm2k7x5" path="res://src/Scenes/Objects/Saloon Objects/low_poly_keg_3.tscn" id="2_o0sdt"]
-[ext_resource type="PackedScene" uid="uid://cgf4k26lgqq7i" path="res://src/Scenes/Objects/Saloon Objects/low_poly_keg_1.tscn" id="3_rpawf"]
-[ext_resource type="PackedScene" uid="uid://cuujs4qkjfasc" path="res://src/Scenes/Objects/Saloon Objects/low_poly_keg_2.tscn" id="4_3g87m"]
-[ext_resource type="PackedScene" uid="uid://7kehmljriqbk" path="res://src/Scenes/Objects/Saloon Objects/low_poly_table.tscn" id="5_16xx1"]
-[ext_resource type="PackedScene" uid="uid://klx22fgwq5g4" path="res://src/Scenes/Objects/Saloon Objects/low_poly_shelf.tscn" id="6_igt4j"]
-[ext_resource type="PackedScene" uid="uid://igoevo7v43o3" path="res://src/Scenes/Objects/Saloon Objects/low_poly_stool.tscn" id="7_c7w48"]
+[ext_resource type="PackedScene" uid="uid://bmx61onpuwlkt" path="res://src/Scenes/Objects/Saloon Objects/low_poly_keg_1.tscn" id="4_rsbcy"]
+[ext_resource type="PackedScene" uid="uid://cbfxdu40fpir6" path="res://src/Scenes/Objects/Saloon Objects/low_poly_keg_2.tscn" id="5_svqfx"]
+[ext_resource type="PackedScene" uid="uid://cibfv85phwkas" path="res://src/Scenes/Objects/Saloon Objects/low_poly_keg_3.tscn" id="6_53bsl"]
+[ext_resource type="PackedScene" uid="uid://c8kcp3yhf7ox0" path="res://src/Scenes/Objects/Saloon Objects/low_poly_shelf.tscn" id="6_ogpe6"]
 [ext_resource type="PackedScene" uid="uid://dmm2q56al3tel" path="res://src/Scenes/Spawns/SpawnPoint.tscn" id="8_dkgit"]
 [ext_resource type="Script" path="res://src/Scenes/Levels/CanvasLayer.gd" id="10_1ligi"]
 [ext_resource type="PackedScene" uid="uid://b8ho0wqibktcr" path="res://src/Scenes/UI/all_player_health_list.tscn" id="11_412a5"]
+[ext_resource type="PackedScene" uid="uid://e362h77uj4i3" path="res://src/Scenes/Objects/Saloon Objects/low_poly_table.tscn" id="11_rku4r"]
+[ext_resource type="PackedScene" uid="uid://betl16iu6xk31" path="res://src/Scenes/Objects/Saloon Objects/low_poly_table_stool.tscn" id="11_yp7dc"]
+[ext_resource type="PackedScene" uid="uid://cjul47acrbrta" path="res://src/Scenes/Objects/Saloon Objects/low_poly_bar_stool.tscn" id="12_dfyco"]
 
 [node name="SaloonMap" type="Node3D"]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
@@ -18,67 +19,79 @@ script = ExtResource("1_orbom")
 
 [node name="Saloon" parent="." instance=ExtResource("1_vinxw")]
 
+[node name="LowPolyBarStool2" parent="." instance=ExtResource("12_dfyco")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0.15, 2)
+
 [node name="Objects" type="Node" parent="."]
 
-[node name="LowPolyKeg3" parent="Objects" instance=ExtResource("2_o0sdt")]
-transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, -5.85033, 1.09536, -5.01876)
+[node name="LowPolyTableStool" parent="Objects" instance=ExtResource("11_yp7dc")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -7.21388, 0.15, -2.72182)
 
-[node name="LowPolyKegtest2" parent="Objects" instance=ExtResource("3_rpawf")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.92533, 3.09536, -7.28139)
+[node name="low_poly_shelf_new" parent="Objects" instance=ExtResource("6_ogpe6")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 8.12685, 2.39951, 6)
 
-[node name="LowPolyKeg2" parent="Objects" instance=ExtResource("4_3g87m")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.2009, 1.09536, -7.48545)
+[node name="LowPolyKeg3" parent="Objects" instance=ExtResource("4_rsbcy")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -6.591, 1.278, -7.424)
 
-[node name="LowPolyKegtest1" parent="Objects" instance=ExtResource("3_rpawf")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.57534, 1.09536, -7.35168)
+[node name="LowPolyKeg5" parent="Objects" instance=ExtResource("4_rsbcy")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -3.912, 1.278, -7.424)
 
-[node name="LowPolyTable2" parent="Objects" instance=ExtResource("5_16xx1")]
-transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 3.07922, 2.11311, 5.07243)
+[node name="LowPolyKeg6" parent="Objects" instance=ExtResource("5_svqfx")]
+transform = Transform3D(4.37114e-08, 1, -8.74228e-08, 1, -4.37114e-08, 0, -3.82137e-15, -8.74228e-08, -1, -5.31781, 1.301, -4.852)
 
-[node name="LowPolyShelf" parent="Objects" instance=ExtResource("6_igt4j")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 8.01492, 0.210475, 5.77239)
+[node name="LowPolyKeg7" parent="Objects" instance=ExtResource("6_53bsl")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -5.2238, 3.40053, -7.424)
 
-[node name="LowPolyStool3" parent="Objects" instance=ExtResource("7_c7w48")]
-transform = Transform3D(0.6, 0, 0, 0, 0.45, 0, 0, 0, 0.6, 0.543994, 0.145568, 4.46921)
+[node name="LowPolyTable" parent="Objects" instance=ExtResource("11_rku4r")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 1.93581, 2.2, 5.755)
 
-[node name="LowPolyStool7" parent="Objects" instance=ExtResource("7_c7w48")]
-transform = Transform3D(0.6, 0, 0, 0, 0.45, 0, 0, 0, 0.6, 3.41136, 0.145568, 7.68929)
+[node name="LowPolyTable2" parent="Objects" instance=ExtResource("11_rku4r")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -5.662, 2.2, -0.957)
 
-[node name="LowPolyStool9" parent="Objects" instance=ExtResource("7_c7w48")]
-transform = Transform3D(0.6, 0, 0, 0, 0.45, 0, 0, 0, 0.6, 4.45094, 0.145568, 3.73468)
+[node name="LowPolyTable3" parent="Objects" instance=ExtResource("11_rku4r")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -6.02578, 2.2, 6.17)
 
-[node name="LowPolyTable3" parent="Objects" instance=ExtResource("5_16xx1")]
-transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -5.29804, 2.11311, 5.25211)
+[node name="LowPolyBarStool" parent="Objects" instance=ExtResource("12_dfyco")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 7, 0.15, -2)
 
-[node name="LowPolyStool10" parent="Objects" instance=ExtResource("7_c7w48")]
-transform = Transform3D(0.599119, 0.0243747, 0, -0.0324996, 0.449339, 0, 0, 0, 0.6, -7.93611, 0.145568, 4.64889)
+[node name="LowPolyBarStool2" parent="Objects" instance=ExtResource("12_dfyco")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 3, 0.15, -2)
 
-[node name="LowPolyStool11" parent="Objects" instance=ExtResource("7_c7w48")]
-transform = Transform3D(0.6, 0, 0, 0, 0.45, 0, 0, 0, 0.6, -4.9659, 0.145568, 7.7941)
+[node name="LowPolyBarStool3" parent="Objects" instance=ExtResource("12_dfyco")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 1, 0.15, -2)
 
-[node name="LowPolyStool12" parent="Objects" instance=ExtResource("7_c7w48")]
-transform = Transform3D(0.6, 0, 0, 0, 0.45, 0, 0, 0, 0.6, -3.78045, 0.145568, 3.91436)
+[node name="LowPolyTableStool2" parent="Objects" instance=ExtResource("11_yp7dc")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -6.2938, 0.15, 0.746894)
 
-[node name="LowPolyStool6" parent="Objects" instance=ExtResource("7_c7w48")]
-transform = Transform3D(0.6, 0, 0, 0, 0.8, 0, 0, 0, 0.6, 4.38702, 0.145568, -2.29638)
+[node name="LowPolyTableStool3" parent="Objects" instance=ExtResource("11_yp7dc")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -3.32899, 0.15, -0.732228)
 
-[node name="LowPolyStool8" parent="Objects" instance=ExtResource("7_c7w48")]
-transform = Transform3D(0.6, 0, 0, 0, 0.8, 0, 0, 0, 0.6, -2.17948, 0.145568, -4.74988)
+[node name="LowPolyTableStool4" parent="Objects" instance=ExtResource("11_yp7dc")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -7.56292, 0.15, 4.28176)
 
-[node name="LowPolyStool13" parent="Objects" instance=ExtResource("7_c7w48")]
-transform = Transform3D(0.6, 0, 0, 0, 0.8, 0, 0, 0, 0.6, 6.6903, 0.145568, -2.29638)
+[node name="LowPolyTableStool5" parent="Objects" instance=ExtResource("11_yp7dc")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -6.64284, 0.15, 7.75047)
 
-[node name="LowPolyStool14" parent="Objects" instance=ExtResource("7_c7w48")]
-transform = Transform3D(0.6, 0, 0, 0, 0.8, 0, 0, 0, 0.6, 1.70788, 0.145568, -2.29638)
+[node name="LowPolyTableStool6" parent="Objects" instance=ExtResource("11_yp7dc")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -3.67802, 0.15, 6.27135)
+
+[node name="LowPolyTableStool7" parent="Objects" instance=ExtResource("11_yp7dc")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.380992, 0.15, 4.0895)
+
+[node name="LowPolyTableStool8" parent="Objects" instance=ExtResource("11_yp7dc")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 1.30108, 0.15, 7.55821)
+
+[node name="LowPolyTableStool9" parent="Objects" instance=ExtResource("11_yp7dc")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 4.26589, 0.15, 6.07909)
 
 [node name="Spawns" type="Node" parent="."]
 
 [node name="SpawnPoint" parent="Spawns" instance=ExtResource("8_dkgit")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.85057, 1.61372, 6.97895)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.466, 1.5, 3.615)
 script = null
 
 [node name="SpawnPoint2" parent="Spawns" instance=ExtResource("8_dkgit")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.15191, 1.58249, -2.08115)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.836, 1.5, -2.081)
 script = null
 
 [node name="SpawnPoint3" parent="Spawns" instance=ExtResource("8_dkgit")]
@@ -93,6 +106,7 @@ script = null
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(-0.707107, -0.224368, 0.670566, 0, 0.948324, 0.317305, -0.707107, 0.224368, -0.670566, 15.8394, 10.434, -16.0228)
+current = true
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12.0931, 0)
