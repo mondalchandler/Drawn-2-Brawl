@@ -101,6 +101,7 @@ scene = "res://src/Scenes/UI/main_menu.tscn"
 position = Vector2(175, 969)
 texture = ExtResource("15_lnmre")
 texture_scale = Vector2(2, 2)
+polygon = PackedVector2Array(0, 0, 100, 0, 99, 104, 1, 103)
 script = ExtResource("14_k26lg")
 scene = "res://src/Scenes/UI/options_menu.tscn"
 

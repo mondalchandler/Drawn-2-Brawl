@@ -1,6 +1,12 @@
-[gd_scene load_steps=2 format=3 uid="uid://dufgk3e4kmxyu"]
+[gd_scene load_steps=8 format=3 uid="uid://dufgk3e4kmxyu"]
 
 [ext_resource type="Script" path="res://src/Scenes/UI/main_menu.gd" id="1_5m3be"]
+[ext_resource type="Texture2D" uid="uid://cev6wxc7t531w" path="res://resources/Images/MainMenuImages/InitialMenu.PNG" id="2_jtiau"]
+[ext_resource type="PackedScene" uid="uid://3s37qqt6r8je" path="res://src/Scenes/UI/custom_button.tscn" id="3_vgq1w"]
+[ext_resource type="Texture2D" uid="uid://pny3gbsnm5e2" path="res://resources/Images/MainMenuImages/MainPlayButton.png" id="4_vu4aq"]
+[ext_resource type="Texture2D" uid="uid://eibq1c2wn3or" path="res://resources/Images/MainMenuImages/MainCreateButton.png" id="5_t4qaf"]
+[ext_resource type="Texture2D" uid="uid://bcosy0o5ex8p1" path="res://resources/Images/PlayerSelectImages/OptionsButton.png" id="6_iyfhi"]
+[ext_resource type="Script" path="res://src/Scenes/UI/ButtonScripts/go_to_scene_button.gd" id="7_7ex03"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -55,6 +61,34 @@ layout_mode = 2
 [node name="Quit" type="Button" parent="MarginContainer3/VBoxContainer"]
 layout_mode = 2
 text = "Quit"
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+texture = ExtResource("2_jtiau")
+
+[node name="Polygon2D" parent="." instance=ExtResource("3_vgq1w")]
+position = Vector2(120, 630)
+texture = ExtResource("4_vu4aq")
+texture_offset = Vector2(0, 80)
+texture_scale = Vector2(2, 2)
+polygon = PackedVector2Array(-4, -1, 373, -80, 373, -46, 402, -57, 371, 157, 38, 88)
+
+[node name="Polygon2D2" parent="." instance=ExtResource("3_vgq1w")]
+position = Vector2(116, 769)
+texture = ExtResource("5_t4qaf")
+texture_offset = Vector2(35, 25)
+texture_scale = Vector2(2, 2)
+polygon = PackedVector2Array(-18, -24, 312, 39, 307, 105, -4, 156, -33, 6, -11, 14)
+
+[node name="OptionsButton" parent="." instance=ExtResource("3_vgq1w")]
+position = Vector2(167, 953)
+texture = ExtResource("6_iyfhi")
+texture_scale = Vector2(2, 2)
+polygon = PackedVector2Array(0, 0, 100, 0, 99, 104, 1, 103)
+script = ExtResource("7_7ex03")
+scene = "res://src/Scenes/UI/options_menu.tscn"
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="MarginContainer2/VBoxContainer/Options" to="." method="_on_options_pressed"]
