@@ -89,4 +89,4 @@ shape = SubResource("ConvexPolygonShape3D_jkhau")
 [node name="Destruction" type="Node" parent="." node_paths=PackedStringArray("shard_container")]
 script = ExtResource("1_1x2f0")
 fragmented = ExtResource("2_5tnj8")
-shard_container = NodePath("")
+shard_container = NodePath("../..")

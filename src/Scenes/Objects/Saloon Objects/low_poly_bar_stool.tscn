@@ -78,12 +78,12 @@ points = PackedVector3Array(-1.28425, 0.016341, -0.0016681, -1.24302, 0.016341, 
 [node name="LowPolyBarStool" type="RigidBody3D"]
 
 [node name="Mesh" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 0, 0, 0)
+transform = Transform3D(0.7, 0, 0, 0, 1, 0, 0, 0, 0.7, 0, 0, 0)
 mesh = SubResource("ArrayMesh_5hmah")
 skeleton = NodePath("")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 0, 0, 0)
+transform = Transform3D(0.7, 0, 0, 0, 1, 0, 0, 0, 0.7, 0, 0, 0)
 shape = SubResource("ConvexPolygonShape3D_3q27d")
 
 [node name="Destruction" type="Node" parent="." node_paths=PackedStringArray("shard_container")]
