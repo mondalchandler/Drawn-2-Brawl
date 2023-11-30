@@ -1,12 +1,14 @@
-[gd_scene load_steps=8 format=3 uid="uid://dufgk3e4kmxyu"]
+[gd_scene load_steps=10 format=3 uid="uid://dufgk3e4kmxyu"]
 
 [ext_resource type="Script" path="res://src/Scenes/UI/main_menu.gd" id="1_5m3be"]
-[ext_resource type="Texture2D" uid="uid://cev6wxc7t531w" path="res://resources/Images/MainMenuImages/InitialMenu.PNG" id="2_jtiau"]
+[ext_resource type="Texture2D" uid="uid://dqmqdcpi3f1e1" path="res://resources/Images/MainMenuImages/MainMenuBG.jpg" id="2_wun5k"]
 [ext_resource type="PackedScene" uid="uid://3s37qqt6r8je" path="res://src/Scenes/UI/custom_button.tscn" id="3_vgq1w"]
 [ext_resource type="Texture2D" uid="uid://pny3gbsnm5e2" path="res://resources/Images/MainMenuImages/MainPlayButton.png" id="4_vu4aq"]
 [ext_resource type="Texture2D" uid="uid://eibq1c2wn3or" path="res://resources/Images/MainMenuImages/MainCreateButton.png" id="5_t4qaf"]
 [ext_resource type="Texture2D" uid="uid://bcosy0o5ex8p1" path="res://resources/Images/PlayerSelectImages/OptionsButton.png" id="6_iyfhi"]
 [ext_resource type="Script" path="res://src/Scenes/UI/ButtonScripts/go_to_scene_button.gd" id="7_7ex03"]
+[ext_resource type="Texture2D" uid="uid://dw8yen50qp7de" path="res://resources/Images/PlayerSelectImages/LeaveButton.png" id="8_naxe8"]
+[ext_resource type="Texture2D" uid="uid://cfm3vjorcqb17" path="res://resources/Images/MainMenuImages/MainMockLogo.png" id="9_q027n"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -17,72 +19,29 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_5m3be")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
-layout_mode = 1
-offset_left = 65.0
-offset_top = 217.0
-offset_right = 106.0
-offset_bottom = 263.0
-scale = Vector2(7, 7)
+[node name="Buttons" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
-layout_mode = 2
-
-[node name="Play" type="Button" parent="MarginContainer/VBoxContainer"]
-layout_mode = 2
-text = "Play"
-
-[node name="MarginContainer2" type="MarginContainer" parent="."]
-layout_mode = 1
-offset_left = 72.0
-offset_top = 544.0
-offset_right = 142.0
-offset_bottom = 584.0
-scale = Vector2(4, 4)
-
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer2"]
-layout_mode = 2
-
-[node name="Options" type="Button" parent="MarginContainer2/VBoxContainer"]
-layout_mode = 2
-text = "Options"
-
-[node name="MarginContainer3" type="MarginContainer" parent="."]
-layout_mode = 1
-offset_left = 72.0
-offset_top = 747.0
-offset_right = 114.0
-offset_bottom = 778.0
-scale = Vector2(4, 4)
-
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer3"]
-layout_mode = 2
-
-[node name="Quit" type="Button" parent="MarginContainer3/VBoxContainer"]
-layout_mode = 2
-text = "Quit"
-
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="Logo" type="TextureRect" parent="Buttons"]
 layout_mode = 0
-offset_right = 1920.0
-offset_bottom = 1080.0
-texture = ExtResource("2_jtiau")
+offset_left = 128.0
+offset_top = 13.0
+offset_right = 1329.0
+offset_bottom = 1091.0
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("9_q027n")
 
-[node name="Polygon2D" parent="." instance=ExtResource("3_vgq1w")]
-position = Vector2(120, 630)
-texture = ExtResource("4_vu4aq")
-texture_offset = Vector2(0, 80)
+[node name="BackToMainButton" parent="Buttons" instance=ExtResource("3_vgq1w")]
+position = Vector2(20, 944)
+texture = ExtResource("8_naxe8")
 texture_scale = Vector2(2, 2)
-polygon = PackedVector2Array(-4, -1, 373, -80, 373, -46, 402, -57, 371, 157, 38, 88)
+polygon = PackedVector2Array(-1, 31, 56, 39, 142, -1, 138, 26, 142, 75, 126, 79, 120, 104, 75, 106, 72, 104, 30, 113)
+script = ExtResource("7_7ex03")
+scene = "res://src/Scenes/UI/main_menu.tscn"
 
-[node name="Polygon2D2" parent="." instance=ExtResource("3_vgq1w")]
-position = Vector2(116, 769)
-texture = ExtResource("5_t4qaf")
-texture_offset = Vector2(35, 25)
-texture_scale = Vector2(2, 2)
-polygon = PackedVector2Array(-18, -24, 312, 39, 307, 105, -4, 156, -33, 6, -11, 14)
-
-[node name="OptionsButton" parent="." instance=ExtResource("3_vgq1w")]
+[node name="OptionsButton" parent="Buttons" instance=ExtResource("3_vgq1w")]
 position = Vector2(167, 953)
 texture = ExtResource("6_iyfhi")
 texture_scale = Vector2(2, 2)
@@ -90,6 +49,23 @@ polygon = PackedVector2Array(0, 0, 100, 0, 99, 104, 1, 103)
 script = ExtResource("7_7ex03")
 scene = "res://src/Scenes/UI/options_menu.tscn"
 
-[connection signal="pressed" from="MarginContainer/VBoxContainer/Play" to="." method="_on_play_pressed"]
-[connection signal="pressed" from="MarginContainer2/VBoxContainer/Options" to="." method="_on_options_pressed"]
-[connection signal="pressed" from="MarginContainer3/VBoxContainer/Quit" to="." method="_on_quit_pressed"]
+[node name="Play" parent="Buttons" instance=ExtResource("3_vgq1w")]
+position = Vector2(120, 630)
+texture = ExtResource("4_vu4aq")
+texture_offset = Vector2(0, 80)
+texture_scale = Vector2(2, 2)
+polygon = PackedVector2Array(-4, -1, 373, -80, 373, -46, 402, -57, 371, 157, 38, 88)
+
+[node name="Create" parent="Buttons" instance=ExtResource("3_vgq1w")]
+position = Vector2(116, 769)
+texture = ExtResource("5_t4qaf")
+texture_offset = Vector2(35, 25)
+texture_scale = Vector2(2, 2)
+polygon = PackedVector2Array(-18, -24, 312, 39, 307, 105, -4, 156, -33, 6, -11, 14)
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 3840.0
+offset_bottom = 2160.0
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_wun5k")
