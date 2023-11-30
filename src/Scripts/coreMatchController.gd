@@ -59,12 +59,21 @@ func start_match():
 	match_started = true
 
 
+var one_kill = false
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if not match_started:
 		return
 
+	# TODO: Delete this later
+	if(one_kill):
+		one_kill = false
+		await get_tree().create_timer(5).timeout
+		get_node("Players").get_children()[0].set_meta("Health", 0)
+		await get_tree().create_timer(1).timeout
+		one_kill = true
+		
 	update_players()
 	var current_alive_players = get_alive_players()
 	if current_alive_players and current_alive_players.size() <= 1 and not match_ended:
@@ -75,4 +84,5 @@ func _process(delta):
 			victory_scene.rankings = rankings
 			victory_scene.level = self.name
 			victory_scene.players = players
+			print(victory_scene.rankings)
 		main_scene._change_scene("res://src/Scenes/UI/victory_screen.tscn", victory_screen_setup)
