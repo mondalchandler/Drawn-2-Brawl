@@ -11,18 +11,18 @@ var sprite
 var hurtbox : Node
 
 var hitbox
-var attack_name
+var move_name
 var debug_on = true
 
 # ---------------- FUNCTIONS ---------------- #
 
-func attack(attack):
-	attack_name = attack[0]
+func attack(move):
+	self.move_name = move.move_name
 	
 	# do the specific action
-	match attack[1]:
+	match move.move_type:
 		"MELEE":
-			hitbox = BoxHitbox.new(owner_char, attack[2][0], attack[2][1], attack[2][2], attack[2][3], attack[2][4], attack[2][5], debug_on)
+			hitbox = BoxHitbox.new(owner_char, move.move_data[0], move.move_data[1], move.move_data[2], move.move_data[3], move.move_data[4], move.move_data[5], debug_on)
 			hurtbox.add_child(hitbox.mesh_instance)
 			hitbox._activate()
 			
@@ -47,7 +47,7 @@ func attack(attack):
 func play_animation():
 	if anim_player.is_playing():
 		anim_player.stop()
-	anim_player.play(attack_name)
+	anim_player.play(move_name)
 
 
 func anim_finished(anim_name):
@@ -59,7 +59,7 @@ func anim_finished(anim_name):
 
 func clean():
 	self.hitbox = null
-	self.attack_name = null
+	self.move_name = null
 
 # ---------------- INIT ---------------- #
 

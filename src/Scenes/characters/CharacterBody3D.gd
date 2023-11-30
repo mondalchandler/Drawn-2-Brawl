@@ -159,24 +159,24 @@ func _physics_process(delta):
 	
 	if Input.is_action_just_pressed("normal_close"):
 		if (is_on_floor()):
-			move_controller.attack(MoveSetManager.ranger_moves["GNC"])
+			move_controller.attack(Move.new("MELEE", "Pistol Whip", [Transform3D(Basis.IDENTITY, Vector3(.5, 0, .5)), [10, 10], 0.1, 0.1, Vector3(4, 4, 4), Vector3(1.2, .8, 1)]))
 		else:
-			move_controller.attack(MoveSetManager.ranger_moves["ANC"])
+			move_controller.attack(Move.new("GRAB", "Air Axe", []))
 	if Input.is_action_just_pressed("normal_far"):
 		if (is_on_floor()):
-			move_controller.attack(MoveSetManager.ranger_moves["GNF"])
+			move_controller.attack(Move.new("HITSCAN", "One Shot", [[10, 10], 0.2, Vector3(4, 4, 4)]))
 		else:
-			move_controller.attack(MoveSetManager.ranger_moves["ANF"])
+			move_controller.attack(Move.new("GRAB", "Throwing Knife", []))
 	if Input.is_action_just_pressed("special_close"):
 		if (is_on_floor()):
-			move_controller.attack(MoveSetManager.ranger_moves["GSC"])
+			move_controller.attack(Move.new("GRAB", "Axe Uppercut", []))
 		else:
-			move_controller.attack(MoveSetManager.ranger_moves["ASC"])
+			move_controller.attack(Move.new("GRAB", "Shotgun Explosion", []))
 	if Input.is_action_just_pressed("special_far"):
 		if (is_on_floor()):
-			move_controller.attack(MoveSetManager.ranger_moves["GSF"])
+			move_controller.attack(Move.new("GRAB", "Three Shot Burst", []))
 		else:
-			move_controller.attack(MoveSetManager.ranger_moves["ASF"])
+			move_controller.attack(Move.new("GRAB", "Lasso Pull", []))
 		
 	update_floor_shadow(delta)
 
