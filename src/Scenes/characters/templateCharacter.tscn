@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://dxaie6k0g5kqw"]
+[gd_scene load_steps=41 format=3 uid="uid://dxaie6k0g5kqw"]
 
 [ext_resource type="Script" path="res://src/Scenes/Characters/CharacterBody3D.gd" id="1_l6vxu"]
 [ext_resource type="Texture2D" uid="uid://k1d6ljvlbigv" path="res://resources/Images/Animations/Ranger/Basic/RangerIdle1.png" id="2_of1dh"]
@@ -9,8 +9,220 @@
 [ext_resource type="Texture2D" uid="uid://0sm548fs50ud" path="res://resources/Images/Animations/Ranger/Moves/RangerGNC2.png" id="5_h1niy"]
 [ext_resource type="Texture2D" uid="uid://c78gwvfeiv0v8" path="res://resources/Images/Animations/Ranger/Moves/RangerGNC1.png" id="6_gncxh"]
 [ext_resource type="Texture2D" uid="uid://c1ygl7tbs6jvj" path="res://resources/Images/Animations/Ranger/Basic/RangerJump.png" id="7_ult6u"]
+[ext_resource type="Texture2D" uid="uid://dv6x8dy56bwhb" path="res://resources/Images/Animations/Ranger/Moves/RangerGNF1.png" id="9_r81px"]
 [ext_resource type="Texture2D" uid="uid://bpeb0ux7smvj2" path="res://resources/Images/whiteCircle.png" id="10_6gnc5"]
+[ext_resource type="Texture2D" uid="uid://da68bh42u6jho" path="res://resources/Images/Animations/Ranger/Moves/RangerGNF2.png" id="10_mxyrs"]
+[ext_resource type="Texture2D" uid="uid://bn6q6f7dupf5c" path="res://resources/Images/Animations/Ranger/Moves/RangerGSC1.png" id="11_07o10"]
 [ext_resource type="Texture2D" uid="uid://cwhdc0fkgp4k0" path="res://resources/Images/whiteBlurCircle.png" id="11_t4kcl"]
+[ext_resource type="Texture2D" uid="uid://dvwixncak0gk4" path="res://resources/Images/Animations/Ranger/Moves/RangerGSC2.png" id="12_k4ket"]
+[ext_resource type="Texture2D" uid="uid://cb4cqhs763ua2" path="res://resources/Images/Animations/Ranger/Moves/RangerGSF1.png" id="13_3onu0"]
+[ext_resource type="Texture2D" uid="uid://cyi3r6pjscqmv" path="res://resources/Images/Animations/Ranger/Moves/RangerGSF2.png" id="14_rmdqi"]
+[ext_resource type="Texture2D" uid="uid://dnv1i0rhkdbbl" path="res://resources/Images/Animations/Ranger/Moves/RangerANC1.png" id="15_hgxkb"]
+[ext_resource type="Texture2D" uid="uid://c64jtkwpapsms" path="res://resources/Images/Animations/Ranger/Moves/RangerANC2.png" id="16_ix1pw"]
+[ext_resource type="Texture2D" uid="uid://cwq0j5eq0bybj" path="res://resources/Images/Animations/Ranger/Moves/RangerANF1.png" id="17_uoh6n"]
+[ext_resource type="Texture2D" uid="uid://bmiw52bvhe6xc" path="res://resources/Images/Animations/Ranger/Moves/RangerANF2.png" id="18_20b13"]
+[ext_resource type="Texture2D" uid="uid://1vg6ksef0i67" path="res://resources/Images/Animations/Ranger/Moves/RangerASC1.png" id="19_fi08a"]
+[ext_resource type="Texture2D" uid="uid://bpig43rdl73cu" path="res://resources/Images/Animations/Ranger/Moves/RangerASC2.png" id="20_6qeh0"]
+[ext_resource type="Texture2D" uid="uid://c0gujiauuc7k" path="res://resources/Images/Animations/Ranger/Moves/RangerASF1.png" id="21_yug4s"]
+[ext_resource type="Texture2D" uid="uid://1dt7nivwdgpq" path="res://resources/Images/Animations/Ranger/Moves/RangerASF2.png" id="22_1dywq"]
+
+[sub_resource type="Animation" id="Animation_753xq"]
+resource_name = "Air Axe"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TemplateCharacter/Sprite3D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [ExtResource("15_hgxkb"), ExtResource("16_ix1pw")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TemplateCharacter/Sprite3D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [Vector3(0.0525134, -0.424933, 0), Vector3(0.0423949, 0.0152138, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("TemplateCharacter/Sprite3D:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector3(0.250936, 0.250936, 0.33)]
+}
+
+[sub_resource type="Animation" id="Animation_ti0wx"]
+resource_name = "Axe Uppercut"
+length = 0.8
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TemplateCharacter/Sprite3D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [ExtResource("11_07o10"), ExtResource("12_k4ket")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TemplateCharacter/Sprite3D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [Vector3(-0.0350031, -0.268099, 0), Vector3(0.020648, -0.232685, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("TemplateCharacter/Sprite3D:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector3(0.331747, 0.331747, 0.33)]
+}
+
+[sub_resource type="Animation" id="Animation_vwoo4"]
+resource_name = "Lasso Pull"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TemplateCharacter/Sprite3D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [ExtResource("21_yug4s"), ExtResource("22_1dywq")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TemplateCharacter/Sprite3D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [Vector3(-0.206802, -0.0336684, 0), Vector3(1.12815, -1.0441, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("TemplateCharacter/Sprite3D:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector3(0.276326, 0.276326, 0.33)]
+}
+
+[sub_resource type="Animation" id="Animation_uao7y"]
+resource_name = "One Shot"
+length = 1.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TemplateCharacter/Sprite3D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [ExtResource("9_r81px"), ExtResource("10_mxyrs")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TemplateCharacter/Sprite3D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [Vector3(0.105761, -0.281611, 0), Vector3(-0.105832, -0.248591, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("TemplateCharacter/Sprite3D:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector3(0.322053, 0.322053, 0.33)]
+}
+
+[sub_resource type="Animation" id="Animation_rsyes"]
+resource_name = "Pistol Whip"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TemplateCharacter/Sprite3D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [ExtResource("6_gncxh"), ExtResource("5_h1niy")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TemplateCharacter/Sprite3D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector3(-0.0188699, -0.26784, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("TemplateCharacter/Sprite3D:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector3(0.322053, 0.322053, 0.33)]
+}
 
 [sub_resource type="Animation" id="Animation_na8w3"]
 length = 0.001
@@ -25,6 +237,149 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [ExtResource("5_6knjl")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TemplateCharacter/Sprite3D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-0.0896282, -0.269739, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("TemplateCharacter/Sprite3D:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.297, 0.297, 0.33)]
+}
+
+[sub_resource type="Animation" id="Animation_baqbk"]
+resource_name = "Shotgun Explosion"
+length = 1.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TemplateCharacter/Sprite3D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.7),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [ExtResource("19_fi08a"), ExtResource("20_6qeh0")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TemplateCharacter/Sprite3D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.7),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [Vector3(0.289739, -0.50417, 0), Vector3(-0.0644031, -0.124733, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("TemplateCharacter/Sprite3D:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.7),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [Vector3(0.2581, 0.2581, 0.33), Vector3(0.220159, 0.220159, 0.33)]
+}
+
+[sub_resource type="Animation" id="Animation_gvn65"]
+resource_name = "Three Shot Burst"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TemplateCharacter/Sprite3D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1, 1.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("13_3onu0"), ExtResource("14_rmdqi"), ExtResource("13_3onu0"), ExtResource("14_rmdqi"), ExtResource("13_3onu0"), ExtResource("14_rmdqi"), ExtResource("13_3onu0")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TemplateCharacter/Sprite3D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1, 1.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector3(-0.237369, -0.270278, 0), Vector3(-0.212074, -0.28184, 0), Vector3(-0.237369, -0.270278, 0), Vector3(-0.212074, -0.28184, 0), Vector3(-0.237369, -0.270278, 0), Vector3(-0.212074, -0.28184, 0), Vector3(-0.237369, -0.270278, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("TemplateCharacter/Sprite3D:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector3(0.307158, 0.307158, 0.33)]
+}
+
+[sub_resource type="Animation" id="Animation_swefu"]
+resource_name = "Throwing Knife"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TemplateCharacter/Sprite3D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [ExtResource("17_uoh6n"), ExtResource("18_20b13")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TemplateCharacter/Sprite3D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [Vector3(-0.0188699, -0.362514, 0), Vector3(0.451631, -0.362514, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("TemplateCharacter/Sprite3D:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector3(0.266765, 0.266765, 0.33)]
 }
 
 [sub_resource type="Animation" id="Animation_3cxny"]
@@ -42,6 +397,30 @@ tracks/0/keys = {
 "update": 1,
 "values": [ExtResource("2_of1dh"), ExtResource("3_vw0by")]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TemplateCharacter/Sprite3D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector3(-0.0766158, -0.282751, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("TemplateCharacter/Sprite3D:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector3(0.322053, 0.322053, 0.33)]
+}
 
 [sub_resource type="Animation" id="Animation_r88tu"]
 resource_name = "jump"
@@ -57,21 +436,29 @@ tracks/0/keys = {
 "update": 1,
 "values": [ExtResource("7_ult6u")]
 }
-
-[sub_resource type="Animation" id="Animation_0mbgy"]
-resource_name = "melee_attack"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("TemplateCharacter/Sprite3D:texture")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.3, 0.5),
-"transitions": PackedFloat32Array(1, 1, 1),
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TemplateCharacter/Sprite3D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [ExtResource("6_gncxh"), ExtResource("5_h1niy"), ExtResource("2_of1dh")]
+"values": [Vector3(0.00943375, -0.0835821, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("TemplateCharacter/Sprite3D:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.287084, 0.287084, 0.33)]
 }
 
 [sub_resource type="Animation" id="Animation_727vt"]
@@ -88,13 +475,44 @@ tracks/0/keys = {
 "update": 1,
 "values": [ExtResource("5_6knjl"), ExtResource("4_xct1f"), ExtResource("5_6knjl"), ExtResource("4_xct1f")]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TemplateCharacter/Sprite3D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.19152, -0.196745, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("TemplateCharacter/Sprite3D:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.322053, 0.322053, 0.33)]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_bchoe"]
 _data = {
+"Air Axe": SubResource("Animation_753xq"),
+"Axe Uppercut": SubResource("Animation_ti0wx"),
+"Lasso Pull": SubResource("Animation_vwoo4"),
+"One Shot": SubResource("Animation_uao7y"),
+"Pistol Whip": SubResource("Animation_rsyes"),
 "RESET": SubResource("Animation_na8w3"),
+"Shotgun Explosion": SubResource("Animation_baqbk"),
+"Three Shot Burst": SubResource("Animation_gvn65"),
+"Throwing Knife": SubResource("Animation_swefu"),
 "idle": SubResource("Animation_3cxny"),
 "jump": SubResource("Animation_r88tu"),
-"melee_attack": SubResource("Animation_0mbgy"),
 "run": SubResource("Animation_727vt")
 }
 
@@ -113,6 +531,7 @@ metadata/Health = 100.0
 metadata/MaxHealth = 100.0
 metadata/Blocking = false
 metadata/Invincible = false
+metadata/InGame = false
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("../..")
@@ -132,12 +551,11 @@ replication_config = SubResource("SceneReplicationConfig_y3gwe")
 [node name="PauseMenu" parent="CanvasLayer" instance=ExtResource("3_m33b8")]
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
-transform = Transform3D(0.33, 0, 0, 0, 0.33, 0, 0, 0, 0.33, 0, -0.269739, 0)
+transform = Transform3D(0.297, 0, 0, 0, 0.297, 0, 0, 0, 0.33, -0.0896282, -0.269739, 0)
 billboard = 1
-
 shaded = true
 alpha_cut = 2
-texture = ExtResource("6_gncxh")
+texture = ExtResource("5_6knjl")
 
 [node name="Hurtbox" type="CollisionShape3D" parent="."]
 transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, -0.302027, 0)
