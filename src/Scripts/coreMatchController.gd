@@ -62,12 +62,6 @@ func start_match():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-#	print()
-#	print(str(get_node("Objects/low_poly_table_test/RigidBody3D").scale))
-#	print(str(get_node("Objects/low_poly_table_test/RigidBody3D/CollisionShape3D").scale))
-#	print(str(get_node("Objects/low_poly_table_test/RigidBody3D/Cylinder").scale))
-#	print()
-#	get_node("Objects/low_poly_table_new2").scale = Vector3(8, 8, 8)
 	if not match_started:
 		return
 
