@@ -527,7 +527,6 @@ height = 1.10297
 
 [node name="TemplateCharacter" type="CharacterBody3D"]
 script = ExtResource("1_l6vxu")
-knockback = null
 metadata/Health = 100.0
 metadata/MaxHealth = 100.0
 metadata/Blocking = false

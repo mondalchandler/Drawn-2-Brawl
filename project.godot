@@ -14,10 +14,6 @@ config/name="Drawn To Brawl"
 run/main_scene="res://src/Scenes/main_scene.tscn"
 config/features=PackedStringArray("4.1", "Forward Plus")
 
-[autoload]
-
-MoveSetManager="*res://src/Scripts/Classes/MoveSetManager.gd"
-
 [display]
 
 window/size/viewport_width=1920

@@ -37,8 +37,6 @@ var move_controller
 
 var last_direction = Vector3(-.707, 0, -.707)
 
-var character = "Ranger"
-
 # ---------------- FUNCTIONS ---------------- #
 
 # -- translates a vector3 to the same vector3, translated to the camera's offset
