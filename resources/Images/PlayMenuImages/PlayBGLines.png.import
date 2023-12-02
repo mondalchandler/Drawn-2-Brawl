@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bqevoqj8j120f"
-path="res://.godot/imported/PlayMultiBtn.png-ceddd5bbabed1055595242f24813e130.ctex"
+uid="uid://6v6ksu3fen5u"
+path="res://.godot/imported/PlayBGLines.png-a94fbf2a3040ff2d1aa1872d0689408e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://resources/Images/PlayMenuImages/PlayMultiBtn.png"
-dest_files=["res://.godot/imported/PlayMultiBtn.png-ceddd5bbabed1055595242f24813e130.ctex"]
+source_file="res://resources/Images/PlayMenuImages/PlayBGLines.png"
+dest_files=["res://.godot/imported/PlayBGLines.png-a94fbf2a3040ff2d1aa1872d0689408e.ctex"]
 
 [params]
 

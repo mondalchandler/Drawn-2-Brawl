@@ -1,7 +1,7 @@
 class_name CustomButton
 extends Polygon2D
 
-
+@onready var main_scene = get_tree().root.get_node("main_scene")
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	position_method()

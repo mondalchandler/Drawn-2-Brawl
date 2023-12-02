@@ -1,14 +1,81 @@
-[gd_scene load_steps=10 format=3 uid="uid://dufgk3e4kmxyu"]
+[gd_scene load_steps=19 format=3 uid="uid://dufgk3e4kmxyu"]
 
 [ext_resource type="Script" path="res://src/Scenes/UI/main_menu.gd" id="1_5m3be"]
 [ext_resource type="Texture2D" uid="uid://dqmqdcpi3f1e1" path="res://resources/Images/MainMenuImages/MainMenuBG.jpg" id="2_wun5k"]
 [ext_resource type="PackedScene" uid="uid://3s37qqt6r8je" path="res://src/Scenes/UI/custom_button.tscn" id="3_vgq1w"]
 [ext_resource type="Texture2D" uid="uid://pny3gbsnm5e2" path="res://resources/Images/MainMenuImages/MainPlayButton.png" id="4_vu4aq"]
 [ext_resource type="Texture2D" uid="uid://eibq1c2wn3or" path="res://resources/Images/MainMenuImages/MainCreateButton.png" id="5_t4qaf"]
+[ext_resource type="Script" path="res://src/Scenes/UI/ButtonScripts/quit_button.gd" id="6_dcvp8"]
 [ext_resource type="Texture2D" uid="uid://bcosy0o5ex8p1" path="res://resources/Images/PlayerSelectImages/OptionsButton.png" id="6_iyfhi"]
 [ext_resource type="Script" path="res://src/Scenes/UI/ButtonScripts/go_to_scene_button.gd" id="7_7ex03"]
 [ext_resource type="Texture2D" uid="uid://dw8yen50qp7de" path="res://resources/Images/PlayerSelectImages/LeaveButton.png" id="8_naxe8"]
 [ext_resource type="Texture2D" uid="uid://cfm3vjorcqb17" path="res://resources/Images/MainMenuImages/MainMockLogo.png" id="9_q027n"]
+[ext_resource type="Script" path="res://src/Scenes/UI/ButtonScripts/main_menu_play_button.gd" id="10_bwoma"]
+[ext_resource type="Script" path="res://src/Scenes/UI/ButtonScripts/custom_button.gd" id="11_w6d5q"]
+[ext_resource type="Texture2D" uid="uid://bd64jbd5h5ltb" path="res://resources/Images/MainMenuImages/MainNoble.png" id="13_6igo4"]
+[ext_resource type="Texture2D" uid="uid://bc324ymr77qjs" path="res://resources/Images/MainMenuImages/MainRanger.png" id="14_3qdlw"]
+[ext_resource type="Texture2D" uid="uid://m61ftjtmqbxl" path="res://resources/Images/MainMenuImages/MainBGLines.png" id="15_3mlk5"]
+
+[sub_resource type="Animation" id="Animation_12a4y"]
+resource_name = "scene_transition"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Noble:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1397, 489), Vector2(1367, 489), Vector2(3000, 489)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Ranger:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(50, 0), Vector2(-3000, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_x3bho"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Noble:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1397, 489)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Ranger:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ehj80"]
+_data = {
+"RESET": SubResource("Animation_x3bho"),
+"scene_transition": SubResource("Animation_12a4y")
+}
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -17,29 +84,40 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 script = ExtResource("1_5m3be")
 
-[node name="Buttons" type="Control" parent="."]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="Background" type="TextureRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_wun5k")
+expand_mode = 1
 
-[node name="Logo" type="TextureRect" parent="Buttons"]
-layout_mode = 0
-offset_left = 128.0
-offset_top = 13.0
-offset_right = 1329.0
-offset_bottom = 1091.0
-scale = Vector2(0.5, 0.5)
+[node name="Logo" type="TextureRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.4, 0.4)
 texture = ExtResource("9_q027n")
+expand_mode = 1
 
-[node name="BackToMainButton" parent="Buttons" instance=ExtResource("3_vgq1w")]
+[node name="Buttons" type="Node" parent="."]
+
+[node name="QuitButton" parent="Buttons" instance=ExtResource("3_vgq1w")]
 position = Vector2(20, 944)
 texture = ExtResource("8_naxe8")
 texture_scale = Vector2(2, 2)
 polygon = PackedVector2Array(-1, 31, 56, 39, 142, -1, 138, 26, 142, 75, 126, 79, 120, 104, 75, 106, 72, 104, 30, 113)
-script = ExtResource("7_7ex03")
-scene = "res://src/Scenes/UI/main_menu.tscn"
+script = ExtResource("6_dcvp8")
 
 [node name="OptionsButton" parent="Buttons" instance=ExtResource("3_vgq1w")]
 position = Vector2(167, 953)
@@ -55,6 +133,7 @@ texture = ExtResource("4_vu4aq")
 texture_offset = Vector2(0, 80)
 texture_scale = Vector2(2, 2)
 polygon = PackedVector2Array(-4, -1, 373, -80, 373, -46, 402, -57, 371, 157, 38, 88)
+script = ExtResource("10_bwoma")
 
 [node name="Create" parent="Buttons" instance=ExtResource("3_vgq1w")]
 position = Vector2(116, 769)
@@ -62,10 +141,53 @@ texture = ExtResource("5_t4qaf")
 texture_offset = Vector2(35, 25)
 texture_scale = Vector2(2, 2)
 polygon = PackedVector2Array(-18, -24, 312, 39, 307, 105, -4, 156, -33, 6, -11, 14)
+script = ExtResource("11_w6d5q")
 
-[node name="Background" type="TextureRect" parent="."]
-layout_mode = 0
-offset_right = 3840.0
-offset_bottom = 2160.0
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("2_wun5k")
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Noble" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1397.0
+offset_top = 489.0
+offset_right = -3.0
+offset_bottom = -46.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("13_6igo4")
+expand_mode = 1
+
+[node name="Ranger" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("14_3qdlw")
+expand_mode = 1
+
+[node name="BG" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("15_3mlk5")
+expand_mode = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_ehj80")
+}
+
+[connection signal="resized" from="." to="." method="_resized"]

@@ -8,6 +8,7 @@ extends Node
 
 #@onready var main_scene = get_tree().root.get_node("main_scene")
 @onready var selectedCharacter: PackedScene = null
+var vs_CPU = false
 
 # ------------------ METHODS ------------------ #
 

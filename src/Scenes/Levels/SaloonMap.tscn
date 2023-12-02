@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bxwlwvu72tam5"]
+[gd_scene load_steps=15 format=3 uid="uid://bxwlwvu72tam5"]
 
 [ext_resource type="Script" path="res://src/Scripts/coreMatchController.gd" id="1_orbom"]
 [ext_resource type="PackedScene" uid="uid://7wniehuof4ce" path="res://resources/Maps/saloon.tscn" id="1_vinxw"]
@@ -11,6 +11,68 @@
 [ext_resource type="PackedScene" uid="uid://dmm2q56al3tel" path="res://src/Scenes/Spawns/SpawnPoint.tscn" id="8_dkgit"]
 [ext_resource type="Script" path="res://src/Scenes/Levels/CanvasLayer.gd" id="10_1ligi"]
 [ext_resource type="PackedScene" uid="uid://b8ho0wqibktcr" path="res://src/Scenes/UI/all_player_health_list.tscn" id="11_412a5"]
+
+[sub_resource type="Animation" id="Animation_ei1xj"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Buttons/Host:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(400, 407)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Buttons/Join:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(400, 320)]
+}
+
+[sub_resource type="Animation" id="Animation_5curb"]
+resource_name = "slide_host_and_join"
+length = 0.25
+step = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Buttons/Host:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(400, 407), Vector2(608, 407)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Buttons/Join:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(400, 320), Vector2(624, 251)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_cvgpq"]
+_data = {
+"RESET": SubResource("Animation_ei1xj"),
+"slide_host_and_join": SubResource("Animation_5curb")
+}
 
 [node name="SaloonMap" type="Node3D"]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
@@ -106,3 +168,8 @@ omni_attenuation = 0.482967
 script = ExtResource("10_1ligi")
 
 [node name="PlayerHealthUI" parent="CanvasLayer" instance=ExtResource("11_412a5")]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_cvgpq")
+}

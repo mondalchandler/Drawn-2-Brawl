@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bqevoqj8j120f"
-path="res://.godot/imported/PlayMultiBtn.png-ceddd5bbabed1055595242f24813e130.ctex"
+uid="uid://bd64jbd5h5ltb"
+path="res://.godot/imported/MainNoble.png-c55a3ed20731101415bb1959d50abd1c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://resources/Images/PlayMenuImages/PlayMultiBtn.png"
-dest_files=["res://.godot/imported/PlayMultiBtn.png-ceddd5bbabed1055595242f24813e130.ctex"]
+source_file="res://resources/Images/MainMenuImages/MainNoble.png"
+dest_files=["res://.godot/imported/MainNoble.png-c55a3ed20731101415bb1959d50abd1c.ctex"]
 
 [params]
 
