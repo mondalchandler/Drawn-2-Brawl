@@ -1,6 +1,6 @@
 [gd_scene load_steps=12 format=3 uid="uid://bxwlwvu72tam5"]
 
-[ext_resource type="Script" path="res://src/Scripts/coreMatchController.gd" id="1_orbom"]
+[ext_resource type="Script" path="res://src/Scripts/GameControl/coreMatchController.gd" id="1_orbom"]
 [ext_resource type="PackedScene" uid="uid://7wniehuof4ce" path="res://resources/Maps/saloon.tscn" id="1_vinxw"]
 [ext_resource type="PackedScene" uid="uid://bpukisvm2k7x5" path="res://src/Scenes/Objects/Saloon Objects/low_poly_keg_3.tscn" id="2_o0sdt"]
 [ext_resource type="PackedScene" uid="uid://cgf4k26lgqq7i" path="res://src/Scenes/Objects/Saloon Objects/low_poly_keg_1.tscn" id="3_rpawf"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://cb7fx3es10004"]
 
-[ext_resource type="Script" path="res://src/Scenes/UI/player_card.gd" id="1_j5hcx"]
+[ext_resource type="Script" path="res://src/Scenes/UI/VictoryUI/player_card.gd" id="1_j5hcx"]
 
 [sub_resource type="SystemFont" id="SystemFont_6rpqg"]
 subpixel_positioning = 0

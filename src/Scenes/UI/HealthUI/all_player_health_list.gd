@@ -7,7 +7,7 @@ extends Control
 @onready var mainUI = $"."
 @onready var barList = $MarginContainer/HBoxContainer
 
-var healthBar = load("res://src/Scenes/UI/health_bar.tscn")
+var healthBar = preload("res://src/Scenes/UI/HealthUI/health_bar.tscn")
 var trackingPlayersDict = {}
 
 # ---------------- FUNCTIONS ---------------- #
@@ -16,16 +16,12 @@ var trackingPlayersDict = {}
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	for character in trackingPlayersDict:
-		var curHealth = character.get_meta("Health")
-		var maxHealth = character.get_meta("MaxHealth")
-		
-		trackingPlayersDict[character].value = (curHealth / maxHealth) * 100.0
-		
+		trackingPlayersDict[character].value = (character.health / character.max_health) * 100.0
 
 
 func on_add_player_to_ui(character):
 	var newHealthBar = healthBar.instantiate()
-	var charName = character.get_name()
+	var charName = character.display_name
 	
 	newHealthBar.get_node("PlayerName").text = charName
 	barList.add_child(newHealthBar)
