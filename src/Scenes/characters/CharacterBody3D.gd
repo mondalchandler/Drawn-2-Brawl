@@ -14,6 +14,7 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity") + 25
 
 @onready var cam = get_viewport().get_camera_3d()
 @onready var anim_player = $AnimationPlayer
+@onready var sprite = $Sprite3D
 @onready var pause_menu = $CanvasLayer/PauseMenu
 @onready var char = $"."
 
@@ -22,16 +23,17 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity") + 25
 @onready var floor_shadow = $FloorShadow
 
 @onready var music_player = $"../MusicPlayer"
+
 var spawn_point: Node
+
+@export var knockback : Vector3 = Vector3.ZERO
 
 var default_music_vol 
 var invincible_timer = false
 #var invincible = true
 
-# ---- create a hitbox
-
 # char, offset, dmg_rng, hitstun, kb_len
-var test_hitbox
+var move_controller
 
 var last_direction = Vector3(-.707, 0, -.707)
 
@@ -46,21 +48,11 @@ func get_camera_relative_input(input) -> Vector3:
 	# return camera relative input vector:
 	return cam_forward * input.z + cam_right * input.x
 
-
 func _on_animation_player_animation_finished(anim_name):
-	if anim_name == "melee_attack":
-		test_hitbox._deactivate()
-		pass
-
-
-func _on_hitbox_area_entered(area):
-	# TODO: Let controller know what to do/what was hit
-	pass
-
+	move_controller.anim_finished(anim_name)
 
 func on_pause():
 	music_player.emit_signal("enable_pause_music")
-
 
 func on_unpause():
 	music_player.emit_signal("disable_pause_music")
@@ -69,22 +61,12 @@ func _process(delta):
 	#The following set of code will make the player flash and be invincible while respawning
 	if(invincible_timer == true):
 		invincible_timer = false
-		await get_tree().create_timer(.125).timeout
-		get_node("Sprite3D").hide()
-		await get_tree().create_timer(.125).timeout
-		get_node("Sprite3D").show()
-		await get_tree().create_timer(.125).timeout
-		get_node("Sprite3D").hide()
-		await get_tree().create_timer(.125).timeout
-		get_node("Sprite3D").show()
-		await get_tree().create_timer(.125).timeout
-		get_node("Sprite3D").hide()
-		await get_tree().create_timer(.125).timeout
-		get_node("Sprite3D").show()
-		await get_tree().create_timer(.125).timeout
-		get_node("Sprite3D").hide()
-		await get_tree().create_timer(.125).timeout
-		get_node("Sprite3D").show()
+		for n in 4:
+			await get_tree().create_timer(.125).timeout
+			get_node("Sprite3D").hide()
+			await get_tree().create_timer(.125).timeout
+			get_node("Sprite3D").show()
+		
 #		await get_tree().create_timer(2).timeout
 		set_meta("Invincible", false)
 #		invincible = false
@@ -142,8 +124,8 @@ func _physics_process(delta):
 	if is_on_floor():	
 		if direction:
 			last_direction = direction
-			velocity.x = direction.x * SPEED
-			velocity.z = direction.z * SPEED
+			velocity.x = direction.x * SPEED# + knockback
+			velocity.z = direction.z * SPEED# + knockback
 			
 			if anim_player.is_playing() and anim_player.current_animation == "idle":
 				anim_player.stop()
@@ -154,9 +136,9 @@ func _physics_process(delta):
 				
 			# if player is moving left, flip the sprite
 			if direction.x < 0:
-				$Sprite3D.flip_h = true
+				sprite.flip_h = true
 			else:
-				$Sprite3D.flip_h = false
+				sprite.flip_h = false
 		else:
 			velocity.x = lerp(velocity.x, direction.x * SPEED, delta * 7.0)
 			velocity.z = lerp(velocity.z, direction.z * SPEED, delta * 7.0)
@@ -168,25 +150,31 @@ func _physics_process(delta):
 		
 	move_and_slide()
 	
-	if abs(velocity.y) > 1 and not anim_player.current_animation == "melee_attack":
+	if abs(velocity.y) > 1 and not anim_player.is_playing():
 		anim_player.play("jump")
 	if abs(velocity.y) <= 1 and  anim_player.current_animation == "jump" and is_on_floor():
 		anim_player.play("idle")
-	#if Input.is_action_just_pressed("jump"):
-	#	anim_player.play("jump")
 	
-	if Input.is_action_just_pressed("melee_attack"):
-#		print(str(self.get_node("Hurtbox").get_children()[0].get_children()[0].get_children()[0].get_children()))
-#		self.get_node("Hurtbox").get_children()[0].get_children()[0].get_children()[0].rotation.y = 2
-		if($Sprite3D.flip_h):
-			self.get_node("Hurtbox").rotation.y = PI 
+	if Input.is_action_just_pressed("normal_close"):
+		if (is_on_floor()):
+			move_controller.attack(Move.new("MELEE", "Pistol Whip", [Transform3D(Basis.IDENTITY, Vector3(.5, 0, .5)), [10, 10], 0.1, 0.1, Vector3(4, 4, 4), Vector3(1.2, .8, 1)]))
 		else:
-			self.get_node("Hurtbox").rotation.y = 0
-		if anim_player.is_playing():
-			anim_player.stop()
-		anim_player.play("melee_attack")
-		test_hitbox._activate()
-		# hitbox.monitoring = true
+			move_controller.attack(Move.new("GRAB", "Air Axe", []))
+	if Input.is_action_just_pressed("normal_far"):
+		if (is_on_floor()):
+			move_controller.attack(Move.new("HITSCAN", "One Shot", [[10, 10], 0.2, Vector3(4, 4, 4)]))
+		else:
+			move_controller.attack(Move.new("GRAB", "Throwing Knife", []))
+	if Input.is_action_just_pressed("special_close"):
+		if (is_on_floor()):
+			move_controller.attack(Move.new("GRAB", "Axe Uppercut", []))
+		else:
+			move_controller.attack(Move.new("GRAB", "Shotgun Explosion", []))
+	if Input.is_action_just_pressed("special_far"):
+		if (is_on_floor()):
+			move_controller.attack(Move.new("GRAB", "Three Shot Burst", []))
+		else:
+			move_controller.attack(Move.new("GRAB", "Lasso Pull", []))
 		
 	update_floor_shadow(delta)
 
@@ -195,8 +183,9 @@ func _physics_process(delta):
 signal toggle_game_paused
 
 @onready var test_obj = load("res://src/Scenes/Objects/TestMovingPlatform2.tscn")
-var targeting = false
 @onready var target = get_node("../../Camera3D")
+
+var targeting = false
 var target_number = 0
 
 # when an input is registered
@@ -243,8 +232,4 @@ func _ready():
 	pause_menu.connect("on_pause_menu_close", on_unpause)
 	anim_player.connect("animation_finished", _on_animation_player_animation_finished)
 	
-	test_hitbox = BoxHitbox.new(self, Transform3D(Basis.IDENTITY, Vector3(.5, 0, .5)), [10, 15], 0, 0, Vector3(1.2, .8, 1))
-	test_hitbox.set_debug_mode(true)
-	test_hitbox.mesh_instance.rotation.y = deg_to_rad(45)
-	char.get_node("Hurtbox").add_child(test_hitbox.mesh_instance)
-
+	move_controller = MoveController.new(self, anim_player, sprite, self.get_node("Hurtbox"))
