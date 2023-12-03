@@ -11,8 +11,8 @@ class_name BoxHitbox
 
 # ---------------- METHODS ------------------- #
 
-func _init(char, offset: Transform3D, dmg_rng: Array, hitstun: float, kb_len: float, hitbox_size: Vector3) -> void:
-	super(char, offset, dmg_rng, hitstun, kb_len)
+func _init(char, offset: Transform3D, dmg_rng: Array, hitstun: float, kb_length: float, kb_stg: Vector3, hitbox_size: Vector3, debug_on: bool) -> void:
+	super(char, offset, dmg_rng, hitstun, kb_length, kb_stg, debug_on)
 	
 	# create parent for hitbox
 	var box_mesh = BoxMesh.new()
@@ -20,10 +20,10 @@ func _init(char, offset: Transform3D, dmg_rng: Array, hitstun: float, kb_len: fl
 	
 	self.mesh_instance.mesh = box_mesh
 	self.mesh_instance.transform = offset
+	self.mesh_instance.rotation.y = deg_to_rad(45)
 	
 	self.mesh_instance.scale = hitbox_size
 	self.mesh_instance.visible = false
-	
 	
 	self.mesh_instance.add_child(self)
 	

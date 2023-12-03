@@ -5,8 +5,8 @@ extends CustomButton
 
 func run_task():
 	var character = parent.selectedCharacter
-	if character:
-		
+	
+	if character:		
 		var saloon_setup = func(saloon_scene):
 			saloon_scene.players.push_front(character)
 			# TODO: temp code: add two other players
