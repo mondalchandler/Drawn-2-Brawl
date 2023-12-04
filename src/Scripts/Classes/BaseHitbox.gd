@@ -25,8 +25,9 @@ var hit_chars: Dictionary
 var origin_offset: Transform3D
 
 # determine how long a character cannot act for when hit, and how long a knockback force is applied
-var hitstun_length: float
 var kb_length: float
+var hitstun_length: float
+var knockback_strength: Vector3
 
 # determines if hitboxes should show or not
 var debug_on: bool
@@ -34,22 +35,21 @@ var debug_on: bool
 # ------------------- METHODS --------------------- #
 
 # constructor
-func _init(char, offset: Transform3D, dmg_rng: Array, hitstun: float, kb_len: float) -> void:
+func _init(char, offset: Transform3D, dmg_rng: Array, hitstun: float, kb_length: float, kb_stg: Vector3, debug_on: bool) -> void:
 	self.owner_char = char
 	
+	self.kb_length = kb_length
+	self.knockback_strength = kb_stg
 	self.origin_offset = offset if (offset != null) else Transform3D.IDENTITY
 	self.damage_range = dmg_rng if (dmg_rng != null) else [5, 5]
 	self.hitstun_length = hitstun if (hitstun != null) else 0.5
-	self.kb_length = kb_len if (kb_len != null) else 0.2
 	self.monitoring = false
 	
 	self.hit_chars = {}
 	self.name = "Hitbox"
-	self.debug_on = false
-
-
-func set_debug_mode(state: bool) -> void:
-	self.debug_on = state
+	self.monitoring = false
+	
+	self.debug_on = debug_on
 
 
 # turns on hitbox monitoring and refreshes hit character dictionary
@@ -78,7 +78,7 @@ func _calc_kb_vector(enemChar) -> Vector3:
 
 # determines if a hit node is a character. chars have hurtboxes and health
 func node_is_char(node) -> bool:
-	return node.get_node_or_null("Hurtbox") != null and node.get_meta("Health") and node.get_meta("MaxHealth")
+	return node.get_node_or_null("Hurtbox") != null and node.health and node.max_health
 
 
 # overrideable virtual method.
@@ -91,30 +91,36 @@ func _after_hit_computation(char, dmg) -> void:
 	pass
 
 
-# TODO: Implement stun system
 func deal_stun(hit_char) -> void:
-	pass
+	hit_char.can_move = false
+	var stun_tween = hit_char.get_tree().create_tween()
+	stun_tween.tween_property(hit_char, "can_move", true, hitstun_length)
 
 
-# TODO: Implement knockback system
 func deal_kb(hit_char) -> void:
-	pass
+	hit_char.knockback = knockback_strength
+	var knockback_tween = hit_char.get_tree().create_tween()
+	knockback_tween.tween_property(hit_char, "knockback", Vector3.ZERO, kb_length)
 
 
 # computes a damage value, then updates an enemy char's hp value
 func deal_dmg(hit_char) -> int:
-	if not hit_char.get_meta("Invincible"):
+	if not hit_char.invincible:
 		var dmg = randi() % (self.damage_range[1] - self.damage_range[0] + 1) + self.damage_range[0]
-		var new_hp = hit_char.get_meta("Health") - dmg
+		var new_hp = hit_char.health - dmg
 		if new_hp < 0:
 			new_hp = 0
-		hit_char.set_meta("Health", new_hp)
+		hit_char.health = new_hp
 		return dmg
 	else:
 		return 0
 
 
 func on_hit(hit_char) -> void:
+	# NOTES FOR FUTURE, we will probs need to pass in the specific move, or attributes of said
+	# move so that we know what the effects should be. Should it stun/kb? If kb, what's the
+	# intensity/specific kb effect?
+	
 	self._before_hit_computation(hit_char)
 	
 	# deal values to character

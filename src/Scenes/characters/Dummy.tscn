@@ -1,0 +1,145 @@
+[gd_scene load_steps=18 format=3 uid="uid://bs7wdf3lvb22c"]
+
+[ext_resource type="Script" path="res://src/Scripts/Classes/CharacterController.gd" id="1_ap6vf"]
+[ext_resource type="PackedScene" uid="uid://cojs7ish64cv5" path="res://src/Scenes/UI/BillboardUI/billboard_sprite_3d.tscn" id="2_pxg65"]
+[ext_resource type="Texture2D" uid="uid://cy1c4viyud1mk" path="res://resources/Images/Animations/Dummy/Core/DummyIdleColor.png" id="4_wdr6w"]
+[ext_resource type="PackedScene" uid="uid://du1ce84fu4a65" path="res://src/Scenes/UI/pause_menu.tscn" id="10_iwkr5"]
+[ext_resource type="Texture2D" uid="uid://bpeb0ux7smvj2" path="res://resources/Images/whiteCircle.png" id="11_8c6mg"]
+[ext_resource type="Texture2D" uid="uid://cwhdc0fkgp4k0" path="res://resources/Images/whiteBlurCircle.png" id="12_4353b"]
+[ext_resource type="Texture2D" uid="uid://bx5ukutk4wum3" path="res://resources/Images/arrow_down.png" id="13_bijuc"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_fci0j"]
+viewport_path = NodePath("BillboardViewport")
+
+[sub_resource type="Animation" id="Animation_3cxny"]
+resource_name = "idle"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CharacterSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.7, 1.2, 1.4, 1.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 1, 3, 4]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_bchoe"]
+_data = {
+"idle": SubResource("Animation_3cxny")
+}
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_y3gwe"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/sync = true
+properties/0/watch = false
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sn8c4"]
+height = 1.10297
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_b6h1n"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_u83ke"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_hq702"]
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_ata2m"]
+states/End/position = Vector2(954, 166)
+states/Start/position = Vector2(415, 166)
+states/idle/node = SubResource("AnimationNodeAnimation_b6h1n")
+states/idle/position = Vector2(687, 166)
+transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_u83ke"), "idle", "End", SubResource("AnimationNodeStateMachineTransition_hq702")]
+graph_offset = Vector2(0, 119.828)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_dd71v"]
+viewport_path = NodePath("BillboardViewport")
+
+[node name="DummyCharacter" type="CharacterBody3D"]
+motion_mode = 1
+platform_floor_layers = 4294967294
+script = ExtResource("1_ap6vf")
+display_name = "Dummy"
+floor_indicator_enabled = false
+can_player_input = false
+_show_debug_info = false
+
+[node name="DebugInfo" parent="." instance=ExtResource("2_pxg65")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.21122, 2.46423)
+pixel_size = 0.015
+texture = SubResource("ViewportTexture_fci0j")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+playback_process_mode = 2
+speed_scale = 2.5
+method_call_mode = 1
+libraries = {
+"": SubResource("AnimationLibrary_bchoe")
+}
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+root_path = NodePath("../..")
+replication_config = SubResource("SceneReplicationConfig_y3gwe")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="PauseMenu" parent="CanvasLayer" instance=ExtResource("10_iwkr5")]
+
+[node name="CharacterSprite" type="Sprite3D" parent="."]
+transform = Transform3D(0.33, 0, 0, 0, 0.33, 0, 0, 0, 0.33, 0, -0.269739, 0)
+billboard = 1
+shaded = true
+texture = ExtResource("4_wdr6w")
+vframes = 5
+frame = 1
+
+[node name="Hurtbox" type="CollisionShape3D" parent="."]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, -0.302027, 0)
+shape = SubResource("CapsuleShape3D_sn8c4")
+
+[node name="FloorRing" type="Decal" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00604342, -0.884379, -0.0541416)
+visible = false
+size = Vector3(1.75, 0.541, 1.75)
+texture_albedo = ExtResource("11_8c6mg")
+emission_energy = 0.25
+modulate = Color(1, 1, 0, 1)
+upper_fade = 1e-05
+lower_fade = 1e-05
+metadata/goal_albedo_mix = 1.0
+
+[node name="FloorShadow" type="Decal" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00673626, -0.891057, -0.053015)
+size = Vector3(2.25, 0.321, 2.25)
+texture_albedo = ExtResource("12_4353b")
+emission_energy = 0.1
+modulate = Color(0.196078, 0.196078, 0.196078, 1)
+upper_fade = 0.0001
+lower_fade = 1e-05
+
+[node name="FloorRaycast" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.46114e-05, -1.09399, 0.000412941)
+target_position = Vector3(0, -10, 0)
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource("AnimationNodeStateMachine_ata2m")
+anim_player = NodePath("../AnimationPlayer")
+active = true
+
+[node name="PlayerNametag" parent="." instance=ExtResource("2_pxg65")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.859205, 0)
+pixel_size = 0.02
+texture = SubResource("ViewportTexture_dd71v")
+text = "Dummy"
+
+[node name="TargetArrow" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.41769, 0)
+visible = false
+pixel_size = 0.0002
+billboard = 1
+texture = ExtResource("13_bijuc")
