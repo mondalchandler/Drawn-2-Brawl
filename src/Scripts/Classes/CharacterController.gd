@@ -19,6 +19,7 @@ const TARGET_ARROW_DEFAULT_SIZE: float = 0.0002
 @export var max_health: float = 100
 @export var display_name: String = "TestCharacter"
 @export var in_game: bool = true
+@export var knockback : Vector3 = Vector3.ZERO
 
 @export var speed: float = 5.0
 @export var air_speed: float = 5.0
@@ -32,6 +33,7 @@ const TARGET_ARROW_DEFAULT_SIZE: float = 0.0002
 @export var blocking: bool = false
 @export var grabbing: bool = false
 @export var dodging: bool = false
+@export var can_move = true
 
 @export var floor_indicator_enabled: bool = true
 @export var can_player_input: bool = true
@@ -51,6 +53,7 @@ var _state: PlayerState = PlayerState.IDLE
 var _flashing_time: float = 0.0
 var _flashing_switch_time: float = 0.0
 var _input_state_text: String = ""
+var _move_controller = null
 
 # ---------------- CLIENT INSTANCES ---------------- #
 
@@ -131,8 +134,8 @@ func _update_movement(delta: float) -> void:
 	if is_on_floor():
 		if move_direction.length() > 0.0:
 			self._state = PlayerState.RUNNING
-			velocity.x = move_direction.x * self.speed
-			velocity.z = move_direction.z * self.speed
+			velocity.x = move_direction.x * self.speed + knockback.x
+			velocity.z = move_direction.z * self.speed + knockback.z
 			
 			# if player is moving left, flip the sprite
 			sprite.flip_h = (move_direction.x < 0)
@@ -140,8 +143,8 @@ func _update_movement(delta: float) -> void:
 			self._state = PlayerState.IDLE
 			
 			#TODO: Lowkey feels weird and could be better
-			velocity.x = lerp(velocity.x, 0.0, delta * 7.0)
-			velocity.z = lerp(velocity.z, 0.0, delta * 7.0)
+			velocity.x = lerp(velocity.x, 0.0, delta * 7.0) + knockback.x
+			velocity.z = lerp(velocity.z, 0.0, delta * 7.0) + knockback.z
 	else:
 		velocity.x = lerp(velocity.x, move_direction.x * self.air_speed, delta * 3.0)
 		velocity.z = lerp(velocity.z, move_direction.z * self.air_speed, delta * 3.0)
@@ -150,6 +153,8 @@ func _update_movement(delta: float) -> void:
 			self._state = PlayerState.JUMPING
 		else:
 			self._state = PlayerState.FALLING
+	if !can_move:
+		velocity = knockback
 			
 	move_and_slide()
 
@@ -202,6 +207,19 @@ func _update_invincible_flash(dt: float) -> void:
 		_flashing_time = 0.0
 		_flashing_switch_time = 0.0
 		sprite.show()
+		
+		
+# -- converts the move name to the type for the move controller
+# -- NOT FULLY IMPLEMENTED DUE TO LACK OF MOVES
+func _move_name_to_type(name):
+	if name == "normal_close":
+		return "MELEE"
+	if name == "normal_far":
+		return ""
+	if name == "special_close":
+		return ""
+	if name == "special_far":
+		return ""
 
 # ---------------- PUBLIC FUNCTIONS ---------------- #
 
@@ -236,6 +254,7 @@ func _init() -> void:
 # -- called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	anim_tree_state_machine.start("idle")
+	_move_controller = MoveController.new(self, $AnimationTree, $CharacterSprite, $Hurtbox)
 
 # -- called when the user inputs anything  
 func _input(event : InputEvent) -> void:
@@ -251,11 +270,14 @@ func _input(event : InputEvent) -> void:
 		velocity.y += jump_power
 	
 	# move inputs
-	_input_state_text = ""
-	for name in MOVE_MAP_NAMES:
-		_input_state_text += "\n" + name + ": " + str(event.is_action_pressed(name))
-		if event.is_action_pressed(name) or event.is_action_released(name):
-			pass	#TODO: link to move controller
+	if event.is_pressed():
+		_input_state_text = ""
+		for name in MOVE_MAP_NAMES:
+			_input_state_text += "\n" + name + ": " + str(event.is_action_pressed(name))
+			if event.is_action_pressed(name) or event.is_action_released(name):
+				var placeholder = Move.new(name, name, [Transform3D(Basis.IDENTITY, Vector3(.5, 0, .5)), [10, 15], 0, 0, Vector3(1, 0, 1), Vector3(1.2, .8, 1)])
+				_move_controller.attack(placeholder)
+				pass	#TODO: link to move controller
 
 # -- updates every frame aswell, but can fluxate or be more consistent since its based on the physics task process
 func _physics_process(delta: float) -> void:
