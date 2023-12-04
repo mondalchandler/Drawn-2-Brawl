@@ -78,7 +78,7 @@ func _calc_kb_vector(enemChar) -> Vector3:
 
 # determines if a hit node is a character. chars have hurtboxes and health
 func node_is_char(node) -> bool:
-	return node.get_node_or_null("Hurtbox") != null and node.get_meta("Health") and node.get_meta("MaxHealth")
+	return node.get_node_or_null("Hurtbox") != null and node.health and node.max_health
 
 
 # overrideable virtual method.
@@ -105,12 +105,12 @@ func deal_kb(hit_char) -> void:
 
 # computes a damage value, then updates an enemy char's hp value
 func deal_dmg(hit_char) -> int:
-	if not hit_char.get_meta("Invincible"):
+	if not hit_char.invincible:
 		var dmg = randi() % (self.damage_range[1] - self.damage_range[0] + 1) + self.damage_range[0]
-		var new_hp = hit_char.get_meta("Health") - dmg
+		var new_hp = hit_char.health - dmg
 		if new_hp < 0:
 			new_hp = 0
-		hit_char.set_meta("Health", new_hp)
+		hit_char.health = new_hp
 		return dmg
 	else:
 		return 0

@@ -13,7 +13,7 @@ extends CanvasLayer
 @onready var main_menu_button: Button = $PanelContainer/MarginContainer/Rows/Options/MainMenuButton
 @onready var player_stats = $PanelContainer/MarginContainer/Rows/MarginContainer/PlayerStats
 
-var player_card = preload("res://src/Scenes/UI/player_card.tscn")
+var player_card = preload("res://src/Scenes/UI/VictoryUI/player_card.tscn")
 var rankings: Array = []
 var previous_match_scene: Node3D
 var level: String

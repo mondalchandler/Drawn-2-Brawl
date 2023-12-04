@@ -10,17 +10,12 @@ func run_task():
 		var saloon_setup = func(saloon_scene):
 			saloon_scene.players.push_front(character)
 			# TODO: temp code: add two other players
-			var test_dummy = load("res://src/Scenes/Characters/AIEnemy.tscn")
-			var test_dummy2 = load("res://src/Scenes/Characters/AIEnemy.tscn")
+			var test_dummy = load("res://src/Scenes/characters/Dummy.tscn")
 			saloon_scene.players.append(test_dummy)
+			var test_dummy2 = load("res://src/Scenes/characters/Dummy.tscn")
 			saloon_scene.players.append(test_dummy2)
+			var test_dummy3 = load("res://src/Scenes/characters/Dummy.tscn")
+			saloon_scene.players.append(test_dummy3)
 		
 		var saloon = main_scene._change_scene("res://src/Scenes/Levels/SaloonMap.tscn", saloon_setup)
 		saloon.spawn_players()
-#	var selectedCharacter = parent.selectedCharacter
-#	if(selectedCharacter!=null):
-#		var root = get_node("../../../")
-#		#The following line will need to be deleted when level select is added
-#		root._change_scene("res://src/Scenes/Levels/SaloonMap.tscn")
-#		root.get_node("SaloonMap").players.push_front(selectedCharacter)
-#		root.get_node("SaloonMap").spawn_players()

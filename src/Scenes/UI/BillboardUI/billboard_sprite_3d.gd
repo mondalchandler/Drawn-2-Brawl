@@ -1,5 +1,8 @@
-extends Area3D
-var spawn_point: Node
+@tool
+
+extends Sprite3D
+
+@export var text: String = "OnlyTwentyCharacters"
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -8,4 +11,5 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	pass
+	$BillboardViewport.size = $BillboardViewport/Label.get_rect().size
+	$BillboardViewport/Label.text = self.text

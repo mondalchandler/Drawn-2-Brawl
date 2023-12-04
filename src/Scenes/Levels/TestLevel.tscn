@@ -1,7 +1,7 @@
 [gd_scene load_steps=21 format=3 uid="uid://1ykk5cdygfdm"]
 
-[ext_resource type="PackedScene" uid="uid://dxaie6k0g5kqw" path="res://src/Scenes/Characters/TemplateCharacter.tscn" id="1_3hibe"]
-[ext_resource type="Script" path="res://src/Scripts/coreMatchController.gd" id="1_udic3"]
+[ext_resource type="PackedScene" path="res://src/Scenes/characters/BaseCharacter.tscn" id="1_3hibe"]
+[ext_resource type="Script" path="res://src/Scripts/GameControl/coreMatchController.gd" id="1_gpcq4"]
 [ext_resource type="PackedScene" uid="uid://c1gbjohht0toa" path="res://src/Scenes/Objects/TestPlatform.tscn" id="2_p30fi"]
 [ext_resource type="PackedScene" uid="uid://c6vahpoil0gw3" path="res://src/Scenes/Objects/TestMovingPlatform.tscn" id="3_t2xjs"]
 [ext_resource type="PackedScene" uid="uid://i651x6gr4qni" path="res://src/Scenes/Objects/TestStaircase.tscn" id="4_r14oo"]
@@ -10,7 +10,8 @@
 [ext_resource type="AudioStream" uid="uid://c1husnq4yjdg2" path="res://resources/Music/TestSong/bassLayer.mp3" id="6_ildc1"]
 [ext_resource type="PackedScene" uid="uid://frlimrjye2tm" path="res://src/Scenes/Characters/AIEnemy.tscn" id="7_eyje3"]
 [ext_resource type="AudioStream" uid="uid://dmkakluxbdvta" path="res://resources/Music/TestSong/leadLayer.mp3" id="7_yatml"]
-[ext_resource type="PackedScene" uid="uid://b8ho0wqibktcr" path="res://src/Scenes/UI/all_player_health_list.tscn" id="10_606jg"]
+[ext_resource type="PackedScene" uid="uid://b8ho0wqibktcr" path="res://src/Scenes/UI/HealthUI/all_player_health_list.tscn" id="10_606jg"]
+[ext_resource type="PackedScene" path="res://src/Scenes/characters/Dummy.tscn" id="10_pc5le"]
 [ext_resource type="Script" path="res://src/Scenes/Levels/CanvasLayer.gd" id="10_r8f68"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_4q1ak"]
@@ -41,7 +42,7 @@ agent_height = 0.0
 [sub_resource type="BoxShape3D" id="BoxShape3D_7vafm"]
 
 [node name="TestLevel" type="Node3D"]
-script = ExtResource("1_udic3")
+script = ExtResource("1_gpcq4")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_jvdpv")
@@ -93,6 +94,14 @@ autoplay = true
 stream = ExtResource("7_yatml")
 volume_db = -23.0
 autoplay = true
+
+[node name="Players" type="Node3D" parent="."]
+
+[node name="BaseCharacter" parent="Players" instance=ExtResource("1_3hibe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.84884, 0)
+
+[node name="DummyCharacter" parent="Players" instance=ExtResource("10_pc5le")]
+transform = Transform3D(1, 0, 0, 0, 0.999147, -0.0412828, 0, 0.0412828, 0.999147, -2.88569, 2.0806, 0)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 script = ExtResource("10_r8f68")
