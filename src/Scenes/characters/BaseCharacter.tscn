@@ -14,8 +14,23 @@
 [ext_resource type="PackedScene" uid="uid://cojs7ish64cv5" path="res://src/Scenes/UI/BillboardUI/billboard_sprite_3d.tscn" id="12_k1dtu"]
 [ext_resource type="Texture2D" uid="uid://bx5ukutk4wum3" path="res://resources/Images/arrow_down.png" id="13_wjfwb"]
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_tifn3"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_nm4fi"]
 viewport_path = NodePath("BillboardViewport")
+
+[sub_resource type="Animation" id="Animation_gcqbo"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CharacterSprite:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("8_6mbl0")]
+}
 
 [sub_resource type="Animation" id="Animation_3cxny"]
 resource_name = "idle"
@@ -50,23 +65,6 @@ tracks/0/keys = {
 "values": [ExtResource("7_ult6u")]
 }
 
-[sub_resource type="Animation" id="Animation_727vt"]
-resource_name = "run"
-length = 0.60001
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("CharacterSprite:texture")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.3),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [ExtResource("5_6knjl"), ExtResource("4_xct1f")]
-}
-
 [sub_resource type="Animation" id="Animation_0mbgy"]
 resource_name = "normal_close"
 length = 0.2
@@ -83,8 +81,10 @@ tracks/0/keys = {
 "values": [ExtResource("8_6mbl0"), ExtResource("9_po3d5")]
 }
 
-[sub_resource type="Animation" id="Animation_gcqbo"]
-length = 0.001
+[sub_resource type="Animation" id="Animation_727vt"]
+resource_name = "run"
+length = 0.60001
+loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -92,10 +92,10 @@ tracks/0/path = NodePath("CharacterSprite:texture")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [ExtResource("8_6mbl0")]
+"values": [ExtResource("5_6knjl"), ExtResource("4_xct1f")]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_bchoe"]
@@ -159,7 +159,7 @@ states/run/position = Vector2(651, 290.523)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_u83ke"), "idle", "run", SubResource("AnimationNodeStateMachineTransition_gvbk0"), "idle", "jump", SubResource("AnimationNodeStateMachineTransition_ysa4w"), "idle", "End", SubResource("AnimationNodeStateMachineTransition_hq702"), "jump", "idle", SubResource("AnimationNodeStateMachineTransition_0gub3"), "run", "idle", SubResource("AnimationNodeStateMachineTransition_lah6g"), "idle", "normal_close", SubResource("AnimationNodeStateMachineTransition_psxqy"), "normal_close", "idle", SubResource("AnimationNodeStateMachineTransition_qfppb")]
 graph_offset = Vector2(0, 41.4589)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_hygt6"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_e4qqm"]
 viewport_path = NodePath("BillboardViewport")
 
 [node name="BaseCharacter" type="CharacterBody3D"]
@@ -170,7 +170,7 @@ anim_speed_scale = 2.0
 [node name="DebugInfo" parent="." instance=ExtResource("12_k1dtu")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.21122, 2.46423)
 pixel_size = 0.015
-texture = SubResource("ViewportTexture_tifn3")
+texture = SubResource("ViewportTexture_nm4fi")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 speed_scale = 2.0
@@ -188,7 +188,7 @@ replication_config = SubResource("SceneReplicationConfig_y3gwe")
 [node name="PauseMenu" parent="CanvasLayer" instance=ExtResource("3_m33b8")]
 
 [node name="CharacterSprite" type="Sprite3D" parent="."]
-transform = Transform3D(0.33, 0, 0, 0, 0.33, 0, 0, 0, 0.33, 0, -0.269739, 0)
+transform = Transform3D(0.5, 0, 0, 0, 0.7, 0, 0, 0, 0.5, 0, -0.269739, 0)
 billboard = 1
 shaded = true
 texture = ExtResource("8_6mbl0")
@@ -229,7 +229,7 @@ process_callback = 2
 [node name="PlayerNametag" parent="." instance=ExtResource("12_k1dtu")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.859205, 0)
 pixel_size = 0.02
-texture = SubResource("ViewportTexture_hygt6")
+texture = SubResource("ViewportTexture_e4qqm")
 
 [node name="TargetArrow" type="Sprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.41769, 0)
