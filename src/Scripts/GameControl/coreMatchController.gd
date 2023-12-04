@@ -33,13 +33,13 @@ func spawn_players():
 
 
 func insert_char_into_next_available_slot(char):
-	rankings.insert(0, char.name)
+	rankings.insert(0, char.display_name)
 	return
 
 
 func update_players():
 	for char in players_node.get_children():
-		if not char.is_alive():
+		if not char.is_alive() and char.in_game:
 			char.in_game = false
 			insert_char_into_next_available_slot(char)
 

@@ -132,7 +132,8 @@ func on_hit(hit_char) -> void:
 
 
 func node_is_object(node):
-	return node.get_node_or_null("Destruction") != null
+	#return node.get_node_or_null("Destruction") != null
+	return false;
 
 
 # determines if a hit node is a player
