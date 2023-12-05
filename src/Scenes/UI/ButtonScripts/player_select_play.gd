@@ -1,7 +1,6 @@
 extends CustomButton
 
 @onready var parent = get_node("../../")
-@onready var main_scene = get_tree().root.get_node("main_scene")
 
 func run_task():
 	var character = parent.selectedCharacter

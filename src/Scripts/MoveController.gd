@@ -17,11 +17,11 @@ var debug_on = true
 # ---------------- FUNCTIONS ---------------- #
 
 func attack(move):
-	self.move_name = move.move_name
-	
 	
 	if !(owner_char.anim_tree_state_machine.get_current_node() in owner_char.MOVE_MAP_NAMES):
-	# do the specific action
+		self.move_name = move.move_name
+		
+		# do the specific action
 		match move.move_type:
 			"normal_close":
 				hitbox = BoxHitbox.new(owner_char, move.move_data[0], move.move_data[1], move.move_data[2], move.move_data[3], move.move_data[4], move.move_data[5], debug_on)
@@ -38,7 +38,7 @@ func attack(move):
 				pass
 			"special_far":
 				pass
-				
+			
 			"GRAB":
 				pass
 			"GRAPPLE":
@@ -50,11 +50,11 @@ func attack(move):
 			"PROJECTILE":
 				pass
 			
-		play_animation()
+		play_animation(move.move_type)
 
 
-func play_animation():
-	owner_char.anim_tree_state_machine.travel("normal_close")
+func play_animation(move_type: String):
+	owner_char.anim_tree_state_machine.travel(move_type)
 #	if anim_player.is_playing():
 #		anim_player.stop()
 #	anim_player.play(move_name)

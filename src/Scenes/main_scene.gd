@@ -4,6 +4,10 @@
 
 extends Node
 
+# ------------------ VARIABLES ------------------ #
+
+@onready var music_node: Node = $MusicNode
+
 # ------------------ METHODS ------------------ #
 
 #The following method will change the current scene to the scene at a given path.
@@ -15,7 +19,8 @@ func _change_scene(scene_path: String, optional_setup_callback = null):
 	
 	# clear everything in the main scene
 	for i in self.get_children():
-		i.queue_free()
+		if i != music_node:
+			i.queue_free()
 	
 	# if the callback is provided, use it
 	if optional_setup_callback:
@@ -25,3 +30,5 @@ func _change_scene(scene_path: String, optional_setup_callback = null):
 	self.add_child(new_scene)
 	
 	return new_scene
+
+
