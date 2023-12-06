@@ -14,7 +14,7 @@ const TARGET_ARROW_DEFAULT_SIZE: float = 0.0002
 # ---------------- PROPERTIES ---------------- #
 
 # note: you can use self to refer to the character
-@export var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
+@export var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity") + 15
 @export var health: float = 100
 @export var max_health: float = 100
 @export var display_name: String = "TestCharacter"
@@ -23,7 +23,7 @@ const TARGET_ARROW_DEFAULT_SIZE: float = 0.0002
 
 @export var speed: float = 5.0
 @export var air_speed: float = 5.0
-@export var jump_power: float = 4.5
+@export var jump_power: float = 15
 
 @export var move_direction: Vector3 = Vector3.ZERO
 
@@ -75,6 +75,7 @@ var _move_controller = null
 @onready var players: Node = self.get_parent()
 	
 @onready var target_arrow: Sprite3D = $TargetArrow
+@onready var pause_menu_layer: PauseLayer = $PauseLayer
 
 # ---------------- SIGNALS ---------------- #
 
@@ -256,9 +257,16 @@ func _ready() -> void:
 	anim_tree_state_machine.start("idle")
 	_move_controller = MoveController.new(self, $AnimationTree, $CharacterSprite, $Hurtbox)
 
+
 # -- called when the user inputs anything  
 func _input(event : InputEvent) -> void:
 	if not can_player_input:
+		return
+	
+	if event.is_action_pressed("pause"):
+		pause_menu_layer.toggle()
+	
+	if pause_menu_layer.is_open():
 		return
 	
 	# targetting
@@ -275,7 +283,7 @@ func _input(event : InputEvent) -> void:
 		for name in MOVE_MAP_NAMES:
 			_input_state_text += "\n" + name + ": " + str(event.is_action_pressed(name))
 			if event.is_action_pressed(name) or event.is_action_released(name):
-				var placeholder = Move.new(name, name, [Transform3D(Basis.IDENTITY, Vector3(.5, 0, .5)), [10, 15], 0, 0, Vector3(1, 0, 1), Vector3(1.2, .8, 1)])
+				var placeholder = Move.new(name, name, [Transform3D(Basis.IDENTITY, Vector3(1, .5, .6)), [10, 15], 0, 0, Vector3(1, 0, 1), Vector3(1.2, 2, 1.3)])
 				_move_controller.attack(placeholder)
 				pass	#TODO: link to move controller
 

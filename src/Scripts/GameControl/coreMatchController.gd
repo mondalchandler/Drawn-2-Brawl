@@ -16,7 +16,7 @@ enum GameMode {POINTS, LIVES}
 @export var gamemode: GameMode = GameMode.LIVES
 
 var match_ended: bool = false
-var rankings: Array = [[], [], [], []]
+var rankings = Array()
 var players: Array = []
 var match_started: bool = false
 
@@ -34,15 +34,13 @@ func spawn_players():
 
 
 func insert_char_into_next_available_slot(char):
-	for placement in rankings:
-		if placement.size() == 0:
-			placement.append(char.display_name)
-			return
+	rankings.insert(0, char.display_name)
+	return
 
 
 func update_players():
 	for char in players_node.get_children():
-		if not char.is_alive():
+		if not char.is_alive() and char.in_game:
 			char.in_game = false
 			insert_char_into_next_available_slot(char)
 
@@ -86,7 +84,7 @@ func _process(delta):
 		insert_char_into_next_available_slot(current_alive_players[0])
 		
 		var victory_screen_setup = func(victory_scene):
-			victory_scene.rankings = rankings
+			victory_scene.rankings.assign(rankings)
 			victory_scene.level = self.name
 			victory_scene.players = players
 			print(victory_scene.rankings)

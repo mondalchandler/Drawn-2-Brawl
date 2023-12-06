@@ -15,7 +15,7 @@ extends CanvasLayer
 @onready var player_stats = $PanelContainer/MarginContainer/Rows/MarginContainer/PlayerStats
 
 var player_card = preload("res://src/Scenes/UI/VictoryUI/player_card.tscn")
-var rankings: Array = []
+var rankings = Array()
 var previous_match_scene: Node3D
 var level: String
 var players = []
@@ -62,14 +62,14 @@ func _ready():
 	main_menu_button.pressed.connect(on_main_menu)
 	
 	var size = rankings.size()
-	for placement in range(size - 1, -1, -1):
-		var names_in_placement = rankings[placement]
-		if names_in_placement.size() > 0:
-			var char_name = names_in_placement[0]
-			if char_name:
-				var new_card = player_card.instantiate()
-				new_card.player_name = char_name
-				new_card.placement = rankings.size() - (placement)
-				player_stats.add_child(new_card)
+	var placement = 0
+	if size > 0:
+		for player in rankings:
+			var char_name = rankings[placement]
+			var new_card = player_card.instantiate()
+			new_card.player_name = char_name
+			placement = placement + 1 
+			new_card.placement = placement
+			player_stats.add_child(new_card)
 
 
