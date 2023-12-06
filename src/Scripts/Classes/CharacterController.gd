@@ -8,7 +8,7 @@ extends CharacterBody3D
 # ---------------- CONSTANTS ---------------- #
 
 const FLASH_DELAY: float = 0.125
-const MOVE_MAP_NAMES = ["normal_close", "normal_far", "special_close", "special_far"]
+const MOVE_MAP_NAMES = ["ground_nc", "ground_nf", "ground_sc", "ground_sf", "air_nc", "air_nf", "air_sc", "air_sf"]
 const TARGET_ARROW_DEFAULT_SIZE: float = 0.0002
 
 # ---------------- PROPERTIES ---------------- #
@@ -38,6 +38,15 @@ const TARGET_ARROW_DEFAULT_SIZE: float = 0.0002
 @export var floor_indicator_enabled: bool = true
 @export var can_player_input: bool = true
 @export var _show_debug_info: bool = true
+
+@export var ground_nc: Move = null
+@export var ground_nf: Move = null
+@export var ground_sc: Move = null
+@export var ground_sf: Move = null
+@export var air_nc: Move = null
+@export var air_nf: Move = null
+@export var air_sc: Move = null
+@export var air_sf: Move = null
 
 # Enums
 enum PlayerState { IDLE, RUNNING, JUMPING, FALLING, KNOCKBACK}
@@ -128,7 +137,7 @@ func _update_core_animations() -> void:
 	elif _state == PlayerState.JUMPING:
 		anim_tree_state_machine.travel("jump")
 	elif _state == PlayerState.FALLING:
-		anim_tree_state_machine.travel("fall")
+		anim_tree_state_machine.travel("jump")
 
 # -- update the velocities of the character and then apply them
 func _update_movement(delta: float) -> void:
@@ -213,13 +222,21 @@ func _update_invincible_flash(dt: float) -> void:
 # -- converts the move name to the type for the move controller
 # -- NOT FULLY IMPLEMENTED DUE TO LACK OF MOVES
 func _move_name_to_type(name):
-	if name == "normal_close":
-		return "MELEE"
-	if name == "normal_far":
+	if name == "ground_nc":
 		return ""
-	if name == "special_close":
+	if name == "ground_nf":
 		return ""
-	if name == "special_far":
+	if name == "ground_sc":
+		return ""
+	if name == "ground_sf":
+		return ""
+	if name == "air_nc":
+		return ""
+	if name == "air_nf":
+		return ""
+	if name == "air_sc":
+		return ""
+	if name == "air_sf":
 		return ""
 
 # ---------------- PUBLIC FUNCTIONS ---------------- #
@@ -254,6 +271,7 @@ func _init() -> void:
 
 # -- called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	print(ground_nc)
 	anim_tree_state_machine.start("idle")
 	_move_controller = MoveController.new(self, $AnimationTree, $CharacterSprite, $Hurtbox)
 
@@ -280,12 +298,32 @@ func _input(event : InputEvent) -> void:
 	# move inputs
 	if event.is_pressed():
 		_input_state_text = ""
+		
+		# TODO: MoveController requires that the move animation name be in the MOVE_MAP_NAMES array
+		#		in order to spawn the hitbox correctly. This required creating 4 extra states
+		#		since each input has 2 outcomes (1 for on ground, 1 for in air). As a result, the
+		#		input will not match with what move is actually being output in the debugger text.
 		for name in MOVE_MAP_NAMES:
 			_input_state_text += "\n" + name + ": " + str(event.is_action_pressed(name))
-			if event.is_action_pressed(name) or event.is_action_released(name):
-				var placeholder = Move.new(name, name, [Transform3D(Basis.IDENTITY, Vector3(1, .5, .6)), [10, 15], 0, 0, Vector3(1, 0, 1), Vector3(1.2, 2, 1.3)])
-				_move_controller.attack(placeholder)
-				pass	#TODO: link to move controller
+		
+		if is_on_floor():
+			if event.is_action_pressed("normal_close"):
+				_move_controller.attack(ground_nc)
+			if event.is_action_pressed("normal_far"):
+				_move_controller.attack(ground_nf)
+			if event.is_action_pressed("special_close"):
+				_move_controller.attack(ground_sc)
+			if event.is_action_pressed("special_far"):
+				_move_controller.attack(ground_sf)
+		else:
+			if event.is_action_pressed("normal_close"):
+				_move_controller.attack(air_nc)
+			if event.is_action_pressed("normal_far"):
+				_move_controller.attack(air_nf)
+			if event.is_action_pressed("special_close"):
+				_move_controller.attack(air_sc)
+			if event.is_action_pressed("special_far"):
+				_move_controller.attack(air_sf)
 
 # -- updates every frame aswell, but can fluxate or be more consistent since its based on the physics task process
 func _physics_process(delta: float) -> void:
