@@ -88,6 +88,7 @@ mouse_filter = 2
 script = ExtResource("1_5m3be")
 
 [node name="Background" type="TextureRect" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -145,8 +146,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 1397.0
 offset_top = 489.0
-offset_right = 9597.0
-offset_bottom = 5354.0
+offset_right = -3.0
+offset_bottom = -46.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("13_6igo4")
@@ -157,8 +158,6 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = 9600.0
-offset_bottom = 5400.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("14_3qdlw")

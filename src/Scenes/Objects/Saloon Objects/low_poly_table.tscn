@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://e362h77uj4i3"]
+[gd_scene load_steps=8 format=3 uid="uid://7kehmljriqbk"]
 
 [ext_resource type="Script" path="res://addons/destruction/destruction.gd" id="1_57rjh"]
 [ext_resource type="Script" path="res://src/Scripts/DestructibleObjects.gd" id="1_dnsf6"]
@@ -61,4 +61,5 @@ shape = SubResource("ConvexPolygonShape3D_141yb")
 [node name="Destruction" type="Node" parent="." node_paths=PackedStringArray("shard_container")]
 script = ExtResource("1_57rjh")
 fragmented = ExtResource("2_nfksc")
+scales = null
 shard_container = NodePath("")

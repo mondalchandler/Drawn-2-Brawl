@@ -17,6 +17,7 @@ extends Polygon2D
 @onready var default_res_y: float = 1080
 
 @onready var tempo_spring: Spring = Spring.new(0)
+@export var pulse_with_music : bool = true
 
 var default_scale
 
@@ -38,7 +39,8 @@ func run_task():
 
 
 func _on_pulse(beat_count):
-	tempo_spring.impulse(1.25 + (1 if beat_count % 2 == 0 else 0))
+	if pulse_with_music:
+		tempo_spring.impulse(1.25 + (1 if beat_count % 2 == 0 else 0))
 	pass
 	#
 	#print(tempo_spring.speed, tempo_spring.damper)
