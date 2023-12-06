@@ -11,51 +11,35 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_5m3be")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
-layout_mode = 1
-offset_left = 65.0
-offset_top = 217.0
-offset_right = 106.0
-offset_bottom = 263.0
-scale = Vector2(7, 7)
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 325.0
+offset_top = 209.0
+offset_right = 598.0
+offset_bottom = 380.0
+scale = Vector2(1.59231, 1.59231)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
-layout_mode = 2
-
-[node name="Play" type="Button" parent="MarginContainer/VBoxContainer"]
+[node name="Play" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 text = "Play"
 
-[node name="MarginContainer2" type="MarginContainer" parent="."]
-layout_mode = 1
-offset_left = 72.0
-offset_top = 544.0
-offset_right = 142.0
-offset_bottom = 584.0
-scale = Vector2(4, 4)
-
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer2"]
+[node name="Multiplayer" type="Button" parent="VBoxContainer"]
 layout_mode = 2
+text = "Play Multiplayer"
 
-[node name="Options" type="Button" parent="MarginContainer2/VBoxContainer"]
+[node name="Login" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Login"
+
+[node name="Options" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 text = "Options"
 
-[node name="MarginContainer3" type="MarginContainer" parent="."]
-layout_mode = 1
-offset_left = 72.0
-offset_top = 747.0
-offset_right = 114.0
-offset_bottom = 778.0
-scale = Vector2(4, 4)
-
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer3"]
-layout_mode = 2
-
-[node name="Quit" type="Button" parent="MarginContainer3/VBoxContainer"]
+[node name="Quit" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 text = "Quit"
 
-[connection signal="pressed" from="MarginContainer/VBoxContainer/Play" to="." method="_on_play_pressed"]
-[connection signal="pressed" from="MarginContainer2/VBoxContainer/Options" to="." method="_on_options_pressed"]
-[connection signal="pressed" from="MarginContainer3/VBoxContainer/Quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="VBoxContainer/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="VBoxContainer/Multiplayer" to="." method="_on_multiplayer_pressed"]
+[connection signal="pressed" from="VBoxContainer/Options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="VBoxContainer/Quit" to="." method="_on_quit_pressed"]

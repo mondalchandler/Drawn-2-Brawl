@@ -16,6 +16,8 @@ var rankings: Array = [[], [], [], []]
 var players: Array = []
 var match_started: bool = false
 
+var PlayerScene = preload("res://src/Scenes/characters/templateCharacter.tscn")
+
 # --------------- FUNCTIONS ----------------- #
 
 func spawn_players():
@@ -76,3 +78,38 @@ func _process(delta):
 			victory_scene.level = self.name
 			victory_scene.players = players
 		main_scene._change_scene("res://src/Scenes/UI/victory_screen.tscn", victory_screen_setup)
+
+
+func _ready():
+	if "--server" in OS.get_cmdline_args():
+		start_network(true, 4242)
+	else:
+		start_network(false, 4242)
+		
+		
+func start_network(server: bool, port: int):
+	var peer = ENetMultiplayerPeer.new()
+	if server:
+		multiplayer.peer_connected.connect(self.create_player)
+		multiplayer.peer_disconnected.connect(self.destroy_player)
+		
+		peer.create_server(port)
+		print('server listening on localhost %d' % port)
+	else:
+		var targetIP = "localhost"
+		peer.create_client(targetIP, port)
+
+	multiplayer.multiplayer_peer = peer
+
+func create_player(id):
+	# Instantiate a new player for this client.
+	var p = PlayerScene.instantiate()
+
+	# Set the name, so players can figure out their local authority
+	p.name = str(id)
+	
+	$NetworkedNodes.add_child(p)
+	
+func destroy_player(id):
+	# Delete this peer's node.
+	$NetworkedNodes.get_node(str(id)).queue_free()

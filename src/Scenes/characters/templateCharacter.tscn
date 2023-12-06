@@ -103,6 +103,10 @@ properties/0/path = NodePath(".:position")
 properties/0/spawn = true
 properties/0/sync = true
 properties/0/watch = false
+properties/1/path = NodePath("Sprite3D:flip_h")
+properties/1/spawn = false
+properties/1/sync = false
+properties/1/watch = false
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sn8c4"]
 height = 1.10297
@@ -124,7 +128,7 @@ libraries = {
 }
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-root_path = NodePath("../..")
+replication_interval = 0.05
 replication_config = SubResource("SceneReplicationConfig_y3gwe")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
@@ -134,10 +138,9 @@ replication_config = SubResource("SceneReplicationConfig_y3gwe")
 [node name="Sprite3D" type="Sprite3D" parent="."]
 transform = Transform3D(0.33, 0, 0, 0, 0.33, 0, 0, 0, 0.33, 0, -0.269739, 0)
 billboard = 1
-
 shaded = true
 alpha_cut = 2
-texture = ExtResource("6_gncxh")
+texture = ExtResource("5_6knjl")
 
 [node name="Hurtbox" type="CollisionShape3D" parent="."]
 transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, -0.302027, 0)

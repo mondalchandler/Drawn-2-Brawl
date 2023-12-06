@@ -1,0 +1,90 @@
+[gd_scene load_steps=2 format=3 uid="uid://ckidyhlsikc1d"]
+
+[ext_resource type="Script" path="res://src/Scenes/UI/multiplayer.gd" id="1_daa1b"]
+
+[node name="multiplayer" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_daa1b")
+
+[node name="Room Ctrl" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 160.0
+offset_top = 270.0
+offset_right = 369.0
+offset_bottom = 438.0
+
+[node name="Create Room" type="Button" parent="Room Ctrl"]
+layout_mode = 2
+text = "Create Room"
+
+[node name="Join Room" type="Button" parent="Room Ctrl"]
+layout_mode = 2
+text = "Join Room"
+
+[node name="Back" type="Button" parent="Room Ctrl"]
+layout_mode = 2
+text = "Back"
+
+[node name="Create Ctrl" type="VBoxContainer" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 690.0
+offset_top = 276.0
+offset_right = 890.0
+offset_bottom = 372.0
+
+[node name="Room Name Label" type="Label" parent="Create Ctrl"]
+layout_mode = 2
+text = "Room Name:"
+
+[node name="Room Name" type="LineEdit" parent="Create Ctrl"]
+layout_mode = 2
+
+[node name="Port Label" type="Label" parent="Create Ctrl"]
+layout_mode = 2
+text = "Port:"
+
+[node name="Port" type="LineEdit" parent="Create Ctrl"]
+layout_mode = 2
+
+[node name="Submit" type="Button" parent="Create Ctrl"]
+layout_mode = 2
+text = "Submit"
+
+[node name="Join Ctrl" type="VBoxContainer" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 681.0
+offset_top = 279.0
+offset_right = 881.0
+offset_bottom = 375.0
+
+[node name="Port Label" type="Label" parent="Join Ctrl"]
+layout_mode = 2
+text = "Port:"
+
+[node name="Port" type="LineEdit" parent="Join Ctrl"]
+layout_mode = 2
+
+[node name="Submit" type="Button" parent="Join Ctrl"]
+layout_mode = 2
+text = "Submit"
+
+[node name="Output" type="Label" parent="."]
+layout_mode = 0
+offset_left = 511.0
+offset_top = 525.0
+offset_right = 575.0
+offset_bottom = 551.0
+text = "[output]"
+
+[connection signal="pressed" from="Room Ctrl/Create Room" to="." method="_on_create_room_pressed"]
+[connection signal="pressed" from="Room Ctrl/Join Room" to="." method="_on_join_room_pressed"]
+[connection signal="pressed" from="Room Ctrl/Back" to="." method="_on_back_pressed"]
+[connection signal="pressed" from="Create Ctrl/Submit" to="." method="_on_join_submit_pressed"]
+[connection signal="pressed" from="Join Ctrl/Submit" to="." method="_on_create_submit_pressed"]

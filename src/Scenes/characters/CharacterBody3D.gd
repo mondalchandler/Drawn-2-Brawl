@@ -35,6 +35,13 @@ var test_hitbox
 
 var last_direction = Vector3(-.707, 0, -.707)
 
+var dir_left = "move_left"
+var dir_right = "move_right"
+var dir_forward = "move_forward"
+var dir_back = "move_back"
+
+var sync_position := Vector3.ZERO
+
 # ---------------- FUNCTIONS ---------------- #
 
 # -- translates a vector3 to the same vector3, translated to the camera's offset
@@ -122,6 +129,12 @@ func update_floor_shadow(dt):
 
 # ---- heartbeat loop
 func _physics_process(delta):
+	
+	if not is_local_authority():
+		position = sync_position
+		return
+	
+	
 	# Add the gravity.
 	if not is_on_floor():
 		velocity.y -= gravity * delta
@@ -133,8 +146,8 @@ func _physics_process(delta):
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
 	var input := Vector3.ZERO
-	input.x = Input.get_axis("move_left", "move_right")
-	input.z = Input.get_axis("move_forward", "move_back")
+	input.x = Input.get_axis(dir_left, dir_right)
+	input.z = Input.get_axis(dir_forward, dir_back)
 	var rel = get_camera_relative_input(input)
 
 	var direction = (transform.basis * Vector3(rel.x, 0, rel.z)).normalized()
@@ -167,6 +180,8 @@ func _physics_process(delta):
 		velocity.z = lerp(velocity.z, direction.z * SPEED, delta * 3.0)
 		
 	move_and_slide()
+	
+	rpc_id(1, StringName('push_to_server'), position)
 	
 	if abs(velocity.y) > 1 and not anim_player.current_animation == "melee_attack":
 		anim_player.play("jump")
@@ -247,4 +262,19 @@ func _ready():
 	test_hitbox.set_debug_mode(true)
 	test_hitbox.mesh_instance.rotation.y = deg_to_rad(45)
 	char.get_node("Hurtbox").add_child(test_hitbox.mesh_instance)
+	
+	
+# ------------ NETWORKING ------------- #
+
+func is_local_authority() -> bool:
+	return name == str(multiplayer.get_unique_id())
+
+@rpc("any_peer", "unreliable_ordered")
+func push_to_server(newpos : Vector3):
+	if not multiplayer.is_server():
+		return
+	if name != str(multiplayer.get_remote_sender_id()):
+		print(multiplayer.get_remote_sender_id(), ' tried to update ', name)
+		return
+	sync_position = newpos
 
