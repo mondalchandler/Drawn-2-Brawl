@@ -17,9 +17,9 @@ var debug_on = true
 # ---------------- FUNCTIONS ---------------- #
 
 func attack(move):
-	self.move_input = move.move_input
-	
-	if !(owner_char.anim_tree_state_machine.get_current_node() in owner_char.MOVE_MAP_NAMES):		
+	if !(owner_char.anim_tree_state_machine.get_current_node() in owner_char.MOVE_MAP_NAMES):	
+		self.move_input = move.move_input
+		
 		# do the specific action
 		match move.move_type:
 			"MELEE":
