@@ -7,6 +7,7 @@ extends Node
 # --------------- GLOBALS ----------------- #
 
 @onready var main_scene = get_tree().root.get_node("main_scene")
+@onready var music_node = main_scene.get_node("MusicNode")
 
 @onready var player_spawns: Node = $Spawns
 @onready var players_node: Node = $Players
@@ -54,6 +55,7 @@ func get_alive_players():
 
 # Called when the node enters the scene tree for the first time.
 func start_match():
+	music_node.stop()
 	for char in players_node.get_children():
 		char.full_heal()
 		char.in_game = true

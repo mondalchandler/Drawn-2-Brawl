@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://dp40s7sjjk4to"]
+
+[ext_resource type="Script" path="res://src/Scripts/Musics/BeatTracker.gd" id="1_vwqag"]
+
+[node name="MenuMusic" type="Node"]
+script = ExtResource("1_vwqag")
+DEFAULT_VOLUME = -20.0
+
+[node name="VocalLayer" type="AudioStreamPlayer" parent="."]
+
+[node name="LeadLayer" type="AudioStreamPlayer" parent="."]
+
+[node name="DrumLayer" type="AudioStreamPlayer" parent="."]
+
+[node name="MidLayer" type="AudioStreamPlayer" parent="."]
+
+[node name="BassLayer" type="AudioStreamPlayer" parent="."]

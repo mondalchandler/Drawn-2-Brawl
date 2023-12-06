@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://dxaie6k0g5kqw"]
+[gd_scene load_steps=37 format=3 uid="uid://dxwr5dhawdyys"]
 
 [ext_resource type="Script" path="res://src/Scripts/Classes/CharacterController.gd" id="1_6jfnt"]
 [ext_resource type="Texture2D" uid="uid://k1d6ljvlbigv" path="res://resources/Images/Animations/Ranger/Basic/RangerIdle1.png" id="2_of1dh"]

@@ -7,6 +7,7 @@ extends CanvasLayer
 # ----------------- GLOBALS ------------------ #
 
 @onready var main_scene = get_tree().root.get_node("main_scene")
+@onready var music_node = main_scene.get_node("MusicNode")
 
 @onready var rematch_button: Button = $PanelContainer/MarginContainer/Rows/Options/RematchButton
 @onready var character_select_button: Button = $PanelContainer/MarginContainer/Rows/Options/CharacterSelectButton
@@ -21,6 +22,15 @@ var players = []
 
 # ----------------- FUNCTIONS ------------------ #
 
+func to_game_music():
+	pass
+
+
+func to_menu_music():
+	music_node.load_song("res://resources/Music/MenuMusic/MenuMusic.tscn")
+	music_node.play()
+
+
 func on_rematch():
 	
 	# obtain a path of the level to rematch
@@ -32,14 +42,17 @@ func on_rematch():
 		rematch_scene.match_ended = false
 	var rematch_scene = main_scene._change_scene(path, rematch_setup)
 	rematch_scene.spawn_players()
+	to_game_music()
 
 
 func on_char_select():
 	main_scene._change_scene("res://src/Scenes/UI/player_select.tscn")
+	to_menu_music()
 
 
 func on_main_menu():
 	main_scene._change_scene("res://src/Scenes/UI/main_menu.tscn")
+	to_menu_music()
 
 
 # Called when the node enters the scene tree for the first time.

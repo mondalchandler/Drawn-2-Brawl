@@ -1,10 +1,10 @@
-[gd_scene load_steps=16 format=3 uid="uid://bswfilpmmxd4k"]
+[gd_scene load_steps=16 format=3 uid="uid://cekvrq3c2qkiu"]
 
 [ext_resource type="Script" path="res://src/Scenes/UI/player_select.gd" id="1_3nuvs"]
 [ext_resource type="Texture2D" uid="uid://6cv8bs5iycg7" path="res://resources/Images/PlayerSelectImages/BGText.jpg" id="2_qmmb5"]
 [ext_resource type="Texture2D" uid="uid://cxoyb38ikx36t" path="res://resources/Images/PlayerSelectImages/Assassin99Portrait.png" id="4_82iii"]
-[ext_resource type="PackedScene" uid="uid://dxaie6k0g5kqw" path="res://src/Scenes/characters/BaseCharacter.tscn" id="5_2oh4r"]
 [ext_resource type="Texture2D" uid="uid://bvnroba7l3ivs" path="res://resources/Images/PlayerSelectImages/RangerPortrait.png" id="5_5d2ge"]
+[ext_resource type="PackedScene" path="res://src/Scenes/characters/BaseCharacter.tscn" id="6_8mryq"]
 [ext_resource type="Texture2D" uid="uid://dpv1knjr8e0rw" path="res://resources/Images/PlayerSelectImages/NoblePortrait.png" id="7_dubgh"]
 [ext_resource type="Texture2D" uid="uid://b1ehxxaxqbbm3" path="res://resources/Images/PlayerSelectImages/PlaceholderPortrait1.png" id="8_bk4bv"]
 [ext_resource type="Texture2D" uid="uid://b83s4eia36hg5" path="res://resources/Images/PlayerSelectImages/PlaceholderPortrait2.png" id="9_guhas"]
@@ -46,7 +46,8 @@ texture_offset = Vector2(10, 95)
 texture_scale = Vector2(2, 2)
 polygon = PackedVector2Array(0, 0, 345, -95, 352, 210, 43, 372)
 script = ExtResource("11_qx7i5")
-Character = ExtResource("5_2oh4r")
+Character = ExtResource("6_8mryq")
+pulse_with_music = false
 
 [node name="NobleButton" parent="CharacterButtons" instance=ExtResource("10_82nx1")]
 position = Vector2(975, 305)
@@ -55,6 +56,7 @@ texture_offset = Vector2(0, -5)
 texture_scale = Vector2(2, 2)
 polygon = PackedVector2Array(-1, 0, 365, 160, 298, 505, 5, 308)
 script = ExtResource("11_qx7i5")
+pulse_with_music = false
 
 [node name="AssassinButton" parent="CharacterButtons" instance=ExtResource("10_82nx1")]
 position = Vector2(639, 842)
@@ -63,6 +65,7 @@ texture_offset = Vector2(5, 175)
 texture_scale = Vector2(2, 2)
 polygon = PackedVector2Array(-1, 2, 325, -178, 592, -8, 323, 165)
 script = ExtResource("11_qx7i5")
+pulse_with_music = false
 
 [node name="Polygon2D" parent="CharacterButtons" instance=ExtResource("10_82nx1")]
 position = Vector2(604, 358)
@@ -71,6 +74,7 @@ texture_offset = Vector2(0, 265)
 texture_scale = Vector2(2, 2)
 polygon = PackedVector2Array(-4, 6, 351, -108, 208, -265, 186, -239, 157, -247, 110, -239, 96, -221, 81, -203, 72, -173, 76, -140, 91, -117)
 script = ExtResource("11_qx7i5")
+pulse_with_music = false
 
 [node name="Polygon2D2" parent="CharacterButtons" instance=ExtResource("10_82nx1")]
 position = Vector2(1013, 238)
@@ -79,6 +83,7 @@ texture_offset = Vector2(10, 150)
 texture_scale = Vector2(2, 2)
 polygon = PackedVector2Array(-14, 31, 123, -154, 159, -95, 179, -93, 201, -84, 220, -67, 227, -47, 227, -26, 222, -10, 216, -2, 319, 173)
 script = ExtResource("11_qx7i5")
+pulse_with_music = false
 
 [node name="FunctionButtons" type="Node" parent="."]
 
@@ -101,6 +106,7 @@ scene = "res://src/Scenes/UI/main_menu.tscn"
 position = Vector2(175, 969)
 texture = ExtResource("15_lnmre")
 texture_scale = Vector2(2, 2)
+polygon = PackedVector2Array(0, 0, 100, 0, 99, 104, 1, 103)
 script = ExtResource("14_k26lg")
 scene = "res://src/Scenes/UI/options_menu.tscn"
 
