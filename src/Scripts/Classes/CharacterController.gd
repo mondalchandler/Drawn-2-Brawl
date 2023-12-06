@@ -75,6 +75,7 @@ var _move_controller = null
 @onready var players: Node = self.get_parent()
 	
 @onready var target_arrow: Sprite3D = $TargetArrow
+@onready var pause_menu_layer: PauseLayer = $PauseLayer
 
 # ---------------- SIGNALS ---------------- #
 
@@ -256,9 +257,16 @@ func _ready() -> void:
 	anim_tree_state_machine.start("idle")
 	_move_controller = MoveController.new(self, $AnimationTree, $CharacterSprite, $Hurtbox)
 
+
 # -- called when the user inputs anything  
 func _input(event : InputEvent) -> void:
 	if not can_player_input:
+		return
+	
+	if event.is_action_pressed("pause"):
+		pause_menu_layer.toggle()
+	
+	if pause_menu_layer.is_open():
 		return
 	
 	# targetting
