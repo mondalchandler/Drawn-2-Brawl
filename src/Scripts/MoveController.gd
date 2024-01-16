@@ -47,6 +47,7 @@ func attack(move):
 
 func play_animation():
 	owner_char.anim_tree_state_machine.travel(move_input)
+	owner_char.can_move = false
 
 
 func anim_finished(anim_name):
@@ -56,6 +57,7 @@ func anim_finished(anim_name):
 			pass
 		clean()
 		owner_char._update_core_animations()
+		owner_char.can_move = true
 
 
 func clean():

@@ -5,15 +5,15 @@
 # which handles the rest of the logic.
 
 # A move is defined using the following format:
-# [
-#	MOVE NAME: String,
-#	MOVE TYPE: String,
-#	MOVE DATA: Array (see below for format of each type)
-# ]
+	# [
+	#	MOVE NAME: String,
+	#	MOVE TYPE: String,
+	#	MOVE DATA: Array (see below for format of each type)
+	# ]
 
-# HOW MOVE DATA IS STRUCTURED FOR EACH TYPE
-# MELEE (i.e. Regular Hitbox):	[offset, dmg, hitstun, kb_length, kb_stg, hitbox_size]
-# HITSCAN (TODO):				[dmg, hitstun, kb_stg]
+# How MOVE DATA is structured for each move type:
+	# MELEE (i.e. Regular Hitbox):	[offset, dmg, hitstun, kb_length, kb_stg, hitbox_size]
+	# HITSCAN (TODO):				[dmg, hitstun, kb_stg]
 
 class_name Move
 extends Node

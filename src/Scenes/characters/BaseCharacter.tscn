@@ -14,7 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://cojs7ish64cv5" path="res://src/Scenes/UI/BillboardUI/billboard_sprite_3d.tscn" id="12_k1dtu"]
 [ext_resource type="Texture2D" uid="uid://bx5ukutk4wum3" path="res://resources/Images/arrow_down.png" id="13_wjfwb"]
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_17rxt"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_1xhrx"]
 viewport_path = NodePath("BillboardViewport")
 
 [sub_resource type="Animation" id="Animation_gcqbo"]
@@ -159,7 +159,7 @@ states/run/position = Vector2(651, 290.523)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_u83ke"), "idle", "run", SubResource("AnimationNodeStateMachineTransition_gvbk0"), "idle", "jump", SubResource("AnimationNodeStateMachineTransition_ysa4w"), "idle", "End", SubResource("AnimationNodeStateMachineTransition_hq702"), "jump", "idle", SubResource("AnimationNodeStateMachineTransition_0gub3"), "run", "idle", SubResource("AnimationNodeStateMachineTransition_lah6g"), "idle", "normal_close", SubResource("AnimationNodeStateMachineTransition_psxqy"), "normal_close", "idle", SubResource("AnimationNodeStateMachineTransition_qfppb")]
 graph_offset = Vector2(0, -73.4572)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_5q78k"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_ymxq0"]
 viewport_path = NodePath("BillboardViewport")
 
 [node name="BaseCharacter" type="CharacterBody3D"]
@@ -170,7 +170,7 @@ anim_speed_scale = 2.0
 [node name="DebugInfo" parent="." instance=ExtResource("12_k1dtu")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.21122, 2.46423)
 pixel_size = 0.015
-texture = SubResource("ViewportTexture_17rxt")
+texture = SubResource("ViewportTexture_1xhrx")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 speed_scale = 2.0
@@ -225,7 +225,7 @@ process_callback = 2
 [node name="PlayerNametag" parent="." instance=ExtResource("12_k1dtu")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.859205, 0)
 pixel_size = 0.02
-texture = SubResource("ViewportTexture_5q78k")
+texture = SubResource("ViewportTexture_ymxq0")
 
 [node name="TargetArrow" type="Sprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.41769, 0)
