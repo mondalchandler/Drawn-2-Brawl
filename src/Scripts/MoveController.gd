@@ -9,10 +9,9 @@ var owner_char
 var anim_tree : AnimationTree
 var sprite
 var hurtbox : Node
+var hb_flipped = false
 
-var hitbox
 var move_input
-var debug_on = true
 
 # ---------------- FUNCTIONS ---------------- #
 
@@ -23,14 +22,16 @@ func attack(move):
 		# do the specific action
 		match move.move_type:
 			"MELEE":
-				hitbox = BoxHitbox.new(owner_char, move.move_data[0], move.move_data[1], move.move_data[2], move.move_data[3], move.move_data[4], move.move_data[5], debug_on)
-				hurtbox.add_child(hitbox.mesh_instance)
-				hitbox._activate()
-				
 				if (sprite.flip_h):
-					hurtbox.rotation.y = PI 
+					hurtbox.rotation.y = PI
+					if (!hb_flipped):
+						move.hitbox.knockback_strength *= Vector3(-1, 1, -1)
+						hb_flipped = true
 				else:
 					hurtbox.rotation.y = 0
+					if (hb_flipped):
+						move.hitbox.knockback_strength *= Vector3(-1, 1, -1)
+						hb_flipped = false
 			"GRAB":
 				pass
 			"GRAPPLE":
@@ -52,16 +53,12 @@ func play_animation():
 
 func anim_finished(anim_name):
 	if anim_name == move_input:
-		if hitbox:
-			hitbox._deactivate()
-			pass
 		clean()
 		owner_char._update_core_animations()
 		owner_char.can_move = true
 
 
 func clean():
-	self.hitbox = null
 	self.move_input = null
 
 # ---------------- INIT ---------------- #

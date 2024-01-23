@@ -12,7 +12,7 @@
 	# ]
 
 # How MOVE DATA is structured for each move type:
-	# MELEE (i.e. Regular Hitbox):	[offset, dmg, hitstun, kb_length, kb_stg, hitbox_size]
+	# MELEE (i.e. Regular Hitbox):	[dmg, hitstun, kb_length, kb_stg, hitbox_size]
 	# HITSCAN (TODO):				[dmg, hitstun, kb_stg]
 
 class_name Move
@@ -23,12 +23,14 @@ extends Node
 @export var move_input: String
 @export var move_type: String
 @export var move_name: String
-@export var move_data: Array
+@export var move_data: Array		# Might retire this var
+@export var hitbox: BaseHitbox
 
 # ---------------- INIT ---------------- #
 
-func _init(move_input = "", move_type = "", move_name = "", move_data = []):
+func _init(move_input = "", move_type = "", move_name = "", move_data = [], hitbox = null):
 	self.move_input = move_input
 	self.move_type = move_type
 	self.move_name = move_name
 	self.move_data = move_data
+	self.hitbox = hitbox

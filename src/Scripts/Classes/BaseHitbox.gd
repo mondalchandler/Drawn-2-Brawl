@@ -8,42 +8,47 @@ extends Area3D
 
 # ---------------- PROPERTIES ----------------- #
 
+@export var active: bool
+
 # nodes used for the hitbox
-var collision_shape: CollisionShape3D
-var mesh_instance: MeshInstance3D	# for hitbox visuals
+@export var collision_shape: CollisionShape3D
+@export var mesh_instance: MeshInstance3D	# for hitbox visuals
 
 # the original character object, creator of the hitbox. can be null
-var owner_char
+@export var owner_char : CharacterController
 
 # a range of two numbers to indicate what damage rolls the hitbox can have. the second number MUST be greater. integers only
-var damage_range: Array
+@export var damage_range: Array
 
 # a dictionary to track hit characters from the hitbox
 var hit_chars: Dictionary
 
-# the positional offset of the hitbox, RELATIVE to the character's pivot (center transform)
-var origin_offset: Transform3D
-
 # determine how long a character cannot act for when hit, and how long a knockback force is applied
-var kb_length: float
-var hitstun_length: float
-var knockback_strength: Vector3
+@export var kb_length: float
+@export var hitstun_length: float
+@export var knockback_strength: Vector3
 
 # determines if hitboxes should show or not
-var debug_on: bool
+@export var debug_on: bool
 
 # ------------------- METHODS --------------------- #
 
 # constructor
-func _init(char, offset: Transform3D, dmg_rng: Array, hitstun: float, kb_length: float, kb_stg: Vector3, debug_on: bool) -> void:
-	self.owner_char = char
+func _init(	owner_char = null,
+			damage_range = [5, 5],
+			kb_length = 0.0, hitstun_length = 0.5,
+			knockback_strength = Vector3.ZERO,
+			debug_on = false,
+			collision_shape = CollisionShape3D.new(),
+			mesh_instance = MeshInstance3D.new(),
+			active = false) -> void:
+	self.active = active
+	self.owner_char = owner_char
 	
 	self.kb_length = kb_length
-	self.knockback_strength = kb_stg
-	self.origin_offset = offset if (offset != null) else Transform3D.IDENTITY
-	self.damage_range = dmg_rng if (dmg_rng != null) else [5, 5]
-	self.hitstun_length = hitstun if (hitstun != null) else 0.5
-	self.monitoring = false
+	self.knockback_strength = knockback_strength
+	self.damage_range = damage_range
+	self.hitstun_length = hitstun_length
 	
 	self.hit_chars = {}
 	self.name = "Hitbox"
@@ -52,26 +57,9 @@ func _init(char, offset: Transform3D, dmg_rng: Array, hitstun: float, kb_length:
 	self.debug_on = debug_on
 
 
-# turns on hitbox monitoring and refreshes hit character dictionary
-func _activate() -> void:
-#	self.mesh_instance.transform = origin_offset
-	
-	self.hit_chars = {}
-	self.monitoring = true
-	if self.debug_on == true and self.mesh_instance != null:
-		self.mesh_instance.visible = true
-
-
-# turns off monitoring, refreshes the queue
-func _deactivate() -> void:
-	self.monitoring = false
-	self.hit_chars = {}
-	if self.mesh_instance != null:
-		self.mesh_instance.visible = false
-
-
 # TODO: this function will make use of the owner character node, the enemy character node,
-	# and the hitbox node to determine a vector3 for knockback velocity 
+	# and the hitbox node to determine a vector3 for knockback velocity
+# 1/22 Note -- Check what is being done in MoveController, is this acceptable? -Chandler
 func _calc_kb_vector(enemChar) -> Vector3:
 	return Vector3.ZERO
 
@@ -132,8 +120,8 @@ func on_hit(hit_char) -> void:
 
 
 func node_is_object(node):
-	#return node.get_node_or_null("Destruction") != null
-	return false;
+	return node.get_node_or_null("Destruction") != null
+#	return false;
 
 
 # determines if a hit node is a player
@@ -145,7 +133,6 @@ func on_collision_detected(colliding_node) -> void:
 	elif(self.node_is_object(colliding_node)):
 		colliding_node.get_node("Destruction").destroy()
 
-
 # ------------------- SIGNAL CONNECTION --------------------- #
 
 func area_entered(area: Area3D) -> void:
@@ -154,7 +141,6 @@ func area_entered(area: Area3D) -> void:
 
 func body_entered(body: Node3D) -> void:
 	on_collision_detected(body)
-
 
 # ------------------- INIT AND LOOP --------------------- #
 
@@ -171,8 +157,17 @@ func _ready() -> void:
 	
 	self.connect("area_entered", area_entered)
 	self.connect("body_entered", body_entered)
-	
+
 
 # called every frame. 'delta' is the elapsed time since the previous frame
 func _process(delta) -> void:
-	pass
+	if self.active:
+		self.hit_chars = {}
+		self.monitoring = true
+		if self.debug_on == true and self.mesh_instance != null:
+			self.mesh_instance.visible = true
+	else:
+		self.monitoring = false
+		self.hit_chars = {}
+		if self.mesh_instance != null:
+			self.mesh_instance.visible = false
