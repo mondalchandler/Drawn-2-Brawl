@@ -22,16 +22,14 @@ func attack(move):
 		# do the specific action
 		match move.move_type:
 			"MELEE":
-				if (sprite.flip_h):
+				if (sprite.flip_h):		# if we are facing left
 					hurtbox.rotation.y = PI
-					if (!hb_flipped):
+					if (move.hitbox.knockback_strength.x > 0 && move.hitbox.knockback_strength.z > 0):	# if the move magnitude is rightward, make it face left
 						move.hitbox.knockback_strength *= Vector3(-1, 1, -1)
-						hb_flipped = true
-				else:
+				else:					# else we are facing right
 					hurtbox.rotation.y = 0
-					if (hb_flipped):
+					if (move.hitbox.knockback_strength.x < 0 && move.hitbox.knockback_strength.z < 0):	# if the move magnitude is leftward, make it face right
 						move.hitbox.knockback_strength *= Vector3(-1, 1, -1)
-						hb_flipped = false
 			"GRAB":
 				pass
 			"GRAPPLE":
