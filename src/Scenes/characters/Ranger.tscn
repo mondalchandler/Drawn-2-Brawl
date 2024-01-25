@@ -30,7 +30,7 @@
 [ext_resource type="Texture2D" uid="uid://cyi3r6pjscqmv" path="res://resources/Images/Animations/Ranger/Moves/RangerGSF2.png" id="15_bhij1"]
 [ext_resource type="Script" path="res://src/Scripts/Classes/BaseHitbox.gd" id="29_m1h5u"]
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_l1u2u"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_h3k5r"]
 viewport_path = NodePath("BillboardViewport")
 
 [sub_resource type="Animation" id="Animation_gcqbo"]
@@ -753,7 +753,7 @@ states/run/position = Vector2(515, 266.523)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_u83ke"), "idle", "run", SubResource("AnimationNodeStateMachineTransition_gvbk0"), "idle", "jump", SubResource("AnimationNodeStateMachineTransition_ysa4w"), "idle", "End", SubResource("AnimationNodeStateMachineTransition_hq702"), "jump", "idle", SubResource("AnimationNodeStateMachineTransition_0gub3"), "run", "idle", SubResource("AnimationNodeStateMachineTransition_lah6g"), "idle", "ground_nc", SubResource("AnimationNodeStateMachineTransition_vwg2u"), "ground_nc", "idle", SubResource("AnimationNodeStateMachineTransition_wfysw"), "idle", "ground_nf", SubResource("AnimationNodeStateMachineTransition_jk8g6"), "ground_nf", "idle", SubResource("AnimationNodeStateMachineTransition_pvjr7"), "idle", "ground_sc", SubResource("AnimationNodeStateMachineTransition_qk6w0"), "idle", "ground_sf", SubResource("AnimationNodeStateMachineTransition_npewh"), "idle", "air_nc", SubResource("AnimationNodeStateMachineTransition_irx81"), "idle", "air_nf", SubResource("AnimationNodeStateMachineTransition_fxav1"), "idle", "air_sc", SubResource("AnimationNodeStateMachineTransition_0b1gd"), "idle", "air_sf", SubResource("AnimationNodeStateMachineTransition_2pico"), "ground_sc", "idle", SubResource("AnimationNodeStateMachineTransition_3bs8x"), "ground_sf", "idle", SubResource("AnimationNodeStateMachineTransition_kbrtx"), "air_nc", "idle", SubResource("AnimationNodeStateMachineTransition_1e1ji"), "air_nf", "idle", SubResource("AnimationNodeStateMachineTransition_7hcvc"), "air_sc", "idle", SubResource("AnimationNodeStateMachineTransition_42ski"), "air_sf", "idle", SubResource("AnimationNodeStateMachineTransition_xd5lr")]
 graph_offset = Vector2(-198.408, -83.1256)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_lfxa8"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_hj0pt"]
 viewport_path = NodePath("BillboardViewport")
 
 [node name="Ranger" type="CharacterBody3D" node_paths=PackedStringArray("ground_nc", "ground_nf", "ground_sc", "ground_sf", "air_nc", "air_nf", "air_sc", "air_sf")]
@@ -772,7 +772,7 @@ air_sf = NodePath("Wrangle \'Em")
 [node name="DebugInfo" parent="." instance=ExtResource("2_qo63s")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.21122, 2.46423)
 pixel_size = 0.015
-texture = SubResource("ViewportTexture_l1u2u")
+texture = SubResource("ViewportTexture_h3k5r")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 speed_scale = 2.0
@@ -831,7 +831,7 @@ owner_char = NodePath("../..")
 damage_range = [10, 10]
 kb_length = 0.1
 hitstun_length = 0.1
-knockback_strength = Vector3(4, 10, 4)
+knockback_strength = Vector3(4, 20, 4)
 debug_on = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Hurtbox/Axe Uppercut Hitbox"]
@@ -853,7 +853,7 @@ owner_char = NodePath("../..")
 damage_range = [10, 10]
 kb_length = 0.1
 hitstun_length = 0.1
-knockback_strength = Vector3(4, 4, 4)
+knockback_strength = Vector3(4, 20, 4)
 debug_on = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Hurtbox/Air Swing Hitbox"]
@@ -918,7 +918,7 @@ process_callback = 2
 [node name="PlayerNametag" parent="." instance=ExtResource("2_qo63s")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.859205, 0)
 pixel_size = 0.02
-texture = SubResource("ViewportTexture_lfxa8")
+texture = SubResource("ViewportTexture_hj0pt")
 
 [node name="TargetArrow" type="Sprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.41769, 0)

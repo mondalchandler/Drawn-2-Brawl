@@ -1,5 +1,14 @@
-# Kyles45678
-# This class is the base class for a hitbox in the game. 
+# Kyles45678, Chandler Frakes
+# This class is the base class for a hitbox in the game.
+
+# HOW TO ADD CUSTOM HITBOXES
+	# 1) Add BaseHitbox child node to Hurtbox
+	# 2) Attatch a MeshInstance3D as well as a CollisionShape3D node to BaseHitbox node
+	# 3) In BaseHitbox node, assign the mesh and collision shape to the corresponding varialbes
+		# a) From this point forward, one should be able to mess around with the custom parameters,
+		#    position/size of the mesh
+	# 4) In the corresponding Move node, assign the BaseHitbox node to this hitbox variable
+	# 5) Use the active variable in AnimationPlayer to activate/deactivate the hitbox
 
 # ---------------- IMPORTS ------------------- #
 

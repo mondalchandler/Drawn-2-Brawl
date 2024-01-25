@@ -42,8 +42,10 @@ script = null
 [node name="Players" type="Node" parent="."]
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(-0.707107, -0.224368, 0.670566, 0, 0.948324, 0.317305, -0.707107, 0.224368, -0.670566, 15.8394, 10.434, -16.0228)
+transform = Transform3D(-0.707107, -0.307755, 0.636622, 0, 0.900319, 0.435231, -0.707107, 0.307755, -0.636622, 9.8394, 14.0201, -10.0228)
+projection = 1
 current = true
+size = 30.0
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12.0931, 0)
