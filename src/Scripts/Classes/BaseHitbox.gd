@@ -135,7 +135,6 @@ func node_is_object(node):
 
 # determines if a hit node is a player
 func on_collision_detected(colliding_node) -> void:
-#	print(str(colliding_node))
 	if self.node_is_char(colliding_node) and colliding_node != self.owner_char and (self.hit_chars.get(colliding_node) == null or self.hit_chars.get(colliding_node) == false):
 		self.hit_chars[colliding_node] = true
 		self.on_hit(colliding_node)

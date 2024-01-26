@@ -22,26 +22,29 @@ func attack(move):
 		# do the specific action
 		match move.move_type:
 			"MELEE":
-				if (sprite.flip_h):		# if we are facing left
-					hurtbox.rotation.y = PI
-					if (move.hitbox.knockback_strength.x > 0 && move.hitbox.knockback_strength.z > 0):	# if the move magnitude is rightward, make it face left
-						move.hitbox.knockback_strength *= Vector3(-1, 1, -1)
-				else:					# else we are facing right
-					hurtbox.rotation.y = 0
-					if (move.hitbox.knockback_strength.x < 0 && move.hitbox.knockback_strength.z < 0):	# if the move magnitude is leftward, make it face right
-						move.hitbox.knockback_strength *= Vector3(-1, 1, -1)
+				_calc_kb_vector(move.hitbox)
 			"GRAB":
 				pass
 			"GRAPPLE":
 				pass
 			"HITSCAN":
-				# we will most likely have a Hitscan class
-				# params to pass in would be something like owner_char and target_char
-				pass
+				_calc_kb_vector(move.hitscan)
+				move.hitscan.shoot()
 			"PROJECTILE":
 				pass
 			
 		play_animation()
+
+
+func _calc_kb_vector(move_type):
+	if (sprite.flip_h):		# if we are facing left
+		hurtbox.rotation.y = PI
+		if (move_type.knockback_strength.x > 0 && move_type.knockback_strength.z > 0):	# if the move magnitude is rightward, make it face left
+			move_type.knockback_strength *= Vector3(-1, 1, -1)
+	else:					# else we are facing right
+		hurtbox.rotation.y = 0
+		if (move_type.knockback_strength.x < 0 && move_type.knockback_strength.z < 0):	# if the move magnitude is leftward, make it face right
+			move_type.knockback_strength *= Vector3(-1, 1, -1)
 
 
 func play_animation():
