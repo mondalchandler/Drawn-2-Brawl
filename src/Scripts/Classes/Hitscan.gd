@@ -5,7 +5,6 @@ extends Node
 
 # ---------------- PROPERTIES ----------------- #
 
-# a dictionary to track hit characters from the hitbox
 var hit_obj: Node
 var relative_ks: Vector3
 
@@ -78,22 +77,26 @@ func on_hit(hit_char) -> void:
 
 
 func shoot():
-	# First we emit the ray scan.
 	var space_state = owner_char.get_world_3d().direct_space_state
-	var query
-	if owner_char.targetting:
-		query = PhysicsRayQueryParameters3D.create(owner_char.global_position, owner_char.z_target.global_position)
-	else:
-		# do the same as the previous clause, except with the direction the character is facing in place of owner_char.z_target.global_position
-		if (!owner_char.sprite.flip_h):
-			query = PhysicsRayQueryParameters3D.create(owner_char.global_position, owner_char.global_position + Vector3(1000, 0, 1000))
-		else:
-			query = PhysicsRayQueryParameters3D.create(owner_char.global_position, owner_char.global_position - Vector3(1000, 0, 1000))
+	var query = get_ray_query()
 	query.exclude = [owner_char]
 	var result = space_state.intersect_ray(query)
 	self.hit_obj = get_node(result.collider.get_path())
-	
-	# Here we assess and send the opponent in a direction opposite to the player.
+	assess_opponent_direction(result)
+	apply_effect()
+
+# First we emit the ray scan.
+func get_ray_query():
+	if owner_char.targetting:
+		return PhysicsRayQueryParameters3D.create(owner_char.global_position, owner_char.z_target.global_position)
+	else:
+		if (!owner_char.sprite.flip_h):
+			return PhysicsRayQueryParameters3D.create(owner_char.global_position, owner_char.global_position + Vector3(1000, 0, 1000))
+		else:
+			return PhysicsRayQueryParameters3D.create(owner_char.global_position, owner_char.global_position - Vector3(1000, 0, 1000))
+
+# Here we assess and send the opponent in a direction opposite to the player.
+func assess_opponent_direction(result):
 	self.relative_ks.y = self.knockback_strength.y
 	if (!owner_char.sprite.flip_h):
 		self.relative_ks.x = self.knockback_strength.x - (self.knockback_strength.x * result.normal[0])
@@ -101,8 +104,9 @@ func shoot():
 	else:
 		self.relative_ks.x = self.knockback_strength.x + (self.knockback_strength.x * result.normal[0])
 		self.relative_ks.z = self.knockback_strength.z + (self.knockback_strength.z * result.normal[2])
-	
-	# Then we apply the appropriate effect.
+
+# Then we apply the appropriate effect.
+func apply_effect():
 	if (self.node_is_object(hit_obj)):
 		self.hit_obj.get_node("Destruction").destroy()
 	elif (hit_obj is CharacterController):
