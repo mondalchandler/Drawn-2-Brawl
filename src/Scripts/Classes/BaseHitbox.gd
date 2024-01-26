@@ -42,35 +42,13 @@ var hit_chars: Dictionary
 
 # ------------------- METHODS --------------------- #
 
-# constructor
-func _init(	owner_char = null,
-			damage_range = [5, 5],
-			kb_length = 0.0, hitstun_length = 0.5,
-			knockback_strength = Vector3.ZERO,
-			debug_on = false,
-			collision_shape = CollisionShape3D.new(),
-			mesh_instance = MeshInstance3D.new(),
-			active = false) -> void:
-	self.active = active
-	self.owner_char = owner_char
-	
-	self.kb_length = kb_length
-	self.knockback_strength = knockback_strength
-	self.damage_range = damage_range
-	self.hitstun_length = hitstun_length
-	
-	self.hit_chars = {}
-	self.name = "Hitbox"
-	self.monitoring = false
-	
-	self.debug_on = debug_on
-
-
-# TODO: this function will make use of the owner character node, the enemy character node,
-	# and the hitbox node to determine a vector3 for knockback velocity
-# 1/22 Note -- Check what is being done in MoveController, is this acceptable? -Chandler
-func _calc_kb_vector(enemChar) -> Vector3:
-	return Vector3.ZERO
+func _calc_kb_vector():
+	if (owner_char.sprite.flip_h):		# if we are facing left
+		if (self.knockback_strength.x > 0 && self.knockback_strength.z > 0):	# if the move magnitude is rightward, make it face left
+			self.knockback_strength *= Vector3(-1, 1, -1)
+	else:					# else we are facing right
+		if (self.knockback_strength.x < 0 && self.knockback_strength.z < 0):	# if the move magnitude is leftward, make it face right
+			self.knockback_strength *= Vector3(-1, 1, -1)
 
 
 # determines if a hit node is a character. chars have hurtboxes and health
@@ -80,7 +58,7 @@ func node_is_char(node) -> bool:
 
 # overrideable virtual method.
 func _before_hit_computation(hit_char) -> void:
-	pass
+	_calc_kb_vector()
 
 
 # overrideable virtual method.
@@ -179,3 +157,27 @@ func _process(delta) -> void:
 		self.hit_chars = {}
 		if self.mesh_instance != null:
 			self.mesh_instance.visible = false
+
+
+# constructor
+func _init(	owner_char = null,
+			damage_range = [5, 5],
+			kb_length = 0.0, hitstun_length = 0.5,
+			knockback_strength = Vector3.ZERO,
+			debug_on = false,
+			collision_shape = CollisionShape3D.new(),
+			mesh_instance = MeshInstance3D.new(),
+			active = false) -> void:
+	self.active = active
+	self.owner_char = owner_char
+	
+	self.kb_length = kb_length
+	self.knockback_strength = knockback_strength
+	self.damage_range = damage_range
+	self.hitstun_length = hitstun_length
+	
+	self.hit_chars = {}
+	self.name = "Hitbox"
+	self.monitoring = false
+	
+	self.debug_on = debug_on

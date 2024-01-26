@@ -25,6 +25,16 @@ var relative_ks: Vector3
 
 # ---------------- FUNCTIONS ---------------- #
 
+func _calc_kb_vector():
+	if (owner_char.sprite.flip_h):		# if we are facing left
+		if (self.knockback_strength.x > 0 && self.knockback_strength.z > 0):	# if the move magnitude is rightward, make it face left
+			self.knockback_strength *= Vector3(-1, 1, -1)
+	else:					# else we are facing right
+		if (self.knockback_strength.x < 0 && self.knockback_strength.z < 0):	# if the move magnitude is leftward, make it face right
+			self.knockback_strength *= Vector3(-1, 1, -1)
+			
+
+
 func _input(event : InputEvent) -> void:
 	if event.is_action_released("normal_far"):
 		print("released nf")
@@ -85,6 +95,7 @@ func shoot():
 	assess_opponent_direction(result)
 	apply_effect()
 
+
 # First we emit the ray scan.
 func get_ray_query():
 	if owner_char.targetting:
@@ -95,8 +106,10 @@ func get_ray_query():
 		else:
 			return PhysicsRayQueryParameters3D.create(owner_char.global_position, owner_char.global_position - Vector3(1000, 0, 1000))
 
+
 # Here we assess and send the opponent in a direction opposite to the player.
 func assess_opponent_direction(result):
+	_calc_kb_vector()
 	self.relative_ks.y = self.knockback_strength.y
 	if (!owner_char.sprite.flip_h):
 		self.relative_ks.x = self.knockback_strength.x - (self.knockback_strength.x * result.normal[0])
@@ -104,6 +117,7 @@ func assess_opponent_direction(result):
 	else:
 		self.relative_ks.x = self.knockback_strength.x + (self.knockback_strength.x * result.normal[0])
 		self.relative_ks.z = self.knockback_strength.z + (self.knockback_strength.z * result.normal[2])
+
 
 # Then we apply the appropriate effect.
 func apply_effect():

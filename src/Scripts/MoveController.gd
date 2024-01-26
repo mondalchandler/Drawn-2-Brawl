@@ -19,16 +19,17 @@ func attack(move):
 	if !(owner_char.anim_tree_state_machine.get_current_node() in owner_char.MOVE_MAP_NAMES):	
 		self.move_input = move.move_input
 		
+		flip_hurtbox()
+		
 		# do the specific action
 		match move.move_type:
 			"MELEE":
-				_calc_kb_vector(move.hitbox)
+				pass
 			"GRAB":
 				pass
 			"GRAPPLE":
 				pass
 			"HITSCAN":
-				_calc_kb_vector(move.hitscan)
 				move.hitscan.shoot()
 			"PROJECTILE":
 				pass
@@ -36,15 +37,11 @@ func attack(move):
 		play_animation()
 
 
-func _calc_kb_vector(move_type):
-	if (sprite.flip_h):		# if we are facing left
-		hurtbox.rotation.y = PI
-		if (move_type.knockback_strength.x > 0 && move_type.knockback_strength.z > 0):	# if the move magnitude is rightward, make it face left
-			move_type.knockback_strength *= Vector3(-1, 1, -1)
+func flip_hurtbox():
+	if (owner_char.sprite.flip_h):		# if we are facing left
+		owner_char.hurtbox.rotation.y = PI
 	else:					# else we are facing right
-		hurtbox.rotation.y = 0
-		if (move_type.knockback_strength.x < 0 && move_type.knockback_strength.z < 0):	# if the move magnitude is leftward, make it face right
-			move_type.knockback_strength *= Vector3(-1, 1, -1)
+		owner_char.hurtbox.rotation.y = 0
 
 
 func play_animation():
