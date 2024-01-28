@@ -150,3 +150,5 @@ spawn_path = NodePath("../NetworkedNodes")
 
 [node name="NetworkedNodes" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.59366, 3.55287)
+
+[node name="Spawns" type="Node3D" parent="."]
