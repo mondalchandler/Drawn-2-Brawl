@@ -17,6 +17,7 @@ var owner_char
 
 # a range of two numbers to indicate what damage rolls the hitbox can have. the second number MUST be greater. integers only
 var damage_range: Array
+var PLAYER_STAMINA_PERCENT_REDUCTION = .25
 
 # a dictionary to track hit characters from the hitbox
 var hit_chars: Dictionary
@@ -124,9 +125,17 @@ func on_hit(hit_char) -> void:
 	self._before_hit_computation(hit_char)
 	
 	# deal values to character
-	self.deal_stun(hit_char)
-	self.deal_kb(hit_char)
-	var dmg = self.deal_dmg(hit_char)
+	var dmg = 0
+	if not hit_char.blocking:
+		self.deal_stun(hit_char)
+		self.deal_kb(hit_char)
+		dmg = self.deal_dmg(hit_char)
+	else:
+		hit_char.block_stamina -= hit_char.BLOCK_STAMINA_AMOUNT*PLAYER_STAMINA_PERCENT_REDUCTION
+		var temp_stun = self.hitstun_length
+		self.hitstun_length = 1
+		self.deal_stun(owner_char)
+		self.hitstun_length = temp_stun
 	
 	self._after_hit_computation(hit_char, dmg)
 
