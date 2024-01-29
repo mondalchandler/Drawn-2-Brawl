@@ -1,4 +1,4 @@
-[gd_scene load_steps=80 format=3 uid="uid://ds55r3e3det8w"]
+[gd_scene load_steps=85 format=3 uid="uid://ds55r3e3det8w"]
 
 [ext_resource type="Script" path="res://src/Scripts/Classes/CharacterController.gd" id="1_5ua37"]
 [ext_resource type="PackedScene" uid="uid://cojs7ish64cv5" path="res://src/Scenes/UI/BillboardUI/billboard_sprite_3d.tscn" id="2_qo63s"]
@@ -28,8 +28,10 @@
 [ext_resource type="Script" path="res://src/Scripts/Classes/Move.gd" id="14_regd4"]
 [ext_resource type="Texture2D" uid="uid://cb4cqhs763ua2" path="res://resources/Images/Animations/Ranger/Moves/RangerGSF1.png" id="14_rntc3"]
 [ext_resource type="Texture2D" uid="uid://cyi3r6pjscqmv" path="res://resources/Images/Animations/Ranger/Moves/RangerGSF2.png" id="15_bhij1"]
+[ext_resource type="Script" path="res://src/Scripts/Classes/Hitscan.gd" id="26_4er46"]
+[ext_resource type="Script" path="res://src/Scripts/Classes/BaseHitbox.gd" id="29_m1h5u"]
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_epsx8"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_l4u65"]
 viewport_path = NodePath("BillboardViewport")
 
 [sub_resource type="Animation" id="Animation_gcqbo"]
@@ -70,6 +72,54 @@ tracks/2/keys = {
 "update": 0,
 "values": [Vector3(0.33, 0.33, 0.33)]
 }
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Hurtbox/Axe Uppercut Hitbox:active")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Hurtbox/Pistol Whip Hitbox:active")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Hurtbox/Air Swing Hitbox:active")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Hurtbox/Shotgun Explosion Hitbox:active")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
 [sub_resource type="Animation" id="Animation_x4xq8"]
 resource_name = "air_nc"
@@ -109,6 +159,18 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [Vector3(0.27, 0.27, 0.282), Vector3(0.29, 0.29, 0.302)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Hurtbox/Air Swing Hitbox:active")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.2, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
 }
 
 [sub_resource type="Animation" id="Animation_7irun"]
@@ -190,6 +252,18 @@ tracks/2/keys = {
 "update": 1,
 "values": [Vector3(0.29, 0.29, 0.302)]
 }
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Hurtbox/Shotgun Explosion Hitbox:active")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.3, 0.75),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
 
 [sub_resource type="Animation" id="Animation_wriq4"]
 resource_name = "air_sf"
@@ -270,6 +344,18 @@ tracks/2/keys = {
 "update": 1,
 "values": [Vector3(0.3, 0.3, 0.3)]
 }
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Hurtbox/Pistol Whip Hitbox:active")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.1, 0.15),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
 
 [sub_resource type="Animation" id="Animation_j4778"]
 resource_name = "ground_nf"
@@ -349,6 +435,18 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [Vector3(0.3, 0.3, 0.313)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Hurtbox/Axe Uppercut Hitbox:active")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.2, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
 }
 
 [sub_resource type="Animation" id="Animation_08epj"]
@@ -537,6 +635,12 @@ properties/0/watch = false
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sn8c4"]
 height = 1.10297
 
+[sub_resource type="BoxMesh" id="BoxMesh_c3crr"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_4w4a0"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_h4meb"]
+
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_kh0td"]
 animation = &"air_nc"
 
@@ -650,7 +754,7 @@ states/run/position = Vector2(515, 266.523)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_u83ke"), "idle", "run", SubResource("AnimationNodeStateMachineTransition_gvbk0"), "idle", "jump", SubResource("AnimationNodeStateMachineTransition_ysa4w"), "idle", "End", SubResource("AnimationNodeStateMachineTransition_hq702"), "jump", "idle", SubResource("AnimationNodeStateMachineTransition_0gub3"), "run", "idle", SubResource("AnimationNodeStateMachineTransition_lah6g"), "idle", "ground_nc", SubResource("AnimationNodeStateMachineTransition_vwg2u"), "ground_nc", "idle", SubResource("AnimationNodeStateMachineTransition_wfysw"), "idle", "ground_nf", SubResource("AnimationNodeStateMachineTransition_jk8g6"), "ground_nf", "idle", SubResource("AnimationNodeStateMachineTransition_pvjr7"), "idle", "ground_sc", SubResource("AnimationNodeStateMachineTransition_qk6w0"), "idle", "ground_sf", SubResource("AnimationNodeStateMachineTransition_npewh"), "idle", "air_nc", SubResource("AnimationNodeStateMachineTransition_irx81"), "idle", "air_nf", SubResource("AnimationNodeStateMachineTransition_fxav1"), "idle", "air_sc", SubResource("AnimationNodeStateMachineTransition_0b1gd"), "idle", "air_sf", SubResource("AnimationNodeStateMachineTransition_2pico"), "ground_sc", "idle", SubResource("AnimationNodeStateMachineTransition_3bs8x"), "ground_sf", "idle", SubResource("AnimationNodeStateMachineTransition_kbrtx"), "air_nc", "idle", SubResource("AnimationNodeStateMachineTransition_1e1ji"), "air_nf", "idle", SubResource("AnimationNodeStateMachineTransition_7hcvc"), "air_sc", "idle", SubResource("AnimationNodeStateMachineTransition_42ski"), "air_sf", "idle", SubResource("AnimationNodeStateMachineTransition_xd5lr")]
 graph_offset = Vector2(-198.408, -83.1256)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_frnm6"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_ebbr3"]
 viewport_path = NodePath("BillboardViewport")
 
 [node name="Ranger" type="CharacterBody3D" node_paths=PackedStringArray("ground_nc", "ground_nf", "ground_sc", "ground_sf", "air_nc", "air_nf", "air_sc", "air_sf")]
@@ -660,7 +764,7 @@ display_name = "Ranger"
 ground_nc = NodePath("Pistol Whip")
 ground_nf = NodePath("Standoff")
 ground_sc = NodePath("Axe Uppercut")
-ground_sf = NodePath("3 Bullets Left")
+ground_sf = NodePath("3 In The Chamber")
 air_nc = NodePath("Air Swing")
 air_nf = NodePath("Throwing Knife")
 air_sc = NodePath("Shotgun Explosion")
@@ -669,7 +773,7 @@ air_sf = NodePath("Wrangle \'Em")
 [node name="DebugInfo" parent="." instance=ExtResource("2_qo63s")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.21122, 2.46423)
 pixel_size = 0.015
-texture = SubResource("ViewportTexture_epsx8")
+texture = SubResource("ViewportTexture_l4u65")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 speed_scale = 2.0
@@ -695,6 +799,100 @@ texture = ExtResource("3_lpkgj")
 [node name="Hurtbox" type="CollisionShape3D" parent="."]
 transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, -0.302027, 0)
 shape = SubResource("CapsuleShape3D_sn8c4")
+
+[node name="Pistol Whip Hitbox" type="Area3D" parent="Hurtbox" node_paths=PackedStringArray("collision_shape", "mesh_instance", "owner_char")]
+transform = Transform3D(0.848528, 0, 0.707107, 0, 0.8, 0, -0.848528, 0, 0.707107, -0.19036, 8.13752e-05, 0.645388)
+monitoring = false
+script = ExtResource("29_m1h5u")
+collision_shape = NodePath("CollisionShape3D")
+mesh_instance = NodePath("MeshInstance3D")
+owner_char = NodePath("../..")
+damage_range = [10, 10]
+kb_length = 0.1
+hitstun_length = 0.1
+knockback_strength = Vector3(4, 4, 4)
+debug_on = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Hurtbox/Pistol Whip Hitbox"]
+transform = Transform3D(1.2, 0, 0, 0, 0.8, 0, 0, 0, 1, 0.5, 0, 0.5)
+visible = false
+mesh = SubResource("BoxMesh_c3crr")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox/Pistol Whip Hitbox"]
+transform = Transform3D(1.2, 0, 0, 0, 0.8, 0, 0, 0, 1, 0.5, 0, 0.5)
+shape = SubResource("BoxShape3D_4w4a0")
+
+[node name="Axe Uppercut Hitbox" type="Area3D" parent="Hurtbox" node_paths=PackedStringArray("collision_shape", "mesh_instance", "owner_char")]
+transform = Transform3D(0.848528, 0, 0.707107, 0, 0.8, 0, -0.848528, 0, 0.707107, -0.19036, 8.13752e-05, 0.645388)
+monitoring = false
+script = ExtResource("29_m1h5u")
+collision_shape = NodePath("CollisionShape3D")
+mesh_instance = NodePath("MeshInstance3D")
+owner_char = NodePath("../..")
+damage_range = [10, 10]
+kb_length = 0.1
+hitstun_length = 0.1
+knockback_strength = Vector3(4, 20, 4)
+debug_on = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Hurtbox/Axe Uppercut Hitbox"]
+transform = Transform3D(1.2, 0, 0, 0, 0.8, 0, 0, 0, 1, 0.5, 0, 0.5)
+visible = false
+mesh = SubResource("BoxMesh_h4meb")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox/Axe Uppercut Hitbox"]
+transform = Transform3D(1.2, 0, 0, 0, 0.8, 0, 0, 0, 1, 0.5, 0, 0.5)
+shape = SubResource("BoxShape3D_4w4a0")
+
+[node name="Air Swing Hitbox" type="Area3D" parent="Hurtbox" node_paths=PackedStringArray("collision_shape", "mesh_instance", "owner_char")]
+transform = Transform3D(0.848528, 0, 0.707107, 0, 0.8, 0, -0.848528, 0, 0.707107, -0.19036, 8.13752e-05, 0.645388)
+monitoring = false
+script = ExtResource("29_m1h5u")
+collision_shape = NodePath("CollisionShape3D")
+mesh_instance = NodePath("MeshInstance3D")
+owner_char = NodePath("../..")
+damage_range = [10, 10]
+kb_length = 0.1
+hitstun_length = 0.1
+knockback_strength = Vector3(4, 20, 4)
+debug_on = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Hurtbox/Air Swing Hitbox"]
+transform = Transform3D(1.2, 0, 0, 0, 0.8, 0, 0, 0, 1, 0.5, 0, 0.5)
+visible = false
+mesh = SubResource("BoxMesh_c3crr")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox/Air Swing Hitbox"]
+transform = Transform3D(1.2, 0, 0, 0, 0.8, 0, 0, 0, 1, 0.5, 0, 0.5)
+shape = SubResource("BoxShape3D_4w4a0")
+
+[node name="Shotgun Explosion Hitbox" type="Area3D" parent="Hurtbox" node_paths=PackedStringArray("collision_shape", "mesh_instance", "owner_char")]
+transform = Transform3D(0.848528, 0, 0.707107, 0, 0.8, 0, -0.848528, 0, 0.707107, -0.463022, -0.412581, 0.363367)
+monitoring = false
+script = ExtResource("29_m1h5u")
+collision_shape = NodePath("CollisionShape3D")
+mesh_instance = NodePath("MeshInstance3D")
+owner_char = NodePath("../..")
+damage_range = [10, 10]
+kb_length = 0.1
+hitstun_length = 0.1
+knockback_strength = Vector3(4, -4, 4)
+debug_on = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Hurtbox/Shotgun Explosion Hitbox"]
+transform = Transform3D(1.2, 0, 0, 0, 0.8, 0, 0, 0, 1, 0.5, 0, 0.5)
+visible = false
+mesh = SubResource("BoxMesh_c3crr")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox/Shotgun Explosion Hitbox"]
+transform = Transform3D(1.2, 0, 0, 0, 0.8, 0, 0, 0, 1, 0.5, 0, 0.5)
+shape = SubResource("BoxShape3D_4w4a0")
+
+[node name="Standoff Hitscan" type="Node" parent="Hurtbox" node_paths=PackedStringArray("owner_char")]
+script = ExtResource("26_4er46")
+owner_char = NodePath("../..")
+damage_range = [10, 10]
+knockback_strength = Vector3(2, 2, 2)
 
 [node name="FloorRing" type="Decal" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00604342, -0.884379, -0.0541416)
@@ -727,7 +925,7 @@ process_callback = 2
 [node name="PlayerNametag" parent="." instance=ExtResource("2_qo63s")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.859205, 0)
 pixel_size = 0.02
-texture = SubResource("ViewportTexture_frnm6")
+texture = SubResource("ViewportTexture_ebbr3")
 
 [node name="TargetArrow" type="Sprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.41769, 0)
@@ -738,39 +936,39 @@ texture = ExtResource("13_3lnkm")
 
 [node name="PauseLayer" parent="." instance=ExtResource("10_ip7o7")]
 
-[node name="Pistol Whip" type="Node" parent="."]
+[node name="Pistol Whip" type="Node" parent="." node_paths=PackedStringArray("hitbox")]
 script = ExtResource("14_regd4")
 move_input = "ground_nc"
 move_type = "MELEE"
 move_name = "Pistol Whip"
-move_data = [Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0.5), [10, 10], 0.1, 0.1, Vector3(4, 4, 4), Vector3(1.2, 0.8, 1)]
+hitbox = NodePath("../Hurtbox/Pistol Whip Hitbox")
 
-[node name="Standoff" type="Node" parent="."]
+[node name="Standoff" type="Node" parent="." node_paths=PackedStringArray("hitscan")]
 script = ExtResource("14_regd4")
 move_input = "ground_nf"
 move_type = "HITSCAN"
 move_name = "Standoff"
-move_data = [null]
+hitscan = NodePath("../Hurtbox/Standoff Hitscan")
 
-[node name="Axe Uppercut" type="Node" parent="."]
+[node name="Axe Uppercut" type="Node" parent="." node_paths=PackedStringArray("hitbox")]
 script = ExtResource("14_regd4")
 move_input = "ground_sc"
 move_type = "MELEE"
 move_name = "Axe Uppercut"
-move_data = [Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0.5), [10, 10], 0.1, 0.1, Vector3(4, 4, 4), Vector3(1.2, 0.8, 1)]
+hitbox = NodePath("../Hurtbox/Axe Uppercut Hitbox")
 
-[node name="3 Bullets Left" type="Node" parent="."]
+[node name="3 In The Chamber" type="Node" parent="."]
 script = ExtResource("14_regd4")
 move_input = "ground_sf"
 move_type = "HITSCAN"
 move_name = "3 Bullets Left"
 
-[node name="Air Swing" type="Node" parent="."]
+[node name="Air Swing" type="Node" parent="." node_paths=PackedStringArray("hitbox")]
 script = ExtResource("14_regd4")
 move_input = "air_nc"
 move_type = "MELEE"
 move_name = "Air Swing"
-move_data = [Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0.5), [10, 10], 0.1, 0.1, Vector3(4, 4, 4), Vector3(1.2, 0.8, 1)]
+hitbox = NodePath("../Hurtbox/Air Swing Hitbox")
 
 [node name="Throwing Knife" type="Node" parent="."]
 script = ExtResource("14_regd4")
@@ -778,12 +976,12 @@ move_input = "air_nf"
 move_type = "PROJECTILE"
 move_name = "Throwing Knife"
 
-[node name="Shotgun Explosion" type="Node" parent="."]
+[node name="Shotgun Explosion" type="Node" parent="." node_paths=PackedStringArray("hitbox")]
 script = ExtResource("14_regd4")
 move_input = "air_sc"
 move_type = "MELEE"
 move_name = "Shotgun Explosion"
-move_data = [Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0.5), [10, 10], 0.1, 0.1, Vector3(4, 4, 4), Vector3(1.2, 0.8, 1)]
+hitbox = NodePath("../Hurtbox/Shotgun Explosion Hitbox")
 
 [node name="Wrangle \'Em" type="Node" parent="."]
 script = ExtResource("14_regd4")
