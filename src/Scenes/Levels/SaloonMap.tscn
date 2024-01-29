@@ -133,14 +133,14 @@ transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 4.2658
 [node name="LowPolyBarStool4" parent="NavigationRegion3D/Objects" instance=ExtResource("12_dfyco")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 5, 0.15, -2)
 
-[node name="LeftWall" type="StaticBody3D" parent="."]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="LeftWall"]
-transform = Transform3D(0.0999999, 0, 0, 0, 21.021, 0, 8.88178e-16, 0, 24.18, 12, 10, 1.04907e-06)
-shape = SubResource("BoxShape3D_xmr4d")
-
 [node name="RightWall" type="StaticBody3D" parent="."]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="RightWall"]
 transform = Transform3D(-4.37114e-09, 0, -24.18, 0, 21.021, 0, 0.0999999, 0, -1.05694e-06, 1.04907e-06, 10, -12)
+shape = SubResource("BoxShape3D_xmr4d")
+
+[node name="LeftWall" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LeftWall"]
+transform = Transform3D(0.0999999, 0, 0, 0, 21.021, 0, 8.88178e-16, 0, 24.18, 12, 10, 1.04907e-06)
 shape = SubResource("BoxShape3D_xmr4d")

@@ -30,7 +30,7 @@ func attack(move):
 			"GRAPPLE":
 				pass
 			"HITSCAN":
-				move.hitscan.shoot()
+				pass
 			"PROJECTILE":
 				pass
 			

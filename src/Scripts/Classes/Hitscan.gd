@@ -11,6 +11,7 @@ var relative_ks: Vector3
 @export var owner_char: CharacterController
 @export var is_chargeable: bool
 @export var max_charge: float
+@export var shoot_once: bool
 
 # a range of two numbers to indicate what damage rolls the hitbox can have. the second number MUST be greater. integers only
 @export var damage_range: Array
@@ -37,7 +38,7 @@ func _calc_kb_vector():
 
 func _input(event : InputEvent) -> void:
 	if event.is_action_released("normal_far"):
-		print("released nf")
+		pass
 
 
 # overrideable virtual method.
@@ -108,6 +109,7 @@ func get_ray_query():
 
 
 # Here we assess and send the opponent in a direction opposite to the player.
+# ONLY HAPPENS WHEN TARGETTING IS ON
 func assess_opponent_direction(result):
 	_calc_kb_vector()
 	self.relative_ks.y = self.knockback_strength.y
@@ -138,11 +140,13 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	pass
+	if (self.shoot_once):
+		shoot()
+		self.shoot_once = false
 
 # ---------------- INIT ---------------- #
 
-func _init(hit_obj = null, owner_char = null, is_chargeable = false, max_charge = 0, damage_range = [0, 0], kb_length = 0, hitstun_length = 0, knockback_strength = Vector3.ZERO, relative_ks = Vector3.ZERO, debug_on = false):
+func _init(hit_obj = null, owner_char = null, is_chargeable = false, max_charge = 0, damage_range = [0, 0], kb_length = 0, hitstun_length = 0, knockback_strength = Vector3.ZERO, relative_ks = Vector3.ZERO, debug_on = false, shoot_once = false):
 	self.hit_obj = hit_obj
 	self.owner_char = owner_char
 	self.is_chargeable = is_chargeable
@@ -153,3 +157,4 @@ func _init(hit_obj = null, owner_char = null, is_chargeable = false, max_charge 
 	self.knockback_strength = knockback_strength
 	self.relative_ks = relative_ks
 	self.debug_on = debug_on
+	self.shoot_once = shoot_once

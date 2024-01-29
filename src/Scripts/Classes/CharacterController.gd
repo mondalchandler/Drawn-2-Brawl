@@ -271,7 +271,6 @@ func _init() -> void:
 
 # -- called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	print(ground_nc)
 	anim_tree_state_machine.start("idle")
 	_move_controller = MoveController.new(self, $AnimationTree, $CharacterSprite, $Hurtbox)
 
@@ -320,14 +319,26 @@ func _input(event : InputEvent) -> void:
 				_move_controller.attack(air_nc)
 			if event.is_action_pressed("normal_far"):
 				_move_controller.attack(air_nf)
+				handle_projectiles(air_nf)
 			if event.is_action_pressed("special_close"):
 				_move_controller.attack(air_sc)
 			if event.is_action_pressed("special_far"):
 				_move_controller.attack(air_sf)
 
+
+func handle_projectiles(move):
+	if air_nf.move_type == "PROJECTILE":
+		var BULLET: PackedScene = load(move.projectile_path)
+		if BULLET:
+			var bullet = BULLET.instantiate()
+			get_parent().get_parent().add_child(bullet)
+			bullet.global_position = self.global_position
+			bullet.owner_char = self
+			bullet.emit()
+
+
 # -- updates every frame aswell, but can fluxate or be more consistent since its based on the physics task process
 func _physics_process(delta: float) -> void:
-	
 	# Add the gravity.
 	if not is_on_floor():
 		velocity.y -= gravity * delta
