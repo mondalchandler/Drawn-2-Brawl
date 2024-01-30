@@ -6,7 +6,7 @@
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_aehhs"]
 
-[node name="Knife" type="Area3D" node_paths=PackedStringArray("collision_shape", "mesh_instance")]
+[node name="Bullet" type="Area3D" node_paths=PackedStringArray("collision_shape", "mesh_instance")]
 script = ExtResource("1_b5ngm")
 speed = 50
 collision_shape = NodePath("CollisionShape3D")
