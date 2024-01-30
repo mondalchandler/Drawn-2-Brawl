@@ -30,7 +30,7 @@
 [ext_resource type="Texture2D" uid="uid://cyi3r6pjscqmv" path="res://resources/Images/Animations/Ranger/Moves/RangerGSF2.png" id="15_bhij1"]
 [ext_resource type="Script" path="res://src/Scripts/Classes/BaseHitbox.gd" id="29_m1h5u"]
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_hhrvs"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_ed8ro"]
 viewport_path = NodePath("BillboardViewport")
 
 [sub_resource type="Animation" id="Animation_gcqbo"]
@@ -753,7 +753,7 @@ states/run/position = Vector2(515, 266.523)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_u83ke"), "idle", "run", SubResource("AnimationNodeStateMachineTransition_gvbk0"), "idle", "jump", SubResource("AnimationNodeStateMachineTransition_ysa4w"), "idle", "End", SubResource("AnimationNodeStateMachineTransition_hq702"), "jump", "idle", SubResource("AnimationNodeStateMachineTransition_0gub3"), "run", "idle", SubResource("AnimationNodeStateMachineTransition_lah6g"), "idle", "ground_nc", SubResource("AnimationNodeStateMachineTransition_vwg2u"), "ground_nc", "idle", SubResource("AnimationNodeStateMachineTransition_wfysw"), "idle", "ground_nf", SubResource("AnimationNodeStateMachineTransition_jk8g6"), "ground_nf", "idle", SubResource("AnimationNodeStateMachineTransition_pvjr7"), "idle", "ground_sc", SubResource("AnimationNodeStateMachineTransition_qk6w0"), "idle", "ground_sf", SubResource("AnimationNodeStateMachineTransition_npewh"), "idle", "air_nc", SubResource("AnimationNodeStateMachineTransition_irx81"), "idle", "air_nf", SubResource("AnimationNodeStateMachineTransition_fxav1"), "idle", "air_sc", SubResource("AnimationNodeStateMachineTransition_0b1gd"), "idle", "air_sf", SubResource("AnimationNodeStateMachineTransition_2pico"), "ground_sc", "idle", SubResource("AnimationNodeStateMachineTransition_3bs8x"), "ground_sf", "idle", SubResource("AnimationNodeStateMachineTransition_kbrtx"), "air_nc", "idle", SubResource("AnimationNodeStateMachineTransition_1e1ji"), "air_nf", "idle", SubResource("AnimationNodeStateMachineTransition_7hcvc"), "air_sc", "idle", SubResource("AnimationNodeStateMachineTransition_42ski"), "air_sf", "idle", SubResource("AnimationNodeStateMachineTransition_xd5lr")]
 graph_offset = Vector2(-198.408, -83.1256)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_asstw"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_v4u38"]
 viewport_path = NodePath("BillboardViewport")
 
 [node name="Ranger" type="CharacterBody3D" node_paths=PackedStringArray("ground_nc", "ground_nf", "ground_sc", "ground_sf", "air_nc", "air_nf", "air_sc", "air_sf")]
@@ -772,7 +772,7 @@ air_sf = NodePath("Moves/Wrangle \'Em")
 [node name="DebugInfo" parent="." instance=ExtResource("2_qo63s")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.21122, 2.46423)
 pixel_size = 0.015
-texture = SubResource("ViewportTexture_hhrvs")
+texture = SubResource("ViewportTexture_ed8ro")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 speed_scale = 2.0
@@ -918,7 +918,7 @@ process_callback = 2
 [node name="PlayerNametag" parent="." instance=ExtResource("2_qo63s")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.859205, 0)
 pixel_size = 0.02
-texture = SubResource("ViewportTexture_asstw")
+texture = SubResource("ViewportTexture_v4u38")
 
 [node name="TargetArrow" type="Sprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.41769, 0)
@@ -941,8 +941,10 @@ hitbox = NodePath("../../Hurtbox/Pistol Whip Hitbox")
 [node name="Standoff" type="Node" parent="Moves"]
 script = ExtResource("14_regd4")
 move_input = "ground_nf"
-move_type = "HITSCAN"
+move_type = "PROJECTILE"
 move_name = "Standoff"
+move_data = [1, [0.2]]
+projectile_path = "res://src/Scenes/Characters/Projectiles/Bullet.tscn"
 
 [node name="Axe Uppercut" type="Node" parent="Moves" node_paths=PackedStringArray("hitbox")]
 script = ExtResource("14_regd4")
@@ -954,8 +956,10 @@ hitbox = NodePath("../../Hurtbox/Axe Uppercut Hitbox")
 [node name="3 In The Chamber" type="Node" parent="Moves"]
 script = ExtResource("14_regd4")
 move_input = "ground_sf"
-move_type = "HITSCAN"
+move_type = "PROJECTILE"
 move_name = "3 Bullets Left"
+move_data = [3, [0.1, 0.2, 0.2]]
+projectile_path = "res://src/Scenes/Characters/Projectiles/Bullet.tscn"
 
 [node name="Air Swing" type="Node" parent="Moves" node_paths=PackedStringArray("hitbox")]
 script = ExtResource("14_regd4")
@@ -969,7 +973,8 @@ script = ExtResource("14_regd4")
 move_input = "air_nf"
 move_type = "PROJECTILE"
 move_name = "Throwing Knife"
-projectile_path = "res://src/Scenes/Characters/Bullet.tscn"
+move_data = [1, [0.2]]
+projectile_path = "res://src/Scenes/Characters/Projectiles/Knife.tscn"
 
 [node name="Shotgun Explosion" type="Node" parent="Moves" node_paths=PackedStringArray("hitbox")]
 script = ExtResource("14_regd4")

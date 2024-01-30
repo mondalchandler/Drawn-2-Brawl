@@ -269,10 +269,12 @@ func move_to(destination: Vector3) -> void:
 func _init() -> void:
 	pass
 
+
 # -- called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	anim_tree_state_machine.start("idle")
 	_move_controller = MoveController.new(self, $AnimationTree, $CharacterSprite, $Hurtbox)
+	add_child(_move_controller)
 
 
 # -- called when the user inputs anything  
@@ -318,24 +320,11 @@ func _input(event : InputEvent) -> void:
 			if event.is_action_pressed("normal_close"):
 				_move_controller.attack(air_nc)
 			if event.is_action_pressed("normal_far"):
-				handle_projectiles(air_nf)
 				_move_controller.attack(air_nf)
 			if event.is_action_pressed("special_close"):
 				_move_controller.attack(air_sc)
 			if event.is_action_pressed("special_far"):
 				_move_controller.attack(air_sf)
-
-
-func handle_projectiles(move):
-	if air_nf.move_type == "PROJECTILE":
-		var BULLET: PackedScene = load(move.projectile_path)
-		if BULLET:
-			var bullet = BULLET.instantiate()
-			get_parent().get_parent().add_child(bullet)
-			bullet.global_position = self.global_position
-			bullet.owner_char = self
-			await get_tree().create_timer(0.2).timeout
-			bullet.emit()
 
 
 # -- updates every frame aswell, but can fluxate or be more consistent since its based on the physics task process
@@ -361,8 +350,7 @@ func _physics_process(delta: float) -> void:
 	# update animations
 	anim_tree.advance(delta * anim_speed_scale)
 	_update_core_animations()
-	
-	
+
 
 # -- called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:

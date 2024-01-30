@@ -23,7 +23,7 @@ extends Node
 @export var move_input: String
 @export var move_type: String
 @export var move_name: String
-@export var move_data: Array        # Might retire this var
+@export var move_data: Array
 @export var hitbox: BaseHitbox      # HOW TO ADD CUSTOM HITBOXES documentation in BaseHitbox.gd
 @export var hitscan: Hitscan
 @export var projectile_path: String

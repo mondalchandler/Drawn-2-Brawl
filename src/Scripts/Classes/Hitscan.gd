@@ -1,5 +1,13 @@
 # Chandler Frakes
 
+# << !!!! NOT BEING USED ATM, ALSO CHARGE FUNCTIONALITY INCOMPLETE !!!! >>
+
+# HOW TO ADD CUSTOM HITSCAN
+	# 1) Add Hitscan child node to Hurtbox
+	# 2) Fill out corresponding variables to how you want strength, kb, stun to act
+	# 3) In the corresponding Move node, assign this Hitscan node to the corresponding variable
+	# 4) Use the shoot_once variable in AnimationPlayer to activate the hitscan
+
 class_name Hitscan
 extends Node
 
