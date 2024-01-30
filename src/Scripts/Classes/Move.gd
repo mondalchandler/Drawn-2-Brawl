@@ -23,15 +23,18 @@ extends Node
 @export var move_input: String
 @export var move_type: String
 @export var move_name: String
-@export var move_data: Array        # Might retire this var
+@export var move_data: Array
 @export var hitbox: BaseHitbox      # HOW TO ADD CUSTOM HITBOXES documentation in BaseHitbox.gd
 @export var hitscan: Hitscan
+@export var projectile_path: String
 
 # ---------------- INIT ---------------- #
 
-func _init(move_input = "", move_type = "", move_name = "", move_data = [], hitbox = null):
+func _init(move_input = "", move_type = "", move_name = "", move_data = [], hitbox = null, hitscan = null, projectile_path = ""):
 	self.move_input = move_input
 	self.move_type = move_type
 	self.move_name = move_name
 	self.move_data = move_data
 	self.hitbox = hitbox
+	self.hitscan = hitscan
+	self.projectile_path = projectile_path

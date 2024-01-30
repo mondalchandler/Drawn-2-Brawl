@@ -16,9 +16,10 @@ var move_input
 # ---------------- FUNCTIONS ---------------- #
 
 func attack(move):
-	if !(owner_char.anim_tree_state_machine.get_current_node() in owner_char.MOVE_MAP_NAMES):	
+	if !(owner_char.anim_tree_state_machine.get_current_node() in owner_char.MOVE_MAP_NAMES):
 		self.move_input = move.move_input
 		
+		play_animation()
 		flip_hurtbox()
 		
 		# do the specific action
@@ -30,11 +31,17 @@ func attack(move):
 			"GRAPPLE":
 				pass
 			"HITSCAN":
-				move.hitscan.shoot()
-			"PROJECTILE":
 				pass
-			
-		play_animation()
+			"PROJECTILE":
+				for i in range(move.move_data[0]):
+					var PROJECTILE: PackedScene = load(move.projectile_path)
+					if PROJECTILE:
+						var projectile = PROJECTILE.instantiate()
+						self.owner_char.get_parent().get_parent().add_child(projectile)
+						projectile.global_position = self.owner_char.global_position
+						projectile.owner_char = self.owner_char
+						await get_tree().create_timer(move.move_data[1][i-1]).timeout
+						projectile.emit()
 
 
 func flip_hurtbox():

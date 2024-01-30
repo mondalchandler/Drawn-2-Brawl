@@ -51,19 +51,14 @@ func _calc_kb_vector():
 			self.knockback_strength *= Vector3(-1, 1, -1)
 
 
-# determines if a hit node is a character. chars have hurtboxes and health
-func node_is_char(node) -> bool:
-	return node.get_node_or_null("Hurtbox") != null and node.health and node.max_health
-
-
 # overrideable virtual method.
-func _before_hit_computation(hit_char) -> void:
+func _before_hit_computation() -> void:
 	_calc_kb_vector()
 
 
 # overrideable virtual method.
-func _after_hit_computation(char, dmg) -> void:
-	pass
+func _after_hit_computation() -> void:
+	self.active = false
 
 
 func deal_stun(hit_char) -> void:
@@ -96,19 +91,27 @@ func on_hit(hit_char) -> void:
 	# move so that we know what the effects should be. Should it stun/kb? If kb, what's the
 	# intensity/specific kb effect?
 	
-	self._before_hit_computation(hit_char)
+	self._before_hit_computation()
 	
 	# deal values to character
 	self.deal_stun(hit_char)
 	self.deal_kb(hit_char)
 	var dmg = self.deal_dmg(hit_char)
 	
-	self._after_hit_computation(hit_char, dmg)
+	self._after_hit_computation()
+
+
+# determines if a hit node is a character. chars have hurtboxes and health
+func node_is_char(node) -> bool:
+	return node.get_node_or_null("Hurtbox") != null and node.health and node.max_health
 
 
 func node_is_object(node):
 	return node.get_node_or_null("Destruction") != null
-#	return false;
+
+
+func node_is_world(node):
+	return node != self.owner_char and !self.node_is_object(node) and !self.node_is_char(node)
 
 
 # determines if a hit node is a player
@@ -116,8 +119,11 @@ func on_collision_detected(colliding_node) -> void:
 	if self.node_is_char(colliding_node) and colliding_node != self.owner_char and (self.hit_chars.get(colliding_node) == null or self.hit_chars.get(colliding_node) == false):
 		self.hit_chars[colliding_node] = true
 		self.on_hit(colliding_node)
-	elif(self.node_is_object(colliding_node)):
+	elif (self.node_is_object(colliding_node)):
 		colliding_node.get_node("Destruction").destroy()
+		self._after_hit_computation()
+	elif (self.node_is_world(colliding_node)):
+		self._after_hit_computation()
 
 # ------------------- SIGNAL CONNECTION --------------------- #
 
