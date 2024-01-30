@@ -6,9 +6,9 @@ class_name Projectile
 # HOW TO ADD CUSTOM PROJECTILES
 	# 1) Create a new scene, call it whatever you want
 			# a) We reparent projectiles to the map scene so that they can move independently of the player.
-			#	 Doing so requires that we instantiate a PackedScene of the projectile we are spawning.
-			#	 The next few steps are the same as those in BaseHitbox.gd, since all we are creating is a
-			#	 moving hitbox.
+			#    Doing so requires that we instantiate a PackedScene of the projectile we are spawning.
+			#    The next few steps are the same as those in BaseHitbox.gd, since all we are creating is a
+			#    moving hitbox.
 	# 2) Attatch a MeshInstance3D as well as a CollisionShape3D node to Projectile node
 	# 3) In Projectile node, assign the mesh and collision shape to the corresponding varialbes
 	# 4) In the corresponding Move node, assign the projectile_path node to the path of the proj. scene
@@ -16,13 +16,13 @@ class_name Projectile
 		#    position/size of the mesh
 		# b) WE USE MOVE_DATA HERE!!!!!!!!!!!!!!!!!!!!!!!!!!
 		#    Because some moves require multiple projectiles for the same animation, we need to provide
-		#	 the information of how many times we repeat the projectile, and at what times they appear.
-		#	 We use a timer to delay the next proj. from appearing, so the second parameter in move_data
-		#	 should be an array (size of which == repeated_times) that has each offset (try best to match
-		#	 with animation). The format is as such:
-		#	 	 [ repeated_times: int, [ delay_1: float, delay_2: float, etc. ] ]
-		#	 	 Ex:	[ 3, [ 0.1, 0.2, 0.2 ] ]
-		#	 Check out MoveController.gd to see how we interact with this data.
+		#    the information of how many times we repeat the projectile, and at what times they appear.
+		#    We use a timer to delay the next proj. from appearing, so the second parameter in move_data
+		#    should be an array (size of which == repeated_times) that has each offset (try best to match
+		#    with animation). The format is as such:
+		#        [ repeated_times: int, [ delay_1: float, delay_2: float, etc. ] ]
+		#        Ex:    [ 3, [ 0.1, 0.2, 0.2 ] ]
+		#    Check out MoveController.gd to see how we interact with this data.
 
 # ---------------- PROPERTIES ----------------- #
 
