@@ -15,6 +15,7 @@ damage_range = [10, 10]
 kb_length = 0.1
 hitstun_length = 0.1
 knockback_strength = Vector3(2, 2, 2)
+debug_on = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1.2, 0, 0, 0, 0.8, 0, 0, 0, 1, 0.5, 0, 0.5)

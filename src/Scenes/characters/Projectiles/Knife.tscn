@@ -8,13 +8,14 @@
 
 [node name="Knife" type="Area3D" node_paths=PackedStringArray("collision_shape", "mesh_instance")]
 script = ExtResource("1_qb8vw")
-speed = 5
+speed = 25
 collision_shape = NodePath("CollisionShape3D")
 mesh_instance = NodePath("MeshInstance3D")
 damage_range = [10, 10]
 kb_length = 0.1
 hitstun_length = 0.1
 knockback_strength = Vector3(2, 2, 2)
+debug_on = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1.2, 0, 0, 0, 0.8, 0, 0, 0, 1, 0.5, 0, 0.5)
