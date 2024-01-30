@@ -38,7 +38,7 @@ func _ready() -> void:
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(delta):	
 	if self.active:
 		self.global_position += self.speed * self.direction * delta
 		self.hit_chars = {}
@@ -53,6 +53,6 @@ func _process(delta):
 			self.mesh_instance.visible = false
 
 
-func _init(speed = 0):	
+func _init(speed = 0):
 	super()
 	self.speed = speed

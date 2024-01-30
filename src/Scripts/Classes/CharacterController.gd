@@ -318,8 +318,8 @@ func _input(event : InputEvent) -> void:
 			if event.is_action_pressed("normal_close"):
 				_move_controller.attack(air_nc)
 			if event.is_action_pressed("normal_far"):
-				_move_controller.attack(air_nf)
 				handle_projectiles(air_nf)
+				_move_controller.attack(air_nf)
 			if event.is_action_pressed("special_close"):
 				_move_controller.attack(air_sc)
 			if event.is_action_pressed("special_far"):
@@ -334,6 +334,7 @@ func handle_projectiles(move):
 			get_parent().get_parent().add_child(bullet)
 			bullet.global_position = self.global_position
 			bullet.owner_char = self
+			await get_tree().create_timer(0.2).timeout
 			bullet.emit()
 
 
