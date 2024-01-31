@@ -8,10 +8,10 @@
 [ext_resource type="AudioStream" uid="uid://b7c4b8a4x2w3v" path="res://resources/Music/TestSong/DrumLayer.mp3" id="5_frx3p"]
 [ext_resource type="Script" path="res://src/Scripts/MusicPlayer.gd" id="5_km47x"]
 [ext_resource type="AudioStream" uid="uid://c1husnq4yjdg2" path="res://resources/Music/TestSong/bassLayer.mp3" id="6_ildc1"]
-[ext_resource type="PackedScene" path="res://src/Scenes/characters/AIEnemy.tscn" id="7_eyje3"]
+[ext_resource type="PackedScene" uid="uid://frlimrjye2tm" path="res://src/Scenes/Characters/AIEnemy.tscn" id="7_eyje3"]
 [ext_resource type="AudioStream" uid="uid://dmkakluxbdvta" path="res://resources/Music/TestSong/leadLayer.mp3" id="7_yatml"]
 [ext_resource type="PackedScene" uid="uid://b8ho0wqibktcr" path="res://src/Scenes/UI/HealthUI/all_player_health_list.tscn" id="10_606jg"]
-[ext_resource type="PackedScene" path="res://src/Scenes/characters/Dummy.tscn" id="10_pc5le"]
+[ext_resource type="PackedScene" uid="uid://bs7wdf3lvb22c" path="res://src/Scenes/Characters/Dummy.tscn" id="10_pc5le"]
 [ext_resource type="Script" path="res://src/Scenes/Levels/CanvasLayer.gd" id="10_r8f68"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_4q1ak"]

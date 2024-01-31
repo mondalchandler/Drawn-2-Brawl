@@ -1,5 +1,14 @@
-# Kyles45678
-# This class is the base class for a hitbox in the game. 
+# Kyles45678, Chandler Frakes
+# This class is the base class for a hitbox in the game.
+
+# HOW TO ADD CUSTOM HITBOXES
+	# 1) Add BaseHitbox child node to Hurtbox
+	# 2) Attatch a MeshInstance3D as well as a CollisionShape3D node to BaseHitbox node
+	# 3) In BaseHitbox node, assign the mesh and collision shape to the corresponding varialbes
+		# a) From this point forward, one should be able to mess around with the custom parameters,
+		#    position/size of the mesh
+	# 4) In the corresponding Move node, assign the BaseHitbox node to this hitbox variable
+	# 5) Use the active variable in AnimationPlayer to activate/deactivate the hitbox
 
 # ---------------- IMPORTS ------------------- #
 
@@ -8,88 +17,49 @@ extends Area3D
 
 # ---------------- PROPERTIES ----------------- #
 
+@export var active: bool
+
 # nodes used for the hitbox
-var collision_shape: CollisionShape3D
-var mesh_instance: MeshInstance3D	# for hitbox visuals
+@export var collision_shape: CollisionShape3D
+@export var mesh_instance: MeshInstance3D	# for hitbox visuals
 
 # the original character object, creator of the hitbox. can be null
-var owner_char
+@export var owner_char : CharacterController
 
 # a range of two numbers to indicate what damage rolls the hitbox can have. the second number MUST be greater. integers only
-var damage_range: Array
+@export var damage_range: Array
 var PLAYER_STAMINA_PERCENT_REDUCTION = .25
 
 # a dictionary to track hit characters from the hitbox
 var hit_chars: Dictionary
 
-# the positional offset of the hitbox, RELATIVE to the character's pivot (center transform)
-var origin_offset: Transform3D
-
 # determine how long a character cannot act for when hit, and how long a knockback force is applied
-var kb_length: float
-var hitstun_length: float
-var knockback_strength: Vector3
+@export var kb_length: float
+@export var hitstun_length: float
+@export var knockback_strength: Vector3
 
 # determines if hitboxes should show or not
-var debug_on: bool
+@export var debug_on: bool
 
 # ------------------- METHODS --------------------- #
 
-# constructor
-func _init(char, offset: Transform3D, dmg_rng: Array, hitstun: float, kb_length: float, kb_stg: Vector3, debug_on: bool) -> void:
-	self.owner_char = char
-	
-	self.kb_length = kb_length
-	self.knockback_strength = kb_stg
-	self.origin_offset = offset if (offset != null) else Transform3D.IDENTITY
-	self.damage_range = dmg_rng if (dmg_rng != null) else [5, 5]
-	self.hitstun_length = hitstun if (hitstun != null) else 0.5
-	self.monitoring = false
-	
-	self.hit_chars = {}
-	self.name = "Hitbox"
-	self.monitoring = false
-	
-	self.debug_on = debug_on
-
-
-# turns on hitbox monitoring and refreshes hit character dictionary
-func _activate() -> void:
-#	self.mesh_instance.transform = origin_offset
-	
-	self.hit_chars = {}
-	self.monitoring = true
-	if self.debug_on == true and self.mesh_instance != null:
-		self.mesh_instance.visible = true
-
-
-# turns off monitoring, refreshes the queue
-func _deactivate() -> void:
-	self.monitoring = false
-	self.hit_chars = {}
-	if self.mesh_instance != null:
-		self.mesh_instance.visible = false
-
-
-# TODO: this function will make use of the owner character node, the enemy character node,
-	# and the hitbox node to determine a vector3 for knockback velocity 
-func _calc_kb_vector(enemChar) -> Vector3:
-	return Vector3.ZERO
-
-
-# determines if a hit node is a character. chars have hurtboxes and health
-func node_is_char(node) -> bool:
-	return node.get_node_or_null("Hurtbox") != null and node.health and node.max_health
+func _calc_kb_vector():
+	if (owner_char.sprite.flip_h):		# if we are facing left
+		if (self.knockback_strength.x > 0 && self.knockback_strength.z > 0):	# if the move magnitude is rightward, make it face left
+			self.knockback_strength *= Vector3(-1, 1, -1)
+	else:					# else we are facing right
+		if (self.knockback_strength.x < 0 && self.knockback_strength.z < 0):	# if the move magnitude is leftward, make it face right
+			self.knockback_strength *= Vector3(-1, 1, -1)
 
 
 # overrideable virtual method.
-func _before_hit_computation(hit_char) -> void:
-	pass
+func _before_hit_computation() -> void:
+	_calc_kb_vector()
 
 
 # overrideable virtual method.
-func _after_hit_computation(char, dmg) -> void:
-	pass
+func _after_hit_computation() -> void:
+	self.active = false
 
 
 func deal_stun(hit_char) -> void:
@@ -122,7 +92,7 @@ func on_hit(hit_char) -> void:
 	# move so that we know what the effects should be. Should it stun/kb? If kb, what's the
 	# intensity/specific kb effect?
 	
-	self._before_hit_computation(hit_char)
+	self._before_hit_computation()
 	
 	# deal values to character
 	var dmg = 0
@@ -137,23 +107,32 @@ func on_hit(hit_char) -> void:
 		self.deal_stun(owner_char)
 		self.hitstun_length = temp_stun
 	
-	self._after_hit_computation(hit_char, dmg)
+	self._after_hit_computation()
+
+
+# determines if a hit node is a character. chars have hurtboxes and health
+func node_is_char(node) -> bool:
+	return node.get_node_or_null("Hurtbox") != null and node.health and node.max_health
 
 
 func node_is_object(node):
-	#return node.get_node_or_null("Destruction") != null
-	return false;
+	return node.get_node_or_null("Destruction") != null
+
+
+func node_is_world(node):
+	return node != self.owner_char and !self.node_is_object(node) and !self.node_is_char(node)
 
 
 # determines if a hit node is a player
 func on_collision_detected(colliding_node) -> void:
-#	print(str(colliding_node))
 	if self.node_is_char(colliding_node) and colliding_node != self.owner_char and (self.hit_chars.get(colliding_node) == null or self.hit_chars.get(colliding_node) == false):
 		self.hit_chars[colliding_node] = true
 		self.on_hit(colliding_node)
-	elif(self.node_is_object(colliding_node)):
+	elif (self.node_is_object(colliding_node)):
 		colliding_node.get_node("Destruction").destroy()
-
+		self._after_hit_computation()
+	elif (self.node_is_world(colliding_node)):
+		self._after_hit_computation()
 
 # ------------------- SIGNAL CONNECTION --------------------- #
 
@@ -163,7 +142,6 @@ func area_entered(area: Area3D) -> void:
 
 func body_entered(body: Node3D) -> void:
 	on_collision_detected(body)
-
 
 # ------------------- INIT AND LOOP --------------------- #
 
@@ -180,8 +158,41 @@ func _ready() -> void:
 	
 	self.connect("area_entered", area_entered)
 	self.connect("body_entered", body_entered)
-	
+
 
 # called every frame. 'delta' is the elapsed time since the previous frame
 func _process(delta) -> void:
-	pass
+	if self.active:
+		self.hit_chars = {}
+		self.monitoring = true
+		if self.debug_on == true and self.mesh_instance != null:
+			self.mesh_instance.visible = true
+	else:
+		self.monitoring = false
+		self.hit_chars = {}
+		if self.mesh_instance != null:
+			self.mesh_instance.visible = false
+
+
+# constructor
+func _init(	owner_char = null,
+			damage_range = [5, 5],
+			kb_length = 0.0, hitstun_length = 0.5,
+			knockback_strength = Vector3.ZERO,
+			debug_on = false,
+			collision_shape = CollisionShape3D.new(),
+			mesh_instance = MeshInstance3D.new(),
+			active = false) -> void:
+	self.active = active
+	self.owner_char = owner_char
+	
+	self.kb_length = kb_length
+	self.knockback_strength = knockback_strength
+	self.damage_range = damage_range
+	self.hitstun_length = hitstun_length
+	
+	self.hit_chars = {}
+	self.name = "Hitbox"
+	self.monitoring = false
+	
+	self.debug_on = debug_on
