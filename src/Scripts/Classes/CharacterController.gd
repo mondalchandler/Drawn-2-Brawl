@@ -8,6 +8,9 @@ extends CharacterBody3D
 # ---------------- CONSTANTS ---------------- #
 
 const FLASH_DELAY: float = 0.125
+const BLOCK_STAMINA_AMOUNT : float = 10
+const BLOCK_RECHARGE_TIME : float = 4
+const PERFECT_BLOCK_TIME_TOTAL : float = 0.25
 const MOVE_MAP_NAMES = ["ground_nc", "ground_nf", "ground_sc", "ground_sf", "air_nc", "air_nf", "air_sc", "air_sf"]
 const TARGET_ARROW_DEFAULT_SIZE: float = 0.0002
 
@@ -20,6 +23,9 @@ const TARGET_ARROW_DEFAULT_SIZE: float = 0.0002
 @export var display_name: String = "TestCharacter"
 @export var in_game: bool = true
 @export var knockback : Vector3 = Vector3.ZERO
+@export var block_stamina : float = BLOCK_STAMINA_AMOUNT
+@export var perfect_block_time : float = PERFECT_BLOCK_TIME_TOTAL
+@export var temp_block_recharge_time : float = 4.0
 
 @export var speed: float = 5.0
 @export var air_speed: float = 5.0
@@ -31,6 +37,7 @@ const TARGET_ARROW_DEFAULT_SIZE: float = 0.0002
 
 @export var invincible: bool = false
 @export var blocking: bool = false
+@export var perfect_block: bool = false
 @export var grabbing: bool = false
 @export var dodging: bool = false
 @export var can_move = true
@@ -49,7 +56,7 @@ const TARGET_ARROW_DEFAULT_SIZE: float = 0.0002
 @export var air_sf: Move = null
 
 # Enums
-enum PlayerState { IDLE, RUNNING, JUMPING, FALLING, KNOCKBACK}
+enum PlayerState { IDLE, RUNNING, JUMPING, FALLING, KNOCKBACK, BLOCKING}
 
 var z_target: Node3D = null
 var targetting: bool = false
@@ -68,6 +75,7 @@ var _move_controller = null
 
 @onready var hurtbox: CollisionShape3D = $Hurtbox
 @onready var sprite: Sprite3D = $CharacterSprite
+@onready var stamina_bar = $StanimaBar3D
 
 @onready var anim_player: AnimationPlayer = $AnimationPlayer
 @onready var anim_tree: AnimationTree = $AnimationTree
@@ -140,32 +148,41 @@ func _update_core_animations() -> void:
 		anim_tree_state_machine.travel("jump")
 	elif _state == PlayerState.FALLING:
 		anim_tree_state_machine.travel("jump")
+	elif _state == PlayerState.BLOCKING:
+		anim_tree_state_machine.travel("block")
 
 
 # -- update the velocities of the character and then apply them
 func _update_movement(delta: float) -> void:
-	if is_on_floor():
-		if move_direction.length() > 0.0:
-			self._state = PlayerState.RUNNING
-			velocity.x = move_direction.x * self.speed + knockback.x
-			velocity.z = move_direction.z * self.speed + knockback.z
-			
-			# if player is moving left, flip the sprite
-			sprite.flip_h = (move_direction.x < 0)
+	if !self.blocking:
+		if is_on_floor():
+			if move_direction.length() > 0.0:
+				self._state = PlayerState.RUNNING
+				velocity.x = move_direction.x * self.speed + knockback.x
+				velocity.z = move_direction.z * self.speed + knockback.z
+				
+				# if player is moving left, flip the sprite
+				sprite.flip_h = (move_direction.x < 0)
+			else:
+				self._state = PlayerState.IDLE
+				
+				#TODO: Lowkey feels weird and could be better
+				velocity.x = lerp(velocity.x, 0.0, delta * 7.0) + knockback.x
+				velocity.z = lerp(velocity.z, 0.0, delta * 7.0) + knockback.z
 		else:
-			self._state = PlayerState.IDLE
-			
-			#TODO: Lowkey feels weird and could be better
+			velocity.x = lerp(velocity.x, move_direction.x * self.air_speed, delta * 3.0)
+			velocity.z = lerp(velocity.z, move_direction.z * self.air_speed, delta * 3.0)
+			if velocity.y > 0.0:
+				self._state = PlayerState.JUMPING
+			else:
+				self._state = PlayerState.FALLING
+	else:
+		if !is_on_floor():
+			velocity.x = lerp(velocity.x, 0.0, delta * 3.0)
+			velocity.z = lerp(velocity.z, 0.0, delta * 3.0)
+		else:
 			velocity.x = lerp(velocity.x, 0.0, delta * 7.0) + knockback.x
 			velocity.z = lerp(velocity.z, 0.0, delta * 7.0) + knockback.z
-	else:
-		velocity.x = lerp(velocity.x, move_direction.x * self.air_speed, delta * 3.0)
-		velocity.z = lerp(velocity.z, move_direction.z * self.air_speed, delta * 3.0)
-		
-		if velocity.y > 0.0:
-			self._state = PlayerState.JUMPING
-		else:
-			self._state = PlayerState.FALLING
 	if !can_move:
 		velocity = knockback
 			
@@ -225,7 +242,32 @@ func _update_invincible_flash(dt: float) -> void:
 		_flashing_switch_time = 0.0
 		sprite.show()
 		
-		
+
+func _update_block_recharge_delay(delta):
+	if not self.blocking:
+		if self.temp_block_recharge_time < BLOCK_RECHARGE_TIME:
+			self.temp_block_recharge_time+=delta
+			if self.temp_block_recharge_time > BLOCK_RECHARGE_TIME:
+				self.temp_block_recharge_time = BLOCK_RECHARGE_TIME
+		elif self.block_stamina < BLOCK_STAMINA_AMOUNT:
+			self.block_stamina+=delta
+			if self.block_stamina >= BLOCK_STAMINA_AMOUNT:
+				self.block_stamina = BLOCK_STAMINA_AMOUNT
+				if(stamina_bar):
+					stamina_bar.visible = false
+	else:	
+		if perfect_block_time > 0:
+			perfect_block_time -= delta
+		else:
+			perfect_block = false
+		self.block_stamina-=delta
+		if(stamina_bar):
+			stamina_bar.visible = true
+	
+	if(stamina_bar):
+		stamina_bar.update_stamina_bar(block_stamina*10)
+
+
 # -- converts the move name to the type for the move controller
 # -- NOT FULLY IMPLEMENTED DUE TO LACK OF MOVES
 func _move_name_to_type(name):
@@ -265,10 +307,11 @@ func set_camera(cam: Camera3D) -> void:
 
 
 func take_damage(damage: float) -> void:
-	self.health -= damage
-	if self.health <= 0:
-		self.health = 0
-		emit_signal("died")
+	if !self.blocking:
+		self.health -= damage
+		if self.health <= 0:
+			self.health = 0
+			emit_signal("died")
 
 
 # TODO: When provided a desination vector, move the player to said direction
@@ -291,6 +334,19 @@ func _ready() -> void:
 
 # -- called when the user inputs anything  
 func _input(event : InputEvent) -> void:
+	if event.is_action_pressed("block") and block_stamina > 0 and can_player_input:
+		self.blocking = true
+		self._state = PlayerState.BLOCKING
+		self.temp_block_recharge_time = 0
+		self.perfect_block = true
+	
+	if self.blocking:
+		if (event.is_action_released("block") or block_stamina <= 0):
+			self.blocking = false
+			self._state = PlayerState.IDLE
+			self.perfect_block = false
+			self.perfect_block_time = self.PERFECT_BLOCK_TIME_TOTAL
+	
 	if not can_player_input:
 		return
 	
@@ -305,7 +361,7 @@ func _input(event : InputEvent) -> void:
 		targetting = not targetting
 	
 	# jumping
-	if is_on_floor() and Input.is_action_just_pressed("jump"):
+	if is_on_floor() and Input.is_action_just_pressed("jump") and !self.blocking:
 		velocity.y += jump_power
 	
 	# move inputs
@@ -372,3 +428,4 @@ func _process(delta: float) -> void:
 	_update_floor_indicator(delta)
 	_update_health_change()
 	_update_invincible_flash(delta)
+	_update_block_recharge_delay(delta)

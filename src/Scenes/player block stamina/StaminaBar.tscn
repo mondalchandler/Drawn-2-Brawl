@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://dmek4pw0sr5ky"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wkst6"]
+bg_color = Color(0.552941, 0.164706, 0.513726, 0.262745)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g1gui"]
+bg_color = Color(0.392157, 0.00392157, 0.537255, 1)
+
+[node name="StaminaBar" type="ProgressBar"]
+offset_right = 200.0
+offset_bottom = 20.0
+theme_override_styles/background = SubResource("StyleBoxFlat_wkst6")
+theme_override_styles/fill = SubResource("StyleBoxFlat_g1gui")
+value = 100.0
+show_percentage = false
