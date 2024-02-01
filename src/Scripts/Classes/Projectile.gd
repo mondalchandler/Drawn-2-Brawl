@@ -29,8 +29,33 @@ class_name Projectile
 @export var speed: int
 
 var direction
+var target_displayed = false
+var image = load("res://resources/Images/red_crosshair.png")
+var target = Sprite3D.new()
+var map
 
 # ---------------- FUNCTIONS ---------------- #
+
+func display_target():
+	if !self.target_displayed:
+		if self.owner_char.targetting:
+			var scale = 0.17
+			self.target.scale = Vector3(scale, scale, scale)
+			self.target.texture = self.image
+			self.target.billboard = true
+			self.target.transparency = 0.5
+			
+			self.map = get_parent()
+			self.map.add_child(self.target)
+			self.map.move_child(self.target, self.map.get_child_count() - 1)
+			self.target.global_position = self.owner_char.z_target.global_position
+			self.target_displayed = true		
+
+
+# overrideable virtual method.
+func _after_hit_computation() -> void:
+	queue_free()
+
 
 func emit():	
 	self.direction = get_direction()
@@ -38,17 +63,17 @@ func emit():
 
 
 func get_direction():
-	if owner_char.targetting:
-		return owner_char.global_position.direction_to(owner_char.z_target.global_position)
+	if self.owner_char.targetting:
+		return self.owner_char.global_position.direction_to(self.owner_char.z_target.global_position)
 	else:
-		if (!owner_char.sprite.flip_h):
-			return owner_char.global_position.direction_to(Vector3(owner_char.global_position.x + 1000, 0, owner_char.global_position.x + 1000))
+		if (!self.owner_char.sprite.flip_h):
+			return self.owner_char.global_position.direction_to(Vector3(self.owner_char.global_position.x + 1000, 0, self.owner_char.global_position.x + 1000))
 		else:
-			return owner_char.global_position.direction_to(Vector3(owner_char.global_position.x - 1000, 0, owner_char.global_position.x - 1000))
+			return self.owner_char.global_position.direction_to(Vector3(self.owner_char.global_position.x - 1000, 0, self.owner_char.global_position.x - 1000))
 
 # ------------------- INIT AND LOOP --------------------- #
 
-# this only runs when the node and ITS CHILDREN and loaded
+# this only runs when the node and ITS CHILDREN have loaded
 func _ready() -> void:
 	# turn off collisions with default world
 	self.set_collision_layer_value(1, false)
@@ -66,13 +91,16 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):	
 	if self.active:
+		if self.target_displayed:
+			self.map.remove_child(self.target)
 		self.global_position += self.speed * self.direction * delta
 		self.hit_chars = {}
 		self.monitoring = true
 		if self.debug_on == true and self.mesh_instance != null:
 			self.mesh_instance.visible = true
 	else:
-		self.global_position = owner_char.global_position
+		display_target()
+		self.global_position = self.owner_char.global_position
 		self.monitoring = false
 		self.hit_chars = {}
 		if self.mesh_instance != null:

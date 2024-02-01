@@ -99,7 +99,7 @@ func _update_z_target(dt: float) -> void:
 		var closest_target: Node3D = null
 		var closest_distance: float = INF
 		for player in players.get_children():
-			if player != self:
+			if player != self and player.health > 0:
 				var dist: float = (self.global_position - player.global_position).length()
 				if dist <= closest_distance:
 					closest_distance = dist
@@ -116,6 +116,7 @@ func _update_z_target(dt: float) -> void:
 		target_arrow.hide()
 	target_arrow.pixel_size = TARGET_ARROW_DEFAULT_SIZE + sin(Time.get_ticks_msec() * 0.0125) * 0.000015
 
+
 # -- updates the 3d text for debug information. append more information if need be
 func _update_debug_text() -> void:
 	debug_tag.global_position = self.global_position + Vector3(0, 1, 0)
@@ -128,6 +129,7 @@ func _update_debug_text() -> void:
 	debug_tag.text += "\nTarget: " + str(z_target)
 	debug_tag.text += "\n" + _input_state_text
 
+
 # -- given the current state of the player, update the animation tree
 func _update_core_animations() -> void:
 	if _state == PlayerState.IDLE:
@@ -138,6 +140,7 @@ func _update_core_animations() -> void:
 		anim_tree_state_machine.travel("jump")
 	elif _state == PlayerState.FALLING:
 		anim_tree_state_machine.travel("jump")
+
 
 # -- update the velocities of the character and then apply them
 func _update_movement(delta: float) -> void:
@@ -168,6 +171,7 @@ func _update_movement(delta: float) -> void:
 			
 	move_and_slide()
 
+
 # -- translates a vector3 to the same vector3, translated to the camera's offset
 func _get_camera_relative_input(input) -> Vector3:
 	if not self.current_cam: return Vector3.ZERO
@@ -178,6 +182,7 @@ func _get_camera_relative_input(input) -> Vector3:
 	cam_forward = cam_forward.slide(Vector3.UP).normalized()
 	# return camera relative input vector:
 	return cam_forward * input.z + cam_right * input.x
+
 
 # -- updates the positions of the floor indicators
 func _update_floor_indicator(dt: float) -> void:
@@ -196,11 +201,13 @@ func _update_floor_indicator(dt: float) -> void:
 	
 	floor_ring.albedo_mix = lerp(floor_ring.albedo_mix, floor_ring.get_meta("goal_albedo_mix"), 12 * dt)
 
+
 # -- checks if the player health has changed; if so, send a signal
 func _update_health_change() -> void:
 	if self.health != self._old_health:
 		emit_signal("health_changed", self.health, self._old_health)
 		self._old_health = self.health
+
 
 # -- updates player flashing. used for invincibility
 func _update_invincible_flash(dt: float) -> void:
@@ -244,20 +251,25 @@ func _move_name_to_type(name):
 func full_heal() -> void:
 	health = max_health
 
+
 func is_alive() -> bool:
 	return health > 0.0
+
 
 func perform_invincible_frame_flashing(time_length: float) -> void:
 	_flashing_time = time_length
 
+
 func set_camera(cam: Camera3D) -> void:
 	self.current_cam = cam
+
 
 func take_damage(damage: float) -> void:
 	self.health -= damage
 	if self.health <= 0:
 		self.health = 0
 		emit_signal("died")
+
 
 # TODO: When provided a desination vector, move the player to said direction
 func move_to(destination: Vector3) -> void:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=84 format=3 uid="uid://ds55r3e3det8w"]
+[gd_scene load_steps=85 format=3 uid="uid://ds55r3e3det8w"]
 
 [ext_resource type="Script" path="res://src/Scripts/Classes/CharacterController.gd" id="1_5ua37"]
 [ext_resource type="PackedScene" uid="uid://cojs7ish64cv5" path="res://src/Scenes/UI/BillboardUI/billboard_sprite_3d.tscn" id="2_qo63s"]
@@ -28,9 +28,10 @@
 [ext_resource type="Script" path="res://src/Scripts/Classes/Move.gd" id="14_regd4"]
 [ext_resource type="Texture2D" uid="uid://cb4cqhs763ua2" path="res://resources/Images/Animations/Ranger/Moves/RangerGSF1.png" id="14_rntc3"]
 [ext_resource type="Texture2D" uid="uid://cyi3r6pjscqmv" path="res://resources/Images/Animations/Ranger/Moves/RangerGSF2.png" id="15_bhij1"]
+[ext_resource type="Script" path="res://src/Scenes/Characters/CharacterSprite.gd" id="25_whyga"]
 [ext_resource type="Script" path="res://src/Scripts/Classes/BaseHitbox.gd" id="29_m1h5u"]
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_ed8ro"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_w6cj7"]
 viewport_path = NodePath("BillboardViewport")
 
 [sub_resource type="Animation" id="Animation_gcqbo"]
@@ -119,6 +120,18 @@ tracks/6/keys = {
 "update": 1,
 "values": [false]
 }
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("CharacterSprite:offset")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-50, 125)]
+}
 
 [sub_resource type="Animation" id="Animation_x4xq8"]
 resource_name = "air_nc"
@@ -138,14 +151,14 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("CharacterSprite:position")
+tracks/1/path = NodePath("CharacterSprite:offset")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.2),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [Vector3(-0.0563517, -0.29855, 0.161743), Vector3(-0.139604, -0.119229, 0.0718993)]
+"values": [Vector2(35, 0), Vector2(-25, 25)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -171,6 +184,18 @@ tracks/3/keys = {
 "update": 1,
 "values": [true, false]
 }
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("CharacterSprite:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector3(0, -0.324262, 0)]
+}
 
 [sub_resource type="Animation" id="Animation_7irun"]
 resource_name = "air_nf"
@@ -190,14 +215,14 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("CharacterSprite:position")
+tracks/1/path = NodePath("CharacterSprite:offset")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.2),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [Vector3(-0.139604, -0.23666, 0.0718993), Vector3(0.186568, -0.23666, 0.453125)]
+"values": [Vector2(-10, -25), Vector2(150, -25)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -210,6 +235,18 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [Vector3(0.27, 0.27, 0.281), Vector3(0.29, 0.29, 0.302)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("CharacterSprite:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector3(0, -0.324262, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_tfdti"]
@@ -230,14 +267,14 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("CharacterSprite:position")
+tracks/1/path = NodePath("CharacterSprite:offset")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.3),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [Vector3(-0.00386149, -0.23666, 0.147705), Vector3(0.233687, -0.23666, -0.80249)]
+"values": [Vector2(50, 10), Vector2(200, -125)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -254,10 +291,22 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("Hurtbox/Shotgun Explosion Hitbox:active")
+tracks/3/path = NodePath("CharacterSprite:position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector3(0, -0.324262, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Hurtbox/Shotgun Explosion Hitbox:active")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
 "times": PackedFloat32Array(0.3, 0.75),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
@@ -282,22 +331,34 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("CharacterSprite:position")
+tracks/1/path = NodePath("CharacterSprite:offset")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.3),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [Vector3(-0.2054, 0.153232, 0.0197753), Vector3(-0.321122, 0.0913426, 1.93713)]
+"values": [Vector2(-50, 125), Vector2(425, -200)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("CharacterSprite:scale")
+tracks/2/path = NodePath("CharacterSprite:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector3(0, -0.324262, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("CharacterSprite:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
@@ -322,14 +383,14 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("CharacterSprite:position")
+tracks/1/path = NodePath("CharacterSprite:offset")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [Vector3(-0.0576239, -0.29855, 0)]
+"values": [Vector2(0, 0), Vector2(0, 0)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -346,10 +407,22 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("Hurtbox/Pistol Whip Hitbox:active")
+tracks/3/path = NodePath("CharacterSprite:position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector3(0, -0.324262, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Hurtbox/Pistol Whip Hitbox:active")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
 "times": PackedFloat32Array(0.1, 0.15),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
@@ -374,14 +447,14 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("CharacterSprite:position")
+tracks/1/path = NodePath("CharacterSprite:offset")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.2),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [Vector3(0.102706, -0.29855, 0.0594482), Vector3(-0.036111, -0.269739, -0.0982666)]
+"values": [Vector2(45, 10), Vector2(-22, 20)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -394,6 +467,18 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [Vector3(0.31631, 0.31631, 0.33)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("CharacterSprite:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector3(0, -0.324262, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_u4gmq"]
@@ -414,14 +499,14 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("CharacterSprite:position")
+tracks/1/path = NodePath("CharacterSprite:offset")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.2),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [Vector3(-0.0525674, -0.29855, 0.0177002), Vector3(0.0815878, -0.29855, 0.0980224)]
+"values": [Vector2(10, 0), Vector2(10, 15)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -438,10 +523,22 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("Hurtbox/Axe Uppercut Hitbox:active")
+tracks/3/path = NodePath("CharacterSprite:position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector3(0, -0.324262, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Hurtbox/Axe Uppercut Hitbox:active")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
 "times": PackedFloat32Array(0.2, 0.6),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
@@ -465,14 +562,14 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("CharacterSprite:position")
+tracks/1/path = NodePath("CharacterSprite:offset")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [Vector3(-0.221757, -0.29855, -0.0821534), Vector3(-0.221757, -0.29855, -0.0579834), Vector3(-0.221757, -0.29855, -0.0821534), Vector3(-0.221757, -0.29855, -0.0579834), Vector3(-0.221757, -0.29855, -0.0821534), Vector3(-0.221757, -0.29855, -0.0579834), Vector3(-0.221757, -0.29855, -0.0821534)]
+"values": [Vector2(-15, -10), Vector2(-15, -15), Vector2(-15, -10), Vector2(-15, -15), Vector2(-15, -10), Vector2(-15, -15), Vector2(-15, -10)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -485,6 +582,18 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [Vector3(0.27, 0.27, 0.282)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("CharacterSprite:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector3(0, -0.324262, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_3cxny"]
@@ -506,14 +615,14 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("CharacterSprite:position")
+tracks/1/path = NodePath("CharacterSprite:offset")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [Vector3(-0.0288119, -0.322595, 0)]
+"values": [Vector2(-20, 5), Vector2(-20, 5)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -526,6 +635,18 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [Vector3(0.3, 0.3, 0.3)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("CharacterSprite:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector3(0, -0.324262, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_r88tu"]
@@ -546,14 +667,14 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("CharacterSprite:position")
+tracks/1/path = NodePath("CharacterSprite:offset")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [Vector3(0.019207, -0.439558, 0)]
+"values": [Vector2(0, 0)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -566,6 +687,18 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [Vector3(0.25, 0.25, 0.283)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("CharacterSprite:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector3(0, -0.324262, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_727vt"]
@@ -587,14 +720,14 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("CharacterSprite:position")
+tracks/1/path = NodePath("CharacterSprite:offset")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [Vector3(0.048018, -0.29855, 0)]
+"values": [Vector2(25, 10), Vector2(25, 10)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -607,6 +740,18 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [Vector3(0.29, 0.29, 0.303)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("CharacterSprite:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector3(0, -0.324262, 0)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_bchoe"]
@@ -630,15 +775,6 @@ properties/0/path = NodePath(".:position")
 properties/0/spawn = true
 properties/0/sync = true
 properties/0/watch = false
-
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sn8c4"]
-height = 1.10297
-
-[sub_resource type="BoxMesh" id="BoxMesh_c3crr"]
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_4w4a0"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_h4meb"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_kh0td"]
 animation = &"air_nc"
@@ -753,8 +889,17 @@ states/run/position = Vector2(515, 266.523)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_u83ke"), "idle", "run", SubResource("AnimationNodeStateMachineTransition_gvbk0"), "idle", "jump", SubResource("AnimationNodeStateMachineTransition_ysa4w"), "idle", "End", SubResource("AnimationNodeStateMachineTransition_hq702"), "jump", "idle", SubResource("AnimationNodeStateMachineTransition_0gub3"), "run", "idle", SubResource("AnimationNodeStateMachineTransition_lah6g"), "idle", "ground_nc", SubResource("AnimationNodeStateMachineTransition_vwg2u"), "ground_nc", "idle", SubResource("AnimationNodeStateMachineTransition_wfysw"), "idle", "ground_nf", SubResource("AnimationNodeStateMachineTransition_jk8g6"), "ground_nf", "idle", SubResource("AnimationNodeStateMachineTransition_pvjr7"), "idle", "ground_sc", SubResource("AnimationNodeStateMachineTransition_qk6w0"), "idle", "ground_sf", SubResource("AnimationNodeStateMachineTransition_npewh"), "idle", "air_nc", SubResource("AnimationNodeStateMachineTransition_irx81"), "idle", "air_nf", SubResource("AnimationNodeStateMachineTransition_fxav1"), "idle", "air_sc", SubResource("AnimationNodeStateMachineTransition_0b1gd"), "idle", "air_sf", SubResource("AnimationNodeStateMachineTransition_2pico"), "ground_sc", "idle", SubResource("AnimationNodeStateMachineTransition_3bs8x"), "ground_sf", "idle", SubResource("AnimationNodeStateMachineTransition_kbrtx"), "air_nc", "idle", SubResource("AnimationNodeStateMachineTransition_1e1ji"), "air_nf", "idle", SubResource("AnimationNodeStateMachineTransition_7hcvc"), "air_sc", "idle", SubResource("AnimationNodeStateMachineTransition_42ski"), "air_sf", "idle", SubResource("AnimationNodeStateMachineTransition_xd5lr")]
 graph_offset = Vector2(-198.408, -83.1256)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_v4u38"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_7s1k5"]
 viewport_path = NodePath("BillboardViewport")
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sn8c4"]
+height = 1.10297
+
+[sub_resource type="BoxMesh" id="BoxMesh_c3crr"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_4w4a0"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_h4meb"]
 
 [node name="Ranger" type="CharacterBody3D" node_paths=PackedStringArray("ground_nc", "ground_nf", "ground_sc", "ground_sf", "air_nc", "air_nf", "air_sc", "air_sf")]
 platform_floor_layers = 4294967294
@@ -772,7 +917,7 @@ air_sf = NodePath("Moves/Wrangle \'Em")
 [node name="DebugInfo" parent="." instance=ExtResource("2_qo63s")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.21122, 2.46423)
 pixel_size = 0.015
-texture = SubResource("ViewportTexture_ed8ro")
+texture = SubResource("ViewportTexture_w6cj7")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 speed_scale = 2.0
@@ -791,9 +936,53 @@ replication_config = SubResource("SceneReplicationConfig_y3gwe")
 
 [node name="CharacterSprite" type="Sprite3D" parent="."]
 transform = Transform3D(0.33, 0, 0, 0, 0.33, 0, 0, 0, 0.33, -0.0288119, -0.269739, 0)
+offset = Vector2(-50, 125)
 billboard = 1
 shaded = true
 texture = ExtResource("3_lpkgj")
+script = ExtResource("25_whyga")
+
+[node name="FloorRing" type="Decal" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00604342, -0.884379, -0.0541416)
+size = Vector3(1.75, 0.541, 1.75)
+texture_albedo = ExtResource("11_e3tst")
+emission_energy = 0.25
+modulate = Color(1, 1, 0, 1)
+upper_fade = 1e-05
+lower_fade = 1e-05
+metadata/goal_albedo_mix = 1.0
+
+[node name="FloorShadow" type="Decal" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00673626, -0.891057, -0.053015)
+size = Vector3(2.25, 0.321, 2.25)
+texture_albedo = ExtResource("12_ahgry")
+emission_energy = 0.1
+modulate = Color(0.196078, 0.196078, 0.196078, 1)
+upper_fade = 0.0001
+lower_fade = 1e-05
+
+[node name="FloorRaycast" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.46114e-05, -1.09399, 0.000412941)
+target_position = Vector3(0, -10, 0)
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource("AnimationNodeStateMachine_ata2m")
+anim_player = NodePath("../AnimationPlayer")
+process_callback = 2
+
+[node name="PlayerNametag" parent="." instance=ExtResource("2_qo63s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.859205, 0)
+pixel_size = 0.02
+texture = SubResource("ViewportTexture_7s1k5")
+
+[node name="TargetArrow" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.41769, 0)
+visible = false
+pixel_size = 0.0002
+billboard = 1
+texture = ExtResource("13_3lnkm")
+
+[node name="PauseLayer" parent="." instance=ExtResource("10_ip7o7")]
 
 [node name="Hurtbox" type="CollisionShape3D" parent="."]
 transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, -0.302027, 0)
@@ -879,55 +1068,13 @@ knockback_strength = Vector3(4, -4, 4)
 debug_on = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Hurtbox/Shotgun Explosion Hitbox"]
-transform = Transform3D(1.2, 0, 0, 0, 0.8, 0, 0, 0, 1, 0.5, 0, 0.5)
+transform = Transform3D(1.2, 0, 0, 0, 0.8, 0, 0, 0, 1, 0.487775, -0.405328, 0.556901)
 visible = false
 mesh = SubResource("BoxMesh_c3crr")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox/Shotgun Explosion Hitbox"]
 transform = Transform3D(1.2, 0, 0, 0, 0.8, 0, 0, 0, 1, 0.5, 0, 0.5)
 shape = SubResource("BoxShape3D_4w4a0")
-
-[node name="FloorRing" type="Decal" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00604342, -0.884379, -0.0541416)
-size = Vector3(1.75, 0.541, 1.75)
-texture_albedo = ExtResource("11_e3tst")
-emission_energy = 0.25
-modulate = Color(1, 1, 0, 1)
-upper_fade = 1e-05
-lower_fade = 1e-05
-metadata/goal_albedo_mix = 1.0
-
-[node name="FloorShadow" type="Decal" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00673626, -0.891057, -0.053015)
-size = Vector3(2.25, 0.321, 2.25)
-texture_albedo = ExtResource("12_ahgry")
-emission_energy = 0.1
-modulate = Color(0.196078, 0.196078, 0.196078, 1)
-upper_fade = 0.0001
-lower_fade = 1e-05
-
-[node name="FloorRaycast" type="RayCast3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.46114e-05, -1.09399, 0.000412941)
-target_position = Vector3(0, -10, 0)
-
-[node name="AnimationTree" type="AnimationTree" parent="."]
-tree_root = SubResource("AnimationNodeStateMachine_ata2m")
-anim_player = NodePath("../AnimationPlayer")
-process_callback = 2
-
-[node name="PlayerNametag" parent="." instance=ExtResource("2_qo63s")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.859205, 0)
-pixel_size = 0.02
-texture = SubResource("ViewportTexture_v4u38")
-
-[node name="TargetArrow" type="Sprite3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.41769, 0)
-visible = false
-pixel_size = 0.0002
-billboard = 1
-texture = ExtResource("13_3lnkm")
-
-[node name="PauseLayer" parent="." instance=ExtResource("10_ip7o7")]
 
 [node name="Moves" type="Node" parent="."]
 

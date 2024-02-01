@@ -58,7 +58,7 @@ func _before_hit_computation() -> void:
 
 # overrideable virtual method.
 func _after_hit_computation() -> void:
-	self.active = false
+	pass
 
 
 func deal_stun(hit_char) -> void:
