@@ -18,6 +18,8 @@ var match_started: bool = false
 
 var PlayerScene = preload("res://src/Scenes/characters/templateCharacter.tscn")
 
+var multiplayer_authority = false
+
 # --------------- FUNCTIONS ----------------- #
 
 func spawn_players():
@@ -81,8 +83,9 @@ func _process(delta):
 
 
 func _ready():
-	if "--server" in OS.get_cmdline_args():
+	if multiplayer_authority or "--server" in OS.get_cmdline_args():
 		start_network(true, 4242)
+		print("Starting server")
 	else:
 		start_network(false, 4242)
 		

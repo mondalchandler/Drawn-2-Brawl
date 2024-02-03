@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://ckidyhlsikc1d"]
 
-[ext_resource type="Script" path="res://src/Scenes/UI/multiplayer.gd" id="1_daa1b"]
+[ext_resource type="Script" path="res://src/Scenes/UI/multiplayer_menu.gd" id="1_3tcqe"]
 
 [node name="multiplayer" type="Control"]
 layout_mode = 3
@@ -9,7 +9,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_daa1b")
+script = ExtResource("1_3tcqe")
 
 [node name="Room Ctrl" type="VBoxContainer" parent="."]
 layout_mode = 0
@@ -86,5 +86,5 @@ text = "[output]"
 [connection signal="pressed" from="Room Ctrl/Create Room" to="." method="_on_create_room_pressed"]
 [connection signal="pressed" from="Room Ctrl/Join Room" to="." method="_on_join_room_pressed"]
 [connection signal="pressed" from="Room Ctrl/Back" to="." method="_on_back_pressed"]
-[connection signal="pressed" from="Create Ctrl/Submit" to="." method="_on_join_submit_pressed"]
-[connection signal="pressed" from="Join Ctrl/Submit" to="." method="_on_create_submit_pressed"]
+[connection signal="pressed" from="Create Ctrl/Submit" to="." method="_on_create_submit_pressed"]
+[connection signal="pressed" from="Join Ctrl/Submit" to="." method="_on_join_submit_pressed"]

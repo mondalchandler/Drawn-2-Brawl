@@ -41,6 +41,8 @@ var dir_forward = "move_forward"
 var dir_back = "move_back"
 
 var sync_position := Vector3.ZERO
+var sync_velocity := Vector3.ZERO
+var sync_orientation := false
 
 # ---------------- FUNCTIONS ---------------- #
 
@@ -130,10 +132,13 @@ func update_floor_shadow(dt):
 # ---- heartbeat loop
 func _physics_process(delta):
 	
+	# If the game instance is a client,
+	# your position & orientation should be determined by the server
 	if not is_local_authority():
 		position = sync_position
+		velocity = sync_velocity
+		$Sprite3D.flip_h = sync_orientation
 		return
-	
 	
 	# Add the gravity.
 	if not is_on_floor():
@@ -181,8 +186,9 @@ func _physics_process(delta):
 		
 	move_and_slide()
 	
-	rpc_id(1, StringName('push_to_server'), position)
+	rpc_id(1, StringName('push_to_server'), position, velocity, $Sprite3D.flip_h)
 	
+	# ANIMATIONS
 	if abs(velocity.y) > 1 and not anim_player.current_animation == "melee_attack":
 		anim_player.play("jump")
 	if abs(velocity.y) <= 1 and  anim_player.current_animation == "jump" and is_on_floor():
@@ -270,11 +276,14 @@ func is_local_authority() -> bool:
 	return name == str(multiplayer.get_unique_id())
 
 @rpc("any_peer", "unreliable_ordered")
-func push_to_server(newpos : Vector3):
+func push_to_server(newpos : Vector3, newvel: Vector3, neworient : bool):
 	if not multiplayer.is_server():
 		return
 	if name != str(multiplayer.get_remote_sender_id()):
 		print(multiplayer.get_remote_sender_id(), ' tried to update ', name)
 		return
 	sync_position = newpos
-
+	sync_velocity = newvel
+	sync_orientation = neworient
+	print('server: ', sync_position, " ", sync_velocity, " ", sync_orientation)
+	print('client: ', position, " ", velocity, " ", $Sprite3D.flip_h)
