@@ -16,8 +16,7 @@ var move_input
 # ---------------- FUNCTIONS ---------------- #
 
 func attack(move):
-	if !(owner_char.anim_tree_state_machine.get_current_node() in owner_char.MOVE_MAP_NAMES) and !owner_char.blocking:	
-
+	if !(owner_char.anim_tree_state_machine.get_current_node() in owner_char.MOVE_MAP_NAMES) and !owner_char.blocking:
 		self.move_input = move.move_input
 		
 		play_animation()

@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://dasqrf4pd4bpe"]
 
-[ext_resource type="Script" path="res://src/Scenes/player block stamina/stanimaBar3D.gd" id="1_xkwel"]
-[ext_resource type="PackedScene" uid="uid://dmek4pw0sr5ky" path="res://src/Scenes/player block stamina/staminaBar.tscn" id="2_n523e"]
+[ext_resource type="Script" path="res://src/Scenes/player block stamina/StanimaBar3D.gd" id="1_xkwel"]
+[ext_resource type="PackedScene" uid="uid://dmek4pw0sr5ky" path="res://src/Scenes/player block stamina/StaminaBar.tscn" id="2_n523e"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_t1iyq"]
 viewport_path = NodePath("SubViewport")
