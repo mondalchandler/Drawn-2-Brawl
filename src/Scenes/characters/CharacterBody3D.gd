@@ -31,7 +31,7 @@ var invincible_timer = false
 # ---- create a hitbox
 
 # char, offset, dmg_rng, hitstun, kb_len
-var test_hitbox
+var test_hitbox: BoxHitbox
 
 var last_direction = Vector3(-.707, 0, -.707)
 
@@ -41,8 +41,8 @@ var dir_forward = "move_forward"
 var dir_back = "move_back"
 
 var sync_position := Vector3.ZERO
-var sync_velocity := Vector3.ZERO
 var sync_orientation := false
+var sync_attack_ := false
 
 # ---------------- FUNCTIONS ---------------- #
 
@@ -136,8 +136,12 @@ func _physics_process(delta):
 	# your position & orientation should be determined by the server
 	if not is_local_authority():
 		position = sync_position
-		velocity = sync_velocity
 		$Sprite3D.flip_h = sync_orientation
+		self.get_node("Hurtbox").rotation.y = PI if sync_orientation else 0
+		if sync_attack_:
+			test_hitbox._activate()
+		else:
+			test_hitbox._deactivate()
 		return
 	
 	# Add the gravity.
@@ -186,7 +190,11 @@ func _physics_process(delta):
 		
 	move_and_slide()
 	
-	rpc_id(1, StringName('push_to_server'), position, velocity, $Sprite3D.flip_h)
+	rpc_id(1, StringName('push_to_server'), 
+		position, 
+		$Sprite3D.flip_h,
+		test_hitbox.mesh_instance.visible,
+	)
 	
 	# ANIMATIONS
 	if abs(velocity.y) > 1 and not anim_player.current_animation == "melee_attack":
@@ -275,15 +283,17 @@ func _ready():
 func is_local_authority() -> bool:
 	return name == str(multiplayer.get_unique_id())
 
-@rpc("any_peer", "unreliable_ordered")
-func push_to_server(newpos : Vector3, newvel: Vector3, neworient : bool):
+@rpc("any_peer", "call_local", "unreliable_ordered")
+func push_to_server(
+		pos_ : Vector3, 
+		orient_ : bool,
+		attack_ : bool
+	):
 	if not multiplayer.is_server():
 		return
 	if name != str(multiplayer.get_remote_sender_id()):
 		print(multiplayer.get_remote_sender_id(), ' tried to update ', name)
 		return
-	sync_position = newpos
-	sync_velocity = newvel
-	sync_orientation = neworient
-	print('server: ', sync_position, " ", sync_velocity, " ", sync_orientation)
-	print('client: ', position, " ", velocity, " ", $Sprite3D.flip_h)
+	sync_position = pos_
+	sync_orientation = orient_
+	sync_attack_ = attack_

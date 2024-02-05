@@ -107,6 +107,14 @@ properties/1/path = NodePath("Sprite3D:flip_h")
 properties/1/spawn = true
 properties/1/sync = true
 properties/1/watch = false
+properties/2/path = NodePath("Hurtbox:visible")
+properties/2/spawn = true
+properties/2/sync = true
+properties/2/watch = false
+properties/3/path = NodePath("Hurtbox:rotation")
+properties/3/spawn = true
+properties/3/sync = true
+properties/3/watch = false
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sn8c4"]
 height = 1.10297
@@ -142,7 +150,7 @@ alpha_cut = 2
 texture = ExtResource("5_6knjl")
 
 [node name="Hurtbox" type="CollisionShape3D" parent="."]
-transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, -0.302027, 0)
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, -0.3, 0)
 shape = SubResource("CapsuleShape3D_sn8c4")
 
 [node name="FloorRing" type="Decal" parent="."]

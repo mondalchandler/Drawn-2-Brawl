@@ -2,6 +2,13 @@ extends Control
 
 var in_room: bool = false
 
+func _ready():
+	if "--server" in OS.get_cmdline_args():
+		var scene = load("res://src/Scenes/Levels/TestLevel.tscn").instantiate();
+		scene.multiplayer_authority = true
+		get_tree().root.call_deferred("add_child", scene)
+		hide()
+
 func _on_create_room_pressed():
 	$"Create Ctrl".visible = true
 	$"Join Ctrl".visible = false
@@ -13,15 +20,15 @@ func _on_join_room_pressed():
 
 
 func _on_join_submit_pressed():
-	get_tree().change_scene_to_file("res://src/Scenes/Levels/TestLevel.tscn")
+	var scene = load("res://src/Scenes/Levels/TestLevel.tscn").instantiate()
+	get_tree().root.add_child(scene)
+	hide()
 
 
 func _on_create_submit_pressed():
 	var scene = load("res://src/Scenes/Levels/TestLevel.tscn").instantiate();
-	print(scene.multiplayer_authority)
 	scene.multiplayer_authority = true
-	print(scene.multiplayer_authority)
-	add_child(scene)
+	get_tree().root.add_child(scene)
 	hide()
 
 

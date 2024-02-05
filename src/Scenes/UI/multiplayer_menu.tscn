@@ -13,10 +13,10 @@ script = ExtResource("1_3tcqe")
 
 [node name="Room Ctrl" type="VBoxContainer" parent="."]
 layout_mode = 0
-offset_left = 160.0
-offset_top = 270.0
-offset_right = 369.0
-offset_bottom = 438.0
+offset_left = 48.0
+offset_top = 154.0
+offset_right = 257.0
+offset_bottom = 322.0
 
 [node name="Create Room" type="Button" parent="Room Ctrl"]
 layout_mode = 2
@@ -33,10 +33,10 @@ text = "Back"
 [node name="Create Ctrl" type="VBoxContainer" parent="."]
 visible = false
 layout_mode = 0
-offset_left = 690.0
-offset_top = 276.0
-offset_right = 890.0
-offset_bottom = 372.0
+offset_left = 371.0
+offset_top = 148.0
+offset_right = 571.0
+offset_bottom = 309.0
 
 [node name="Room Name Label" type="Label" parent="Create Ctrl"]
 layout_mode = 2
@@ -59,10 +59,10 @@ text = "Submit"
 [node name="Join Ctrl" type="VBoxContainer" parent="."]
 visible = false
 layout_mode = 0
-offset_left = 681.0
-offset_top = 279.0
-offset_right = 881.0
-offset_bottom = 375.0
+offset_left = 371.0
+offset_top = 192.0
+offset_right = 571.0
+offset_bottom = 288.0
 
 [node name="Port Label" type="Label" parent="Join Ctrl"]
 layout_mode = 2
@@ -77,10 +77,10 @@ text = "Submit"
 
 [node name="Output" type="Label" parent="."]
 layout_mode = 0
-offset_left = 511.0
-offset_top = 525.0
-offset_right = 575.0
-offset_bottom = 551.0
+offset_left = 267.0
+offset_top = 361.0
+offset_right = 331.0
+offset_bottom = 387.0
 text = "[output]"
 
 [connection signal="pressed" from="Room Ctrl/Create Room" to="." method="_on_create_room_pressed"]
