@@ -20,7 +20,8 @@ var PlayerScene = preload("res://src/Scenes/characters/templateCharacter.tscn")
 
 var multiplayer_authority = false
 
-var player_limit = 2
+var player_count := 0
+var player_limit := 2
 
 # --------------- FUNCTIONS ----------------- #
 
@@ -66,7 +67,6 @@ func start_match():
 	match_started = true
 
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if not match_started:
@@ -95,25 +95,26 @@ func _ready():
 func start_network(server: bool, port: int):
 	var peer = ENetMultiplayerPeer.new()
 	if server:
-		print(">> Starting server")
 		multiplayer.peer_connected.connect(self.create_player)
 		multiplayer.peer_disconnected.connect(self.destroy_player)
 		
+		print(">> Starting server")
 		peer.create_server(port)
 		print('>> Server listening on localhost %d' % port)
 	else:
-		print(">> Starting client")
 		var targetIP = "localhost"
+		print(">> Starting client")
 		peer.create_client(targetIP, port)
 
 	multiplayer.multiplayer_peer = peer
 
 func create_player(id):
 	
-	# If we have hit the player cap, don't add a player.
-	if $NetworkedNodes.get_child_count() >= player_limit:
+	# If we are at the player limit, don't add a new player.
+	if $NetworkedNodes.get_children().size() >= player_limit:
+		print("No player created, hit player limit")
 		return
-		
+	
 	# Instantiate a new player for this client.
 	var p = PlayerScene.instantiate()
 
@@ -122,14 +123,12 @@ func create_player(id):
 	
 	$NetworkedNodes.add_child(p)
 	
+	
 func destroy_player(id):
 	
-	# If we are at zero players, don't attempt to remove a player.
-	if $NetworkedNodes.get_child_count() >= player_limit:
-		return
-	
 	# Delete this peer's node.
-	$NetworkedNodes.get_node(str(id)).queue_free()
+	var p = $NetworkedNodes.get_node(str(id))
+	if p != null:
+		p.queue_free()
 	
-	
-	
+

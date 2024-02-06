@@ -2,6 +2,8 @@ extends Control
 
 var in_room: bool = false
 
+var player_limit = 2
+
 func _ready():
 	if "--server" in OS.get_cmdline_args():
 		var scene = load("res://src/Scenes/Levels/TestLevel.tscn").instantiate();
@@ -34,3 +36,5 @@ func _on_create_submit_pressed():
 
 func _on_back_pressed():
 	get_tree().change_scene_to_file("res://src/Scenes/UI/main_menu.tscn")
+	
+

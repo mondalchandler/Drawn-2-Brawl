@@ -40,6 +40,8 @@ var dir_right = "move_right"
 var dir_forward = "move_forward"
 var dir_back = "move_back"
 
+var input_disabled := -1
+
 var sync_position := Vector3.ZERO
 var sync_orientation := false
 var sync_attack_ := false
@@ -155,8 +157,9 @@ func _physics_process(delta):
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
 	var input := Vector3.ZERO
-	input.x = Input.get_axis(dir_left, dir_right)
-	input.z = Input.get_axis(dir_forward, dir_back)
+	if input_disabled < 0:
+		input.x = Input.get_axis(dir_left, dir_right)
+		input.z = Input.get_axis(dir_forward, dir_back)
 	var rel = get_camera_relative_input(input)
 
 	var direction = (transform.basis * Vector3(rel.x, 0, rel.z)).normalized()
@@ -218,6 +221,8 @@ func _physics_process(delta):
 		# hitbox.monitoring = true
 		
 	update_floor_shadow(delta)
+
+
 
 # ---------------- INPUT FUNCTIONS ---------------- #
 
