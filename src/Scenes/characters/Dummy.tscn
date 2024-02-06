@@ -8,7 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://cwhdc0fkgp4k0" path="res://resources/Images/whiteBlurCircle.png" id="12_4353b"]
 [ext_resource type="Texture2D" uid="uid://bx5ukutk4wum3" path="res://resources/Images/arrow_down.png" id="13_bijuc"]
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_ejlbi"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_3mim2"]
 viewport_path = NodePath("BillboardViewport")
 
 [sub_resource type="Animation" id="Animation_3cxny"]
@@ -57,7 +57,7 @@ states/idle/position = Vector2(687, 166)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_u83ke"), "idle", "End", SubResource("AnimationNodeStateMachineTransition_hq702")]
 graph_offset = Vector2(0, 119.828)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_l2aei"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_iox1j"]
 viewport_path = NodePath("BillboardViewport")
 
 [node name="DummyCharacter" type="CharacterBody3D"]
@@ -72,7 +72,7 @@ _show_debug_info = false
 [node name="DebugInfo" parent="." instance=ExtResource("2_pxg65")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.21122, 2.46423)
 pixel_size = 0.015
-texture = SubResource("ViewportTexture_ejlbi")
+texture = SubResource("ViewportTexture_3mim2")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 playback_process_mode = 2
@@ -130,7 +130,7 @@ active = true
 [node name="PlayerNametag" parent="." instance=ExtResource("2_pxg65")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.859205, 0)
 pixel_size = 0.02
-texture = SubResource("ViewportTexture_l2aei")
+texture = SubResource("ViewportTexture_iox1j")
 text = "Dummy"
 
 [node name="TargetArrow" type="Sprite3D" parent="."]

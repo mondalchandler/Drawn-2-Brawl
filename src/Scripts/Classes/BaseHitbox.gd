@@ -28,7 +28,7 @@ extends Area3D
 
 # a range of two numbers to indicate what damage rolls the hitbox can have. the second number MUST be greater. integers only
 @export var damage_range: Array
-var PLAYER_STAMINA_PERCENT_REDUCTION = .25
+var PLAYER_STAMINA_PERCENT_REDUCTION = 0.25
 
 # a dictionary to track hit characters from the hitbox
 var hit_chars: Dictionary
@@ -59,7 +59,7 @@ func _before_hit_computation() -> void:
 
 # overrideable virtual method.
 func _after_hit_computation() -> void:
-	self.active = false
+	pass
 
 
 func deal_stun(hit_char) -> void:
