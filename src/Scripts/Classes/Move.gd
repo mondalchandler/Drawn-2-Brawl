@@ -27,6 +27,14 @@ extends Node
 @export var hitbox: BaseHitbox      # HOW TO ADD CUSTOM HITBOXES documentation in BaseHitbox.gd
 @export var hitscan: Hitscan
 @export var projectile_path: String
+@export var is_chargable: bool = false
+
+
+func move_charge_effect(delta):
+	pass
+	
+func move_reset():
+	pass
 
 # ---------------- INIT ---------------- #
 

@@ -334,6 +334,8 @@ func _ready() -> void:
 
 # -- called when the user inputs anything  
 func _input(event : InputEvent) -> void:
+	
+	
 	if event.is_action_pressed("block") and block_stamina > 0 and can_player_input:
 		self.blocking = true
 		self._state = PlayerState.BLOCKING
@@ -364,35 +366,22 @@ func _input(event : InputEvent) -> void:
 	if is_on_floor() and Input.is_action_just_pressed("jump") and !self.blocking:
 		velocity.y += jump_power
 	
+	
+#	if event.as_text()
+	
 	# move inputs
+	
+	_move_controller.action(event)
 	if event.is_pressed():
 		_input_state_text = ""
-		
+
 		# TODO: MoveController requires that the move animation name be in the MOVE_MAP_NAMES array
 		#		in order to spawn the hitbox correctly. This required creating 4 extra states
 		#		since each input has 2 outcomes (1 for on ground, 1 for in air). As a result, the
 		#		input will not match with what move is actually being output in the debugger text.
 		for name in MOVE_MAP_NAMES:
 			_input_state_text += "\n" + name + ": " + str(event.is_action_pressed(name))
-		
-		if is_on_floor():
-			if event.is_action_pressed("normal_close"):
-				_move_controller.attack(ground_nc)
-			if event.is_action_pressed("normal_far"):
-				_move_controller.attack(ground_nf)
-			if event.is_action_pressed("special_close"):
-				_move_controller.attack(ground_sc)
-			if event.is_action_pressed("special_far"):
-				_move_controller.attack(ground_sf)
-		else:
-			if event.is_action_pressed("normal_close"):
-				_move_controller.attack(air_nc)
-			if event.is_action_pressed("normal_far"):
-				_move_controller.attack(air_nf)
-			if event.is_action_pressed("special_close"):
-				_move_controller.attack(air_sc)
-			if event.is_action_pressed("special_far"):
-				_move_controller.attack(air_sf)
+
 
 
 # -- updates every frame aswell, but can fluxate or be more consistent since its based on the physics task process

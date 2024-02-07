@@ -77,7 +77,7 @@ func deal_kb(hit_char) -> void:
 # computes a damage value, then updates an enemy char's hp value
 func deal_dmg(hit_char) -> int:
 	if not hit_char.invincible:
-		var dmg = randi() % (self.damage_range[1] - self.damage_range[0] + 1) + self.damage_range[0]
+		var dmg = randi() % (int)(self.damage_range[1] - self.damage_range[0] + 1) + self.damage_range[0]
 		var new_hp = hit_char.health - dmg
 		if new_hp < 0:
 			new_hp = 0
