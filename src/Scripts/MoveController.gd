@@ -11,15 +11,12 @@ var sprite
 var hurtbox : Node
 var hb_flipped = false
 
-#var move_key = ""
 var move_placeholder = null
 var move_input
-
 
 # ---------------- FUNCTIONS ---------------- #
 
 func attack(move):
-	
 	flip_hurtbox()
 	match move.move_type:
 		"MELEE":
@@ -62,15 +59,16 @@ func anim_finished(anim_name):
 		clean()
 		owner_char._update_core_animations()
 		owner_char.can_move = true
-
-		
+		self.owner_char.attacking = false
 
 
 func clean():
 	self.move_input = null
 	self.move_placeholder = null
-	
+
+
 func move_start(move):
+	self.owner_char.attacking = true
 	self.move_input = move.move_input
 	play_animation()
 	if move.is_chargable:
@@ -78,18 +76,17 @@ func move_start(move):
 		owner_char.anim_tree.set("parameters/" + self.move_input + "/TimeScale/scale", 0)
 	else:
 		attack(move)
-	pass
-	
+
+
 func move_end():
 	if move_placeholder and move_placeholder.is_chargable:
 		owner_char.anim_tree.set("parameters/" + self.move_input + "/TimeScale/scale", 1)
 		attack(move_placeholder)
-#	move_placeholder = null
 	pass
 
 
 func action(event):
-	if !(owner_char.anim_tree_state_machine.get_current_node() in owner_char.MOVE_MAP_NAMES) and !owner_char.blocking:
+	if !(owner_char.anim_tree_state_machine.get_current_node() in owner_char.MOVE_MAP_NAMES):
 		if owner_char.is_on_floor() and event.is_pressed():
 			if event.is_action_pressed("normal_close"):
 				move_start(owner_char.ground_nc)
@@ -128,12 +125,11 @@ func action(event):
 				move_end()
 			if event.is_action_released("special_far") and self.move_input == "air_sf":
 				move_end()
-	
+
 
 func _process(delta):
 	if move_placeholder:
 		move_placeholder.move_charge_effect(delta)
-		pass
 	pass
 
 # ---------------- INIT ---------------- #
