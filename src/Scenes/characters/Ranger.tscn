@@ -36,10 +36,10 @@
 [ext_resource type="Script" path="res://src/Scripts/ChargableMoves/Ranger/pistol_whip.gd" id="32_ypbn0"]
 [ext_resource type="Script" path="res://src/Scripts/ChargableMoves/Ranger/axe_uppercut.gd" id="34_pvw25"]
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_3fcsv"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_oprek"]
 viewport_path = NodePath("SubViewport")
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_njghd"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_rfelv"]
 viewport_path = NodePath("BillboardViewport")
 
 [sub_resource type="Animation" id="Animation_gcqbo"]
@@ -1018,7 +1018,7 @@ states/run/position = Vector2(515, 266.523)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_u83ke"), "idle", "run", SubResource("AnimationNodeStateMachineTransition_gvbk0"), "idle", "jump", SubResource("AnimationNodeStateMachineTransition_ysa4w"), "idle", "End", SubResource("AnimationNodeStateMachineTransition_hq702"), "jump", "idle", SubResource("AnimationNodeStateMachineTransition_0gub3"), "run", "idle", SubResource("AnimationNodeStateMachineTransition_lah6g"), "idle", "block", SubResource("AnimationNodeStateMachineTransition_md28m"), "block", "idle", SubResource("AnimationNodeStateMachineTransition_n1p6x"), "idle", "ground_nc", SubResource("AnimationNodeStateMachineTransition_hhs3o"), "ground_nc", "idle", SubResource("AnimationNodeStateMachineTransition_6p1mv"), "idle", "ground_nf", SubResource("AnimationNodeStateMachineTransition_aa7ik"), "ground_nf", "idle", SubResource("AnimationNodeStateMachineTransition_u8381"), "idle", "ground_sc", SubResource("AnimationNodeStateMachineTransition_h8jym"), "ground_sc", "idle", SubResource("AnimationNodeStateMachineTransition_s4ry3"), "idle", "ground_sf", SubResource("AnimationNodeStateMachineTransition_3stpb"), "ground_sf", "idle", SubResource("AnimationNodeStateMachineTransition_u01e7"), "idle", "air_nc", SubResource("AnimationNodeStateMachineTransition_0pt1f"), "air_nc", "idle", SubResource("AnimationNodeStateMachineTransition_8ac27"), "idle", "air_nf", SubResource("AnimationNodeStateMachineTransition_l7xug"), "air_nf", "idle", SubResource("AnimationNodeStateMachineTransition_a0it0"), "idle", "air_sc", SubResource("AnimationNodeStateMachineTransition_ac2hu"), "air_sc", "idle", SubResource("AnimationNodeStateMachineTransition_u2wjx"), "idle", "air_sf", SubResource("AnimationNodeStateMachineTransition_4sjcg"), "air_sf", "idle", SubResource("AnimationNodeStateMachineTransition_r8opi")]
 graph_offset = Vector2(45.7559, -224.208)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_cv8f2"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_gjgft"]
 viewport_path = NodePath("BillboardViewport")
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sn8c4"]
@@ -1046,12 +1046,12 @@ air_sf = NodePath("Moves/Wrangle \'Em")
 [node name="StanimaBar3D" parent="." instance=ExtResource("2_5dbax")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.16405, 0)
 visible = false
-texture = SubResource("ViewportTexture_3fcsv")
+texture = SubResource("ViewportTexture_oprek")
 
 [node name="DebugInfo" parent="." instance=ExtResource("2_qo63s")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.21122, 2.46423)
 pixel_size = 0.015
-texture = SubResource("ViewportTexture_njghd")
+texture = SubResource("ViewportTexture_rfelv")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 speed_scale = 2.0
@@ -1115,7 +1115,7 @@ parameters/ground_sf/TimeScale/scale = 1.0
 [node name="PlayerNametag" parent="." instance=ExtResource("2_qo63s")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.859205, 0)
 pixel_size = 0.02
-texture = SubResource("ViewportTexture_cv8f2")
+texture = SubResource("ViewportTexture_gjgft")
 
 [node name="TargetArrow" type="Sprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.41769, 0)
