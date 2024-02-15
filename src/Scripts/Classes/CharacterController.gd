@@ -63,6 +63,7 @@ var attacking: bool = false
 enum PlayerState { IDLE, RUNNING, JUMPING, FALLING, KNOCKBACK, BLOCKING, ROLLING }
 
 var z_target: Node3D = null
+var target_number: int = 0
 var targetting: bool = false
 var grab_target: Node3D = null
 
@@ -143,7 +144,7 @@ func _update_z_target(dt: float) -> void:
 		target_arrow.hide()
 	target_arrow.pixel_size = TARGET_ARROW_DEFAULT_SIZE + sin(Time.get_ticks_msec() * 0.0125) * 0.000015
 
-var target_number = 0
+
 func _find_next_target():
 	if(z_target):
 		if(players.get_children().size()>2):
@@ -158,7 +159,6 @@ func _find_next_target():
 				if(target_number>=players.get_children().size()):
 					target_number = 0
 				z_target = players.get_child(target_number)
-			
 
 
 # -- updates the 3d text for debug information. append more information if need be
