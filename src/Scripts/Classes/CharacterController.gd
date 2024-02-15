@@ -116,18 +116,25 @@ func anim_finished(anim_name):
 # -- updates the z target if targetting is enabled
 func _update_z_target(dt: float) -> void:
 	if targetting:
-		var closest_target: Node3D = null
-		var closest_distance: float = INF
-		for player in players.get_children():
-			if player != self and player.health > 0:
-				var dist: float = (self.global_position - player.global_position).length()
-				if dist <= closest_distance:
-					closest_distance = dist
-					closest_target = player
-		if closest_target:
-			z_target = closest_target
+		if !z_target:
+			var closest_target: Node3D = null
+			var closest_distance: float = INF
+			var i = 0
+			for player in players.get_children():
+				if player != self and player.health > 0:
+					var dist: float = (self.global_position - player.global_position).length()
+					if dist <= closest_distance:
+						
+						closest_distance = dist
+						closest_target = player
+						target_number = i
+				i+=1
+			if closest_target:
+				z_target = closest_target
+			
 	else:
 		z_target = null
+		target_number = 0
 	
 	if z_target:
 		target_arrow.global_position = z_target.global_position + Vector3(0, z_target.global_transform.basis.y.length() * 1.5, 0)
@@ -135,6 +142,23 @@ func _update_z_target(dt: float) -> void:
 	else:
 		target_arrow.hide()
 	target_arrow.pixel_size = TARGET_ARROW_DEFAULT_SIZE + sin(Time.get_ticks_msec() * 0.0125) * 0.000015
+
+var target_number = 0
+func _find_next_target():
+	if(z_target):
+		if(players.get_children().size()>2):
+			target_number += 1
+			if(target_number>=players.get_children().size()):
+				target_number = 0
+			var temp = players.get_child(target_number)
+			if(temp != self):
+				z_target = temp
+			else:
+				target_number += 1
+				if(target_number>=players.get_children().size()):
+					target_number = 0
+				z_target = players.get_child(target_number)
+			
 
 
 # -- updates the 3d text for debug information. append more information if need be
@@ -392,6 +416,9 @@ func _input(event : InputEvent) -> void:
 	# targetting
 	if event.is_action_pressed("z_target"):
 		targetting = not targetting
+		
+	if event.is_action_pressed("change_target"):
+		_find_next_target()
 	
 	if event.is_action_pressed("roll"):
 		if stamina >= ROLL_STAMINA_COST and !self.rolling and !self.attacking:
