@@ -117,7 +117,7 @@ func anim_finished(anim_name):
 # -- updates the z target if targetting is enabled
 func _update_z_target(dt: float) -> void:
 	if targetting:
-		if !z_target:
+		if !z_target or z_target.health == 0:
 			var closest_target: Node3D = null
 			var closest_distance: float = INF
 			var i = 0
@@ -132,7 +132,6 @@ func _update_z_target(dt: float) -> void:
 				i+=1
 			if closest_target:
 				z_target = closest_target
-			
 	else:
 		z_target = null
 		target_number = 0
