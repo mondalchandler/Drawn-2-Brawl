@@ -430,7 +430,7 @@ func _input(event : InputEvent) -> void:
 	
 	# jumping
 	if is_on_floor() and Input.is_action_just_pressed("jump") and !self.blocking:
-		velocity.y += jump_power
+		velocity.y = jump_power
 	
 	# move inputs
 	_move_controller.action(event)
