@@ -44,18 +44,10 @@ var hit_chars: Dictionary
 
 # ------------------- METHODS --------------------- #
 
-func _calc_kb_vector():
-	if (owner_char.sprite.flip_h):		# if we are facing left
-		if (self.knockback_strength.x > 0 && self.knockback_strength.z > 0):	# if the move magnitude is rightward, make it face left
-			self.knockback_strength *= Vector3(-1, 1, -1)
-	else:					# else we are facing right
-		if (self.knockback_strength.x < 0 && self.knockback_strength.z < 0):	# if the move magnitude is leftward, make it face right
-			self.knockback_strength *= Vector3(-1, 1, -1)
-
 
 # overrideable virtual method.
 func _before_hit_computation() -> void:
-	_calc_kb_vector()
+	pass
 
 
 # overrideable virtual method.
@@ -70,7 +62,8 @@ func deal_stun(hit_char) -> void:
 
 
 func deal_kb(hit_char) -> void:
-	hit_char.knockback = knockback_strength
+	var dir_to_enemy = (hit_char.position - owner_char.position).normalized()
+	hit_char.knockback = Vector3(dir_to_enemy.x * knockback_strength.x, knockback_strength.y, dir_to_enemy.z * knockback_strength.z)
 	var knockback_tween = hit_char.get_tree().create_tween()
 	knockback_tween.tween_property(hit_char, "knockback", Vector3.ZERO, kb_length)
 

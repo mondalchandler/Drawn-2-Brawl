@@ -238,7 +238,7 @@ func _update_movement(delta: float = 0) -> void:
 	move_and_slide()
 
 
-# -- translates a vector3 to the same vector3, translated to the camera's offset
+# -- translates a Vector3 to the same Vector3, translated to the camera's offset
 func _get_camera_relative_input(input = Vector3.RIGHT) -> Vector3:
 	if not self.current_cam: return Vector3.ZERO
 	

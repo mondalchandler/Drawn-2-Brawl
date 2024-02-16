@@ -28,6 +28,7 @@ func attack(move):
 		"HITSCAN":
 			pass
 		"PROJECTILE":
+			flip_sprite_if_behind()
 			for i in range(move.move_data[0]):
 				var PROJECTILE: PackedScene = load(move.projectile_path)
 				if PROJECTILE:
@@ -39,10 +40,26 @@ func attack(move):
 					projectile.emit()
 
 
+# flips the sprite if a projectile move is player is not facing opponent when shot
+func flip_sprite_if_behind():
+	# should really only happen when we are targetting
+	if owner_char.targetting:
+		var dir_to_enemy = (owner_char.z_target.position - owner_char.position).normalized()
+		var relative_move_dir = owner_char._get_camera_relative_input() # pass in nothing to get forward vector in return
+		var right = (owner_char.transform.basis * Vector3(relative_move_dir.x, 0, relative_move_dir.z)).normalized()
+		var angle = right.angle_to(dir_to_enemy)
+		if angle < 1.57: # projectile is moving "right"
+			if sprite.flip_h == true:
+				sprite.flip_h = false
+		else: # projectile is moving "left"
+			if sprite.flip_h == false:
+				sprite.flip_h = true
+
+
 func flip_hurtbox():
-	if (owner_char.sprite.flip_h):		# if we are facing left
+	if (owner_char.sprite.flip_h): # if we are facing left
 		owner_char.hurtbox.rotation.y = PI
-	else:					# else we are facing right
+	else: # else we are facing right
 		owner_char.hurtbox.rotation.y = 0
 
 
