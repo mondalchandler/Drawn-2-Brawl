@@ -42,6 +42,7 @@ const TARGET_ARROW_DEFAULT_SIZE: float = 0.0002
 @export var perfect_block: bool = false
 @export var grabbing: bool = false
 @export var can_move: bool = true
+@export var targetting: bool = false
 
 var rolling: bool = false
 var attacking: bool = false
@@ -64,7 +65,6 @@ enum PlayerState { IDLE, RUNNING, JUMPING, FALLING, KNOCKBACK, BLOCKING, ROLLING
 
 var z_target: Node3D = null
 var target_number: int = 0
-var targetting: bool = false
 var grab_target: Node3D = null
 
 # ---------------- PRIVATE ---------------- #
@@ -125,7 +125,6 @@ func _update_z_target(dt: float) -> void:
 				if player != self and player.health > 0:
 					var dist: float = (self.global_position - player.global_position).length()
 					if dist <= closest_distance:
-						
 						closest_distance = dist
 						closest_target = player
 						target_number = i
