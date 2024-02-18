@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://d0bdww1ps6v0c"
-path.s3tc="res://.godot/imported/imageedit_1_7369296950.png-9d55d5b11cbbd5acf040dfa755df19d7.s3tc.ctex"
+path.s3tc="res://.godot/imported/twinkle.png-ded0af2a325dc2a29233576823a67330.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://resources/Images/imageedit_1_7369296950.png"
-dest_files=["res://.godot/imported/imageedit_1_7369296950.png-9d55d5b11cbbd5acf040dfa755df19d7.s3tc.ctex"]
+source_file="res://resources/Images/twinkle.png"
+dest_files=["res://.godot/imported/twinkle.png-ded0af2a325dc2a29233576823a67330.s3tc.ctex"]
 
 [params]
 

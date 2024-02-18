@@ -66,6 +66,7 @@ func get_direction():
 	if self.owner_char.targetting:
 		return self.owner_char.global_position.direction_to(self.owner_char.z_target.global_position)
 	else:
+		# if not targetting, simply shoot left or right
 		if (!self.owner_char.sprite.flip_h):
 			return self.owner_char.global_position.direction_to(Vector3(self.owner_char.global_position.x + 1000, 0, self.owner_char.global_position.x + 1000))
 		else:

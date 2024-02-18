@@ -1,7 +1,7 @@
-[gd_scene load_steps=111 format=3 uid="uid://ds55r3e3det8w"]
+[gd_scene load_steps=120 format=3 uid="uid://ds55r3e3det8w"]
 
 [ext_resource type="Script" path="res://src/Scripts/Classes/CharacterController.gd" id="1_5ua37"]
-[ext_resource type="PackedScene" uid="uid://dasqrf4pd4bpe" path="res://src/Scenes/player block stamina/stanimaBar3D.tscn" id="2_5dbax"]
+[ext_resource type="PackedScene" uid="uid://dasqrf4pd4bpe" path="res://src/Scenes/Stamina/StanimaBar3D.tscn" id="2_5dbax"]
 [ext_resource type="PackedScene" uid="uid://cojs7ish64cv5" path="res://src/Scenes/UI/BillboardUI/billboard_sprite_3d.tscn" id="2_qo63s"]
 [ext_resource type="Texture2D" uid="uid://c78gwvfeiv0v8" path="res://resources/Images/Animations/Ranger/Moves/RangerGNC1.png" id="3_lpkgj"]
 [ext_resource type="Texture2D" uid="uid://dnv1i0rhkdbbl" path="res://resources/Images/Animations/Ranger/Moves/RangerANC1.png" id="4_qfe13"]
@@ -31,15 +31,18 @@
 [ext_resource type="Texture2D" uid="uid://cyi3r6pjscqmv" path="res://resources/Images/Animations/Ranger/Moves/RangerGSF2.png" id="15_bhij1"]
 [ext_resource type="Texture2D" uid="uid://innlwsw6s1s4" path="res://resources/Images/Animations/Ranger/Basic/RangerBlock.png" id="24_lq2eb"]
 [ext_resource type="Script" path="res://src/Scenes/Characters/CharacterSprite.gd" id="25_whyga"]
-[ext_resource type="Texture2D" uid="uid://d0bdww1ps6v0c" path="res://resources/Images/imageedit_1_7369296950.png" id="28_wg7tb"]
+[ext_resource type="Texture2D" uid="uid://dqmrb10oj7jog" path="res://resources/Images/Animations/Ranger/Basic/RangerRoll2.png" id="27_jrlwc"]
+[ext_resource type="Texture2D" uid="uid://h7gja44gkn6f" path="res://resources/Images/Animations/Ranger/Basic/RangerRoll3.png" id="28_h6rhq"]
 [ext_resource type="Script" path="res://src/Scripts/Classes/BaseHitbox.gd" id="29_m1h5u"]
+[ext_resource type="Texture2D" uid="uid://bh5ficx1unnk8" path="res://resources/Images/Animations/Ranger/Basic/RangerRoll4.png" id="29_w7gmv"]
 [ext_resource type="Script" path="res://src/Scripts/ChargableMoves/Ranger/pistol_whip.gd" id="32_ypbn0"]
 [ext_resource type="Script" path="res://src/Scripts/ChargableMoves/Ranger/axe_uppercut.gd" id="34_pvw25"]
+[ext_resource type="Texture2D" uid="uid://d0bdww1ps6v0c" path="res://resources/Images/twinkle.png" id="38_c43ee"]
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_oprek"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_gdbc2"]
 viewport_path = NodePath("SubViewport")
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_rfelv"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_le33a"]
 viewport_path = NodePath("BillboardViewport")
 
 [sub_resource type="Animation" id="Animation_gcqbo"]
@@ -139,6 +142,18 @@ tracks/7/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(-50, 125)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("Hurtbox/Roll Hitbox:active")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
 }
 
 [sub_resource type="Animation" id="Animation_x4xq8"]
@@ -748,6 +763,70 @@ tracks/3/keys = {
 "values": [Vector3(0, -0.324262, 0)]
 }
 
+[sub_resource type="Animation" id="Animation_eemn7"]
+resource_name = "roll"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CharacterSprite:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [ExtResource("27_jrlwc"), ExtResource("28_h6rhq"), ExtResource("29_w7gmv")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CharacterSprite:offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [Vector2(25, 50), Vector2(10, -80), Vector2(0, -105)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CharacterSprite:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [Vector3(0.26, 0.26, 0.271), Vector3(0.29, 0.29, 0.302), Vector3(0.29, 0.29, 0.302)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("CharacterSprite:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector3(0, -0.324262, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Hurtbox/Roll Hitbox:active")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
 [sub_resource type="Animation" id="Animation_727vt"]
 resource_name = "run"
 length = 0.60001
@@ -815,6 +894,7 @@ _data = {
 "ground_sf": SubResource("Animation_08epj"),
 "idle": SubResource("Animation_3cxny"),
 "jump": SubResource("Animation_r88tu"),
+"roll": SubResource("Animation_eemn7"),
 "run": SubResource("Animation_727vt")
 }
 
@@ -929,6 +1009,9 @@ animation = &"idle"
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_s7dfp"]
 animation = &"jump"
 
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_e02ct"]
+animation = &"roll"
+
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_b7dur"]
 animation = &"run"
 
@@ -988,6 +1071,11 @@ switch_mode = 2
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_r8opi"]
 switch_mode = 2
 
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_d3lit"]
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_1h07p"]
+
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_ata2m"]
 states/End/position = Vector2(954, 166)
 states/Start/position = Vector2(415, 166)
@@ -1000,7 +1088,7 @@ states/air_sc/position = Vector2(963.756, -41.2085)
 states/air_sf/node = SubResource("AnimationNodeBlendTree_x5mlk")
 states/air_sf/position = Vector2(1034.76, 20.7915)
 states/block/node = SubResource("AnimationNodeAnimation_ujryt")
-states/block/position = Vector2(757.592, 290.874)
+states/block/position = Vector2(687, 338.523)
 states/ground_nc/node = SubResource("AnimationNodeBlendTree_nrwg4")
 states/ground_nc/position = Vector2(326.756, 1.79153)
 states/ground_nf/node = SubResource("AnimationNodeBlendTree_jgqu4")
@@ -1012,13 +1100,15 @@ states/ground_sf/position = Vector2(615.756, -128.208)
 states/idle/node = SubResource("AnimationNodeAnimation_b6h1n")
 states/idle/position = Vector2(687, 166)
 states/jump/node = SubResource("AnimationNodeAnimation_s7dfp")
-states/jump/position = Vector2(592, 331.523)
+states/jump/position = Vector2(554, 312.523)
+states/roll/node = SubResource("AnimationNodeAnimation_e02ct")
+states/roll/position = Vector2(905, 248.523)
 states/run/node = SubResource("AnimationNodeAnimation_b7dur")
-states/run/position = Vector2(515, 266.523)
-transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_u83ke"), "idle", "run", SubResource("AnimationNodeStateMachineTransition_gvbk0"), "idle", "jump", SubResource("AnimationNodeStateMachineTransition_ysa4w"), "idle", "End", SubResource("AnimationNodeStateMachineTransition_hq702"), "jump", "idle", SubResource("AnimationNodeStateMachineTransition_0gub3"), "run", "idle", SubResource("AnimationNodeStateMachineTransition_lah6g"), "idle", "block", SubResource("AnimationNodeStateMachineTransition_md28m"), "block", "idle", SubResource("AnimationNodeStateMachineTransition_n1p6x"), "idle", "ground_nc", SubResource("AnimationNodeStateMachineTransition_hhs3o"), "ground_nc", "idle", SubResource("AnimationNodeStateMachineTransition_6p1mv"), "idle", "ground_nf", SubResource("AnimationNodeStateMachineTransition_aa7ik"), "ground_nf", "idle", SubResource("AnimationNodeStateMachineTransition_u8381"), "idle", "ground_sc", SubResource("AnimationNodeStateMachineTransition_h8jym"), "ground_sc", "idle", SubResource("AnimationNodeStateMachineTransition_s4ry3"), "idle", "ground_sf", SubResource("AnimationNodeStateMachineTransition_3stpb"), "ground_sf", "idle", SubResource("AnimationNodeStateMachineTransition_u01e7"), "idle", "air_nc", SubResource("AnimationNodeStateMachineTransition_0pt1f"), "air_nc", "idle", SubResource("AnimationNodeStateMachineTransition_8ac27"), "idle", "air_nf", SubResource("AnimationNodeStateMachineTransition_l7xug"), "air_nf", "idle", SubResource("AnimationNodeStateMachineTransition_a0it0"), "idle", "air_sc", SubResource("AnimationNodeStateMachineTransition_ac2hu"), "air_sc", "idle", SubResource("AnimationNodeStateMachineTransition_u2wjx"), "idle", "air_sf", SubResource("AnimationNodeStateMachineTransition_4sjcg"), "air_sf", "idle", SubResource("AnimationNodeStateMachineTransition_r8opi")]
-graph_offset = Vector2(45.7559, -224.208)
+states/run/position = Vector2(484.756, 256.523)
+transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_u83ke"), "idle", "run", SubResource("AnimationNodeStateMachineTransition_gvbk0"), "idle", "jump", SubResource("AnimationNodeStateMachineTransition_ysa4w"), "idle", "End", SubResource("AnimationNodeStateMachineTransition_hq702"), "jump", "idle", SubResource("AnimationNodeStateMachineTransition_0gub3"), "run", "idle", SubResource("AnimationNodeStateMachineTransition_lah6g"), "idle", "block", SubResource("AnimationNodeStateMachineTransition_md28m"), "block", "idle", SubResource("AnimationNodeStateMachineTransition_n1p6x"), "idle", "ground_nc", SubResource("AnimationNodeStateMachineTransition_hhs3o"), "ground_nc", "idle", SubResource("AnimationNodeStateMachineTransition_6p1mv"), "idle", "ground_nf", SubResource("AnimationNodeStateMachineTransition_aa7ik"), "ground_nf", "idle", SubResource("AnimationNodeStateMachineTransition_u8381"), "idle", "ground_sc", SubResource("AnimationNodeStateMachineTransition_h8jym"), "ground_sc", "idle", SubResource("AnimationNodeStateMachineTransition_s4ry3"), "idle", "ground_sf", SubResource("AnimationNodeStateMachineTransition_3stpb"), "ground_sf", "idle", SubResource("AnimationNodeStateMachineTransition_u01e7"), "idle", "air_nc", SubResource("AnimationNodeStateMachineTransition_0pt1f"), "air_nc", "idle", SubResource("AnimationNodeStateMachineTransition_8ac27"), "idle", "air_nf", SubResource("AnimationNodeStateMachineTransition_l7xug"), "air_nf", "idle", SubResource("AnimationNodeStateMachineTransition_a0it0"), "idle", "air_sc", SubResource("AnimationNodeStateMachineTransition_ac2hu"), "air_sc", "idle", SubResource("AnimationNodeStateMachineTransition_u2wjx"), "idle", "air_sf", SubResource("AnimationNodeStateMachineTransition_4sjcg"), "air_sf", "idle", SubResource("AnimationNodeStateMachineTransition_r8opi"), "roll", "idle", SubResource("AnimationNodeStateMachineTransition_d3lit"), "idle", "roll", SubResource("AnimationNodeStateMachineTransition_1h07p")]
+graph_offset = Vector2(45.7559, -68.9565)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_gjgft"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_0ovay"]
 viewport_path = NodePath("BillboardViewport")
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sn8c4"]
@@ -1030,10 +1120,15 @@ height = 1.10297
 
 [sub_resource type="BoxMesh" id="BoxMesh_h4meb"]
 
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_to02t"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_uxurx"]
+
 [node name="Ranger" type="CharacterBody3D" node_paths=PackedStringArray("ground_nc", "ground_nf", "ground_sc", "ground_sf", "air_nc", "air_nf", "air_sc", "air_sf")]
 platform_floor_layers = 4294967294
 script = ExtResource("1_5ua37")
 display_name = "Ranger"
+targetting = true
 ground_nc = NodePath("Moves/Pistol Whip")
 ground_nf = NodePath("Moves/Standoff")
 ground_sc = NodePath("Moves/Axe Uppercut")
@@ -1046,12 +1141,12 @@ air_sf = NodePath("Moves/Wrangle \'Em")
 [node name="StanimaBar3D" parent="." instance=ExtResource("2_5dbax")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.16405, 0)
 visible = false
-texture = SubResource("ViewportTexture_oprek")
+texture = SubResource("ViewportTexture_gdbc2")
 
 [node name="DebugInfo" parent="." instance=ExtResource("2_qo63s")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.21122, 2.46423)
 pixel_size = 0.015
-texture = SubResource("ViewportTexture_rfelv")
+texture = SubResource("ViewportTexture_le33a")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 speed_scale = 2.0
@@ -1115,7 +1210,7 @@ parameters/ground_sf/TimeScale/scale = 1.0
 [node name="PlayerNametag" parent="." instance=ExtResource("2_qo63s")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.859205, 0)
 pixel_size = 0.02
-texture = SubResource("ViewportTexture_gjgft")
+texture = SubResource("ViewportTexture_0ovay")
 
 [node name="TargetArrow" type="Sprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.41769, 0)
@@ -1215,8 +1310,30 @@ visible = false
 mesh = SubResource("BoxMesh_c3crr")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox/Shotgun Explosion Hitbox"]
-transform = Transform3D(1.2, 0, 0, 0, 0.8, 0, 0, 0, 1, 0.5, 0, 0.5)
+transform = Transform3D(1.2, 0, 0, 0, 0.8, 0, 0, 0, 1, 0.487775, -0.405328, 0.556901)
 shape = SubResource("BoxShape3D_4w4a0")
+
+[node name="Roll Hitbox" type="Area3D" parent="Hurtbox" node_paths=PackedStringArray("collision_shape", "mesh_instance", "owner_char")]
+transform = Transform3D(0.848528, 0, 0.707107, 0, 0.8, 0, -0.848528, 0, 0.707107, -0.19036, 8.13752e-05, 0.645388)
+monitoring = false
+script = ExtResource("29_m1h5u")
+collision_level = 2
+collision_shape = NodePath("CollisionShape3D")
+mesh_instance = NodePath("MeshInstance3D")
+owner_char = NodePath("../..")
+damage_range = [10, 10]
+kb_length = 0.1
+hitstun_length = 0.1
+knockback_strength = Vector3(4, 4, 4)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Hurtbox/Roll Hitbox"]
+transform = Transform3D(1.1862, 0, 0, 0, 0.689034, 0, 0, 0, 1.1862, 0.519117, 0, -0.353429)
+visible = false
+mesh = SubResource("CapsuleMesh_to02t")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox/Roll Hitbox"]
+transform = Transform3D(1.1862, 0, 0, 0, 0.689034, 0, 0, 0, 1.1862, 0.519117, 0, -0.353429)
+shape = SubResource("CapsuleShape3D_uxurx")
 
 [node name="Moves" type="Node" parent="."]
 
@@ -1285,4 +1402,4 @@ transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -0.748441, 0.814495, 0)
 visible = false
 billboard = 1
 shaded = true
-texture = ExtResource("28_wg7tb")
+texture = ExtResource("38_c43ee")
