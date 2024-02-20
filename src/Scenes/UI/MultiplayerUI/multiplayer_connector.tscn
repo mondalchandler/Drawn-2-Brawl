@@ -1,0 +1,165 @@
+[gd_scene load_steps=5 format=3 uid="uid://c50hiiwp247rw"]
+
+[ext_resource type="PackedScene" uid="uid://3s37qqt6r8je" path="res://src/Scenes/UI/custom_button.tscn" id="1_1580d"]
+[ext_resource type="Script" path="res://src/Scenes/UI/MultiplayerUI/multiplayer_connector.gd" id="1_j3vwj"]
+[ext_resource type="Texture2D" uid="uid://dw8yen50qp7de" path="res://resources/Images/PlayerSelectImages/LeaveButton.png" id="2_p7j5j"]
+[ext_resource type="Script" path="res://src/Scenes/UI/ButtonScripts/go_to_scene_button.gd" id="3_apem3"]
+
+[node name="multiplayer_connector" type="Node"]
+script = ExtResource("1_j3vwj")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="LobbyCreatePanel" type="PanelContainer" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -432.0
+offset_top = -64.0
+offset_right = -59.0
+offset_bottom = 72.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Main" type="GridContainer" parent="CanvasLayer/LobbyCreatePanel"]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="CanvasLayer/LobbyCreatePanel/Main"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Create Lobby"
+horizontal_alignment = 1
+
+[node name="MiddleContent" type="GridContainer" parent="CanvasLayer/LobbyCreatePanel/Main"]
+layout_mode = 2
+size_flags_vertical = 4
+columns = 2
+
+[node name="NameLabel" type="Label" parent="CanvasLayer/LobbyCreatePanel/Main/MiddleContent"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 6
+text = "Lobby Name:"
+
+[node name="NameField" type="LineEdit" parent="CanvasLayer/LobbyCreatePanel/Main/MiddleContent"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 6
+text = "milk"
+
+[node name="PortLabel" type="Label" parent="CanvasLayer/LobbyCreatePanel/Main/MiddleContent"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 6
+text = "Port:"
+
+[node name="PortField" type="LineEdit" parent="CanvasLayer/LobbyCreatePanel/Main/MiddleContent"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 6
+text = "9999"
+
+[node name="MaxPlayersLabel" type="Label" parent="CanvasLayer/LobbyCreatePanel/Main/MiddleContent"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 6
+text = "Max Players:
+"
+
+[node name="MaxPlayersField" type="LineEdit" parent="CanvasLayer/LobbyCreatePanel/Main/MiddleContent"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 6
+text = "4"
+
+[node name="CreateButton" type="Button" parent="CanvasLayer/LobbyCreatePanel/Main"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 6
+text = "Create
+"
+
+[node name="LobbyJoinPanel" type="PanelContainer" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -7.0
+offset_top = -62.0
+offset_right = 366.0
+offset_bottom = 74.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Main" type="GridContainer" parent="CanvasLayer/LobbyJoinPanel"]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="CanvasLayer/LobbyJoinPanel/Main"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Join Lobby
+"
+horizontal_alignment = 1
+
+[node name="MiddleContent" type="GridContainer" parent="CanvasLayer/LobbyJoinPanel/Main"]
+layout_mode = 2
+size_flags_vertical = 4
+columns = 2
+
+[node name="LobbyIPLabel" type="Label" parent="CanvasLayer/LobbyJoinPanel/Main/MiddleContent"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 6
+text = "Lobby IP:"
+
+[node name="LobbyIPField" type="LineEdit" parent="CanvasLayer/LobbyJoinPanel/Main/MiddleContent"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 6
+text = "127.0.0.1"
+
+[node name="PortLabel" type="Label" parent="CanvasLayer/LobbyJoinPanel/Main/MiddleContent"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 6
+text = "Lobby Port:"
+
+[node name="PortField" type="LineEdit" parent="CanvasLayer/LobbyJoinPanel/Main/MiddleContent"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 6
+text = "9999"
+
+[node name="PlayerNameLabel" type="Label" parent="CanvasLayer/LobbyJoinPanel/Main/MiddleContent"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 6
+text = "Player Name:
+"
+
+[node name="PlayerNameField" type="LineEdit" parent="CanvasLayer/LobbyJoinPanel/Main/MiddleContent"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 6
+text = "alex"
+
+[node name="JoinButton" type="Button" parent="CanvasLayer/LobbyJoinPanel/Main"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 6
+text = "Join"
+
+[node name="BackToPlayScene" parent="." instance=ExtResource("1_1580d")]
+position = Vector2(20, 944)
+texture = ExtResource("2_p7j5j")
+texture_scale = Vector2(2, 2)
+polygon = PackedVector2Array(-1, 31, 56, 39, 142, -1, 138, 26, 142, 75, 126, 79, 120, 104, 75, 106, 72, 104, 30, 113)
+script = ExtResource("3_apem3")
+scene = "res://src/Scenes/UI/play_scene.tscn"

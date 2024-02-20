@@ -6,7 +6,15 @@ extends Node
 
 # ------------------ VARIABLES ------------------ #
 
-@onready var music_node: Node = $MusicNode
+@onready var multiplayer_scenes = [
+	"res://src/Scenes/UI/VictoryUI/victory_screen.tscn", 
+	"res://src/Scenes/UI/player_select.tscn",
+	"res://src/Scenes/Levels/SaloonMap.tscn"
+]
+
+@onready var perma_nodes = [
+	$MusicNode, $PlayerLeaderboard
+]
 
 # ------------------ METHODS ------------------ #
 
@@ -19,7 +27,7 @@ func _change_scene(scene_path: String, optional_setup_callback = null):
 	
 	# clear everything in the main scene
 	for i in self.get_children():
-		if i != music_node:
+		if not perma_nodes.has(i):
 			i.queue_free()
 	
 	# if the callback is provided, use it

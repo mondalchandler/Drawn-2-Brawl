@@ -6,27 +6,37 @@
 script = ExtResource("1_i3fbx")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
-visible = false
 
-[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer"]
+[node name="Main" type="PanelContainer" parent="CanvasLayer"]
 offset_right = 186.0
 offset_bottom = 184.0
 
-[node name="PlayerList" type="GridContainer" parent="CanvasLayer/PanelContainer"]
+[node name="Content" type="GridContainer" parent="CanvasLayer/Main"]
 layout_mode = 2
 
-[node name="TitleLabel" type="Label" parent="CanvasLayer/PanelContainer/PlayerList"]
+[node name="LobbyInfo" type="GridContainer" parent="CanvasLayer/Main/Content"]
+layout_mode = 2
+columns = 2
+
+[node name="TitleLabel" type="Label" parent="CanvasLayer/Main/Content/LobbyInfo"]
 layout_mode = 2
 size_flags_horizontal = 6
-text = "Lobby Leaderboard:"
+text = "Lobby:
+"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PlayerLabel" type="Label" parent="CanvasLayer/PanelContainer/PlayerList"]
+[node name="LobbyName" type="Label" parent="CanvasLayer/Main/Content/LobbyInfo"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "<lobby name>
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PlayerList" type="GridContainer" parent="CanvasLayer/Main/Content"]
+layout_mode = 2
+
+[node name="PlayerLabel" type="Label" parent="CanvasLayer/Main/Content/PlayerList"]
 layout_mode = 2
 text = "Player 1 (host)"
-
-[node name="PlayerLabel2" type="Label" parent="CanvasLayer/PanelContainer/PlayerList"]
-layout_mode = 2
-text = "Player 2 (client)
-"
