@@ -1,0 +1,32 @@
+[gd_scene load_steps=2 format=3 uid="uid://62kl2k13jor3"]
+
+[ext_resource type="Script" path="res://src/Scenes/UI/MultiplayerUI/playerLeaderboard.gd" id="1_i3fbx"]
+
+[node name="PlayerLeaderboard" type="Node"]
+script = ExtResource("1_i3fbx")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer"]
+offset_right = 186.0
+offset_bottom = 184.0
+
+[node name="PlayerList" type="GridContainer" parent="CanvasLayer/PanelContainer"]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="CanvasLayer/PanelContainer/PlayerList"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "Lobby Leaderboard:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PlayerLabel" type="Label" parent="CanvasLayer/PanelContainer/PlayerList"]
+layout_mode = 2
+text = "Player 1 (host)"
+
+[node name="PlayerLabel2" type="Label" parent="CanvasLayer/PanelContainer/PlayerList"]
+layout_mode = 2
+text = "Player 2 (client)
+"
