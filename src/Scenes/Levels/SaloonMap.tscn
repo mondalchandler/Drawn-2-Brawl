@@ -10,8 +10,8 @@
 [ext_resource type="Script" path="res://src/Scenes/Levels/CanvasLayer.gd" id="10_1ligi"]
 [ext_resource type="PackedScene" uid="uid://b8ho0wqibktcr" path="res://src/Scenes/UI/HealthUI/all_player_health_list.tscn" id="11_412a5"]
 [ext_resource type="PackedScene" uid="uid://7kehmljriqbk" path="res://src/Scenes/Objects/Saloon Objects/low_poly_table.tscn" id="11_rku4r"]
-[ext_resource type="PackedScene" uid="uid://betl16iu6xk31" path="res://src/Scenes/Objects/Saloon Objects/low_poly_table_stool.tscn" id="11_yp7dc"]
-[ext_resource type="PackedScene" uid="uid://cjul47acrbrta" path="res://src/Scenes/Objects/Saloon Objects/low_poly_bar_stool.tscn" id="12_dfyco"]
+[ext_resource type="PackedScene" path="res://src/Scenes/Objects/Saloon Objects/low_poly_table_stool.tscn" id="11_yp7dc"]
+[ext_resource type="PackedScene" path="res://src/Scenes/Objects/Saloon Objects/low_poly_bar_stool.tscn" id="12_dfyco"]
 [ext_resource type="PackedScene" uid="uid://mrqfebknepnw" path="res://src/Scenes/Objects/Saloon Objects/lantern.tscn" id="13_b6v3r"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_5cb5o"]
