@@ -13,8 +13,10 @@ extends Node
 ]
 
 @onready var perma_nodes = [
-	$MusicNode, $PlayerLeaderboard
+	$MusicNode, $Leaderboard, $Players
 ]
+
+@onready var players = self.get_node("Players")
 
 # ------------------ METHODS ------------------ #
 
@@ -22,6 +24,14 @@ extends Node
 #It will clear out the current main scene, then load the new scene to go to
 #if a callback is provided, it will call the function BEFORE adding the new scene
 func _change_scene(scene_path: String, optional_setup_callback = null):
+	
+	# disconnect multiplayer if not going to a multiplayer scene
+	if not multiplayer_scenes.has(scene_path) and multiplayer.has_multiplayer_peer():
+		if multiplayer.is_server():
+			players.shutdown_server()
+		else:
+			players.disconnect_client()
+	
 	# load new scene
 	var new_scene = load(scene_path).instantiate()
 	
@@ -36,6 +46,8 @@ func _change_scene(scene_path: String, optional_setup_callback = null):
 	
 	# load the new scene
 	self.add_child(new_scene)
+	
+	
 	
 	return new_scene
 

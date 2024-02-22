@@ -39,4 +39,5 @@ layout_mode = 2
 
 [node name="PlayerLabel" type="Label" parent="CanvasLayer/Main/Content/PlayerList"]
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 text = "Player 1 (host)"

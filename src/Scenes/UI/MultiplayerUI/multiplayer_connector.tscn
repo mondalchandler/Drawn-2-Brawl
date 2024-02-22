@@ -76,6 +76,19 @@ size_flags_horizontal = 3
 size_flags_vertical = 6
 text = "4"
 
+[node name="PlayerNameLabel" type="Label" parent="CanvasLayer/LobbyCreatePanel/Main/MiddleContent"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 6
+text = "Player Name
+"
+
+[node name="PlayerNameField" type="LineEdit" parent="CanvasLayer/LobbyCreatePanel/Main/MiddleContent"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 6
+text = "gravy"
+
 [node name="CreateButton" type="Button" parent="CanvasLayer/LobbyCreatePanel/Main"]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -123,7 +136,7 @@ text = "Lobby IP:"
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 6
-text = "127.0.0.1"
+text = "localhost"
 
 [node name="PortLabel" type="Label" parent="CanvasLayer/LobbyJoinPanel/Main/MiddleContent"]
 layout_mode = 2
