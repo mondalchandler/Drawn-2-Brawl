@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://mrqfebknepnw"]
+
+[ext_resource type="PackedScene" uid="uid://xutnjvsp45bb" path="res://resources/Meshes/Lantern.glb" id="1_hux7s"]
+
+[node name="Lantern" instance=ExtResource("1_hux7s")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+
+[node name="Cylinder" parent="." index="0"]
+layers = 524288
+cast_shadow = 0
+
+[node name="OmniLight3D" type="OmniLight3D" parent="." index="1"]
+light_color = Color(1, 1, 0.627451, 1)
+light_energy = 3.0
+light_cull_mask = 4294443007
+shadow_enabled = true
+omni_range = 12.0
+omni_attenuation = 0.517632
