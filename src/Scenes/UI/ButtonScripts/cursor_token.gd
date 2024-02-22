@@ -17,7 +17,7 @@ func _process(delta):
 
 func _on_area_2d_mouse_entered():
 	touching = true
-	scale = default_scale * 1.2
+	scale = default_scale * 1.15
 	print(touching)
 
 
