@@ -3,6 +3,7 @@ extends Polygon2D
 var touching := false
 var following := false
 var default_scale := scale
+var scale_mod := 1.0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -11,24 +12,31 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	scale = default_scale * scale_mod
 	if following:
-		position = get_local_mouse_position() * 1.1
+		position = to_global(get_local_mouse_position())
 
 
 func _on_area_2d_mouse_entered():
 	touching = true
-	scale = default_scale * 1.15
-	print(touching)
-
+	if not following:
+		scale_mod = 1.1
 
 
 func _on_area_2d_mouse_exited():
 	touching = false
-	scale = default_scale
-	print(touching)
-
+	if not following:
+		scale_mod = 1.0
 
 
 func _on_area_2d_input_event(viewport, event, shape_idx):
-	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and touching:
-		following = !following
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT and touching:
+			if event.pressed:
+				following = !following
+				scale_mod = 0.9
+			else:
+				if following:
+					scale_mod = 1.1
+				else:
+					scale_mod = 1
