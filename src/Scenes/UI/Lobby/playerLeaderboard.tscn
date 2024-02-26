@@ -1,0 +1,43 @@
+[gd_scene load_steps=2 format=3 uid="uid://62kl2k13jor3"]
+
+[ext_resource type="Script" path="res://src/Scripts/UI/Lobby/playerLeaderboard.gd" id="1_i3fbx"]
+
+[node name="PlayerLeaderboard" type="Node"]
+script = ExtResource("1_i3fbx")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Main" type="PanelContainer" parent="CanvasLayer"]
+offset_right = 186.0
+offset_bottom = 184.0
+
+[node name="Content" type="GridContainer" parent="CanvasLayer/Main"]
+layout_mode = 2
+
+[node name="LobbyInfo" type="GridContainer" parent="CanvasLayer/Main/Content"]
+layout_mode = 2
+columns = 2
+
+[node name="TitleLabel" type="Label" parent="CanvasLayer/Main/Content/LobbyInfo"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "Lobby:
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LobbyName" type="Label" parent="CanvasLayer/Main/Content/LobbyInfo"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "<lobby name>
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PlayerList" type="GridContainer" parent="CanvasLayer/Main/Content"]
+layout_mode = 2
+
+[node name="PlayerLabel" type="Label" parent="CanvasLayer/Main/Content/PlayerList"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "Player 1 (host)"

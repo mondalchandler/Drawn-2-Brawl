@@ -1,9 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://3s37qqt6r8je"]
+[gd_scene load_steps=3 format=3 uid="uid://3s37qqt6r8je"]
 
-[ext_resource type="Script" path="res://src/Scenes/UI/ButtonScripts/custom_button_child_script.gd" id="1_nip5e"]
+[ext_resource type="Script" path="res://src/Scripts/UI/Navigation/custom_button.gd" id="1_fm7qy"]
+[ext_resource type="Script" path="res://src/Scripts/UI/Navigation/custom_button_child_script.gd" id="1_nip5e"]
 
 [node name="Polygon2D" type="Polygon2D"]
 polygon = PackedVector2Array(0, 0, 100, 0, 100, 100, 0, 100)
+script = ExtResource("1_fm7qy")
 
 [node name="Area2D" type="Area2D" parent="."]
 script = ExtResource("1_nip5e")

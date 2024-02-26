@@ -1,8 +1,8 @@
 [gd_scene load_steps=111 format=3 uid="uid://ds55r3e3det8w"]
 
-[ext_resource type="Script" path="res://src/Scripts/Classes/CharacterController.gd" id="1_5ua37"]
-[ext_resource type="PackedScene" uid="uid://dasqrf4pd4bpe" path="res://src/Scenes/player block stamina/StanimaBar3D.tscn" id="2_5dbax"]
-[ext_resource type="PackedScene" uid="uid://cojs7ish64cv5" path="res://src/Scenes/UI/BillboardUI/billboard_sprite_3d.tscn" id="2_qo63s"]
+[ext_resource type="Script" path="res://src/Scripts/Classes/Character/CharacterController.gd" id="1_5ua37"]
+[ext_resource type="PackedScene" uid="uid://dasqrf4pd4bpe" path="res://src/Scenes/Characters/Stamina/StaminaBar3D.tscn" id="2_5dbax"]
+[ext_resource type="PackedScene" uid="uid://cojs7ish64cv5" path="res://src/Scenes/UI/Billboard/billboard_sprite_3d.tscn" id="2_qo63s"]
 [ext_resource type="Texture2D" uid="uid://c78gwvfeiv0v8" path="res://resources/Images/Animations/Ranger/Moves/RangerGNC1.png" id="3_lpkgj"]
 [ext_resource type="Texture2D" uid="uid://dnv1i0rhkdbbl" path="res://resources/Images/Animations/Ranger/Moves/RangerANC1.png" id="4_qfe13"]
 [ext_resource type="Texture2D" uid="uid://k1d6ljvlbigv" path="res://resources/Images/Animations/Ranger/Basic/RangerIdle1.png" id="4_v61hl"]
@@ -17,7 +17,7 @@
 [ext_resource type="Texture2D" uid="uid://buh8fvdr6lpji" path="res://resources/Images/Animations/Ranger/Basic/RangerRun2.png" id="9_5bpse"]
 [ext_resource type="Texture2D" uid="uid://bpig43rdl73cu" path="res://resources/Images/Animations/Ranger/Moves/RangerASC2.png" id="9_r3jcr"]
 [ext_resource type="Texture2D" uid="uid://dv6x8dy56bwhb" path="res://resources/Images/Animations/Ranger/Moves/RangerGNF1.png" id="10_64nyl"]
-[ext_resource type="PackedScene" uid="uid://du1ce84fu4a65" path="res://src/Scenes/UI/PauseUI/pause_menu.tscn" id="10_ip7o7"]
+[ext_resource type="PackedScene" uid="uid://du1ce84fu4a65" path="res://src/Scenes/UI/Pause/pause_menu.tscn" id="10_ip7o7"]
 [ext_resource type="Texture2D" uid="uid://c0gujiauuc7k" path="res://resources/Images/Animations/Ranger/Moves/RangerASF1.png" id="10_y2gy4"]
 [ext_resource type="Texture2D" uid="uid://bpeb0ux7smvj2" path="res://resources/Images/whiteCircle.png" id="11_e3tst"]
 [ext_resource type="Texture2D" uid="uid://da68bh42u6jho" path="res://resources/Images/Animations/Ranger/Moves/RangerGNF2.png" id="11_lcm88"]
@@ -26,20 +26,20 @@
 [ext_resource type="Texture2D" uid="uid://bn6q6f7dupf5c" path="res://resources/Images/Animations/Ranger/Moves/RangerGSC1.png" id="12_knxxx"]
 [ext_resource type="Texture2D" uid="uid://bx5ukutk4wum3" path="res://resources/Images/arrow_down.png" id="13_3lnkm"]
 [ext_resource type="Texture2D" uid="uid://dvwixncak0gk4" path="res://resources/Images/Animations/Ranger/Moves/RangerGSC2.png" id="13_hi458"]
-[ext_resource type="Script" path="res://src/Scripts/Classes/Move.gd" id="14_regd4"]
+[ext_resource type="Script" path="res://src/Scripts/Classes/Character/Moves/Move.gd" id="14_regd4"]
 [ext_resource type="Texture2D" uid="uid://cb4cqhs763ua2" path="res://resources/Images/Animations/Ranger/Moves/RangerGSF1.png" id="14_rntc3"]
 [ext_resource type="Texture2D" uid="uid://cyi3r6pjscqmv" path="res://resources/Images/Animations/Ranger/Moves/RangerGSF2.png" id="15_bhij1"]
 [ext_resource type="Texture2D" uid="uid://innlwsw6s1s4" path="res://resources/Images/Animations/Ranger/Basic/RangerBlock.png" id="24_lq2eb"]
-[ext_resource type="Script" path="res://src/Scenes/Characters/CharacterSprite.gd" id="25_whyga"]
+[ext_resource type="Script" path="res://src/Scripts/Classes/Character/CharacterSprite.gd" id="25_whyga"]
 [ext_resource type="Texture2D" uid="uid://d0bdww1ps6v0c" path="res://resources/Images/imageedit_1_7369296950.png" id="28_wg7tb"]
-[ext_resource type="Script" path="res://src/Scripts/Classes/BaseHitbox.gd" id="29_m1h5u"]
-[ext_resource type="Script" path="res://src/Scripts/ChargableMoves/Ranger/pistol_whip.gd" id="32_ypbn0"]
-[ext_resource type="Script" path="res://src/Scripts/ChargableMoves/Ranger/axe_uppercut.gd" id="34_pvw25"]
+[ext_resource type="Script" path="res://src/Scripts/Classes/Character/Hitboxes/BaseHitbox.gd" id="29_m1h5u"]
+[ext_resource type="Script" path="res://src/Scripts/Classes/Character/Moves/ChargableMoves/Ranger/pistol_whip.gd" id="32_ypbn0"]
+[ext_resource type="Script" path="res://src/Scripts/Classes/Character/Moves/ChargableMoves/Ranger/axe_uppercut.gd" id="34_pvw25"]
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_424fr"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_f2ytj"]
 viewport_path = NodePath("SubViewport")
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_d36ce"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_yddyb"]
 viewport_path = NodePath("BillboardViewport")
 
 [sub_resource type="Animation" id="Animation_gcqbo"]
@@ -1018,7 +1018,7 @@ states/run/position = Vector2(515, 266.523)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_u83ke"), "idle", "run", SubResource("AnimationNodeStateMachineTransition_gvbk0"), "idle", "jump", SubResource("AnimationNodeStateMachineTransition_ysa4w"), "idle", "End", SubResource("AnimationNodeStateMachineTransition_hq702"), "jump", "idle", SubResource("AnimationNodeStateMachineTransition_0gub3"), "run", "idle", SubResource("AnimationNodeStateMachineTransition_lah6g"), "idle", "block", SubResource("AnimationNodeStateMachineTransition_md28m"), "block", "idle", SubResource("AnimationNodeStateMachineTransition_n1p6x"), "idle", "ground_nc", SubResource("AnimationNodeStateMachineTransition_hhs3o"), "ground_nc", "idle", SubResource("AnimationNodeStateMachineTransition_6p1mv"), "idle", "ground_nf", SubResource("AnimationNodeStateMachineTransition_aa7ik"), "ground_nf", "idle", SubResource("AnimationNodeStateMachineTransition_u8381"), "idle", "ground_sc", SubResource("AnimationNodeStateMachineTransition_h8jym"), "ground_sc", "idle", SubResource("AnimationNodeStateMachineTransition_s4ry3"), "idle", "ground_sf", SubResource("AnimationNodeStateMachineTransition_3stpb"), "ground_sf", "idle", SubResource("AnimationNodeStateMachineTransition_u01e7"), "idle", "air_nc", SubResource("AnimationNodeStateMachineTransition_0pt1f"), "air_nc", "idle", SubResource("AnimationNodeStateMachineTransition_8ac27"), "idle", "air_nf", SubResource("AnimationNodeStateMachineTransition_l7xug"), "air_nf", "idle", SubResource("AnimationNodeStateMachineTransition_a0it0"), "idle", "air_sc", SubResource("AnimationNodeStateMachineTransition_ac2hu"), "air_sc", "idle", SubResource("AnimationNodeStateMachineTransition_u2wjx"), "idle", "air_sf", SubResource("AnimationNodeStateMachineTransition_4sjcg"), "air_sf", "idle", SubResource("AnimationNodeStateMachineTransition_r8opi")]
 graph_offset = Vector2(45.7559, -224.208)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_bm2rp"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_0fspt"]
 viewport_path = NodePath("BillboardViewport")
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sn8c4"]
@@ -1046,12 +1046,12 @@ air_sf = NodePath("Moves/Wrangle \'Em")
 [node name="StanimaBar3D" parent="." instance=ExtResource("2_5dbax")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.16405, 0)
 visible = false
-texture = SubResource("ViewportTexture_424fr")
+texture = SubResource("ViewportTexture_f2ytj")
 
 [node name="DebugInfo" parent="." instance=ExtResource("2_qo63s")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.21122, 2.46423)
 pixel_size = 0.015
-texture = SubResource("ViewportTexture_d36ce")
+texture = SubResource("ViewportTexture_yddyb")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 speed_scale = 2.0
@@ -1061,7 +1061,6 @@ libraries = {
 }
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-root_path = NodePath("../..")
 replication_config = SubResource("SceneReplicationConfig_y3gwe")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
@@ -1115,7 +1114,7 @@ parameters/ground_sf/TimeScale/scale = 1.0
 [node name="PlayerNametag" parent="." instance=ExtResource("2_qo63s")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.859205, 0)
 pixel_size = 0.02
-texture = SubResource("ViewportTexture_bm2rp")
+texture = SubResource("ViewportTexture_0fspt")
 
 [node name="TargetArrow" type="Sprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.41769, 0)

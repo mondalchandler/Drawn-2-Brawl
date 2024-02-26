@@ -1,6 +1,6 @@
 [gd_scene load_steps=18 format=3 uid="uid://frlimrjye2tm"]
 
-[ext_resource type="Script" path="res://src/Scenes/Characters/AIEnemy.gd" id="1_evc1u"]
+[ext_resource type="Script" path="res://src/Scripts/Classes/Character/AIEnemy.gd" id="1_evc1u"]
 [ext_resource type="Texture2D" uid="uid://dpw7pb0cm3ah5" path="res://resources/Images/Animations/Ranger/Basic/RangerRun1.png" id="2_0rwkh"]
 [ext_resource type="Texture2D" uid="uid://k1d6ljvlbigv" path="res://resources/Images/Animations/Ranger/Basic/RangerIdle1.png" id="5_411am"]
 [ext_resource type="Texture2D" uid="uid://kfchhnmy5uy0" path="res://resources/Images/Animations/Ranger/Basic/RangerIdle2.png" id="6_r8gl3"]

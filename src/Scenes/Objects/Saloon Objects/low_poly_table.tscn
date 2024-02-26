@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://7kehmljriqbk"]
 
 [ext_resource type="Script" path="res://addons/destruction/destruction.gd" id="1_57rjh"]
-[ext_resource type="Script" path="res://src/Scripts/DestructibleObjects.gd" id="1_dnsf6"]
+[ext_resource type="Script" path="res://src/Scripts/GameControl/destructibleObjects.gd" id="1_dnsf6"]
 [ext_resource type="PackedScene" uid="uid://covncmovaldvg" path="res://src/Scenes/Objects/Saloon Objects/low_poly_table_shattered.tscn" id="2_nfksc"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ihwa5"]

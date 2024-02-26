@@ -1,17 +1,17 @@
 [gd_scene load_steps=19 format=3 uid="uid://dufgk3e4kmxyu"]
 
-[ext_resource type="Script" path="res://src/Scenes/UI/main_menu.gd" id="1_5m3be"]
+[ext_resource type="Script" path="res://src/Scripts/UI/main_menu.gd" id="1_5m3be"]
 [ext_resource type="Texture2D" uid="uid://dqmqdcpi3f1e1" path="res://resources/Images/MainMenuImages/MainMenuBG.jpg" id="2_wun5k"]
 [ext_resource type="PackedScene" uid="uid://3s37qqt6r8je" path="res://src/Scenes/UI/custom_button.tscn" id="3_vgq1w"]
 [ext_resource type="Texture2D" uid="uid://pny3gbsnm5e2" path="res://resources/Images/MainMenuImages/MainPlayButton.png" id="4_vu4aq"]
 [ext_resource type="Texture2D" uid="uid://eibq1c2wn3or" path="res://resources/Images/MainMenuImages/MainCreateButton.png" id="5_t4qaf"]
-[ext_resource type="Script" path="res://src/Scenes/UI/ButtonScripts/quit_button.gd" id="6_dcvp8"]
+[ext_resource type="Script" path="res://src/Scripts/UI/Navigation/quit_button.gd" id="6_dcvp8"]
 [ext_resource type="Texture2D" uid="uid://bcosy0o5ex8p1" path="res://resources/Images/PlayerSelectImages/OptionsButton.png" id="6_iyfhi"]
-[ext_resource type="Script" path="res://src/Scenes/UI/ButtonScripts/go_to_scene_button.gd" id="7_7ex03"]
+[ext_resource type="Script" path="res://src/Scripts/UI/Navigation/go_to_scene_button.gd" id="7_7ex03"]
 [ext_resource type="Texture2D" uid="uid://dw8yen50qp7de" path="res://resources/Images/PlayerSelectImages/LeaveButton.png" id="8_naxe8"]
 [ext_resource type="Texture2D" uid="uid://cfm3vjorcqb17" path="res://resources/Images/MainMenuImages/MainMockLogo.png" id="9_q027n"]
-[ext_resource type="Script" path="res://src/Scenes/UI/ButtonScripts/main_menu_play_button.gd" id="10_bwoma"]
-[ext_resource type="Script" path="res://src/Scenes/UI/ButtonScripts/custom_button.gd" id="11_w6d5q"]
+[ext_resource type="Script" path="res://src/Scripts/UI/Navigation/main_menu_play_button.gd" id="10_bwoma"]
+[ext_resource type="Script" path="res://src/Scripts/UI/Navigation/custom_button.gd" id="11_w6d5q"]
 [ext_resource type="Texture2D" uid="uid://bd64jbd5h5ltb" path="res://resources/Images/MainMenuImages/MainNoble.png" id="13_6igo4"]
 [ext_resource type="Texture2D" uid="uid://bc324ymr77qjs" path="res://resources/Images/MainMenuImages/MainRanger.png" id="14_3qdlw"]
 [ext_resource type="Texture2D" uid="uid://m61ftjtmqbxl" path="res://resources/Images/MainMenuImages/MainBGLines.png" id="15_3mlk5"]
@@ -146,8 +146,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 1397.0
 offset_top = 489.0
-offset_right = -3.0
-offset_bottom = -46.0
+offset_right = 6912.0
+offset_bottom = 3751.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("13_6igo4")
@@ -158,6 +158,8 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = 6403.0
+offset_bottom = 3603.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("14_3qdlw")

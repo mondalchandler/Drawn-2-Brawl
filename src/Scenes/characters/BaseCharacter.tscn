@@ -1,8 +1,8 @@
 [gd_scene load_steps=37 format=3 uid="uid://dxwr5dhawdyys"]
 
-[ext_resource type="Script" path="res://src/Scripts/Classes/CharacterController.gd" id="1_6jfnt"]
+[ext_resource type="Script" path="res://src/Scripts/Classes/Character/CharacterController.gd" id="1_7vkpt"]
 [ext_resource type="Texture2D" uid="uid://k1d6ljvlbigv" path="res://resources/Images/Animations/Ranger/Basic/RangerIdle1.png" id="2_of1dh"]
-[ext_resource type="PackedScene" uid="uid://du1ce84fu4a65" path="res://src/Scenes/UI/PauseUI/pause_menu.tscn" id="3_m33b8"]
+[ext_resource type="PackedScene" uid="uid://du1ce84fu4a65" path="res://src/Scenes/UI/Pause/pause_menu.tscn" id="3_m33b8"]
 [ext_resource type="Texture2D" uid="uid://kfchhnmy5uy0" path="res://resources/Images/Animations/Ranger/Basic/RangerIdle2.png" id="3_vw0by"]
 [ext_resource type="Texture2D" uid="uid://buh8fvdr6lpji" path="res://resources/Images/Animations/Ranger/Basic/RangerRun2.png" id="4_xct1f"]
 [ext_resource type="Texture2D" uid="uid://dpw7pb0cm3ah5" path="res://resources/Images/Animations/Ranger/Basic/RangerRun1.png" id="5_6knjl"]
@@ -11,10 +11,10 @@
 [ext_resource type="Texture2D" uid="uid://0sm548fs50ud" path="res://resources/Images/Animations/Ranger/Moves/RangerGNC2.png" id="9_po3d5"]
 [ext_resource type="Texture2D" uid="uid://bpeb0ux7smvj2" path="res://resources/Images/whiteCircle.png" id="10_6gnc5"]
 [ext_resource type="Texture2D" uid="uid://cwhdc0fkgp4k0" path="res://resources/Images/whiteBlurCircle.png" id="11_t4kcl"]
-[ext_resource type="PackedScene" uid="uid://cojs7ish64cv5" path="res://src/Scenes/UI/BillboardUI/billboard_sprite_3d.tscn" id="12_k1dtu"]
+[ext_resource type="PackedScene" uid="uid://cojs7ish64cv5" path="res://src/Scenes/UI/Billboard/billboard_sprite_3d.tscn" id="12_k1dtu"]
 [ext_resource type="Texture2D" uid="uid://bx5ukutk4wum3" path="res://resources/Images/arrow_down.png" id="13_wjfwb"]
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_a5ddm"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_uhsso"]
 viewport_path = NodePath("BillboardViewport")
 
 [sub_resource type="Animation" id="Animation_gcqbo"]
@@ -163,18 +163,18 @@ states/run/position = Vector2(651, 290.523)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_u83ke"), "idle", "run", SubResource("AnimationNodeStateMachineTransition_gvbk0"), "idle", "jump", SubResource("AnimationNodeStateMachineTransition_ysa4w"), "idle", "End", SubResource("AnimationNodeStateMachineTransition_hq702"), "jump", "idle", SubResource("AnimationNodeStateMachineTransition_0gub3"), "run", "idle", SubResource("AnimationNodeStateMachineTransition_lah6g"), "idle", "normal_close", SubResource("AnimationNodeStateMachineTransition_psxqy"), "normal_close", "idle", SubResource("AnimationNodeStateMachineTransition_qfppb")]
 graph_offset = Vector2(0, -73.4572)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_njggq"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_ulosu"]
 viewport_path = NodePath("BillboardViewport")
 
 [node name="BaseCharacter" type="CharacterBody3D"]
 platform_floor_layers = 4294967294
-script = ExtResource("1_6jfnt")
+script = ExtResource("1_7vkpt")
 anim_speed_scale = 2.0
 
 [node name="DebugInfo" parent="." instance=ExtResource("12_k1dtu")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.21122, 2.46423)
 pixel_size = 0.015
-texture = SubResource("ViewportTexture_a5ddm")
+texture = SubResource("ViewportTexture_uhsso")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 speed_scale = 2.0
@@ -184,7 +184,6 @@ libraries = {
 }
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-root_path = NodePath("../..")
 replication_config = SubResource("SceneReplicationConfig_y3gwe")
 
 [node name="CharacterSprite" type="Sprite3D" parent="."]
@@ -229,7 +228,7 @@ process_callback = 2
 [node name="PlayerNametag" parent="." instance=ExtResource("12_k1dtu")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.859205, 0)
 pixel_size = 0.02
-texture = SubResource("ViewportTexture_njggq")
+texture = SubResource("ViewportTexture_ulosu")
 
 [node name="TargetArrow" type="Sprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.41769, 0)

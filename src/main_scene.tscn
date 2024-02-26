@@ -1,0 +1,31 @@
+[gd_scene load_steps=6 format=3 uid="uid://byvk5j3rsfxi2"]
+
+[ext_resource type="Script" path="res://src/main_scene.gd" id="1_xbd8a"]
+[ext_resource type="PackedScene" uid="uid://62kl2k13jor3" path="res://src/Scenes/UI/Lobby/playerLeaderboard.tscn" id="2_60wof"]
+[ext_resource type="PackedScene" uid="uid://c37ysqrrrtith" path="res://src/Scenes/Services/Multiplayer/players.tscn" id="2_fmogl"]
+[ext_resource type="PackedScene" uid="uid://dufgk3e4kmxyu" path="res://src/Scenes/UI/main_menu.tscn" id="2_namr8"]
+[ext_resource type="PackedScene" uid="uid://chrk1ljxxad1h" path="res://src/Scenes/Services/music_node.tscn" id="3_awfen"]
+
+[node name="main_scene" type="Node"]
+script = ExtResource("1_xbd8a")
+
+[node name="Players" parent="." instance=ExtResource("2_fmogl")]
+
+[node name="Leaderboard" parent="." instance=ExtResource("2_60wof")]
+
+[node name="MusicNode" parent="." instance=ExtResource("3_awfen")]
+volume = 0.0
+
+[node name="Map" type="Node" parent="."]
+
+[node name="UI" type="Node" parent="."]
+
+[node name="MainMenu" parent="UI" instance=ExtResource("2_namr8")]
+
+[node name="MapSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://src/Scenes/Levels/SaloonMap.tscn", "res://src/Scenes/Levels/TestLevel.tscn")
+spawn_path = NodePath("../Map")
+
+[node name="CharacterSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://src/Scenes/characters/Ranger.tscn", "res://src/Scenes/characters/Dummy.tscn")
+spawn_path = NodePath("../Players")

@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dp40s7sjjk4to"]
 
-[ext_resource type="Script" path="res://src/Scripts/Musics/BeatTracker.gd" id="1_vwqag"]
+[ext_resource type="Script" path="res://src/Scripts/Music/BeatTracker.gd" id="1_vwqag"]
 
 [node name="MenuMusic" type="Node"]
 script = ExtResource("1_vwqag")

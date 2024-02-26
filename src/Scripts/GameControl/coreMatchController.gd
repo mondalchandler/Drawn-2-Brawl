@@ -10,7 +10,7 @@ extends Node
 @onready var music_node = main_scene.get_node("MusicNode")
 
 @onready var player_spawns: Node = $Spawns
-@onready var players_node: Node = $Players
+@onready var players_node: = main_scene.get_node("Players")
 
 enum GameMode {POINTS, LIVES}
 @export var gamemode: GameMode = GameMode.LIVES
@@ -20,8 +20,9 @@ var rankings = Array()
 var players: Array = []
 var match_started: bool = false
 
-# --------------- FUNCTIONS ----------------- #
+# --------------------------------------- SERVER FUNCTIONS -------------------------------------------- #
 
+# spawns in the player characters listed in the players array
 func spawn_players():
 	for i in range(len(players)):
 		var player = players[i].instantiate()
@@ -29,8 +30,6 @@ func spawn_players():
 		player.position = player.get_meta("spawn_point").position
 		player.display_name = "Player " + str(i + 1)
 		players_node.add_child(player)
-	$CanvasLayer.start()
-	start_match()
 
 
 func insert_char_into_next_available_slot(char):
@@ -56,6 +55,7 @@ func get_alive_players():
 # Called when the node enters the scene tree for the first time.
 func start_match():
 	music_node.stop()
+	$CanvasLayer.start()
 	for char in players_node.get_children():
 		char.full_heal()
 		char.in_game = true
@@ -88,4 +88,4 @@ func _process(delta):
 			victory_scene.level = self.name
 			victory_scene.players = players
 			print(victory_scene.rankings)
-		main_scene._change_scene("res://src/Scenes/UI/VictoryUI/victory_screen.tscn", victory_screen_setup)
+		main_scene.change_ui("res://src/Scenes/UI/VictoryUI/victory_screen.tscn", victory_screen_setup)
