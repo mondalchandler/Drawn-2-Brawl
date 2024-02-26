@@ -101,6 +101,8 @@ blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_pt7xs")
 
 [node name="LowPolyKeg1" type="RigidBody3D"]
+collision_layer = 16
+collision_mask = 23
 
 [node name="Destruction" type="Node" parent="." node_paths=PackedStringArray("shard_container")]
 script = ExtResource("1_2v6bs")

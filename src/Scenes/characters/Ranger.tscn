@@ -1,4 +1,4 @@
-[gd_scene load_steps=120 format=3 uid="uid://ds55r3e3det8w"]
+[gd_scene load_steps=120 format=3 uid="uid://cp0ors24yfsy"]
 
 [ext_resource type="Script" path="res://src/Scripts/Classes/CharacterController.gd" id="1_5ua37"]
 [ext_resource type="PackedScene" uid="uid://dasqrf4pd4bpe" path="res://src/Scenes/Stamina/StanimaBar3D.tscn" id="2_5dbax"]
@@ -39,10 +39,10 @@
 [ext_resource type="Script" path="res://src/Scripts/ChargableMoves/Ranger/axe_uppercut.gd" id="34_pvw25"]
 [ext_resource type="Texture2D" uid="uid://d0bdww1ps6v0c" path="res://resources/Images/twinkle.png" id="38_c43ee"]
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_32mjw"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_5j1ti"]
 viewport_path = NodePath("SubViewport")
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_4qwno"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_qt86s"]
 viewport_path = NodePath("BillboardViewport")
 
 [sub_resource type="Animation" id="Animation_gcqbo"]
@@ -1108,7 +1108,7 @@ states/run/position = Vector2(484.756, 256.523)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_u83ke"), "idle", "run", SubResource("AnimationNodeStateMachineTransition_gvbk0"), "idle", "jump", SubResource("AnimationNodeStateMachineTransition_ysa4w"), "idle", "End", SubResource("AnimationNodeStateMachineTransition_hq702"), "jump", "idle", SubResource("AnimationNodeStateMachineTransition_0gub3"), "run", "idle", SubResource("AnimationNodeStateMachineTransition_lah6g"), "idle", "block", SubResource("AnimationNodeStateMachineTransition_md28m"), "block", "idle", SubResource("AnimationNodeStateMachineTransition_n1p6x"), "idle", "ground_nc", SubResource("AnimationNodeStateMachineTransition_hhs3o"), "ground_nc", "idle", SubResource("AnimationNodeStateMachineTransition_6p1mv"), "idle", "ground_nf", SubResource("AnimationNodeStateMachineTransition_aa7ik"), "ground_nf", "idle", SubResource("AnimationNodeStateMachineTransition_u8381"), "idle", "ground_sc", SubResource("AnimationNodeStateMachineTransition_h8jym"), "ground_sc", "idle", SubResource("AnimationNodeStateMachineTransition_s4ry3"), "idle", "ground_sf", SubResource("AnimationNodeStateMachineTransition_3stpb"), "ground_sf", "idle", SubResource("AnimationNodeStateMachineTransition_u01e7"), "idle", "air_nc", SubResource("AnimationNodeStateMachineTransition_0pt1f"), "air_nc", "idle", SubResource("AnimationNodeStateMachineTransition_8ac27"), "idle", "air_nf", SubResource("AnimationNodeStateMachineTransition_l7xug"), "air_nf", "idle", SubResource("AnimationNodeStateMachineTransition_a0it0"), "idle", "air_sc", SubResource("AnimationNodeStateMachineTransition_ac2hu"), "air_sc", "idle", SubResource("AnimationNodeStateMachineTransition_u2wjx"), "idle", "air_sf", SubResource("AnimationNodeStateMachineTransition_4sjcg"), "air_sf", "idle", SubResource("AnimationNodeStateMachineTransition_r8opi"), "roll", "idle", SubResource("AnimationNodeStateMachineTransition_d3lit"), "idle", "roll", SubResource("AnimationNodeStateMachineTransition_1h07p")]
 graph_offset = Vector2(45.7559, -68.9565)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_d0m1p"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_s0lbr"]
 viewport_path = NodePath("BillboardViewport")
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sn8c4"]
@@ -1125,6 +1125,8 @@ height = 1.10297
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_uxurx"]
 
 [node name="Ranger" type="CharacterBody3D" node_paths=PackedStringArray("ground_nc", "ground_nf", "ground_sc", "ground_sf", "air_nc", "air_nf", "air_sc", "air_sf")]
+collision_layer = 2
+collision_mask = 23
 platform_floor_layers = 4294967294
 script = ExtResource("1_5ua37")
 display_name = "Ranger"
@@ -1141,12 +1143,12 @@ air_sf = NodePath("Moves/Wrangle \'Em")
 [node name="StanimaBar3D" parent="." instance=ExtResource("2_5dbax")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.16405, 0)
 visible = false
-texture = SubResource("ViewportTexture_32mjw")
+texture = SubResource("ViewportTexture_5j1ti")
 
 [node name="DebugInfo" parent="." instance=ExtResource("2_qo63s")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.21122, 2.46423)
 pixel_size = 0.015
-texture = SubResource("ViewportTexture_4qwno")
+texture = SubResource("ViewportTexture_qt86s")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 speed_scale = 2.0
@@ -1192,7 +1194,7 @@ lower_fade = 1e-05
 
 [node name="FloorRaycast" type="RayCast3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.46114e-05, -1.09399, 0.000412941)
-target_position = Vector3(0, -10, 0)
+target_position = Vector3(0, -30, 0)
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
 tree_root = SubResource("AnimationNodeStateMachine_ata2m")
@@ -1210,7 +1212,7 @@ parameters/ground_sf/TimeScale/scale = 1.0
 [node name="PlayerNametag" parent="." instance=ExtResource("2_qo63s")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.859205, 0)
 pixel_size = 0.02
-texture = SubResource("ViewportTexture_d0m1p")
+texture = SubResource("ViewportTexture_s0lbr")
 
 [node name="TargetArrow" type="Sprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.41769, 0)
@@ -1227,6 +1229,8 @@ shape = SubResource("CapsuleShape3D_sn8c4")
 
 [node name="Pistol Whip Hitbox" type="Area3D" parent="Hurtbox" node_paths=PackedStringArray("collision_shape", "mesh_instance", "owner_char")]
 transform = Transform3D(0.848528, 0, 0.707107, 0, 0.8, 0, -0.848528, 0, 0.707107, -0.19036, 8.13752e-05, 0.645388)
+collision_layer = 4
+collision_mask = 18
 monitoring = false
 script = ExtResource("29_m1h5u")
 collision_shape = NodePath("CollisionShape3D")
@@ -1249,6 +1253,8 @@ shape = SubResource("BoxShape3D_4w4a0")
 
 [node name="Axe Uppercut Hitbox" type="Area3D" parent="Hurtbox" node_paths=PackedStringArray("collision_shape", "mesh_instance", "owner_char")]
 transform = Transform3D(0.848528, 0, 0.707107, 0, 0.8, 0, -0.848528, 0, 0.707107, -0.19036, 8.13752e-05, 0.645388)
+collision_layer = 4
+collision_mask = 18
 monitoring = false
 script = ExtResource("29_m1h5u")
 collision_shape = NodePath("CollisionShape3D")
@@ -1271,6 +1277,8 @@ shape = SubResource("BoxShape3D_4w4a0")
 
 [node name="Air Swing Hitbox" type="Area3D" parent="Hurtbox" node_paths=PackedStringArray("collision_shape", "mesh_instance", "owner_char")]
 transform = Transform3D(0.848528, 0, 0.707107, 0, 0.8, 0, -0.848528, 0, 0.707107, -0.19036, 8.13752e-05, 0.645388)
+collision_layer = 4
+collision_mask = 18
 monitoring = false
 script = ExtResource("29_m1h5u")
 collision_shape = NodePath("CollisionShape3D")
@@ -1293,6 +1301,8 @@ shape = SubResource("BoxShape3D_4w4a0")
 
 [node name="Shotgun Explosion Hitbox" type="Area3D" parent="Hurtbox" node_paths=PackedStringArray("collision_shape", "mesh_instance", "owner_char")]
 transform = Transform3D(0.848528, 0, 0.707107, 0, 0.8, 0, -0.848528, 0, 0.707107, -0.463022, -0.412581, 0.363367)
+collision_layer = 4
+collision_mask = 18
 monitoring = false
 script = ExtResource("29_m1h5u")
 collision_shape = NodePath("CollisionShape3D")
@@ -1315,6 +1325,8 @@ shape = SubResource("BoxShape3D_4w4a0")
 
 [node name="Roll Hitbox" type="Area3D" parent="Hurtbox" node_paths=PackedStringArray("collision_shape", "mesh_instance", "owner_char")]
 transform = Transform3D(0.848528, 0, 0.707107, 0, 0.8, 0, -0.848528, 0, 0.707107, -0.19036, 8.13752e-05, 0.645388)
+collision_layer = 4
+collision_mask = 18
 monitoring = false
 script = ExtResource("29_m1h5u")
 collision_level = 2
