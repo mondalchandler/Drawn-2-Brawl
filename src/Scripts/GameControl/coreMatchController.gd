@@ -17,19 +17,27 @@ enum GameMode {POINTS, LIVES}
 
 var match_ended: bool = false
 var rankings = Array()
-var players: Array = []
+var starting_player_info: Array = []
 var match_started: bool = false
 
 # --------------------------------------- SERVER FUNCTIONS -------------------------------------------- #
 
 # spawns in the player characters listed in the players array
 func spawn_players():
-	for i in range(len(players)):
-		var player = players[i].instantiate()
-		player.set_meta("spawn_point", player_spawns.get_children()[i])
-		player.position = player.get_meta("spawn_point").position
-		player.display_name = "Player " + str(i + 1)
-		players_node.add_child(player)
+	for index in range(len(starting_player_info)):
+		var player_info = starting_player_info[index]
+		var char_to_create = player_info[0]
+		var peer_id = player_info[1]
+		
+		if char_to_create:
+			var new_player_char = char_to_create.instantiate()
+			new_player_char.set_meta("spawn_point", player_spawns.get_children()[index])
+			new_player_char.position = new_player_char.get_meta("spawn_point").position
+			new_player_char.display_name = "Player " + str(index + 1)
+			players_node.add_child(new_player_char)
+			
+			if peer_id:
+				new_player_char.set_multiplayer_authority(peer_id)
 
 
 func insert_char_into_next_available_slot(char):
@@ -68,14 +76,6 @@ func start_match():
 func _process(delta):
 	if not match_started:
 		return
-
-	# TODO: Delete this later
-	#if(one_kill):
-	#	one_kill = false
-	#	await get_tree().create_timer(5).timeout
-	#	get_node("Players").get_children()[0].set_meta("Health", 0)
-	#	await get_tree().create_timer(1).timeout
-	#	one_kill = true
 		
 	update_players()
 	var current_alive_players = get_alive_players()
@@ -86,6 +86,6 @@ func _process(delta):
 		var victory_screen_setup = func(victory_scene):
 			victory_scene.rankings.assign(rankings)
 			victory_scene.level = self.name
-			victory_scene.players = players
+			#victory_scene.players = players
 			print(victory_scene.rankings)
 		main_scene.change_ui("res://src/Scenes/UI/VictoryUI/victory_screen.tscn", victory_screen_setup)

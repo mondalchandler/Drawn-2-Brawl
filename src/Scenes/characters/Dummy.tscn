@@ -8,7 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://cwhdc0fkgp4k0" path="res://resources/Images/whiteBlurCircle.png" id="12_4353b"]
 [ext_resource type="Texture2D" uid="uid://bx5ukutk4wum3" path="res://resources/Images/arrow_down.png" id="13_bijuc"]
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_ru40n"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_ruji3"]
 viewport_path = NodePath("BillboardViewport")
 
 [sub_resource type="Animation" id="Animation_3cxny"]
@@ -35,8 +35,8 @@ _data = {
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_y3gwe"]
 properties/0/path = NodePath(".:position")
-properties/0/spawn = true
-properties/0/sync = true
+properties/0/spawn = false
+properties/0/sync = false
 properties/0/watch = false
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sn8c4"]
@@ -57,7 +57,7 @@ states/idle/position = Vector2(687, 166)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_u83ke"), "idle", "End", SubResource("AnimationNodeStateMachineTransition_hq702")]
 graph_offset = Vector2(0, 119.828)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_x7mrg"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_vsnao"]
 viewport_path = NodePath("BillboardViewport")
 
 [node name="DummyCharacter" type="CharacterBody3D"]
@@ -72,7 +72,7 @@ _show_debug_info = false
 [node name="DebugInfo" parent="." instance=ExtResource("2_pxg65")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.21122, 2.46423)
 pixel_size = 0.015
-texture = SubResource("ViewportTexture_ru40n")
+texture = SubResource("ViewportTexture_ruji3")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 playback_process_mode = 2
@@ -91,7 +91,6 @@ billboard = 1
 shaded = true
 texture = ExtResource("4_wdr6w")
 vframes = 5
-frame = 1
 
 [node name="Hurtbox" type="CollisionShape3D" parent="."]
 transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, -0.302027, 0)
@@ -129,7 +128,7 @@ active = true
 [node name="PlayerNametag" parent="." instance=ExtResource("2_pxg65")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.859205, 0)
 pixel_size = 0.02
-texture = SubResource("ViewportTexture_x7mrg")
+texture = SubResource("ViewportTexture_vsnao")
 text = "Dummy"
 
 [node name="TargetArrow" type="Sprite3D" parent="."]

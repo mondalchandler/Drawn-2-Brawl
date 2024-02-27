@@ -81,7 +81,7 @@ var _direction: Vector3 = Vector3.ZERO
 
 @onready var hurtbox: CollisionShape3D = $Hurtbox
 @onready var sprite: Sprite3D = $CharacterSprite
-@onready var stamina_bar = $StanimaBar3D
+@onready var stamina_bar = $StaminaBar3D
 
 @onready var anim_player: AnimationPlayer = $AnimationPlayer
 @onready var anim_tree: AnimationTree = $AnimationTree

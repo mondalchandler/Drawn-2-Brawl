@@ -21,6 +21,8 @@ extends Node
 @onready var map_container = $Map
 @onready var map_spawner = $MapSpawner
 
+@export var spawn_dummies : bool = false
+
 # -------------------------------------- PRIVATE METHODS ----------------------------------------- #
 
 
@@ -41,17 +43,22 @@ func _spawn_players_into_map(map):
 	
 	# spawn in every play, including ourself
 	for id in all_players:
-		var character = load("res://src/Scenes/Characters/RollbackBaseCharacter.tscn")#load("res://src/Scenes/characters/Ranger.tscn")
-		map.players.append(character)
+		var character = load("res://src/Scenes/Characters/RollbackBaseCharacter.tscn")
+		map.starting_player_info.append(
+			[character, id]
+		)
 		self.change_ui.rpc_id(id)
 	
 	# get the remaining player slots
-	var remaining_slots = 4 - all_players.size()
-	
-	# if we have remaining slots, add dummies
-	for i in remaining_slots:
-		var dummy = load("res://src/Scenes/characters/Dummy.tscn")
-		map.players.append(dummy)
+	if self.spawn_dummies:
+		var remaining_slots = 4 - all_players.size()
+		
+		# if we have remaining slots, add dummies
+		for i in remaining_slots:
+			var dummy = load("res://src/Scenes/Characters/Dummy.tscn")
+			map.starting_player_info.append(
+				[dummy, null]
+			)
 	
 	# spawn players and start match
 	map.spawn_players()

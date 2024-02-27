@@ -410,6 +410,7 @@ func _get_local_input() -> Dictionary:
 		self._handle_target_input(total_input)
 		self._handle_block_input(total_input)
 	
+	print("DA INPUT ", total_input)
 	# return all of our player's input
 	return total_input
 
