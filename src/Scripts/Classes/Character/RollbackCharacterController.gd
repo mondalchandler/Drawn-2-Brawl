@@ -71,6 +71,7 @@ var grab_target: Node3D = null
 
 # private variable to show our debug UI
 var _show_debug_info: bool = false
+var in_game : bool = false
 
 # variables used to track the moves currently loaded onto our character
 @export var ground_nc: Move = null

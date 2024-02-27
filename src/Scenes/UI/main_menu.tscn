@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://dufgk3e4kmxyu"]
+[gd_scene load_steps=18 format=3 uid="uid://dufgk3e4kmxyu"]
 
 [ext_resource type="Script" path="res://src/Scripts/UI/main_menu.gd" id="1_5m3be"]
 [ext_resource type="Texture2D" uid="uid://dqmqdcpi3f1e1" path="res://resources/Images/MainMenuImages/MainMenuBG.jpg" id="2_wun5k"]
@@ -11,7 +11,6 @@
 [ext_resource type="Texture2D" uid="uid://dw8yen50qp7de" path="res://resources/Images/PlayerSelectImages/LeaveButton.png" id="8_naxe8"]
 [ext_resource type="Texture2D" uid="uid://cfm3vjorcqb17" path="res://resources/Images/MainMenuImages/MainMockLogo.png" id="9_q027n"]
 [ext_resource type="Script" path="res://src/Scripts/UI/Navigation/main_menu_play_button.gd" id="10_bwoma"]
-[ext_resource type="Script" path="res://src/Scripts/UI/Navigation/custom_button.gd" id="11_w6d5q"]
 [ext_resource type="Texture2D" uid="uid://bd64jbd5h5ltb" path="res://resources/Images/MainMenuImages/MainNoble.png" id="13_6igo4"]
 [ext_resource type="Texture2D" uid="uid://bc324ymr77qjs" path="res://resources/Images/MainMenuImages/MainRanger.png" id="14_3qdlw"]
 [ext_resource type="Texture2D" uid="uid://m61ftjtmqbxl" path="res://resources/Images/MainMenuImages/MainBGLines.png" id="15_3mlk5"]
@@ -129,7 +128,6 @@ texture = ExtResource("5_t4qaf")
 texture_offset = Vector2(35, 25)
 texture_scale = Vector2(2, 2)
 polygon = PackedVector2Array(-18, -24, 312, 39, 307, 105, -4, 156, -33, 6, -11, 14)
-script = ExtResource("11_w6d5q")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 1

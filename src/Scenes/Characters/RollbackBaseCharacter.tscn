@@ -15,7 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://du1ce84fu4a65" path="res://src/Scenes/UI/Pause/pause_menu.tscn" id="13_besuu"]
 [ext_resource type="PackedScene" uid="uid://dasqrf4pd4bpe" path="res://src/Scenes/Characters/Stamina/StaminaBar3D.tscn" id="14_kl2fp"]
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_d0tie"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_ndxrl"]
 viewport_path = NodePath("BillboardViewport")
 
 [sub_resource type="Animation" id="Animation_gcqbo"]
@@ -164,10 +164,10 @@ states/run/position = Vector2(651, 290.523)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_u83ke"), "idle", "run", SubResource("AnimationNodeStateMachineTransition_gvbk0"), "idle", "jump", SubResource("AnimationNodeStateMachineTransition_ysa4w"), "idle", "End", SubResource("AnimationNodeStateMachineTransition_hq702"), "jump", "idle", SubResource("AnimationNodeStateMachineTransition_0gub3"), "run", "idle", SubResource("AnimationNodeStateMachineTransition_lah6g"), "idle", "normal_close", SubResource("AnimationNodeStateMachineTransition_psxqy"), "normal_close", "idle", SubResource("AnimationNodeStateMachineTransition_qfppb")]
 graph_offset = Vector2(0, -73.4572)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_4kiv2"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_lqvhl"]
 viewport_path = NodePath("BillboardViewport")
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_4c06m"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_jdh4t"]
 viewport_path = NodePath("SubViewport")
 
 [node name="BaseCharacter" type="CharacterBody3D" groups=["network_sync"]]
@@ -177,7 +177,7 @@ script = ExtResource("1_d8h7s")
 [node name="DebugInfo" parent="." instance=ExtResource("2_33ndn")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.21122, 2.46423)
 pixel_size = 0.015
-texture = SubResource("ViewportTexture_d0tie")
+texture = SubResource("ViewportTexture_ndxrl")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 speed_scale = 2.0
@@ -231,7 +231,7 @@ process_callback = 2
 [node name="PlayerNametag" parent="." instance=ExtResource("2_33ndn")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.859205, 0)
 pixel_size = 0.02
-texture = SubResource("ViewportTexture_4kiv2")
+texture = SubResource("ViewportTexture_lqvhl")
 
 [node name="TargetArrow" type="Sprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.41769, 0)
@@ -245,4 +245,4 @@ script = null
 
 [node name="StaminaBar3D" parent="." instance=ExtResource("14_kl2fp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.35075, 0)
-texture = SubResource("ViewportTexture_4c06m")
+texture = SubResource("ViewportTexture_jdh4t")

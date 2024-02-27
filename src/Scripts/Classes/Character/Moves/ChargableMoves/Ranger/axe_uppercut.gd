@@ -1,3 +1,4 @@
+
 extends Move
 
 var damage_range_holder = [0, 0]

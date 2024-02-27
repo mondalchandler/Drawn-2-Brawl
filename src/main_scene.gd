@@ -41,7 +41,7 @@ func _spawn_players_into_map(map):
 	
 	# spawn in every play, including ourself
 	for id in all_players:
-		var character = load("res://src/Scenes/characters/Ranger.tscn")
+		var character = load("res://src/Scenes/Characters/RollbackBaseCharacter.tscn")#load("res://src/Scenes/characters/Ranger.tscn")
 		map.players.append(character)
 		self.change_ui.rpc_id(id)
 	

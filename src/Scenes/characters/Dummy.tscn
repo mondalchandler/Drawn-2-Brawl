@@ -3,12 +3,12 @@
 [ext_resource type="Script" path="res://src/Scripts/Classes/Character/CharacterController.gd" id="1_ap6vf"]
 [ext_resource type="PackedScene" uid="uid://cojs7ish64cv5" path="res://src/Scenes/UI/Billboard/billboard_sprite_3d.tscn" id="2_pxg65"]
 [ext_resource type="Texture2D" uid="uid://cy1c4viyud1mk" path="res://resources/Images/Animations/Dummy/Core/DummyIdleColor.png" id="4_wdr6w"]
-[ext_resource type="PackedScene" uid="uid://du1ce84fu4a65" path="res://src/Scenes/UI/PauseUI/pause_menu.tscn" id="10_iwkr5"]
+[ext_resource type="PackedScene" uid="uid://du1ce84fu4a65" path="res://src/Scenes/UI/Pause/pause_menu.tscn" id="10_iwkr5"]
 [ext_resource type="Texture2D" uid="uid://bpeb0ux7smvj2" path="res://resources/Images/whiteCircle.png" id="11_8c6mg"]
 [ext_resource type="Texture2D" uid="uid://cwhdc0fkgp4k0" path="res://resources/Images/whiteBlurCircle.png" id="12_4353b"]
 [ext_resource type="Texture2D" uid="uid://bx5ukutk4wum3" path="res://resources/Images/arrow_down.png" id="13_bijuc"]
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_x4uio"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_ru40n"]
 viewport_path = NodePath("BillboardViewport")
 
 [sub_resource type="Animation" id="Animation_3cxny"]
@@ -57,7 +57,7 @@ states/idle/position = Vector2(687, 166)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_u83ke"), "idle", "End", SubResource("AnimationNodeStateMachineTransition_hq702")]
 graph_offset = Vector2(0, 119.828)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_efpqm"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_x7mrg"]
 viewport_path = NodePath("BillboardViewport")
 
 [node name="DummyCharacter" type="CharacterBody3D"]
@@ -72,7 +72,7 @@ _show_debug_info = false
 [node name="DebugInfo" parent="." instance=ExtResource("2_pxg65")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.21122, 2.46423)
 pixel_size = 0.015
-texture = SubResource("ViewportTexture_x4uio")
+texture = SubResource("ViewportTexture_ru40n")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 playback_process_mode = 2
@@ -129,7 +129,7 @@ active = true
 [node name="PlayerNametag" parent="." instance=ExtResource("2_pxg65")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.859205, 0)
 pixel_size = 0.02
-texture = SubResource("ViewportTexture_efpqm")
+texture = SubResource("ViewportTexture_x7mrg")
 text = "Dummy"
 
 [node name="TargetArrow" type="Sprite3D" parent="."]
