@@ -70,7 +70,7 @@ func set_lobby_name(lobbyName : String):
 	lobbyLabel.text = lobbyName
 
 
-func _on_player_connected(id : int, player_info):
+func _on_player_connected(id : int, _player_info):
 	self.add_player(id, id == 1)
 	toggle_visible(true)
 

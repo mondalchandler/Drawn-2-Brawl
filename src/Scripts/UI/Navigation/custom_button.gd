@@ -57,7 +57,7 @@ func _ready():
 	self._extra_ready()
 
 
-func _process(delta):
+func _process(_delta):
 	#print(tempo_spring.get("position"), Time.get_unix_time_from_system())
 	self.scale.y = default_scale.y + tempo_spring.get("position")
 	self.scale.x = default_scale.x + tempo_spring.get("position")

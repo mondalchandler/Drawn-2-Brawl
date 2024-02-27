@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://cfwg16u4t5r01"]
+[gd_scene load_steps=38 format=3 uid="uid://cfwg16u4t5r01"]
 
 [ext_resource type="Script" path="res://src/Scripts/Classes/Character/RollbackCharacterController.gd" id="1_d8h7s"]
 [ext_resource type="PackedScene" uid="uid://cojs7ish64cv5" path="res://src/Scenes/UI/Billboard/billboard_sprite_3d.tscn" id="2_33ndn"]
@@ -15,7 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://du1ce84fu4a65" path="res://src/Scenes/UI/Pause/pause_menu.tscn" id="13_besuu"]
 [ext_resource type="PackedScene" uid="uid://dasqrf4pd4bpe" path="res://src/Scenes/Stamina/StanimaBar3D.tscn" id="14_kl2fp"]
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_j250g"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_qasgq"]
 viewport_path = NodePath("BillboardViewport")
 
 [sub_resource type="Animation" id="Animation_gcqbo"]
@@ -108,16 +108,6 @@ _data = {
 "run": SubResource("Animation_727vt")
 }
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_y3gwe"]
-properties/0/path = NodePath(".:position")
-properties/0/spawn = false
-properties/0/sync = false
-properties/0/watch = false
-properties/1/path = NodePath("BaseCharacter/AnimationPlayer:current_animation")
-properties/1/spawn = false
-properties/1/sync = false
-properties/1/watch = false
-
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sn8c4"]
 height = 1.10297
 
@@ -164,10 +154,10 @@ states/run/position = Vector2(651, 290.523)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_u83ke"), "idle", "run", SubResource("AnimationNodeStateMachineTransition_gvbk0"), "idle", "jump", SubResource("AnimationNodeStateMachineTransition_ysa4w"), "idle", "End", SubResource("AnimationNodeStateMachineTransition_hq702"), "jump", "idle", SubResource("AnimationNodeStateMachineTransition_0gub3"), "run", "idle", SubResource("AnimationNodeStateMachineTransition_lah6g"), "idle", "normal_close", SubResource("AnimationNodeStateMachineTransition_psxqy"), "normal_close", "idle", SubResource("AnimationNodeStateMachineTransition_qfppb")]
 graph_offset = Vector2(0, -73.4572)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_20qum"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_2jad5"]
 viewport_path = NodePath("BillboardViewport")
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_5dif7"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_g1d2b"]
 viewport_path = NodePath("SubViewport")
 
 [node name="BaseCharacter" type="CharacterBody3D" groups=["network_sync"]]
@@ -178,7 +168,7 @@ script = ExtResource("1_d8h7s")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.21122, 2.46423)
 visible = false
 pixel_size = 0.015
-texture = SubResource("ViewportTexture_j250g")
+texture = SubResource("ViewportTexture_qasgq")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 speed_scale = 2.0
@@ -186,9 +176,6 @@ method_call_mode = 1
 libraries = {
 "": SubResource("AnimationLibrary_bchoe")
 }
-
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_y3gwe")
 
 [node name="CharacterSprite" type="Sprite3D" parent="."]
 transform = Transform3D(0.397235, 0, 0, 0, 0.366733, 0, 0, 0, 0.5, 0, -0.0537091, 0)
@@ -232,7 +219,7 @@ process_callback = 2
 [node name="PlayerNametag" parent="." instance=ExtResource("2_33ndn")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.40802, 0)
 pixel_size = 0.02
-texture = SubResource("ViewportTexture_20qum")
+texture = SubResource("ViewportTexture_2jad5")
 
 [node name="TargetArrow" type="Sprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.41769, 0)
@@ -247,4 +234,4 @@ script = null
 
 [node name="StaminaBar3D" parent="." instance=ExtResource("14_kl2fp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.93205, 0)
-texture = SubResource("ViewportTexture_5dif7")
+texture = SubResource("ViewportTexture_g1d2b")

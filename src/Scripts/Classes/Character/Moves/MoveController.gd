@@ -151,9 +151,9 @@ func _process(delta):
 
 # ---------------- INIT ---------------- #
 
-func _init(char, anim_tree, sprite, hurtbox):
-	self.owner_char = char
-	self.anim_tree = anim_tree
-	self.sprite = sprite
-	self.hurtbox = hurtbox
+func _init(character, new_anim_tree, new_sprite, new_hurtbox):
+	self.owner_char = character
+	self.anim_tree = new_anim_tree
+	self.sprite = new_sprite
+	self.hurtbox = new_hurtbox
 	anim_tree.connect("animation_finished", anim_finished)

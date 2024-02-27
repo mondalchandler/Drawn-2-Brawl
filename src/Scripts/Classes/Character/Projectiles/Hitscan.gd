@@ -50,12 +50,12 @@ func _input(event : InputEvent) -> void:
 
 
 # overrideable virtual method.
-func _before_hit_computation(hit_char) -> void:
+func _before_hit_computation(_hit_char) -> void:
 	pass
 
 
 # overrideable virtual method.
-func _after_hit_computation(char, dmg) -> void:
+func _after_hit_computation(_character, _dmg) -> void:
 	pass
 
 
@@ -147,22 +147,25 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	if (self.shoot_once):
 		shoot()
 		self.shoot_once = false
 
 # ---------------- INIT ---------------- #
 
-func _init(hit_obj = null, owner_char = null, is_chargeable = false, max_charge = 0, damage_range = [0, 0], kb_length = 0, hitstun_length = 0, knockback_strength = Vector3.ZERO, relative_ks = Vector3.ZERO, debug_on = false, shoot_once = false):
-	self.hit_obj = hit_obj
-	self.owner_char = owner_char
-	self.is_chargeable = is_chargeable
-	self.max_charge = max_charge
-	self.damage_range = damage_range
-	self.kb_length = kb_length
-	self.hitstun_length = hitstun_length
-	self.knockback_strength = knockback_strength
-	self.relative_ks = relative_ks
-	self.debug_on = debug_on
-	self.shoot_once = shoot_once
+func _init(new_hit_obj = null, new_owner_char = null, new_is_chargeable = false, new_max_charge = 0, 
+	new_damage_range = [0, 0], new_kb_length = 0, new_hitstun_length = 0, new_knockback_strength = Vector3.ZERO, 
+	new_relative_ks = Vector3.ZERO, new_debug_on = false, new_shoot_once = false):
+		
+	self.hit_obj = new_hit_obj
+	self.owner_char = new_owner_char
+	self.is_chargeable = new_is_chargeable
+	self.max_charge = new_max_charge
+	self.damage_range = new_damage_range
+	self.kb_length = new_kb_length
+	self.hitstun_length = new_hitstun_length
+	self.knockback_strength = new_knockback_strength
+	self.relative_ks = new_relative_ks
+	self.debug_on = new_debug_on
+	self.shoot_once = new_shoot_once

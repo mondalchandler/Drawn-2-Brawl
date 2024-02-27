@@ -605,6 +605,7 @@ func _on_received_remote_stop() -> void:
 	_spawn_manager.reset()
 	_spectating = false
 
+
 func _handle_fatal_error(msg: String):
 	sync_error.emit(msg)
 	push_error("NETWORK SYNC LOST: " + msg)
@@ -612,6 +613,7 @@ func _handle_fatal_error(msg: String):
 	if _logger:
 		_logger.log_fatal_error(msg)
 	return null
+
 
 func _call_get_local_input() -> Dictionary:
 	var input := {}
@@ -622,6 +624,7 @@ func _call_get_local_input() -> Dictionary:
 			if node_input.size() > 0:
 				input[str(node.get_path())] = node_input
 	return input
+
 
 func _call_network_process(input_frame: InputBufferFrame) -> void:
 	var nodes: Array = get_tree().get_nodes_in_group('network_sync')

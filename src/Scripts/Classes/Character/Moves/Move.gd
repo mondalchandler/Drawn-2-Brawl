@@ -30,7 +30,7 @@ extends Node
 @export var is_chargable: bool = false
 
 
-func move_charge_effect(delta):
+func move_charge_effect(_delta):
 	pass
 	
 func move_reset():
@@ -38,11 +38,11 @@ func move_reset():
 
 # ---------------- INIT ---------------- #
 
-func _init(move_input = "", move_type = "", move_name = "", move_data = [], hitbox = null, hitscan = null, projectile_path = ""):
-	self.move_input = move_input
-	self.move_type = move_type
-	self.move_name = move_name
-	self.move_data = move_data
-	self.hitbox = hitbox
-	self.hitscan = hitscan
-	self.projectile_path = projectile_path
+func _init(new_move_input = "", new_move_type = "", new_move_name = "", new_move_data = [], new_hitbox = null, new_hitscan = null, new_projectile_path = ""):
+	self.move_input = new_move_input
+	self.move_type = new_move_type
+	self.move_name = new_move_name
+	self.move_data = new_move_data
+	self.hitbox = new_hitbox
+	self.hitscan = new_hitscan
+	self.projectile_path = new_projectile_path

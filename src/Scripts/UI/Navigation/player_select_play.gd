@@ -4,14 +4,6 @@ extends CustomButton
 
 var current_map = null
 
-func on_new_map_loaded(new_map : Node):
-	current_map = new_map
-
-
-func on_map_unloaded(new_map : Node):
-	current_map = null
-
-
 func run_task():
 	if multiplayer.is_server():
 		main_scene.play_map(load("res://src/Scenes/Levels/SaloonMap.tscn"))
@@ -54,9 +46,6 @@ func run_task():
 	#	saloon.spawn_players()
 
 func _extra_ready():
-	main_scene.map_spawner.spawned.connect(on_new_map_loaded)
-	main_scene.map_spawner.despawned.connect(on_map_unloaded)
-	
 	if multiplayer.is_server():
 		self.visible = true
 	else:

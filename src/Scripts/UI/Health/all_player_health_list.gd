@@ -14,7 +14,7 @@ var trackingPlayersDict = {}
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	for character in trackingPlayersDict:
 		trackingPlayersDict[character].value = (character.health / character.max_health) * 100.0
 

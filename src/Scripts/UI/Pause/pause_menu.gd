@@ -16,7 +16,7 @@ extends CanvasLayer
 @onready var leave_button = $PauseMenu/Panel/VBoxContainer/LeaveButton
 @onready var close_button = $PauseMenu/Panel/VBoxContainer/QuitGameButton
 
-var char: CharacterBody3D = null
+#var character: CharacterBody3D = null
 
 # ----------------------- VARIABLE SIGNALS ----------------------- #
 

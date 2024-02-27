@@ -89,11 +89,10 @@ func on_hit(hit_char) -> void:
 	self._before_hit_computation()
 	
 	# deal values to character
-	var dmg = 0
 	if not hit_char.blocking:
 		self.deal_stun(hit_char)
 		self.deal_kb(hit_char)
-		dmg = self.deal_dmg(hit_char)
+		self.deal_dmg(hit_char)
 	else:
 		hit_char.stamina -= hit_char.STAMINA_AMOUNT * PLAYER_STAMINA_PERCENT_REDUCTION
 		var temp_stun = self.hitstun_length
@@ -157,7 +156,7 @@ func _ready() -> void:
 
 
 # called every frame. 'delta' is the elapsed time since the previous frame
-func _process(delta) -> void:
+func _process(_delta) -> void:
 	if self.active:
 		self.hit_chars = {}
 		self.monitoring = true
@@ -171,26 +170,26 @@ func _process(delta) -> void:
 
 
 # constructor
-func _init(	owner_char = null,
-			damage_range = [5, 5],
-			kb_length = 0.0, hitstun_length = 0.5,
-			knockback_strength = Vector3.ZERO,
-			debug_on = false,
-			collision_shape = CollisionShape3D.new(),
-			mesh_instance = MeshInstance3D.new(),
-			active = false,
-			collision_level = 1) -> void:
-	self.collision_level = collision_level
-	self.active = active
-	self.owner_char = owner_char
+func _init(	new_owner_char = null,
+			new_damage_range = [5, 5],
+			new_kb_length = 0.0, new_hitstun_length = 0.5,
+			new_knockback_strength = Vector3.ZERO,
+			new_debug_on = false,
+			_new_collision_shape = CollisionShape3D.new(),
+			_new_mesh_instance = MeshInstance3D.new(),
+			new_active = false,
+			new_collision_level = 1) -> void:
+	self.collision_level = new_collision_level
+	self.active = new_active
+	self.owner_char = new_owner_char
 	
-	self.kb_length = kb_length
-	self.knockback_strength = knockback_strength
-	self.damage_range = damage_range
-	self.hitstun_length = hitstun_length
+	self.kb_length = new_kb_length
+	self.knockback_strength = new_knockback_strength
+	self.damage_range = new_damage_range
+	self.hitstun_length = new_hitstun_length
 	
 	self.hit_chars = {}
 	self.name = "Hitbox"
 	self.monitoring = false
 	
-	self.debug_on = debug_on
+	self.debug_on = new_debug_on

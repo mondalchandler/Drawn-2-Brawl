@@ -126,6 +126,10 @@ sync_debug={
 ]
 }
 
+[playfab]
+
+title_id="DrawnToBrawl"
+
 [rendering]
 
 lights_and_shadows/directional_shadow/soft_shadow_filter_quality=3

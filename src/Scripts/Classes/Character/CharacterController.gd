@@ -75,7 +75,7 @@ var _flashing_time: float = 0.0
 var _flashing_switch_time: float = 0.0
 var _input_state_text: String = ""
 var _move_controller = null
-var _direction: Vector3 = Vector3.ZERO
+#var _direction: Vector3 = Vector3.ZERO
 
 # ---------------- CLIENT INSTANCES ---------------- #
 
@@ -115,7 +115,7 @@ func anim_finished(anim_name):
 
 
 # -- updates the z target if targetting is enabled
-func _update_z_target(dt: float) -> void:
+func _update_z_target(_dt: float) -> void:
 	if targetting:
 		if !z_target or z_target.health == 0:
 			var closest_target: Node3D = null
@@ -324,22 +324,22 @@ func _update_recharge_delay(delta):
 
 # -- converts the move name to the type for the move controller
 # -- NOT FULLY IMPLEMENTED DUE TO LACK OF MOVES
-func _move_name_to_type(name):
-	if name == "ground_nc":
+func _move_name_to_type(move_type):
+	if move_type == "ground_nc":
 		return ""
-	if name == "ground_nf":
+	if move_type == "ground_nf":
 		return ""
-	if name == "ground_sc":
+	if move_type == "ground_sc":
 		return ""
-	if name == "ground_sf":
+	if move_type == "ground_sf":
 		return ""
-	if name == "air_nc":
+	if move_type == "air_nc":
 		return ""
-	if name == "air_nf":
+	if move_type == "air_nf":
 		return ""
-	if name == "air_sc":
+	if move_type == "air_sc":
 		return ""
-	if name == "air_sf":
+	if move_type == "air_sf":
 		return ""
 
 # ---------------- PUBLIC FUNCTIONS ---------------- #
@@ -369,7 +369,7 @@ func take_damage(damage: float) -> void:
 
 
 # TODO: When provided a desination vector, move the player to said direction
-func move_to(destination: Vector3) -> void:
+func move_to(_destination: Vector3) -> void:
 	pass
 
 # ----------------  MAIN FUNCTIONS ---------------- #
@@ -436,8 +436,8 @@ func _input(event : InputEvent) -> void:
 	
 	if event.is_pressed():
 		_input_state_text = ""
-		for name in MOVE_MAP_NAMES:
-			_input_state_text += "\n" + name + ": " + str(event.is_action_pressed(name))
+		for move_name in MOVE_MAP_NAMES:
+			_input_state_text += "\n" + move_name + ": " + str(event.is_action_pressed(move_name))
 
 
 

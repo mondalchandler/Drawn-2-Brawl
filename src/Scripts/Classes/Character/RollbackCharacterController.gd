@@ -90,7 +90,7 @@ var _state: PlayerState = PlayerState.IDLE
 var _flashing_time: float = 0.0
 var _flashing_switch_time: float = 0.0
 var _input_state_text: String = ""
-var _move_controller = null
+#var _move_controller = null
 
 # --------------------------------------- SELF NODES ------------------------------------------- #
 
@@ -243,18 +243,18 @@ func _handle_recieved_input(total_input : Dictionary) -> void:
 	self._update_movement()
 	
 	# get our blocking input and determine if we can be in the blocking state
-	var is_holding_block_input = total_input.get("holding_block", false)
-	self._update_block(is_holding_block_input)
-	
-	# update our targetting state
-	var pressed_target = total_input.get("pressed_target", false)
-	if pressed_target:
-		self.targetting = not self.targetting
-	
-	# add jumping physics
-	var pressed_jump = total_input.get("pressed_jump", false)
-	if is_on_floor() and pressed_jump and !self.blocking:
-		velocity.y += jump_power
+#	var is_holding_block_input = total_input.get("holding_block", false)
+#	self._update_block(is_holding_block_input)
+#
+#	# update our targetting state
+#	var pressed_target = total_input.get("pressed_target", false)
+#	if pressed_target:
+#		self.targetting = not self.targetting
+#
+#	# add jumping physics
+#	var pressed_jump = total_input.get("pressed_jump", false)
+#	if is_on_floor() and pressed_jump and !self.blocking:
+#		velocity.y += jump_power
 
 
 # -- given the current state of the player, update the animation tree
@@ -406,18 +406,17 @@ func _get_local_input() -> Dictionary:
 	# gather all of our input sources
 	if self.can_input:
 		self._handle_directional_input(total_input)
-		self._handle_jump_input(total_input)
-		self._handle_target_input(total_input)
-		self._handle_block_input(total_input)
+		#self._handle_jump_input(total_input)
+		#self._handle_target_input(total_input)
+		#self._handle_block_input(total_input)
 	
-	print("DA INPUT ", total_input)
 	# return all of our player's input
 	return total_input
 
 
 # custom code used to predict what the player's input may be if there is a rollback
 # the better we can predict the player, the smaller the network artifacts
-func _predict_remote_input(previous_input: Dictionary, ticks_since_real_input: int) -> Dictionary:
+func _predict_remote_input(previous_input: Dictionary, _ticks_since_real_input: int) -> Dictionary:
 	
 	# clone new dictionary for the input
 	var predicted_input = previous_input.duplicate()
@@ -429,7 +428,8 @@ func _predict_remote_input(previous_input: Dictionary, ticks_since_real_input: i
 	
 	# return new prediction
 	return predicted_input
-	
+
+
 # this is essentially the "_process" method for this node, but with network sychronization
 # NOTE: this is run on every TICK, not every FRAME
 func _network_process(input: Dictionary) -> void:
@@ -440,31 +440,31 @@ func _network_process(input: Dictionary) -> void:
 #	if pause_menu_layer.is_open():
 #		return
 	
-	var delta = (0.0166667)
+	#var delta = (0.0166667)
 	
 	# do work based on the input we've recieved
 	self._handle_recieved_input(input)
 	
 	# handle gravity
-	if not is_on_floor():
-		velocity.y -= gravity * delta
+	#if not is_on_floor():
+	#	velocity.y -= gravity * delta
 	
 	# update animations
-	self.anim_tree.advance(delta * anim_speed_scale)
-	self._update_core_animations()
+	#self.anim_tree.advance(delta * anim_speed_scale)
+	#self._update_core_animations()
 
 	# do other misc updates
-	self._update_floor_indicator()
-	self._update_z_target()
-	self._update_debug_text()
-	self._update_health_change()
+	#self._update_floor_indicator()
+	#self._update_z_target()
+	#self._update_debug_text()
+	#self._update_health_change()
 	
 	# these probably shouldn't use delta anymore?
-	self._update_invincible_flash(delta)
-	self._update_block_recharge_delay(delta)
+	#self._update_invincible_flash(delta)
+	#self._update_block_recharge_delay(delta)
 	
 	# update display name (in case it gets changed mid playtime)
-	self.player_nametag.text = self.display_name
+	#self.player_nametag.text = self.display_name
 	
 	# we've ended our process changes
 	return
@@ -476,10 +476,11 @@ func _save_state() -> Dictionary:
 		position = self.position,
 		velocity = self.velocity,
 		state = self._state,
-		health = self.health,
-		targetting = self.targetting,
-		blocking = self.blocking,
-		knockback = self.knockback,
+		move_direction = self.move_direction,
+		#health = self.health,
+		#targetting = self.targetting,
+		#blocking = self.blocking,
+		#knockback = self.knockback,
 	}
 
 
@@ -488,10 +489,11 @@ func _load_state(state: Dictionary) -> void:
 	self.position = state["position"]
 	self.velocity = state["velocity"]
 	self._state = state["state"]
-	self.health = state["health"]
-	self.targetting = state["targetting"]
-	self.blocking = state["blocking"]
-	self.knockback = state["knockback"]
+	self.move_direction = state["move_direction"]
+	#self.health = state["health"]
+	#self.targetting = state["targetting"]
+	#self.blocking = state["blocking"]
+	#self.knockback = state["knockback"]
 
 
 # ---------------------------------------- PUBLIC FUNCTIONS ------------------------------------------------- #
@@ -533,7 +535,12 @@ func _init() -> void:
 
 # -- called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	anim_tree_state_machine.start("idle")
+	pass
+	#print("my spawn ", self, " - ", self.get_meta("spawn_point"))
+	#if self.get_meta("spawn_point"):
+	#	self.position = self.get_meta("spawn_point").position
+		
+	#anim_tree_state_machine.start("idle")
 	#_move_controller = MoveController.new(self, $AnimationTree, $CharacterSprite, $Hurtbox)
 	#add_child(_move_controller)
 

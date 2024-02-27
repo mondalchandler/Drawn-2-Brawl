@@ -19,7 +19,7 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	if self.current_texture != self.texture:
 		self.current_texture = self.texture
 		if self.flip_h:

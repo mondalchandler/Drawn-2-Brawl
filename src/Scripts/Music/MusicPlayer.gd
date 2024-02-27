@@ -77,7 +77,7 @@ func on_game_unpause():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	if current_song_scene:
 		if self.in_window:
 			current_song_scene.set_volume(volume)

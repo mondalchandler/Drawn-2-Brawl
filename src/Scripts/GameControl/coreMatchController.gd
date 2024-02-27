@@ -34,29 +34,29 @@ func spawn_players():
 			new_player_char.set_meta("spawn_point", player_spawns.get_children()[index])
 			new_player_char.position = new_player_char.get_meta("spawn_point").position
 			new_player_char.display_name = "Player " + str(index + 1)
-			players_node.add_child(new_player_char)
+			players_node.add_child(new_player_char, true)
 			
 			if peer_id:
 				new_player_char.set_multiplayer_authority(peer_id)
 
 
-func insert_char_into_next_available_slot(char):
-	rankings.insert(0, char.display_name)
+func insert_char_into_next_available_slot(character):
+	rankings.insert(0, character.display_name)
 	return
 
 
 func update_players():
-	for char in players_node.get_children():
-		if not char.is_alive() and char.in_game:
-			char.in_game = false
-			insert_char_into_next_available_slot(char)
+	for character in players_node.get_children():
+		if not character.is_alive() and character.in_game:
+			character.in_game = false
+			insert_char_into_next_available_slot(character)
 
 
 func get_alive_players():
 	var alive_chars = []
-	for char in players_node.get_children():
-		if char.in_game:
-			alive_chars.append(char)
+	for character in players_node.get_children():
+		if character.in_game:
+			alive_chars.append(character)
 	return alive_chars
 
 
@@ -64,28 +64,32 @@ func get_alive_players():
 func start_match():
 	music_node.stop()
 	$CanvasLayer.start()
-	for char in players_node.get_children():
-		char.full_heal()
-		char.in_game = true
+	for character in players_node.get_children():
+		character.full_heal()
+		character.in_game = true
 	match_started = true
 
 
 #var one_kill = false
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	if not match_started:
+		return
+	
+	if not multiplayer.is_server():
 		return
 		
 	update_players()
 	var current_alive_players = get_alive_players()
+	
 	if current_alive_players and current_alive_players.size() <= 1 and not match_ended:
 		match_ended = true
 		insert_char_into_next_available_slot(current_alive_players[0])
 		
-		var victory_screen_setup = func(victory_scene):
-			victory_scene.rankings.assign(rankings)
-			victory_scene.level = self.name
+		#var victory_screen_setup = func(victory_scene):
+		#	victory_scene.rankings.assign(rankings)
+		#	victory_scene.level = self.name
 			#victory_scene.players = players
-			print(victory_scene.rankings)
-		main_scene.change_ui("res://src/Scenes/UI/VictoryUI/victory_screen.tscn", victory_screen_setup)
+			#print(victory_scene.rankings)
+		#main_scene.change_ui("res://src/Scenes/UI/VictoryUI/victory_screen.tscn", victory_screen_setup)

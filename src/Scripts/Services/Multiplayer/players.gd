@@ -89,11 +89,11 @@ func disconnect_client():
 # ----------------------------------------------- SERVER METHODS ----------------------------------------------- #
 
 # creates a new lobby by setting this player as a host on a specified IP
-func create_lobby(port : int, max_players : int, lobby_name : String) -> void:
+func create_lobby(port : int, max_players_for_lobby : int, new_lobby_name : String) -> void:
 
 	# create a server for the lobby
 	var host = ENetMultiplayerPeer.new()
-	var error = host.create_server(port, max_players)
+	var error = host.create_server(port, max_players_for_lobby)
 	
 	# error handling
 	if error:
@@ -106,13 +106,15 @@ func create_lobby(port : int, max_players : int, lobby_name : String) -> void:
 	# set the multiplayer peer
 	multiplayer.set_multiplayer_peer(host)
 	multiplayer.multiplayer_peer = host
+	self.max_players = max_players_for_lobby
+	self.lobby_name = new_lobby_name
 	
 	# add their player information
 	players[1] = player_info
 	player_connected.emit(1, player_info)
 
 # joins a exsiting lobby
-func join_lobby(lobby_ip : String, lobby_port : int, player_name : String) -> void:
+func join_lobby(lobby_ip : String, lobby_port : int, _player_name : String) -> void:
 	# fallback IP
 	if lobby_ip.is_empty():
 		lobby_ip = "localhost"

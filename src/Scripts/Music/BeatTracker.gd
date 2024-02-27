@@ -90,7 +90,7 @@ func _ready():
 		included_layers[layer_name].volume_db = DEFAULT_VOLUME
 
 
-func _process(delta):
+func _process(_delta):
 	var ms_between_beats = 60000.0 / real_bpm()
 	var audio_delay = (AudioServer.get_time_to_next_mix() + AudioServer.get_output_latency()) * 1000
 	
