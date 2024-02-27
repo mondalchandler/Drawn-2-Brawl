@@ -7,6 +7,8 @@
 [sub_resource type="BoxShape3D" id="BoxShape3D_aehhs"]
 
 [node name="Knife" type="Area3D" node_paths=PackedStringArray("collision_shape", "mesh_instance")]
+collision_layer = 4
+collision_mask = 19
 script = ExtResource("1_qb8vw")
 speed = 25
 collision_shape = NodePath("CollisionShape3D")

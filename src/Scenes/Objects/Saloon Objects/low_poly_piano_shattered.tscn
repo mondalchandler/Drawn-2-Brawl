@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://ce3ehusqrjrjj"]
+
+[ext_resource type="PackedScene" uid="uid://canfwvmieaykq" path="res://resources/Meshes/LowPolyPianoShattered.glb" id="1_cks72"]
+
+[node name="LowPolyPianoShattered" instance=ExtResource("1_cks72")]
