@@ -14,7 +14,7 @@ mesh_instance = NodePath("MeshInstance3D")
 damage_range = [10, 10]
 kb_length = 0.1
 hitstun_length = 0.1
-knockback_strength = Vector3(2, 2, 2)
+knockback_strength = Vector3(3, 1, 3)
 debug_on = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
