@@ -24,6 +24,5 @@ func move_reset():
 	pass
 
 func _ready():
-	print("da hitbox", self.hitbox)
 	self.damage_range_holder[0] = self.hitbox.damage_range[0]
 	self.damage_range_holder[1] = self.hitbox.damage_range[1]
