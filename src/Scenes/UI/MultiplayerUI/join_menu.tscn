@@ -57,5 +57,54 @@ text = "Remove Room"
 [node name="Room Debug Output" type="Label" parent="Room Debug"]
 layout_mode = 2
 
+[node name="Filter Container" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 72.0
+offset_top = 304.0
+offset_right = 272.0
+offset_bottom = 399.0
+alignment = 1
+
+[node name="Filter" type="Label" parent="Filter Container"]
+layout_mode = 2
+text = "Filter"
+horizontal_alignment = 1
+
+[node name="Filter Input" type="TextEdit" parent="Filter Container"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+placeholder_text = "Filter param here..."
+
+[node name="Run Filter" type="Button" parent="Filter Container"]
+layout_mode = 2
+text = "Go"
+
+[node name="Passcode Container" type="VBoxContainer" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 1263.0
+offset_top = 422.0
+offset_right = 1463.0
+offset_bottom = 517.0
+
+[node name="Passcode Header" type="Label" parent="Passcode Container"]
+layout_mode = 2
+text = "Passcode"
+horizontal_alignment = 1
+
+[node name="Passcode Input" type="TextEdit" parent="Passcode Container"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+placeholder_text = "Passcode here..."
+
+[node name="Join" type="Button" parent="Passcode Container"]
+layout_mode = 2
+text = "Go"
+
+[node name="Join Success" type="Label" parent="Passcode Container"]
+layout_mode = 2
+
 [connection signal="pressed" from="Room Debug/Add Room" to="." method="_on_add_room_pressed"]
 [connection signal="pressed" from="Room Debug/Remove Room" to="." method="_on_remove_room_pressed"]
+[connection signal="pressed" from="Filter Container/Run Filter" to="." method="_on_run_filter_pressed"]
+[connection signal="pressed" from="Passcode Container/Join" to="." method="_on_join_pressed"]
