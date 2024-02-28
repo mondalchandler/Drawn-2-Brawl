@@ -1,18 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bk6f3bd2veo3r"]
 
-[sub_resource type="GDScript" id="GDScript_cv28w"]
-script/source = "extends Control
-
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	$\"Server Container/Room Count\".text = str($\"Server Container/Server List\".get_child_count())
-"
+[ext_resource type="Script" path="res://src/Scenes/UI/MultiplayerUI/join_menu.gd" id="1_1cy6b"]
 
 [node name="JoinMenu" type="Control"]
 layout_mode = 3
@@ -21,14 +9,14 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = SubResource("GDScript_cv28w")
+script = ExtResource("1_1cy6b")
 
 [node name="Server Container" type="VBoxContainer" parent="."]
 layout_mode = 0
-offset_left = 680.0
-offset_top = 264.0
-offset_right = 1167.0
-offset_bottom = 852.0
+offset_left = 726.0
+offset_top = 288.0
+offset_right = 1121.0
+offset_bottom = 808.0
 
 [node name="Existing Rooms" type="Label" parent="Server Container"]
 layout_mode = 2
@@ -50,3 +38,24 @@ position = Vector2(585, 267)
 scale = Vector2(1.04423, 0.46762)
 color = Color(0, 0, 0, 0.341176)
 polygon = PackedVector2Array(161.842, 105.866, 503.722, 96.232, 495.104, 1046.8, 146.52, 1004.03)
+
+[node name="Room Debug" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 62.0
+offset_top = 117.0
+offset_right = 253.0
+offset_bottom = 235.0
+
+[node name="Add Room" type="Button" parent="Room Debug"]
+layout_mode = 2
+text = "Add Room"
+
+[node name="Remove Room" type="Button" parent="Room Debug"]
+layout_mode = 2
+text = "Remove Room"
+
+[node name="Room Debug Output" type="Label" parent="Room Debug"]
+layout_mode = 2
+
+[connection signal="pressed" from="Room Debug/Add Room" to="." method="_on_add_room_pressed"]
+[connection signal="pressed" from="Room Debug/Remove Room" to="." method="_on_remove_room_pressed"]

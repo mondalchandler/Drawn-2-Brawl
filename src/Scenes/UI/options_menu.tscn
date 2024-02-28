@@ -74,6 +74,7 @@ text = "Back
 "
 
 [node name="MarginContainer5" type="MarginContainer" parent="."]
+layout_mode = 0
 offset_left = 264.0
 offset_top = 572.0
 offset_right = 309.0
