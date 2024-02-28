@@ -2,7 +2,7 @@
 
 # --------------------------------------- IMPORTS ------------------------------------------- #
 
-class_name RollbackCharacterController 
+class_name TestRollbackCharacterController 
 extends CharacterBody3D
 
 # ---------------------------------------- CONSTANTS ------------------------------------------ #
@@ -53,7 +53,6 @@ enum PlayerState { IDLE, RUNNING, JUMPING, FALLING, KNOCKBACK, BLOCKING }
 var move_direction : Vector3 = Vector3.ZERO
 var knockback : Vector3 = Vector3.ZERO
 var anim_speed_scale: float = 1.0
-var sprite_flipped: bool = false
 
 # variables used to track our player's status with blocking abilities
 var block_stamina : float = BLOCK_STAMINA_AMOUNT
@@ -96,24 +95,7 @@ var _input_state_text: String = ""
 # --------------------------------------- SELF NODES ------------------------------------------- #
 
 @onready var hurtbox: CollisionShape3D = $Hurtbox
-@onready var sprite: Sprite3D = $CharacterSprite
-
-@onready var anim_player: AnimationPlayer = $AnimationPlayer
-@onready var anim_tree: AnimationTree = $AnimationTree
-@onready var anim_tree_state_machine = anim_tree.get("parameters/playback")
-
-@onready var floor_ring: Decal = $FloorRing
-@onready var floor_shadow: Decal = $FloorShadow
-@onready var floor_raycast: RayCast3D = $FloorRaycast
-
-@onready var player_nametag: Sprite3D = $PlayerNametag
-@onready var debug_tag: Sprite3D = $DebugInfo
-
 @onready var current_cam: Camera3D = get_viewport().get_camera_3d()
-
-@onready var target_arrow: Sprite3D = $TargetArrow
-
-@onready var stamina_bar = $StaminaBar3D
 
 # --------------------------------------- GLOBAL NODES ------------------------------------------- #
 
@@ -187,23 +169,22 @@ func _update_movement() -> void:
 	
 	if !self.blocking:
 		if is_on_floor():
-			if self.move_direction.length() > 0.0:
+			if move_direction.length() > 0.0:
 				self._state = PlayerState.RUNNING
-				velocity.x = self.move_direction.x * self.speed + self.knockback.x
-				velocity.z = self.move_direction.z * self.speed + self.knockback.z
+				velocity.x = move_direction.x * self.speed + knockback.x
+				velocity.z = move_direction.z * self.speed + knockback.z
 
 				# if player is moving left, flip the sprite
-				print((self.move_direction.x < 0))
-				self.sprite_flipped = (self.move_direction.x < 0)
+				#sprite.flip_h = (move_direction.x < 0)
 			else:
 				self._state = PlayerState.IDLE
 
 				#TODO: Lowkey feels weird and could be better
-				velocity.x = lerp(velocity.x, 0.0, delta * 7.0) + self.knockback.x
-				velocity.z = lerp(velocity.z, 0.0, delta * 7.0) + self.knockback.z
+				velocity.x = lerp(velocity.x, 0.0, delta * 7.0) + knockback.x
+				velocity.z = lerp(velocity.z, 0.0, delta * 7.0) + knockback.z
 		else:
-			velocity.x = lerp(velocity.x, self.move_direction.x * self.air_speed, delta * 3.0)
-			velocity.z = lerp(velocity.z, self.move_direction.z * self.air_speed, delta * 3.0)
+			velocity.x = lerp(velocity.x, move_direction.x * self.air_speed, delta * 3.0)
+			velocity.z = lerp(velocity.z, move_direction.z * self.air_speed, delta * 3.0)
 			if velocity.y > 0.0:
 				self._state = PlayerState.JUMPING
 			else:
@@ -242,7 +223,6 @@ func _update_block(is_holding_input : bool) -> void:
 func _handle_recieved_input(total_input : Dictionary) -> void:
 	# get our movement variables and update how we move
 	self.move_direction = total_input.get("input_vector", Vector3.ZERO)
-	print(self.move_direction)
 	self._update_movement()
 	
 	# get our blocking input and determine if we can be in the blocking state
@@ -261,141 +241,141 @@ func _handle_recieved_input(total_input : Dictionary) -> void:
 
 
 # -- given the current state of the player, update the animation tree
-func _update_core_animations() -> void:
-	if self._state == PlayerState.IDLE:
-		self.anim_tree_state_machine.travel("idle")
-	elif self._state == PlayerState.RUNNING:
-		self.anim_tree_state_machine.travel("run")
-	elif self._state == PlayerState.JUMPING:
-		self.anim_tree_state_machine.travel("jump")
-	elif self._state == PlayerState.FALLING:
-		self.anim_tree_state_machine.travel("jump")
-	elif self._state == PlayerState.BLOCKING:
-		self.anim_tree_state_machine.travel("block")
+#func _update_core_animations() -> void:
+#	if self._state == PlayerState.IDLE:
+#		self.anim_tree_state_machine.travel("idle")
+#	elif self._state == PlayerState.RUNNING:
+#		self.anim_tree_state_machine.travel("run")
+#	elif self._state == PlayerState.JUMPING:
+#		self.anim_tree_state_machine.travel("jump")
+#	elif self._state == PlayerState.FALLING:
+#		self.anim_tree_state_machine.travel("jump")
+#	elif self._state == PlayerState.BLOCKING:
+#		self.anim_tree_state_machine.travel("block")
 
 
 # -- checks if the player health has changed; if so, send a signal
-func _update_health_change() -> void:
-	if self.health != self._old_health:
-		emit_signal("health_changed", self.health, self._old_health)
-		self._old_health = self.health
+#func _update_health_change() -> void:
+#	if self.health != self._old_health:
+#		emit_signal("health_changed", self.health, self._old_health)
+#		self._old_health = self.health
 
 
 # -- updates the positions of the floor indicators
-func _update_floor_indicator() -> void:
-	if floor_raycast.is_colliding():
-		var floor_pos = floor_raycast.get_collision_point()
-		var floor_norm = floor_raycast.get_collision_normal()
-		floor_ring.global_position = floor_pos
-		floor_ring.global_rotation = floor_norm
-		floor_shadow.global_position = floor_pos
-		floor_shadow.global_rotation = floor_norm
-	
-	if is_on_floor():
-		floor_ring.set_meta("goal_albedo_mix", 0.0)
-	else:
-		floor_ring.set_meta("goal_albedo_mix", 1.0)
-	
-	floor_ring.albedo_mix = lerp(floor_ring.albedo_mix, floor_ring.get_meta("goal_albedo_mix"), 12 * (0.016667))
+#func _update_floor_indicator() -> void:
+#	if floor_raycast.is_colliding():
+#		var floor_pos = floor_raycast.get_collision_point()
+#		var floor_norm = floor_raycast.get_collision_normal()
+#		floor_ring.global_position = floor_pos
+#		floor_ring.global_rotation = floor_norm
+#		floor_shadow.global_position = floor_pos
+#		floor_shadow.global_rotation = floor_norm
+#
+#	if is_on_floor():
+#		floor_ring.set_meta("goal_albedo_mix", 0.0)
+#	else:
+#		floor_ring.set_meta("goal_albedo_mix", 1.0)
+#
+#	floor_ring.albedo_mix = lerp(floor_ring.albedo_mix, floor_ring.get_meta("goal_albedo_mix"), 12 * (0.016667))
 
 
 # -- function that iterates through a player list and returns the one closest to self
 # -- author: Kyle Senebouttarath
-func _get_closest_player() -> Node3D:
-	
-	# track the closet player and their distance
-	var closest_target: Node3D = null
-	var closest_distance: float = INF
-	
-	# iterate through the players
-	for player in players.get_children():
-		
-		# if the player we check isn't ourself and they're alive
-		if player != self and player.health > 0:
-			
-			# calc their dist. if it's closer than our current closest target, replace it to be our new closest
-			var dist: float = (self.global_position - player.global_position).length()
-			if dist <= closest_distance:
-				closest_distance = dist
-				closest_target = player
-	
-	# return the closet player
-	return closest_target
+#func _get_closest_player() -> Node3D:
+#
+#	# track the closet player and their distance
+#	var closest_target: Node3D = null
+#	var closest_distance: float = INF
+#
+#	# iterate through the players
+#	for player in players.get_children():
+#
+#		# if the player we check isn't ourself and they're alive
+#		if player != self and player.health > 0:
+#
+#			# calc their dist. if it's closer than our current closest target, replace it to be our new closest
+#			var dist: float = (self.global_position - player.global_position).length()
+#			if dist <= closest_distance:
+#				closest_distance = dist
+#				closest_target = player
+#
+#	# return the closet player
+#	return closest_target
 
 
 # -- updates the z target if targetting is enabled
-func _update_z_target() -> void:
-	
-	# if we're targetting, get the closest player as our target
-	if self.targetting:
-		self.z_target = self._get_closest_player()
-	else:
-		self.z_target = null
-	
-	# update our target arrow visibility and position
-	if self.z_target:
-		target_arrow.global_position = self.z_target.global_position + Vector3(0, self.z_target.global_transform.basis.y.length() * 1.5, 0)
-		target_arrow.show()
-	else:
-		target_arrow.hide()
-	
-	# this makes the arrow pulse/"breath" by using a sine wave
-	target_arrow.pixel_size = TARGET_ARROW_DEFAULT_SIZE + sin(Time.get_ticks_msec() * 0.0125) * 0.000015
+#func _update_z_target() -> void:
+#
+#	# if we're targetting, get the closest player as our target
+#	if self.targetting:
+#		self.z_target = self._get_closest_player()
+#	else:
+#		self.z_target = null
+#
+#	# update our target arrow visibility and position
+#	if self.z_target:
+#		target_arrow.global_position = self.z_target.global_position + Vector3(0, self.z_target.global_transform.basis.y.length() * 1.5, 0)
+#		target_arrow.show()
+#	else:
+#		target_arrow.hide()
+#
+#	# this makes the arrow pulse/"breath" by using a sine wave
+#	target_arrow.pixel_size = TARGET_ARROW_DEFAULT_SIZE + sin(Time.get_ticks_msec() * 0.0125) * 0.000015
 
 
 # -- updates the 3d text for debug information. append more information if need be
-func _update_debug_text() -> void:
-	self.debug_tag.global_position = self.global_position + Vector3(0, 1, 0)
-	if self.current_cam:
-		self.debug_tag.global_position += self.current_cam.global_transform.basis.x * 2
-	self.debug_tag.visible = _show_debug_info
-	self.debug_tag.text = "PlayerState: " + PlayerState.keys()[_state] 
-	self.debug_tag.text += "\nAnimationNode: " + anim_tree_state_machine.get_current_node()
-	self.debug_tag.text += "\nTargetting: " + str(targetting)
-	self.debug_tag.text += "\nTarget: " + str(z_target)
-	self.debug_tag.text += "\n" + _input_state_text
+#func _update_debug_text() -> void:
+#	self.debug_tag.global_position = self.global_position + Vector3(0, 1, 0)
+#	if self.current_cam:
+#		self.debug_tag.global_position += self.current_cam.global_transform.basis.x * 2
+#	self.debug_tag.visible = _show_debug_info
+#	self.debug_tag.text = "PlayerState: " + PlayerState.keys()[_state] 
+#	self.debug_tag.text += "\nAnimationNode: " + anim_tree_state_machine.get_current_node()
+#	self.debug_tag.text += "\nTargetting: " + str(targetting)
+#	self.debug_tag.text += "\nTarget: " + str(z_target)
+#	self.debug_tag.text += "\n" + _input_state_text
 
 
 # -- updates player flashing. used for invincibility
-func _update_invincible_flash(dt: float) -> void:
-	if _flashing_time > 0.0:
-		_flashing_switch_time += dt
-		if _flashing_switch_time >= FLASH_DELAY:
-			if sprite.visible:
-				sprite.hide()
-			else:
-				sprite.show()
-			_flashing_switch_time = 0.0
-		_flashing_time -= dt
-	else:
-		_flashing_time = 0.0
-		_flashing_switch_time = 0.0
-		sprite.show()
+#func _update_invincible_flash(dt: float) -> void:
+#	if _flashing_time > 0.0:
+#		_flashing_switch_time += dt
+#		if _flashing_switch_time >= FLASH_DELAY:
+#			if sprite.visible:
+#				sprite.hide()
+#			else:
+#				sprite.show()
+#			_flashing_switch_time = 0.0
+#		_flashing_time -= dt
+#	else:
+#		_flashing_time = 0.0
+#		_flashing_switch_time = 0.0
+#		sprite.show()
 
 
-func _update_block_recharge_delay(delta):
-	if not self.blocking:
-		if self.temp_block_recharge_time < BLOCK_RECHARGE_TIME:
-			self.temp_block_recharge_time+=delta
-			if self.temp_block_recharge_time > BLOCK_RECHARGE_TIME:
-				self.temp_block_recharge_time = BLOCK_RECHARGE_TIME
-		elif self.block_stamina < BLOCK_STAMINA_AMOUNT:
-			self.block_stamina+=delta
-			if self.block_stamina >= BLOCK_STAMINA_AMOUNT:
-				self.block_stamina = BLOCK_STAMINA_AMOUNT
-				if(stamina_bar):
-					stamina_bar.visible = false
-	else:	
-		if perfect_block_time > 0:
-			perfect_block_time -= delta
-		else:
-			perfect_blocking = false
-		self.block_stamina-=delta
-		if(stamina_bar):
-			stamina_bar.visible = true
-
-	if(stamina_bar):
-		stamina_bar.update_stamina_bar(block_stamina*10)
+#func _update_block_recharge_delay(delta):
+#	if not self.blocking:
+#		if self.temp_block_recharge_time < BLOCK_RECHARGE_TIME:
+#			self.temp_block_recharge_time+=delta
+#			if self.temp_block_recharge_time > BLOCK_RECHARGE_TIME:
+#				self.temp_block_recharge_time = BLOCK_RECHARGE_TIME
+#		elif self.block_stamina < BLOCK_STAMINA_AMOUNT:
+#			self.block_stamina+=delta
+#			if self.block_stamina >= BLOCK_STAMINA_AMOUNT:
+#				self.block_stamina = BLOCK_STAMINA_AMOUNT
+#				if(stamina_bar):
+#					stamina_bar.visible = false
+#	else:	
+#		if perfect_block_time > 0:
+#			perfect_block_time -= delta
+#		else:
+#			perfect_blocking = false
+#		self.block_stamina-=delta
+#		if(stamina_bar):
+#			stamina_bar.visible = true
+#
+#	if(stamina_bar):
+#		stamina_bar.update_stamina_bar(block_stamina*10)
 
 # --------------------------------------- ROLLBACK FUNCTIONS ------------------------------------------- #
 
@@ -448,8 +428,7 @@ func _network_process(input: Dictionary) -> void:
 	# do work based on the input we've recieved
 	self._handle_recieved_input(input)
 	
-	print(self.sprite_flipped)
-	sprite.flip_h = self.sprite_flipped
+	#print("network process | ", multiplayer.get_unique_id(), " | ", input )
 	
 	# handle gravity
 	#if not is_on_floor():
@@ -480,10 +459,9 @@ func _network_process(input: Dictionary) -> void:
 func _save_state() -> Dictionary:
 	return {
 		position = self.position,
-		velocity = self.velocity,
-		state = self._state,
-		move_direction = self.move_direction,
-		sprite_flipped = self.sprite_flipped,
+		#velocity = self.velocity,
+		#state = self._state,
+		#move_direction = self.move_direction,
 		#health = self.health,
 		#targetting = self.targetting,
 		#blocking = self.blocking,
@@ -494,10 +472,9 @@ func _save_state() -> Dictionary:
 # called whenever a rollback is neccessary; applies state to our current scene
 func _load_state(state: Dictionary) -> void:
 	self.position = state["position"]
-	self.velocity = state["velocity"]
-	self._state = state["state"]
-	self.move_direction = state["move_direction"]
-	self.sprite_flipped = state["sprite_flipped"]
+	#self.velocity = state["velocity"]
+	#self._state = state["state"]
+	#self.move_direction = state["move_direction"]
 	#self.health = state["health"]
 	#self.targetting = state["targetting"]
 	#self.blocking = state["blocking"]
@@ -543,7 +520,8 @@ func _init() -> void:
 
 # -- called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	self.anim_tree_state_machine.start("idle")
+	pass
+	#anim_tree_state_machine.start("idle")
 	#_move_controller = MoveController.new(self, $AnimationTree, $CharacterSprite, $Hurtbox)
 	#add_child(_move_controller)
 

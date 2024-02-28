@@ -11,6 +11,7 @@ extends Node
 
 @onready var player_spawns: Node = $Spawns
 @onready var players_node: = main_scene.get_node("Players")
+@onready var char_spawner: MultiplayerSpawner = main_scene.get_node("CharacterSpawner")
 
 enum GameMode {POINTS, LIVES}
 @export var gamemode: GameMode = GameMode.LIVES
@@ -22,22 +23,47 @@ var match_started: bool = false
 
 # --------------------------------------- SERVER FUNCTIONS -------------------------------------------- #
 
+func spawn_char_at_pos(data) -> Node:
+	var char_name = data[0]
+	var spawn_index = data[1]
+	var owner_peer_id = data[2]
+	
+	#print("sent data ", char_name, " | ", spawn_index)
+	
+	# create new player character
+	var full_char_path = "res://src/Scenes/Characters/" + char_name + ".tscn"
+	var char_scene = load(full_char_path)
+	var new_player_char = char_scene.instantiate()
+	
+	# get spawn point and set player spawn
+	var spawn_point = player_spawns.get_children()[spawn_index]
+	new_player_char.set_meta("spawn_point", spawn_point)
+	new_player_char.global_position = spawn_point.global_position
+	
+	if owner_peer_id and multiplayer.get_unique_id() == owner_peer_id:
+		new_player_char.set_multiplayer_authority(owner_peer_id)
+	else:
+		new_player_char.set_multiplayer_authority(1)
+	
+	# give player display name and return them
+	new_player_char.display_name = "Player " + str(spawn_index + 1)
+	return new_player_char
+
+
 # spawns in the player characters listed in the players array
 func spawn_players():
 	for index in range(len(starting_player_info)):
 		var player_info = starting_player_info[index]
-		var char_to_create = player_info[0]
+		
+		var char_name_to_create = player_info[0]
 		var peer_id = player_info[1]
 		
-		if char_to_create:
-			var new_player_char = char_to_create.instantiate()
-			new_player_char.set_meta("spawn_point", player_spawns.get_children()[index])
-			new_player_char.position = new_player_char.get_meta("spawn_point").position
-			new_player_char.display_name = "Player " + str(index + 1)
-			players_node.add_child(new_player_char, true)
-			
-			if peer_id:
-				new_player_char.set_multiplayer_authority(peer_id)
+		if char_name_to_create:
+			var full_char_path = "res://src/Scenes/Characters/" + char_name_to_create + ".tscn"
+			if FileAccess.file_exists(full_char_path):
+				var new_player_char = char_spawner.spawn([char_name_to_create, index, peer_id])
+				if peer_id and new_player_char:
+					new_player_char.set_multiplayer_authority(peer_id)
 
 
 func insert_char_into_next_available_slot(character):
@@ -93,3 +119,9 @@ func _process(_delta):
 			#victory_scene.players = players
 			#print(victory_scene.rankings)
 		#main_scene.change_ui("res://src/Scenes/UI/VictoryUI/victory_screen.tscn", victory_screen_setup)
+
+
+func _ready():
+	char_spawner.set_spawn_function(self.spawn_char_at_pos)
+	#char_spawner.spawn_function = 
+

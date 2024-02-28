@@ -1,0 +1,37 @@
+[gd_scene load_steps=4 format=3 uid="uid://duf7ga85bst7a"]
+
+[ext_resource type="Script" path="res://src/Scripts/Classes/Character/TestRollbackCharacterController.gd" id="1_8vcue"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sn8c4"]
+height = 2.02169
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_umtws"]
+
+[node name="BaseCharacter" type="CharacterBody3D" groups=["network_sync"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0225203, 0)
+platform_floor_layers = 4294967294
+script = ExtResource("1_8vcue")
+display_name = null
+health = null
+max_health = null
+speed = null
+air_speed = null
+jump_power = null
+targetting = null
+blocking = null
+invincible = null
+perfect_blocking = null
+grabbing = null
+dodging = null
+can_move = null
+floor_indicator_enabled = null
+can_input = null
+
+[node name="Hurtbox" type="CollisionShape3D" parent="."]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, -0.0169319, 0)
+visibility_parent = NodePath("../MeshInstance3D")
+shape = SubResource("CapsuleShape3D_sn8c4")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, -0.0169319, 0)
+mesh = SubResource("CapsuleMesh_umtws")

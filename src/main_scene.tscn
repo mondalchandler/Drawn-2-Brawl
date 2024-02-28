@@ -27,5 +27,5 @@ _spawnable_scenes = PackedStringArray("res://src/Scenes/Levels/SaloonMap.tscn", 
 spawn_path = NodePath("../Map")
 
 [node name="CharacterSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("res://src/Scenes/Characters/RollbackBaseCharacter.tscn", "res://src/Scenes/Characters/Dummy.tscn", "res://src/Scenes/Characters/BaseCharacter.tscn", "res://src/Scenes/Characters/AIEnemy.tscn", "res://src/Scenes/Characters/Ranger.tscn")
+_spawnable_scenes = PackedStringArray("res://src/Scenes/Characters/RollbackBaseCharacter.tscn", "res://src/Scenes/Characters/Dummy.tscn", "res://src/Scenes/Characters/BaseCharacter.tscn", "res://src/Scenes/Characters/AIEnemy.tscn", "res://src/Scenes/Characters/Ranger.tscn", "res://src/Scenes/Characters/TestRollbackBaseCharacter.tscn")
 spawn_path = NodePath("../Players")

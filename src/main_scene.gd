@@ -43,9 +43,9 @@ func _spawn_players_into_map(map):
 	
 	# spawn in every play, including ourself
 	for id in all_players:
-		var character = load("res://src/Scenes/Characters/RollbackBaseCharacter.tscn")
+		var character_path = "RollbackBaseCharacter"#load("res://src/Scenes/Characters/TestRollbackBaseCharacter.tscn")
 		map.starting_player_info.append(
-			[character, id]
+			[character_path, id]
 		)
 		self.change_ui.rpc_id(id)
 	
@@ -55,17 +55,17 @@ func _spawn_players_into_map(map):
 		
 		# if we have remaining slots, add dummies
 		for i in remaining_slots:
-			var dummy = load("res://src/Scenes/Characters/Dummy.tscn")
+			var dummy_path = "Dummy"#load("res://src/Scenes/Characters/Dummy.tscn")
 			map.starting_player_info.append(
-				[dummy, null]
+				[dummy_path, null]
 			)
 	
 	# spawn players and start match
 	map.spawn_players()
 	
 	# give a little time to ping data
-	# 2 second delay to allow sync manager to gather ping data to synchronize the start for all clients
-	await get_tree().create_timer(2.0).timeout
+	# 3 second delay to allow sync manager to gather ping data to synchronize the start for all clients
+	await get_tree().create_timer(3.0).timeout
 	SyncManager.start()
 
 
