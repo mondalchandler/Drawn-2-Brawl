@@ -118,14 +118,16 @@ scene = "res://src/Scenes/UI/options_menu.tscn"
 [node name="InteractiveObjects" type="Node" parent="."]
 
 [node name="CursorToken" type="Polygon2D" parent="InteractiveObjects"]
-position = Vector2(48, 63.0001)
-scale = Vector2(1.92973, 2.40336)
+position = Vector2(47.5474, 63.8392)
+scale = Vector2(1.05627, 1.39505)
 texture = ExtResource("16_03kum")
+texture_offset = Vector2(45, 35)
 texture_scale = Vector2(2.705, 3.5)
-polygon = PackedVector2Array(-0.518204, 2.49651, 6.73669, 73.2308, 81.3585, 67.8217, 97.9412, 0.832142)
+polygon = PackedVector2Array(-41.2274, -32.1415, -40.2807, 28.788, 43.9779, 30.2217, 47.7648, -34.292)
 script = ExtResource("17_mki2l")
 
 [node name="Area2D" type="Area2D" parent="InteractiveObjects/CursorToken"]
+position = Vector2(-45.0143, -35.0088)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="InteractiveObjects/CursorToken/Area2D"]
 position = Vector2(44.5658, 34.5349)
