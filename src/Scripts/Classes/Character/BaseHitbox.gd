@@ -95,10 +95,11 @@ func on_hit(hit_char) -> void:
 		self.deal_dmg(hit_char)
 	else:
 		hit_char.stamina -= hit_char.STAMINA_AMOUNT * PLAYER_STAMINA_PERCENT_REDUCTION
-		var temp_stun = self.hitstun_length
-		self.hitstun_length = 1 # is this just always applying the perfect block effect no matter what if the opponent is blocking?
-		self.deal_stun(owner_char)
-		self.hitstun_length = temp_stun
+		if hit_char.perfect_block:
+			var temp_stun = self.hitstun_length
+			self.hitstun_length = 1 # is this just always applying the perfect block effect no matter what if the opponent is blocking?
+			self.deal_stun(owner_char)
+			self.hitstun_length = temp_stun
 	
 	self._after_hit_computation()
 
@@ -118,7 +119,7 @@ func node_is_world(node):
 
 # determines if a hit node is a player
 func on_collision_detected(colliding_node) -> void:
-	if self.collision_level == 1 and self.node_is_char(colliding_node) and colliding_node != self.owner_char and (self.hit_chars.get(colliding_node) == null or self.hit_chars.get(colliding_node) == false):
+	if self.node_is_char(colliding_node) and colliding_node != self.owner_char and (self.hit_chars.get(colliding_node) == null or self.hit_chars.get(colliding_node) == false):
 		self.hit_chars[colliding_node] = true
 		self.on_hit(colliding_node)
 	elif (self.node_is_object(colliding_node)):
@@ -143,13 +144,12 @@ func body_entered(body: Node3D) -> void:
 # this only runs when the node and ITS CHILDREN and loaded
 func _ready() -> void:
 	# turn off collisions with default world
-	self.set_collision_layer_value(1, false)
-	# hitboxes will be on layer 2
-	self.set_collision_layer_value(2, true)
+	# hitboxes will be on layer 3
+	self.set_collision_layer_value(3, true)
 	
-	# set hitboxes to detect for areas on layer 1, but not layer 2
-	self.set_collision_mask_value(1, true)
-	self.set_collision_mask_value(2, false)
+	# set hitboxes to detect for areas on layer 2 and 5
+	self.set_collision_mask_value(2, true)
+	self.set_collision_mask_value(5, true)
 	
 	self.connect("area_entered", area_entered)
 	self.connect("body_entered", body_entered)

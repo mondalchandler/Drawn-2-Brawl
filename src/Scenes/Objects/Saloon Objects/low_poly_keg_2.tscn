@@ -99,6 +99,8 @@ blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_klujl")
 
 [node name="LowPolyKeg2" type="RigidBody3D"]
+collision_layer = 16
+collision_mask = 23
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("ConvexPolygonShape3D_4lrfv")

@@ -96,7 +96,7 @@ func start_match():
 	match_started = true
 
 
-#var one_kill = false
+#var one_kill = true
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
