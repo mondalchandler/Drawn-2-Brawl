@@ -193,7 +193,7 @@ func _update_movement() -> void:
 				velocity.z = self.move_direction.z * self.speed + self.knockback.z
 
 				# if player is moving left, flip the sprite
-				print((self.move_direction.x < 0))
+				#print((self.move_direction.x < 0))
 				self.sprite_flipped = (self.move_direction.x < 0)
 			else:
 				self._state = PlayerState.IDLE
@@ -242,7 +242,7 @@ func _update_block(is_holding_input : bool) -> void:
 func _handle_recieved_input(total_input : Dictionary) -> void:
 	# get our movement variables and update how we move
 	self.move_direction = total_input.get("input_vector", Vector3.ZERO)
-	print(self.move_direction)
+	#print(self.move_direction)
 	self._update_movement()
 	
 	# get our blocking input and determine if we can be in the blocking state
@@ -448,7 +448,7 @@ func _network_process(input: Dictionary) -> void:
 	# do work based on the input we've recieved
 	self._handle_recieved_input(input)
 	
-	print(self.sprite_flipped)
+	#print(self.sprite_flipped)
 	sprite.flip_h = self.sprite_flipped
 	
 	# handle gravity
