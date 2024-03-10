@@ -1,10 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://debnef473so7d"]
+[gd_scene load_steps=4 format=3 uid="uid://b50j3v70s4lnt"]
 
-[ext_resource type="PackedScene" uid="uid://dwd2h7m8181ei" path="res://resources/Maps/knight_castle_map.tscn" id="1_t1pqd"]
+[ext_resource type="PackedScene" uid="uid://ce4bcj4bphb1q" path="res://resources/Maps/knight_castle_map.tscn" id="1_t1pqd"]
 
 [sub_resource type="Environment" id="Environment_3byhn"]
 background_mode = 1
-background_color = Color(0.172549, 0.666667, 0.894118, 1)
+background_color = Color(0.172549, 0.811765, 0.894118, 1)
 ambient_light_energy = 16.0
 volumetric_fog_enabled = true
 volumetric_fog_density = 0.001
@@ -15,10 +15,10 @@ volumetric_fog_emission = Color(0.968627, 0.92549, 0.501961, 1)
 [node name="CastleMap" type="Node3D"]
 
 [node name="KnightCastle" parent="." instance=ExtResource("1_t1pqd")]
-transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 15.4837, 0, 12.8364)
+transform = Transform3D(1.8, 0, 0, 0, 1.8, 0, 0, 0, 1.8, 10.8869, 0, 5.14749)
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(0.707107, -0.307755, 0.636622, 0, 0.900319, 0.435231, -0.707107, -0.307755, 0.636622, 9.839, 14.02, 10.023)
+transform = Transform3D(1.41421, -0.61551, 1.27324, 0, 1.80064, 0.870462, -1.41421, -0.61551, 1.27324, 12, 16.5, 12)
 cull_mask = 1048573
 projection = 1
 current = true
@@ -29,6 +29,6 @@ environment = SubResource("Environment_3byhn")
 camera_attributes = SubResource("CameraAttributesPractical_80j4s")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-0.93292, 0.0993716, 0.346101, 0.29853, 0.750895, 0.589098, -0.201346, 0.652902, -0.730191, 0, 0, -33.9049)
+transform = Transform3D(-0.93292, 0.0993714, 0.346101, 0.359927, 0.229014, 0.904436, 0.0106132, 0.968338, -0.249418, 0, -4.15366, -33.9049)
 light_color = Color(1, 1, 0.882353, 1)
 shadow_enabled = true
