@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://bynrdccbbqung"]
+
+[ext_resource type="PackedScene" uid="uid://dgwdcuf7qpqv6" path="res://resources/Meshes/Catapult.glb" id="1_r2gf2"]
+
+[node name="Catapult2" instance=ExtResource("1_r2gf2")]
