@@ -16,5 +16,7 @@ func run_task():
 			var test_dummy3 = load("res://src/Scenes/characters/Dummy.tscn")
 			saloon_scene.players.append(test_dummy3)
 		
-		var saloon = main_scene._change_scene("res://src/Scenes/Levels/SaloonMap.tscn", saloon_setup)
-		saloon.spawn_players()
+#		var saloon = main_scene._change_scene("res://src/Scenes/Levels/SaloonMap.tscn", saloon_setup)
+#		saloon.spawn_players()
+		var castle = main_scene._change_scene("res://src/Scenes/Levels/CastleMap.tscn", saloon_setup)
+		castle.spawn_players()
