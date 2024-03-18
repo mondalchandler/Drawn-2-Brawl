@@ -1,0 +1,150 @@
+[gd_scene load_steps=16 format=3 uid="uid://b50j3v70s4lnt"]
+
+[ext_resource type="Script" path="res://src/Scripts/GameControl/coreMatchController.gd" id="1_8nebs"]
+[ext_resource type="PackedScene" uid="uid://ce4bcj4bphb1q" path="res://resources/Maps/knight_castle_map.tscn" id="1_t1pqd"]
+[ext_resource type="PackedScene" uid="uid://dmm2q56al3tel" path="res://src/Scenes/Spawns/SpawnPoint.tscn" id="3_gwl41"]
+[ext_resource type="Script" path="res://src/Scenes/Levels/CanvasLayer.gd" id="4_g4ekq"]
+[ext_resource type="PackedScene" uid="uid://b8ho0wqibktcr" path="res://src/Scenes/UI/HealthUI/all_player_health_list.tscn" id="5_w06s2"]
+[ext_resource type="Script" path="res://src/Scripts/SpectatorActions/BaseActions.gd" id="6_20e1i"]
+[ext_resource type="PackedScene" uid="uid://tcy6w1y07hw3" path="res://src/Scenes/Objects/Castle Objects/blue_flag_1.tscn" id="7_k4dkc"]
+[ext_resource type="PackedScene" uid="uid://b2soagnydb2k3" path="res://src/Scenes/Objects/Castle Objects/blue_flag_2.tscn" id="8_w2mqr"]
+[ext_resource type="PackedScene" uid="uid://difs8uspbxbf6" path="res://src/Scenes/Objects/Castle Objects/catapult.tscn" id="9_6rbay"]
+[ext_resource type="PackedScene" uid="uid://6gj8rq617fcy" path="res://src/Scenes/Objects/Castle Objects/horse_cart.tscn" id="9_koqdr"]
+[ext_resource type="PackedScene" uid="uid://bbublpnnjl60j" path="res://src/Scenes/Objects/Castle Objects/red_flag_2.tscn" id="10_cx7rf"]
+[ext_resource type="PackedScene" uid="uid://maphts00lfsm" path="res://src/Scenes/Objects/Castle Objects/small_keg.tscn" id="11_rvp7f"]
+
+[sub_resource type="Environment" id="Environment_3byhn"]
+background_mode = 1
+background_color = Color(0.172549, 0.811765, 0.894118, 1)
+ambient_light_energy = 16.0
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.001
+volumetric_fog_emission = Color(0.968627, 0.92549, 0.501961, 1)
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_80j4s"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7kfnl"]
+size = Vector3(0.1, 20, 32)
+
+[node name="CastleMap" type="Node3D"]
+script = ExtResource("1_8nebs")
+
+[node name="KnightCastle" parent="." instance=ExtResource("1_t1pqd")]
+transform = Transform3D(-7.86805e-08, 0, -1.8, 0, 1.8, 0, 1.8, 0, -7.86805e-08, 10.8869, 0, 5.14749)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.707107, 0.307755, -0.636622, 0, 0.900319, 0.435231, 0.707107, -0.307755, 0.636622, 5, 16.5, 7)
+cull_mask = 1048573
+projection = 1
+current = true
+size = 30.0
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_3byhn")
+camera_attributes = SubResource("CameraAttributesPractical_80j4s")
+
+[node name="Players" type="Node" parent="."]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+script = ExtResource("4_g4ekq")
+
+[node name="PlayerHealthUI" parent="CanvasLayer" instance=ExtResource("5_w06s2")]
+
+[node name="SpectatorActions" type="Node" parent="."]
+script = ExtResource("6_20e1i")
+
+[node name="Lighting" type="Node" parent="."]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Lighting"]
+transform = Transform3D(-0.93292, 0.0993713, 0.3461, 0.359927, 0.229014, 0.904436, 0.0106132, 0.968338, -0.249418, 0, -4.15366, -33.9049)
+light_color = Color(1, 1, 0.882353, 1)
+shadow_enabled = true
+
+[node name="Walls" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 42, 0, -6)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.25, 4, -12)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+shape = SubResource("BoxShape3D_7kfnl")
+
+[node name="StaticBody3D2" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -11.75, 4, 3)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/StaticBody3D2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+shape = SubResource("BoxShape3D_7kfnl")
+
+[node name="StaticBody3D3" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -11.75, 4, -29)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/StaticBody3D3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+shape = SubResource("BoxShape3D_7kfnl")
+
+[node name="StaticBody3D4" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.75, 4, -12)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/StaticBody3D4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+shape = SubResource("BoxShape3D_7kfnl")
+
+[node name="Spawns" type="Node" parent="."]
+
+[node name="SpawnPoint3" parent="Spawns" instance=ExtResource("3_gwl41")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 20, -4, -24)
+
+[node name="SpawnPoint" parent="Spawns" instance=ExtResource("3_gwl41")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 34, -5, -13)
+
+[node name="SpawnPoint2" parent="Spawns" instance=ExtResource("3_gwl41")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 31, -4, -20)
+
+[node name="SpawnPoint4" parent="Spawns" instance=ExtResource("3_gwl41")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 18, -4, -7)
+
+[node name="Objects" type="Node" parent="."]
+
+[node name="blue_flag_6" parent="Objects" instance=ExtResource("8_w2mqr")]
+transform = Transform3D(0.125, 0, -0.216506, 0, 0.25, 0, 0.216506, 0, 0.125, 38, 1, -22.9)
+
+[node name="small_keg2" parent="Objects" instance=ExtResource("11_rvp7f")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.0723, -2.72659, -28.1981)
+
+[node name="small_keg" parent="Objects" instance=ExtResource("11_rvp7f")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.1386, -2.83252, -26.6587)
+
+[node name="red_flag_4" parent="Objects" instance=ExtResource("10_cx7rf")]
+transform = Transform3D(0.34641, 0, -0.2, 0, 0.4, 0, 0.2, 0, 0.34641, 22.9, -4, -9.9)
+
+[node name="red_flag_3" parent="Objects" instance=ExtResource("10_cx7rf")]
+transform = Transform3D(0.34641, 0, -0.2, 0, 0.4, 0, 0.2, 0, 0.34641, 22.9, -4, -15.9)
+
+[node name="red_flag_2" parent="Objects" instance=ExtResource("10_cx7rf")]
+transform = Transform3D(0.34641, 0, -0.2, 0, 0.4, 0, 0.2, 0, 0.34641, 20.9, -4, -21.9)
+
+[node name="Catapult2" parent="Objects" instance=ExtResource("9_6rbay")]
+transform = Transform3D(0.708827, 0.0369132, 0.704416, 0.0347667, 0.995588, -0.0871558, -0.704525, 0.0862685, 0.704416, 24.9, -4.2, -9.9)
+
+[node name="Horse Cart" parent="Objects" instance=ExtResource("9_koqdr")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 15.9, -3.5, -27.9)
+
+[node name="Catapult" parent="Objects" instance=ExtResource("9_6rbay")]
+transform = Transform3D(0.845301, -0.1933, 0.498097, 0.172987, 0.98106, 0.0871557, -0.505511, 0.0124917, 0.86273, 21.9, -4.5, -16.9)
+
+[node name="blue_flag_5" parent="Objects" instance=ExtResource("8_w2mqr")]
+transform = Transform3D(0.125, 0, -0.216506, 0, 0.25, 0, 0.216506, 0, 0.125, 34.33, 4, -26.4)
+
+[node name="blue_flag_4" parent="Objects" instance=ExtResource("7_k4dkc")]
+transform = Transform3D(0.176777, 0, -0.176777, 0, 0.25, 0, 0.176777, 0, 0.176777, 38.6, -2, -21.9)
+
+[node name="blue_flag_3" parent="Objects" instance=ExtResource("7_k4dkc")]
+transform = Transform3D(0.176777, 0, -0.176777, 0, 0.25, 0, 0.176777, 0, 0.176777, 33.3, -2, -27)
+
+[node name="blue_flag_1" parent="Objects" instance=ExtResource("7_k4dkc")]
+transform = Transform3D(0.176777, 0, -0.176777, 0, 0.25, 0, 0.176777, 0, 0.176777, 34, -4, -20.8)
+
+[node name="blue_flag_2" parent="Objects" instance=ExtResource("7_k4dkc")]
+transform = Transform3D(0.176777, 0, -0.176777, 0, 0.25, 0, 0.176777, 0, 0.176777, 32.6, -4, -22.2)
