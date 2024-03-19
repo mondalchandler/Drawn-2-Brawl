@@ -24,12 +24,11 @@ var match_started: bool = false
 # --------------------------------------- SERVER FUNCTIONS -------------------------------------------- #
 
 func spawn_char_at_pos(data) -> Node:
+	# get parameters out of data array
 	var char_name = data[0]
 	var spawn_index = data[1]
 	var owner_peer_id = data[2]
-	
-	#print("sent data ", char_name, " | ", spawn_index)
-	
+
 	# create new player character
 	var full_char_path = "res://src/Scenes/Characters/" + char_name + ".tscn"
 	var char_scene = load(full_char_path)
@@ -45,8 +44,12 @@ func spawn_char_at_pos(data) -> Node:
 	else:
 		new_player_char.set_multiplayer_authority(1)
 	
-	# give player display name and return them
+	# give player name and display name and return them
+		# the player name is important for the message serializer!
+	new_player_char.name = "Player" + str(spawn_index + 1)
 	new_player_char.display_name = "Player " + str(spawn_index + 1)
+	
+	# return newly spawned node
 	return new_player_char
 
 

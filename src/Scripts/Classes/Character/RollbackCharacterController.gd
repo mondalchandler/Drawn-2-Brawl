@@ -153,7 +153,7 @@ func _handle_directional_input(total_input : Dictionary) -> void:
 	input_dir = self._get_camera_relative_input(input_dir)
 	
 	# store the user's directional input
-	total_input["input_vector"] = input_dir
+	total_input["input_vector"] = Vector2(input_dir.x, input_dir.z)
 
 
 func _handle_jump_input(total_input : Dictionary) -> void:
@@ -240,9 +240,11 @@ func _update_block(is_holding_input : bool) -> void:
 # --------------------------------------- VARIOUS PROCESS FUNCTIONS ------------------------------------------- #
 
 func _handle_recieved_input(total_input : Dictionary) -> void:
+	
 	# get our movement variables and update how we move
-	self.move_direction = total_input.get("input_vector", Vector3.ZERO)
-	#print(self.move_direction)
+	var vector2Input : Vector2 = total_input.get("input_vector", Vector2.ZERO)
+	self.move_direction = Vector3(vector2Input.x, 0, vector2Input.y)
+	
 	self._update_movement()
 	
 	# get our blocking input and determine if we can be in the blocking state
@@ -412,6 +414,8 @@ func _get_local_input() -> Dictionary:
 		#self._handle_jump_input(total_input)
 		#self._handle_target_input(total_input)
 		#self._handle_block_input(total_input)
+	
+	print(total_input)
 	
 	# return all of our player's input
 	return total_input

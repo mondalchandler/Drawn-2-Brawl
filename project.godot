@@ -126,6 +126,10 @@ sync_debug={
 ]
 }
 
+[network]
+
+rollback/classes/message_serializer="res://src/Scripts/Services/D2BMessageSerializer.gd"
+
 [playfab]
 
 title_id="DrawnToBrawl"
