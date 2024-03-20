@@ -20,6 +20,7 @@ extends Node
 @onready var players = $Players
 @onready var map_container = $Map
 @onready var map_spawner = $MapSpawner
+var map_votes = {}
 
 @export var spawn_dummies : bool = false
 
@@ -113,12 +114,24 @@ func session_disconnect():
 			players.disconnect_client()
 
 
-func play_map(map_scene: PackedScene):
+func play_map():
 	if multiplayer.is_server():
+		var map_scene = load(pick_map())
 		#using call_deferred allows existing map cleanup logic to be called before the scene cleans up
 		self._start_map.call_deferred(map_scene)
 
-
+func pick_map():
+	var maps = map_votes.values()
+	var peers_count = len(multiplayer.get_peers()) + 1
+	if len(maps) != peers_count:
+		peers_count -= len(maps)
+		for i in range(peers_count):
+			var randnumtemp = randi_range(0, get_node("MapSpawner").get_spawnable_scene_count()-1)
+			maps.append( get_node("MapSpawner").get_spawnable_scene(randnumtemp))
+	var randnum = randi_range(0, len(maps)-1)
+	return maps[randnum]
+	
+	pass
 #The following method will change the current scene to the scene at a given path.
 #It will clear out the current main scene, then load the new scene to go to
 #if a callback is provided, it will call the function BEFORE adding the new scene
