@@ -6,7 +6,7 @@ var current_map = null
 
 func run_task():
 	if multiplayer.is_server():
-		main_scene.play_map(load("res://src/Scenes/Levels/SaloonMap.tscn"))
+		main_scene.play_map()
 		
 	#TODO: Spawn everyone else
 	
@@ -46,6 +46,7 @@ func run_task():
 	#	saloon.spawn_players()
 
 func _extra_ready():
+	print("helo")
 	if multiplayer.is_server():
 		self.visible = true
 	else:

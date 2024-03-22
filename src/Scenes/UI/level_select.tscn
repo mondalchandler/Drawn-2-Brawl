@@ -1,0 +1,94 @@
+[gd_scene load_steps=14 format=3 uid="uid://j6t4ooill3yq"]
+
+[ext_resource type="Texture2D" uid="uid://da0unap1ws2dc" path="res://resources/Images/LevelSelectImages/MapSelectBG.jpg" id="1_85a1w"]
+[ext_resource type="Script" path="res://src/Scripts/UI/Navigation/level_select.gd" id="1_pygko"]
+[ext_resource type="PackedScene" uid="uid://3s37qqt6r8je" path="res://src/Scenes/UI/custom_button.tscn" id="2_amdnm"]
+[ext_resource type="Texture2D" uid="uid://do61w0no3t88s" path="res://resources/Images/LevelSelectImages/AssassinStageBtn.png" id="3_v7vjk"]
+[ext_resource type="Texture2D" uid="uid://bdlwqjkpjttqf" path="res://resources/Images/LevelSelectImages/NobleStageBtn.png" id="4_mv1kp"]
+[ext_resource type="Texture2D" uid="uid://whxgy0yjvh2b" path="res://resources/Images/LevelSelectImages/RangerStageBtn.png" id="5_534pb"]
+[ext_resource type="Texture2D" uid="uid://bundowma81oan" path="res://resources/Images/PlayerSelectImages/PlayButton.png" id="6_7iqhb"]
+[ext_resource type="Script" path="res://src/Scripts/UI/Navigation/level_select_button.gd" id="6_kfomn"]
+[ext_resource type="Script" path="res://src/Scripts/UI/Navigation/player_select_play.gd" id="7_6rvo8"]
+[ext_resource type="Texture2D" uid="uid://dw8yen50qp7de" path="res://resources/Images/PlayerSelectImages/LeaveButton.png" id="8_28ms8"]
+[ext_resource type="Script" path="res://src/Scripts/UI/Navigation/go_to_scene_button.gd" id="9_mfy0l"]
+[ext_resource type="Texture2D" uid="uid://bcosy0o5ex8p1" path="res://resources/Images/PlayerSelectImages/OptionsButton.png" id="10_ah42x"]
+[ext_resource type="Texture2D" uid="uid://ds6tdecxffyo8" path="res://resources/Images/LevelSelectImages/CharSelectBtn.png" id="11_3tu0s"]
+
+[node name="Level Select" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_pygko")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_85a1w")
+expand_mode = 1
+
+[node name="Levels" type="Node" parent="."]
+
+[node name="Polygon2D" parent="Levels" instance=ExtResource("2_amdnm")]
+position = Vector2(717, 553)
+texture = ExtResource("3_v7vjk")
+texture_scale = Vector2(2, 2)
+polygon = PackedVector2Array(151, -6, 346, 12, 512, 170, 512, 326, 338, 418, 184, 388, 62, 298, -8, 151, 49, 48)
+
+[node name="Castle" parent="Levels" instance=ExtResource("2_amdnm")]
+position = Vector2(1063, 158)
+texture = ExtResource("4_mv1kp")
+texture_scale = Vector2(2, 2)
+polygon = PackedVector2Array(111, 42, 167, -4, 316, 26, 376, 61, 495, 239, 456, 399, 277, 453, 130, 385, 32, 277, -9, 112, 38, 61)
+script = ExtResource("6_kfomn")
+map_path = "res://src/Scenes/Levels/CastleMap.tscn"
+
+[node name="Saloon" parent="Levels" instance=ExtResource("2_amdnm")]
+position = Vector2(389, 138)
+texture = ExtResource("5_534pb")
+texture_scale = Vector2(2, 2)
+polygon = PackedVector2Array(125, 55, 269, -6, 450, 38, 497, 193, 389, 363, 326, 408, 173, 442, 38, 386, -7, 326, 30, 170)
+script = ExtResource("6_kfomn")
+map_path = "res://src/Scenes/Levels/SaloonMap.tscn"
+
+[node name="FunctionButtons" type="Node" parent="."]
+
+[node name="PlayButton" parent="FunctionButtons" instance=ExtResource("2_amdnm")]
+position = Vector2(1684, 891)
+texture = ExtResource("6_7iqhb")
+texture_scale = Vector2(2, 2)
+polygon = PackedVector2Array(163, 4, 237, -1, 236, 190, -0.00012207, 189, 1.99988, 150, 8.99988, 129, 16.9999, 110, 28.9999, 90, 42.9999, 71, 61.9999, 54, 63.9999, 14, 102, 27, 128, 15)
+script = ExtResource("7_6rvo8")
+
+[node name="BackToMainButton" parent="FunctionButtons" instance=ExtResource("2_amdnm")]
+position = Vector2(10, 960)
+texture = ExtResource("8_28ms8")
+texture_scale = Vector2(2, 2)
+polygon = PackedVector2Array(-1, 31, 56, 39, 142, -1, 138, 26, 142, 75, 126, 81, 121, 104, 75, 106, 31, 115)
+script = ExtResource("9_mfy0l")
+scene = "res://src/Scenes/UI/main_menu.tscn"
+
+[node name="OptionsButton" parent="FunctionButtons" instance=ExtResource("2_amdnm")]
+position = Vector2(175, 969)
+texture = ExtResource("10_ah42x")
+texture_scale = Vector2(2, 2)
+polygon = PackedVector2Array(0, 0, 100, 0, 99, 104, 1, 103)
+script = ExtResource("9_mfy0l")
+scene = "res://src/Scenes/UI/options_menu.tscn"
+
+[node name="PlayerSelect" parent="FunctionButtons" instance=ExtResource("2_amdnm")]
+position = Vector2(1499, 952)
+texture = ExtResource("11_3tu0s")
+texture_scale = Vector2(2, 2)
+polygon = PackedVector2Array(0, 0, 129, -6, 131, 113, -4, 116)
+script = ExtResource("9_mfy0l")
+scene = "res://src/Scenes/UI/player_select.tscn"
+
+[connection signal="resized" from="." to="." method="_resized"]
