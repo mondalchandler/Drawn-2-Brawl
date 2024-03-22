@@ -4,8 +4,8 @@ extends "res://addons/godot-rollback-netcode/MessageSerializer.gd"
 
 # -------------------- CONSTANTS --------------------- #
 
-# player number + input header + WASD vector
-const PLAYER_INPUT_SIZE : int = 1 + 1 + 8
+# player number + input header + WASD vector + move input integer
+const PLAYER_INPUT_SIZE : int = 1 + 1 + 8 + 1
 const DEBUG_OUTPUT : bool = false
 
 # -------------------- OPTIMIZED VERSION: SERIALIZING DATA --------------------- #
@@ -24,13 +24,24 @@ func _init() -> void:
 
 
 # some bit flags used to indicate if our code has certain elements within the network message 
-	# if we need more flags, we should go up in increments (0x01, 0x02, 0x04, 0x08, 0x10, etc)
+	# if we need more flags, we should go up in increments (0x01, 0x02, 0x04, 0x08, 0x)F, etc)
 	# the purpose of doing it this is that it allows us to send multiple input states in a single byte for the header
 	# this is VERY SIMILAR to how it is done with our robot in Real-Time Systems
 enum HeaderFlags {
-	# this is a single byte
-	HAS_INPUT_VECTOR = 0x01,
-	#DROP_BOMB = 0x02,
+	HAS_INPUT_VECTOR = 		0x01,	# (Binary: 00000001)
+	JUMP_INPUT = 			0x02,	# (Binary: 00000010)
+	BLOCK_HOLD_INPUT = 		0x04,	# (Binary: 00000100)
+	ROLL_INPUT = 			0x08,	# (Binary: 00001000)
+	TARGET_INPUT = 			0x10,	# (Binary: 00010000)
+	TARGET_CHANGE_INPUT = 	0x20,	# (Binary: 00100000)
+	HOLDING_MOVE_INPUT = 	0x40	# (Binary: 01000000)
+}
+
+enum MoveFlags {
+	NORMAL_CLOSE = 	0x01,
+	NORMAL_FAR = 	0x02,
+	SPECIAL_CLOSE = 0x04,
+	SPECIAL_FAR = 	0x08
 }
 
 func per_player_serialize_input(buffer, player_input) -> void:
@@ -42,10 +53,28 @@ func per_player_serialize_input(buffer, player_input) -> void:
 		# this value is then assigned into the header variable (aka we flipped it to be 0x01 now)
 		# the |= can be used to essentially "append" more header data into the the header
 		header |= HeaderFlags.HAS_INPUT_VECTOR
-		
-	#if input.has("dropBomb"):
-	#	header |= HeaderFlags.DROP_BOMB
-		
+	# if they have a jump input
+	if player_input.get("pressed_jump", false):
+		header |= HeaderFlags.JUMP_INPUT
+	
+	# if they have a blocking input thats being held
+	if player_input.has("holding_block"):
+		header |= HeaderFlags.BLOCK_HOLD_INPUT
+	# if they have a rolling input that was pressed
+	if player_input.get("roll", false):
+		header |= HeaderFlags.ROLL_INPUT
+	
+	# if they have a target input
+	if player_input.get("pressed_target", false):
+		header |= HeaderFlags.TARGET_INPUT
+	# if they have a target changing input
+	if player_input.get("pressed_change_target", false):
+		header |= HeaderFlags.TARGET_CHANGE_INPUT
+	
+	# if they have move input
+	if player_input.has("normal_close") or player_input.has("normal_far") or player_input.has("special_close") or player_input.has("special_far"):
+		header |= HeaderFlags.HOLDING_MOVE_INPUT
+	
 	# now we write a single byte for our header to indicate that our input_vector exists or not
 	buffer.put_u8(header)
 	
@@ -57,6 +86,18 @@ func per_player_serialize_input(buffer, player_input) -> void:
 		buffer.put_float(input_vector.x)
 		buffer.put_float(input_vector.y)
 	
+	# we write an integer to determine what we're holding a move down for
+	if player_input.has("normal_close") or player_input.has("normal_far") or player_input.has("special_close") or player_input.has("special_far"):
+		var move_header := 0
+		if player_input.has("normal_close"):
+			move_header |= MoveFlags.NORMAL_CLOSE
+		if player_input.has("normal_far"):
+			move_header |= MoveFlags.NORMAL_FAR
+		if player_input.has("special_close"):
+			move_header |= MoveFlags.SPECIAL_CLOSE
+		if player_input.has("special_far"):
+			move_header |= MoveFlags.SPECIAL_FAR
+		buffer.put_u8(move_header)
 
 
 # @Override 
@@ -145,25 +186,43 @@ func unserialize_input(serialized: PackedByteArray) -> Dictionary:
 		# get the 32 bit integer we stored at the start of our buffer
 		# this will also shift our buffer's cursor over 4 bytes
 	all_input["$"] = buffer.get_u32()
-
+	
 	# now we need to get how many player inputs we have in this message
 		# if we are getting no inputs, then we can return early
 	var players_inputting = buffer.get_u8()
+	#print(players_inputting)
 	if players_inputting == 0:
 		return all_input
-
+		
 	# obtain the player's node path
 	var path_key = buffer.get_u8()
 	var path = input_path_mapping_reverse[path_key]
-
+	
 	# now lets gather the individual input
 	var player_input := {}
 	var has_input_header = buffer.get_u8()
+	
 	# use an and gate to check if the header is true (this is "truthy")
+	if has_input_header & HeaderFlags.TARGET_CHANGE_INPUT:
+		player_input["pressed_change_target"] = true
+	if has_input_header & HeaderFlags.TARGET_INPUT:
+		player_input["pressed_target"] = true
+	if has_input_header & HeaderFlags.BLOCK_HOLD_INPUT:
+		player_input["holding_block"] = true
+	if has_input_header & HeaderFlags.JUMP_INPUT:
+		player_input["pressed_jump"] = true
 	if has_input_header & HeaderFlags.HAS_INPUT_VECTOR:
 		player_input["input_vector"] = Vector2(buffer.get_float(), buffer.get_float())
-#	if hasInputHeader & HeaderFlags.DROP_BOMB:
-#		input["dropBomb"] = true
+	if has_input_header & HeaderFlags.HOLDING_MOVE_INPUT:
+		var move_header = buffer.get_u8()
+		if move_header & MoveFlags.NORMAL_CLOSE:
+			player_input["normal_close"] = true
+		if move_header & MoveFlags.NORMAL_FAR:
+			player_input["normal_far"] = true
+		if move_header & MoveFlags.SPECIAL_CLOSE:
+			player_input["special_close"] = true
+		if move_header & MoveFlags.SPECIAL_FAR:
+			player_input["special_far"] = true
 	
 	# add our new input to the dictionary and return
 	all_input[path] = player_input

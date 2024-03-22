@@ -35,6 +35,7 @@ enabled=PackedStringArray("res://addons/destruction/plugin.cfg", "res://addons/g
 
 [filesystem]
 
+import/blender/enabled=false
 import/fbx/enabled=false
 
 [input]
@@ -129,6 +130,8 @@ sync_debug={
 [network]
 
 rollback/classes/message_serializer="res://src/Scripts/Services/D2BMessageSerializer.gd"
+rollback/debug/rollback_ticks=4
+rollback/debug/random_rollback_ticks=10
 
 [playfab]
 

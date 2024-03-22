@@ -4,6 +4,11 @@
 
 extends Node
 
+# ------------------ CONSTANTS ------------------ #
+
+const LOG_FILE_DRECTORY = "user://detailed_logs"
+const LOGGING_ENABLED := true
+
 # ------------------ VARIABLES ------------------ #
 
 #@onready var multiplayer_scenes = [
@@ -69,7 +74,6 @@ func _spawn_players_into_map(map):
 	SyncManager.start()
 
 
-
 func _start_map(map_scene: PackedScene):
 	# Remove old map if any
 	for c in map_container.get_children():
@@ -87,13 +91,31 @@ func _start_map(map_scene: PackedScene):
 
 
 func _on_sync_started():
+	
+	if LOGGING_ENABLED:
+		if not DirAccess.dir_exists_absolute(LOG_FILE_DRECTORY):
+			DirAccess.make_dir_absolute(LOG_FILE_DRECTORY)
+		
+		var datetime = Time.get_datetime_dict_from_system(true)
+		var log_filename = "%04d%02d%02d-%02d%02d%02d-peer-%d.log" % [
+			datetime['year'],
+			datetime['month'],
+			datetime['day'],
+			datetime['hour'],
+			datetime['minute'],
+			datetime['second'],
+			multiplayer.get_unique_id()
+		]
+		SyncManager.start_logging(LOG_FILE_DRECTORY + "/" + log_filename)
+	
 	var map = self._get_current_map()
 	if map:
 		map.start_match()
 
 
 func _on_sync_stopped():
-	pass
+	if LOGGING_ENABLED:
+		SyncManager.stop_logging()
 
 
 func _ready():
