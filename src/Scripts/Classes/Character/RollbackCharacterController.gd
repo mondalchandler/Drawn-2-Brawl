@@ -200,6 +200,12 @@ func _handle_block_input(total_input : Dictionary) -> void:
 		total_input["holding_block"] = true
 
 
+# this function will determine the local input for rolling/dodging
+func _handle_roll_input(total_input : Dictionary) -> void:
+	if Input.is_action_just_pressed("roll"):
+		total_input["roll"] = true
+
+
 # this function will determine the local input for abilities/moves
 func _handle_move_input(total_input : Dictionary) -> void:
 	for move_name in INPUT_MOVE_NAMES:
@@ -420,6 +426,7 @@ func _get_local_input() -> Dictionary:
 		if not total_input.get("holding_block", false):
 			self._handle_directional_input(total_input)
 			self._handle_jump_input(total_input)
+			self._handle_roll_input(total_input)
 		
 		self._handle_move_input(total_input)
 	
@@ -477,6 +484,12 @@ func _update_custom_physics(input : Dictionary, delta : float) -> void:
 		var pressed_jump = input.get("pressed_jump", false)
 		if pressed_jump:
 			self.velocity.y += jump_power
+	
+	#---- apply rolling forces
+	var pressed_roll = input.get("roll", false)
+	if pressed_roll:
+		#TODO: Implement
+		print("I ROLLED!")
 	
 	# TODO: This is messing up the _on_floor detection, so it's commented out
 	#if self._has_collision:

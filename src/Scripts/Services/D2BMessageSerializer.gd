@@ -24,7 +24,7 @@ func _init() -> void:
 
 
 # some bit flags used to indicate if our code has certain elements within the network message 
-	# if we need more flags, we should go up in increments (0x01, 0x02, 0x04, 0x08, 0x)F, etc)
+	# if we need more flags, we should go up in increments (0x01, 0x02, 0x04, 0x08, 0x10, etc...)
 	# the purpose of doing it this is that it allows us to send multiple input states in a single byte for the header
 	# this is VERY SIMILAR to how it is done with our robot in Real-Time Systems
 enum HeaderFlags {
