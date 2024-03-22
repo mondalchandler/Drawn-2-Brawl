@@ -1,11 +1,12 @@
-[gd_scene load_steps=16 format=3 uid="uid://cekvrq3c2qkiu"]
+[gd_scene load_steps=17 format=3 uid="uid://cekvrq3c2qkiu"]
 
 [ext_resource type="Script" path="res://src/Scenes/UI/player_select.gd" id="1_3nuvs"]
 [ext_resource type="Texture2D" uid="uid://6cv8bs5iycg7" path="res://resources/Images/PlayerSelectImages/BGText.jpg" id="2_qmmb5"]
 [ext_resource type="Texture2D" uid="uid://cxoyb38ikx36t" path="res://resources/Images/PlayerSelectImages/Assassin99Portrait.png" id="4_82iii"]
 [ext_resource type="Texture2D" uid="uid://bvnroba7l3ivs" path="res://resources/Images/PlayerSelectImages/RangerPortrait.png" id="5_5d2ge"]
-[ext_resource type="PackedScene" uid="uid://ds55r3e3det8w" path="res://src/Scenes/characters/Ranger.tscn" id="6_8mryq"]
+[ext_resource type="PackedScene" uid="uid://cp0ors24yfsy" path="res://src/Scenes/characters/Ranger.tscn" id="6_8mryq"]
 [ext_resource type="Texture2D" uid="uid://dpv1knjr8e0rw" path="res://resources/Images/PlayerSelectImages/NoblePortrait.png" id="7_dubgh"]
+[ext_resource type="PackedScene" uid="uid://b48tkwix4jri4" path="res://src/Scenes/characters/Noble.tscn" id="8_6smnl"]
 [ext_resource type="Texture2D" uid="uid://b1ehxxaxqbbm3" path="res://resources/Images/PlayerSelectImages/PlaceholderPortrait1.png" id="8_bk4bv"]
 [ext_resource type="Texture2D" uid="uid://b83s4eia36hg5" path="res://resources/Images/PlayerSelectImages/PlaceholderPortrait2.png" id="9_guhas"]
 [ext_resource type="PackedScene" uid="uid://3s37qqt6r8je" path="res://src/Scenes/UI/custom_button.tscn" id="10_82nx1"]
@@ -56,6 +57,7 @@ texture_offset = Vector2(0, -5)
 texture_scale = Vector2(2, 2)
 polygon = PackedVector2Array(-1, 0, 365, 160, 298, 505, 5, 308)
 script = ExtResource("11_qx7i5")
+Character = ExtResource("8_6smnl")
 pulse_with_music = false
 
 [node name="AssassinButton" parent="CharacterButtons" instance=ExtResource("10_82nx1")]

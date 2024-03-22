@@ -49,7 +49,7 @@ func display_target():
 			self.map.add_child(self.target)
 			self.map.move_child(self.target, self.map.get_child_count() - 1)
 			self.target.global_position = self.owner_char.z_target.global_position
-			self.target_displayed = true		
+			self.target_displayed = true
 
 
 # overrideable virtual method.
@@ -77,13 +77,12 @@ func get_direction():
 # this only runs when the node and ITS CHILDREN have loaded
 func _ready() -> void:
 	# turn off collisions with default world
-	self.set_collision_layer_value(1, false)
-	# hitboxes will be on layer 2
-	self.set_collision_layer_value(2, true)
+	# hitboxes will be on layer 3
+	self.set_collision_layer_value(3, true)
 	
-	# set hitboxes to detect for areas on layer 1, but not layer 2
-	self.set_collision_mask_value(1, true)
-	self.set_collision_mask_value(2, false)
+	# set hitboxes to detect for areas on layer 2 and 5
+	self.set_collision_mask_value(2, true)
+	self.set_collision_mask_value(5, true)
 	
 	self.connect("area_entered", area_entered)
 	self.connect("body_entered", body_entered)
