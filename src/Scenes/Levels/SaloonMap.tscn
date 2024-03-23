@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://src/Scripts/GameControl/coreMatchController.gd" id="1_orbom"]
 [ext_resource type="PackedScene" uid="uid://bmx61onpuwlkt" path="res://src/Scenes/Objects/Saloon Objects/low_poly_keg_1.tscn" id="4_rsbcy"]
-[ext_resource type="PackedScene" path="res://resources/Maps/saloonv_2.tscn" id="5_h48ol"]
+[ext_resource type="PackedScene" uid="uid://bx17s78l3tyu6" path="res://resources/Maps/saloonv_2.tscn" id="5_h48ol"]
 [ext_resource type="PackedScene" uid="uid://cbfxdu40fpir6" path="res://src/Scenes/Objects/Saloon Objects/low_poly_keg_2.tscn" id="5_svqfx"]
 [ext_resource type="PackedScene" uid="uid://cibfv85phwkas" path="res://src/Scenes/Objects/Saloon Objects/low_poly_keg_3.tscn" id="6_53bsl"]
 [ext_resource type="PackedScene" uid="uid://klx22fgwq5g4" path="res://src/Scenes/Objects/Saloon Objects/low_poly_shelf.tscn" id="6_ogpe6"]

@@ -107,6 +107,7 @@ var _input_state_text: String = ""
 
 var _enabled_targetting : bool = false
 #var _move_controller = null
+var _is_spectator: bool = false
 
 # --------------------------------------- SELF NODES ------------------------------------------- #
 
@@ -384,6 +385,43 @@ func _update_invincible_flash(dt: float) -> void:
 		sprite.show()
 
 
+
+func _check_for_death():
+	if(self.health <= 0 and not _is_spectator):
+		self.lives -=1
+		_try_respawn()
+		
+
+func _try_respawn():
+	if(self.lives > 0):
+		_respawn()
+	elif not _is_spectator:
+		_change_to_spectator()
+
+func _respawn():
+	self.health = self.max_health
+	emit_signal("health_changed", self.health, self._old_health)
+	self._old_health = self.health
+	self.transform.origin = self.get_meta("spawn_point").transform.origin
+	perform_invincible_frame_flashing(1)
+
+func _change_to_spectator():
+	#next line not needed, just here for presenting
+	self._show_debug_info = false
+	self.player_nametag.visible = false
+	self.transform.origin = self.get_meta("spawn_point").transform.origin
+	self.set_collision_layer_value(4, true)
+	self.set_collision_layer_value(2, false)
+	self.set_collision_mask_value(2, false)
+	self.set_collision_mask_value(3, false)
+	self.set_collision_mask_value(5, false)
+	self._is_spectator = true
+	self.position.y += 15
+	self.sprite.set_layer_mask_value(2, true)
+	self.sprite.set_layer_mask_value(1, false)
+	pass
+
+
 # -- alex function that updates the stamina bar values and rendering
 func _update_block_recharge_delay(delta):
 	if not self.blocking:
@@ -559,7 +597,7 @@ func _network_process(input: Dictionary) -> void:
 	self._update_floor_indicator()
 	self._update_z_target()
 	self._update_debug_text()
-	#self._update_health_change()
+	self._update_health_change()
 	
 	# update display name (in case it gets changed mid playtime)
 	self.player_nametag.text = self.display_name

@@ -31,6 +31,12 @@ var map_votes = {}
 
 # -------------------------------------- PRIVATE METHODS ----------------------------------------- #
 
+@rpc("any_peer", "call_local", "reliable")
+func map_vote(map_choice):
+	map_votes[multiplayer.get_remote_sender_id()] = map_choice
+	print(map_votes)
+	pass
+
 
 func _get_current_map():
 	if map_container.get_child_count() > 0:
@@ -145,6 +151,8 @@ func play_map():
 func pick_map():
 	var maps = map_votes.values()
 	var peers_count = len(multiplayer.get_peers()) + 1
+	print(len(maps))
+	print(peers_count)
 	if len(maps) != peers_count:
 		peers_count -= len(maps)
 		for i in range(peers_count):
