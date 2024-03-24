@@ -38,6 +38,7 @@ const MOVE_MAP_NAMES = [
 	# velocity : Vector3
 
 # base character settings
+@export var lives: int = 2
 @export var display_name: String = "TestCharacter"
 @export var health: float = 100
 @export var max_health: float = 100
@@ -135,6 +136,7 @@ var _is_spectator: bool = false
 
 @onready var main_scene = get_tree().root.get_node("main_scene")
 @onready var players = main_scene.get_node("Players")
+@onready var spectatorActions: Node = main_scene.get_node("Map").get_children()[0].get_node("SpectatorActions")
 
 ## ------------------------------------------- SIGNALS --------------------------------------------- #
 
@@ -407,7 +409,7 @@ func _respawn():
 
 func _change_to_spectator():
 	#next line not needed, just here for presenting
-	self._show_debug_info = false
+	#self._show_debug_info = false
 	self.player_nametag.visible = false
 	self.transform.origin = self.get_meta("spawn_point").transform.origin
 	self.set_collision_layer_value(4, true)
@@ -505,6 +507,10 @@ func _update_custom_physics(input : Dictionary, delta : float) -> void:
 		var angle_radians = acos(dot_product)
 		var angle_degrees = angle_radians * 180.0 / PI
 		
+#		print()
+#		print(angle_degrees)
+#		print(self.floor_max_angle + FLOOR_ANGLE_THRESHOLD)
+#		print()
 		# if we're on a slope, check to ensure the slope is shallow enough to be considered a floor. else, it's a wall and we're not grounded
 		if (angle_degrees <= self.floor_max_angle + FLOOR_ANGLE_THRESHOLD):
 			self._on_floor = true
@@ -516,18 +522,21 @@ func _update_custom_physics(input : Dictionary, delta : float) -> void:
 		self._on_floor = false
 	
 	#---- apply gravity and jump forces
-	if not self._on_floor:
-		self.velocity.y -= gravity * delta
+	if not _is_spectator:
+		if not self._on_floor:
+			self.velocity.y -= gravity * delta
+		else:
+			var pressed_jump = input.get("pressed_jump", false)
+			if pressed_jump:
+				self.velocity.y += jump_power
+		
+		#---- apply rolling forces
+		var pressed_roll = input.get("roll", false)
+		if pressed_roll:
+			#TODO: Implement
+			print("I ROLLED!")
 	else:
-		var pressed_jump = input.get("pressed_jump", false)
-		if pressed_jump:
-			self.velocity.y += jump_power
-	
-	#---- apply rolling forces
-	var pressed_roll = input.get("roll", false)
-	if pressed_roll:
-		#TODO: Implement
-		print("I ROLLED!")
+		self.velocity.y = 0
 	
 	# TODO: This is messing up the _on_floor detection, so it's commented out
 	#if self._has_collision:
@@ -538,11 +547,15 @@ func _update_custom_physics(input : Dictionary, delta : float) -> void:
 
 
 func _update_moves(input: Dictionary) -> void:
-	
+	if input.get("normal_close", false) && health > 0:
+		health = 0
+		pass
 	# update the debug text with the move input being put
 	self._input_state_text = ""
 	for move_name in INPUT_MOVE_NAMES:
 		self._input_state_text += "\n" + move_name + ": " + str(input.get(move_name, false))
+	if _is_spectator:
+		spectatorActions.parse_action(input, self)
 
 
 # this is essentially the "_process" method for this node, but with network sychronization
@@ -557,7 +570,7 @@ func _network_process(input: Dictionary) -> void:
 #		pause_menu_layer.toggle()
 #	if pause_menu_layer.is_open():
 #		return
-
+	#print(main_scene.get_node("Map").get_children()[0].get_node("SpectatorActions"))
 	#-- get our blocking input and determine if we can be in the blocking state
 	var is_holding_block_input : bool = input.get("holding_block", false)
 	self._update_block(is_holding_block_input)
@@ -597,7 +610,11 @@ func _network_process(input: Dictionary) -> void:
 	self._update_floor_indicator()
 	self._update_z_target()
 	self._update_debug_text()
+	#self._update_health_change()
+	self._check_for_death()
 	self._update_health_change()
+	self._update_invincible_flash(delta)
+	#_update_recharge_delay(delta)
 	
 	# update display name (in case it gets changed mid playtime)
 	self.player_nametag.text = self.display_name
@@ -623,7 +640,9 @@ func _save_state() -> Dictionary:
 		#
 		#sprite_flipped = self.sprite_flipped,
 		
-		#health = self.health,
+		health = self.health,
+		lives = self.lives,
+		is_spectator = self._is_spectator,
 		#targetting = self.targetting,
 		#blocking = self.blocking,
 		#knockback = self.knockback,
@@ -646,7 +665,9 @@ func _load_state(state: Dictionary) -> void:
 	
 	#self.sprite_flipped = state["sprite_flipped"]
 	
-	#self.health = state["health"]
+	self.health = state["health"]
+	self.lives = state["lives"]
+	self._is_spectator = state["is_spectator"]
 	#self.targetting = state["targetting"]
 	#self.blocking = state["blocking"]
 	#self.knockback = state["knockback"]

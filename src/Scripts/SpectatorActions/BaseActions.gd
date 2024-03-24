@@ -13,16 +13,16 @@ func _process(delta):
 	pass
 
 func parse_action(event, player_data):
-	if event.is_action_pressed("normal_close"):
+	if event.has("normal_close"):
 		action1(player_data)
 		pass
-	elif event.is_action_pressed("normal_far"):
+	elif event.has("normal_far"):
 		action2(player_data)
 		pass
-	elif event.is_action_pressed("special_close"):
+	elif event.has("special_close"):
 		action3(player_data)
 		pass
-	elif event.is_action_pressed("special_far"):
+	elif event.has("special_far"):
 		action4(player_data)
 		pass
 	pass

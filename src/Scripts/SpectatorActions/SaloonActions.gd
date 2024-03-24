@@ -1,6 +1,8 @@
 extends SpectatorActions
 
 @onready var load_piano = load("res://src/Scenes/Objects/Saloon Objects/low_poly_piano.tscn")
+var piano_timer = 10
+
 func action1(player_data):
 	var piano = load_piano.instantiate()
 #following two lines need to be replaced by a different calculation
@@ -18,3 +20,5 @@ func action3(player_data):
 	
 func action4(player_data):
 	pass
+	
+
