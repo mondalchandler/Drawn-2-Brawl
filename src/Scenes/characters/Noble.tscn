@@ -45,10 +45,10 @@
 [ext_resource type="Script" path="res://src/Scripts/Classes/BaseHitbox.gd" id="37_wuove"]
 [ext_resource type="Script" path="res://src/Scripts/ChargeableMove.gd" id="39_6y1ms"]
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_vh6nm"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_i8cr5"]
 viewport_path = NodePath("SubViewport")
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_m46s8"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_t3qgx"]
 viewport_path = NodePath("BillboardViewport")
 
 [sub_resource type="Animation" id="Animation_gcqbo"]
@@ -1270,7 +1270,7 @@ properties/0/spawn = true
 properties/0/sync = true
 properties/0/watch = false
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_usk6i"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_fpw5c"]
 viewport_path = NodePath("BillboardViewport")
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sn8c4"]
@@ -1301,17 +1301,16 @@ air_nc = NodePath("Moves/Excelsior")
 air_nf = NodePath("Moves/Lance Uppercut")
 air_sc = NodePath("Moves/Drill")
 air_sf = NodePath("Moves/Flail")
-debug_on = true
 
 [node name="StanimaBar3D" parent="." instance=ExtResource("2_5ljgc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.16405, 0)
 visible = false
-texture = SubResource("ViewportTexture_vh6nm")
+texture = SubResource("ViewportTexture_i8cr5")
 
 [node name="DebugInfo" parent="." instance=ExtResource("2_45ys8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.21122, 2.46423)
 pixel_size = 0.015
-texture = SubResource("ViewportTexture_m46s8")
+texture = SubResource("ViewportTexture_t3qgx")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 speed_scale = 2.0
@@ -1377,7 +1376,7 @@ target_position = Vector3(0, -30, 0)
 [node name="PlayerNametag" parent="." instance=ExtResource("2_45ys8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.859205, 0)
 pixel_size = 0.02
-texture = SubResource("ViewportTexture_usk6i")
+texture = SubResource("ViewportTexture_fpw5c")
 
 [node name="TargetArrow" type="Sprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.41769, 0)

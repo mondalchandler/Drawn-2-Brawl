@@ -17,6 +17,9 @@ const TARGET_ARROW_DEFAULT_SIZE: float = 0.0002
 
 # ---------------- PROPERTIES ---------------- #
 
+# determines if hitboxes should show or not
+@export var debug_on: bool
+
 # note: you can use self to refer to the character
 @export var lives: int = 2
 @export var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity") + 15
@@ -61,9 +64,6 @@ var attacking: bool = false
 @export var air_nf: Move = null
 @export var air_sc: Move = null
 @export var air_sf: Move = null
-
-# determines if hitboxes should show or not
-@export var debug_on: bool
 
 # Enums
 enum PlayerState { IDLE, RUNNING, JUMPING, FALLING, KNOCKBACK, BLOCKING, ROLLING }
