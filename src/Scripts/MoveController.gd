@@ -13,6 +13,7 @@ var hb_flipped = false
 
 var move_placeholder = null
 var move_input
+var timer : Timer
 
 # ---------------- FUNCTIONS ---------------- #
 
@@ -32,6 +33,7 @@ func attack(move):
 				var PROJECTILE: PackedScene = load(move.projectile_path)
 				if PROJECTILE:
 					var projectile = PROJECTILE.instantiate()
+					# must add the projectile to the map so that it doesn't move w/ character
 					self.owner_char.get_parent().get_parent().add_child(projectile)
 					projectile.global_position = self.owner_char.global_position
 					projectile.owner_char = self.owner_char
@@ -89,13 +91,18 @@ func move_start(move):
 	play_animation()
 	if move.is_chargable:
 		move_placeholder = move
-		owner_char.anim_tree.set("parameters/" + self.move_input + "/TimeScale/scale", 0)
+		timer = Timer.new()
+		timer.one_shot = true
+		self.add_child(timer)
+		timer.start(0)
 	else:
 		attack(move)
 
 
 func move_end():
+	timer = null
 	if move_placeholder and move_placeholder.is_chargable:
+		owner_char.anim_tree.set("parameters/" + self.move_input + "/TimeSeek/seek_request", 1.8)
 		owner_char.anim_tree.set("parameters/" + self.move_input + "/TimeScale/scale", 1)
 		attack(move_placeholder)
 	pass
@@ -144,6 +151,11 @@ func action(event):
 
 
 func _process(delta):
+	if timer:
+		if (!timer.time_left > 0):
+			owner_char.anim_tree.set("parameters/" + self.move_input + "/TimeScale/scale", 0)
+		else:
+			print(timer.time_left)
 	flip_hurtbox()
 	if move_placeholder:
 		move_placeholder.move_charge_effect(delta)

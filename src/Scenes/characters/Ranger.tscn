@@ -38,10 +38,10 @@
 [ext_resource type="Script" path="res://src/Scripts/ChargeableMove.gd" id="35_ri2wt"]
 [ext_resource type="Texture2D" uid="uid://d0bdww1ps6v0c" path="res://resources/Images/twinkle.png" id="38_c43ee"]
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_escid"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_3qiti"]
 viewport_path = NodePath("SubViewport")
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_sexe2"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_grwng"]
 viewport_path = NodePath("BillboardViewport")
 
 [sub_resource type="Animation" id="Animation_gcqbo"]
@@ -1131,7 +1131,7 @@ properties/0/spawn = true
 properties/0/sync = true
 properties/0/watch = false
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_fmy30"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_5db31"]
 viewport_path = NodePath("BillboardViewport")
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sn8c4"]
@@ -1162,16 +1162,17 @@ air_nc = NodePath("Moves/Air Swing")
 air_nf = NodePath("Moves/Throwing Knife")
 air_sc = NodePath("Moves/Shotgun Explosion")
 air_sf = NodePath("Moves/Wrangle \'Em")
+debug_on = true
 
 [node name="StanimaBar3D" parent="." instance=ExtResource("2_5dbax")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.16405, 0)
 visible = false
-texture = SubResource("ViewportTexture_escid")
+texture = SubResource("ViewportTexture_3qiti")
 
 [node name="DebugInfo" parent="." instance=ExtResource("2_qo63s")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.21122, 2.46423)
 pixel_size = 0.015
-texture = SubResource("ViewportTexture_sexe2")
+texture = SubResource("ViewportTexture_grwng")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 speed_scale = 2.0
@@ -1235,7 +1236,7 @@ target_position = Vector3(0, -30, 0)
 [node name="PlayerNametag" parent="." instance=ExtResource("2_qo63s")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.859205, 0)
 pixel_size = 0.02
-texture = SubResource("ViewportTexture_fmy30")
+texture = SubResource("ViewportTexture_5db31")
 
 [node name="TargetArrow" type="Sprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.41769, 0)
@@ -1270,7 +1271,6 @@ damage_range = [10, 10]
 kb_length = 0.1
 hitstun_length = 0.1
 knockback_strength = Vector3(4, 4, 4)
-debug_on = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Hurtbox/Pistol Whip Hitbox"]
 transform = Transform3D(1.2, 0, 0, 0, 0.8, 0, 0, 0, 1, 0.5, 0, 0.5)
@@ -1294,7 +1294,6 @@ damage_range = [10, 10]
 kb_length = 0.1
 hitstun_length = 0.1
 knockback_strength = Vector3(4, 20, 4)
-debug_on = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Hurtbox/Axe Uppercut Hitbox"]
 transform = Transform3D(1.2, 0, 0, 0, 0.8, 0, 0, 0, 1, 0.5, 0, 0.5)
@@ -1318,7 +1317,6 @@ damage_range = [10, 10]
 kb_length = 0.1
 hitstun_length = 0.1
 knockback_strength = Vector3(4, 20, 4)
-debug_on = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Hurtbox/Air Swing Hitbox"]
 transform = Transform3D(1.2, 0, 0, 0, 0.8, 0, 0, 0, 1, 0.5, 0, 0.5)
@@ -1342,7 +1340,6 @@ damage_range = [10, 10]
 kb_length = 0.1
 hitstun_length = 0.1
 knockback_strength = Vector3(4, -4, 4)
-debug_on = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Hurtbox/Shotgun Explosion Hitbox"]
 transform = Transform3D(1.2, 0, 0, 0, 0.8, 0, 0, 0, 1, 0.487775, -0.405328, 0.556901)

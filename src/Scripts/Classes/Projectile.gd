@@ -96,7 +96,7 @@ func _process(delta):
 		self.global_position += self.speed * self.direction * delta
 		self.hit_chars = {}
 		self.monitoring = true
-		if self.debug_on == true and self.mesh_instance != null:
+		if owner_char.debug_on == true and self.mesh_instance != null:
 			self.mesh_instance.visible = true
 	else:
 		display_target()

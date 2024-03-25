@@ -1,4 +1,4 @@
-[gd_scene load_steps=126 format=3 uid="uid://b48tkwix4jri4"]
+[gd_scene load_steps=128 format=3 uid="uid://b48tkwix4jri4"]
 
 [ext_resource type="Script" path="res://src/Scripts/Classes/CharacterController.gd" id="1_tmjry"]
 [ext_resource type="PackedScene" uid="uid://dasqrf4pd4bpe" path="res://src/Scenes/Stamina/StanimaBar3D.tscn" id="2_5ljgc"]
@@ -45,10 +45,10 @@
 [ext_resource type="Script" path="res://src/Scripts/Classes/BaseHitbox.gd" id="37_wuove"]
 [ext_resource type="Script" path="res://src/Scripts/ChargeableMove.gd" id="39_6y1ms"]
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_m2erv"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_y3tex"]
 viewport_path = NodePath("SubViewport")
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_2xibc"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_apmv3"]
 viewport_path = NodePath("BillboardViewport")
 
 [sub_resource type="Animation" id="Animation_gcqbo"]
@@ -116,7 +116,7 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("Hurtbox/Slice of Air Hitbox:active")
+tracks/5/path = NodePath("Hurtbox/Excelsior Hitbox:active")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -252,7 +252,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("Hurtbox/Slice of Air Hitbox:active")
+tracks/3/path = NodePath("Hurtbox/Excelsior Hitbox:active")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -1104,12 +1104,18 @@ animation = &"ground_nc"
 
 [sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_d5up6"]
 
+[sub_resource type="AnimationNodeTimeSeek" id="AnimationNodeTimeSeek_eovl8"]
+
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_nrwg4"]
+graph_offset = Vector2(-423.976, -185)
 nodes/Animation/node = SubResource("AnimationNodeAnimation_tdjvr")
 nodes/Animation/position = Vector2(0, 140)
 nodes/TimeScale/node = SubResource("AnimationNodeTimeScale_d5up6")
 nodes/TimeScale/position = Vector2(160, 120)
-node_connections = [&"output", 0, &"TimeScale", &"TimeScale", 0, &"Animation"]
+nodes/TimeSeek/node = SubResource("AnimationNodeTimeSeek_eovl8")
+nodes/TimeSeek/position = Vector2(360, 140)
+nodes/output/position = Vector2(560, 160)
+node_connections = [&"output", 0, &"TimeSeek", &"TimeScale", 0, &"Animation", &"TimeSeek", 0, &"TimeScale"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_niwvd"]
 animation = &"ground_nf"
@@ -1140,12 +1146,18 @@ animation = &"ground_sf"
 
 [sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_aa04f"]
 
+[sub_resource type="AnimationNodeTimeSeek" id="AnimationNodeTimeSeek_o8gdm"]
+
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_y7cuu"]
+graph_offset = Vector2(-91.4628, -2.94215)
 nodes/Animation/node = SubResource("AnimationNodeAnimation_avha0")
 nodes/Animation/position = Vector2(0, 100)
 nodes/TimeScale/node = SubResource("AnimationNodeTimeScale_aa04f")
-nodes/TimeScale/position = Vector2(140, 100)
-node_connections = [&"output", 0, &"TimeScale", &"TimeScale", 0, &"Animation"]
+nodes/TimeScale/position = Vector2(180, 100)
+nodes/TimeSeek/node = SubResource("AnimationNodeTimeSeek_o8gdm")
+nodes/TimeSeek/position = Vector2(360, 120)
+nodes/output/position = Vector2(560, 140)
+node_connections = [&"output", 0, &"TimeSeek", &"TimeScale", 0, &"Animation", &"TimeSeek", 0, &"TimeScale"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_b6h1n"]
 animation = &"idle"
@@ -1258,7 +1270,7 @@ properties/0/spawn = true
 properties/0/sync = true
 properties/0/watch = false
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_srg25"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_0jux0"]
 viewport_path = NodePath("BillboardViewport")
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sn8c4"]
@@ -1285,20 +1297,21 @@ ground_nc = NodePath("Moves/Lance Jab")
 ground_nf = NodePath("Moves/Reach Sweep")
 ground_sc = NodePath("Moves/Shoulder Check")
 ground_sf = NodePath("Moves/Charge")
-air_nc = NodePath("Moves/Slice of Air")
+air_nc = NodePath("Moves/Excelsior")
 air_nf = NodePath("Moves/Lance Uppercut")
 air_sc = NodePath("Moves/Drill")
 air_sf = NodePath("Moves/Flail")
+debug_on = true
 
 [node name="StanimaBar3D" parent="." instance=ExtResource("2_5ljgc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.16405, 0)
 visible = false
-texture = SubResource("ViewportTexture_m2erv")
+texture = SubResource("ViewportTexture_y3tex")
 
 [node name="DebugInfo" parent="." instance=ExtResource("2_45ys8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.21122, 2.46423)
 pixel_size = 0.015
-texture = SubResource("ViewportTexture_2xibc")
+texture = SubResource("ViewportTexture_apmv3")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 speed_scale = 2.0
@@ -1316,9 +1329,11 @@ parameters/air_nf/TimeScale/scale = 1.0
 parameters/air_sc/TimeScale/scale = 1.0
 parameters/air_sf/TimeScale/scale = 1.0
 parameters/ground_nc/TimeScale/scale = 1.0
+parameters/ground_nc/TimeSeek/seek_request = -1.0
 parameters/ground_nf/TimeScale/scale = 1.0
 parameters/ground_sc/TimeScale/scale = 1.0
 parameters/ground_sf/TimeScale/scale = 1.0
+parameters/ground_sf/TimeSeek/seek_request = -1.0
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 root_path = NodePath("../..")
@@ -1362,7 +1377,7 @@ target_position = Vector3(0, -30, 0)
 [node name="PlayerNametag" parent="." instance=ExtResource("2_45ys8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.859205, 0)
 pixel_size = 0.02
-texture = SubResource("ViewportTexture_srg25")
+texture = SubResource("ViewportTexture_0jux0")
 
 [node name="TargetArrow" type="Sprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.41769, 0)
@@ -1397,7 +1412,6 @@ damage_range = [10, 10]
 kb_length = 0.1
 hitstun_length = 0.1
 knockback_strength = Vector3(4, 4, 4)
-debug_on = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Hurtbox/Lance Jab Hitbox"]
 transform = Transform3D(0, 0, -0.420854, 0, 0.543715, 0, 0.505025, 0, 0, -0.0414439, 0, 1.15632)
@@ -1421,7 +1435,6 @@ damage_range = [10, 10]
 kb_length = 0.1
 hitstun_length = 0.1
 knockback_strength = Vector3(15, 4, 15)
-debug_on = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Hurtbox/Sweep and Reach Hitbox"]
 transform = Transform3D(1.2, 0, 0, 0, 0.8, 0, 0, 0, 1, 0.00282422, 0, 1.09661)
@@ -1445,7 +1458,6 @@ damage_range = [10, 10]
 kb_length = 0.1
 hitstun_length = 0.1
 knockback_strength = Vector3(5, 7, 5)
-debug_on = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Hurtbox/Shoulder Check Hitbox"]
 transform = Transform3D(1.2, 0, 0, 0, 0.8, 0, 0, 0, 1, 0.00670892, 0, 0.826272)
@@ -1469,7 +1481,6 @@ damage_range = [10, 10]
 kb_length = 0.1
 hitstun_length = 0.1
 knockback_strength = Vector3(4, 20, 4)
-debug_on = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Hurtbox/Charge Hitbox"]
 transform = Transform3D(1.2, 0, 0, 0, 0.8, 0, 0, 0, 1, 0.5, 0, 0.5)
@@ -1480,7 +1491,7 @@ mesh = SubResource("BoxMesh_h4meb")
 transform = Transform3D(1.2, 0, 0, 0, 0.8, 0, 0, 0, 1, 0.5, 0, 0.5)
 shape = SubResource("BoxShape3D_4w4a0")
 
-[node name="Slice of Air Hitbox" type="Area3D" parent="Hurtbox" node_paths=PackedStringArray("mesh_instance", "collision_shape", "owner_char")]
+[node name="Excelsior Hitbox" type="Area3D" parent="Hurtbox" node_paths=PackedStringArray("mesh_instance", "collision_shape", "owner_char")]
 transform = Transform3D(0.848528, 0, 0.707107, 0, 0.8, 0, -0.848528, 0, 0.707107, 0, 0, 0)
 collision_layer = 4
 collision_mask = 18
@@ -1493,14 +1504,13 @@ damage_range = [10, 10]
 kb_length = 0.1
 hitstun_length = 0.1
 knockback_strength = Vector3(4, 20, 4)
-debug_on = true
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Hurtbox/Slice of Air Hitbox"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Hurtbox/Excelsior Hitbox"]
 transform = Transform3D(1.2, 0, 0, 0, 1.50953, 0, 0, 0, 1, 0.00670895, -0.176018, 0.621187)
 visible = false
 mesh = SubResource("BoxMesh_c3crr")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox/Slice of Air Hitbox"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox/Excelsior Hitbox"]
 transform = Transform3D(1.2, 0, 0, 0, 1.50953, 0, 0, 0, 1, 0.00670895, -0.176018, 0.621187)
 shape = SubResource("BoxShape3D_4w4a0")
 
@@ -1517,7 +1527,6 @@ damage_range = [10, 10]
 kb_length = 0.1
 hitstun_length = 0.1
 knockback_strength = Vector3(4, -4, 4)
-debug_on = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Hurtbox/Drill Hitbox"]
 transform = Transform3D(1.2, 0, 0, 0, 0.8, 0, 0, 0, 1, 0.487775, 0.511339, 0.556901)
@@ -1579,20 +1588,21 @@ hitbox = NodePath("../../Hurtbox/Shoulder Check Hitbox")
 is_chargable = true
 
 [node name="Charge" type="Node" parent="Moves" node_paths=PackedStringArray("hitbox")]
-script = ExtResource("37_bksw1")
+script = ExtResource("39_6y1ms")
 move_input = "ground_sf"
 move_type = "MELEE"
 move_name = "Charge"
-move_data = [3, [0.1, 0.2, 0.2]]
+move_data = [0, [1.5]]
 hitbox = NodePath("../../Hurtbox/Charge Hitbox")
 projectile_path = "res://src/Scenes/Characters/Projectiles/Bullet.tscn"
+is_chargable = true
 
-[node name="Slice of Air" type="Node" parent="Moves" node_paths=PackedStringArray("hitbox")]
+[node name="Excelsior" type="Node" parent="Moves" node_paths=PackedStringArray("hitbox")]
 script = ExtResource("37_bksw1")
 move_input = "air_nc"
 move_type = "MELEE"
-move_name = "Slice of Air"
-hitbox = NodePath("../../Hurtbox/Slice of Air Hitbox")
+move_name = "Excelsior"
+hitbox = NodePath("../../Hurtbox/Excelsior Hitbox")
 
 [node name="Lance Uppercut" type="Node" parent="Moves"]
 script = ExtResource("37_bksw1")
@@ -1614,3 +1624,6 @@ script = ExtResource("37_bksw1")
 move_input = "air_sf"
 move_type = "GRAPPLE"
 move_name = "Wrangle 'Em"
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 1.8

@@ -39,11 +39,7 @@ var hit_chars: Dictionary
 @export var hitstun_length: float
 @export var knockback_strength: Vector3
 
-# determines if hitboxes should show or not
-@export var debug_on: bool
-
 # ------------------- METHODS --------------------- #
-
 
 # overrideable virtual method.
 func _before_hit_computation() -> void:
@@ -161,7 +157,7 @@ func _process(delta) -> void:
 	if self.active:
 		self.hit_chars = {}
 		self.monitoring = true
-		if self.debug_on == true and self.mesh_instance != null:
+		if owner_char.debug_on == true and self.mesh_instance != null:
 			self.mesh_instance.visible = true
 	else:
 		self.monitoring = false
@@ -175,7 +171,6 @@ func _init(	owner_char = null,
 			damage_range = [5, 5],
 			kb_length = 0.0, hitstun_length = 0.5,
 			knockback_strength = Vector3.ZERO,
-			debug_on = false,
 			collision_shape = CollisionShape3D.new(),
 			mesh_instance = MeshInstance3D.new(),
 			active = false,
@@ -192,5 +187,3 @@ func _init(	owner_char = null,
 	self.hit_chars = {}
 	self.name = "Hitbox"
 	self.monitoring = false
-	
-	self.debug_on = debug_on

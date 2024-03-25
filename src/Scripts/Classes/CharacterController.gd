@@ -62,6 +62,9 @@ var attacking: bool = false
 @export var air_sc: Move = null
 @export var air_sf: Move = null
 
+# determines if hitboxes should show or not
+@export var debug_on: bool
+
 # Enums
 enum PlayerState { IDLE, RUNNING, JUMPING, FALLING, KNOCKBACK, BLOCKING, ROLLING }
 
