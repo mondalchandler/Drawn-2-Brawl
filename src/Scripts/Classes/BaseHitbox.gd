@@ -21,8 +21,8 @@ extends Area3D
 @export var active: bool
 
 # nodes used for the hitbox
-@export var collision_shape: CollisionShape3D
 @export var mesh_instance: MeshInstance3D	# for hitbox visuals
+@export var collision_shape: CollisionShape3D
 
 # the original character object, creator of the hitbox. can be null
 @export var owner_char : CharacterController

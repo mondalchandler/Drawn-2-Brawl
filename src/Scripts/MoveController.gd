@@ -17,7 +17,6 @@ var move_input
 # ---------------- FUNCTIONS ---------------- #
 
 func attack(move):
-	flip_hurtbox()
 	match move.move_type:
 		"MELEE":
 			pass
@@ -145,6 +144,7 @@ func action(event):
 
 
 func _process(delta):
+	flip_hurtbox()
 	if move_placeholder:
 		move_placeholder.move_charge_effect(delta)
 	pass
