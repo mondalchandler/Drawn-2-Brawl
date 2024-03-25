@@ -91,10 +91,20 @@ func move_start(move):
 	play_animation()
 	if move.is_chargable:
 		move_placeholder = move
+		move_placeholder.move_ended = false
 		timer = Timer.new()
 		timer.one_shot = true
 		self.add_child(timer)
-		timer.start(0)
+		# if there is custom stopping point in animation for charge move
+		# we use move_data[1] to store timestamps, similarly to emitting projectiles
+		# move_data[0] does not matter atm bc we are not iterating through multiple animations
+		if move_placeholder.move_data.size() > 0:
+			# this should be just short of when the move is active (e.g. if hbx becomes active at 1.8s, have this value be 1.79s)
+			# prevents move from instantly activating once charge is complete
+			timer.start(move_placeholder.move_data[1][0]-0.01)
+		else:
+			# needs to be larger than 0 so that we can properly freeze-frame
+			timer.start(0.01)
 	else:
 		attack(move)
 
@@ -102,7 +112,10 @@ func move_start(move):
 func move_end():
 	timer = null
 	if move_placeholder and move_placeholder.is_chargable:
-		owner_char.anim_tree.set("parameters/" + self.move_input + "/TimeSeek/seek_request", 1.8)
+		move_placeholder.move_ended = true
+		# skip to active frame of move if released
+		if move_placeholder.move_data.size() > 0:
+			owner_char.anim_tree.set("parameters/" + self.move_input + "/TimeSeek/seek_request", move_placeholder.move_data[1][0])
 		owner_char.anim_tree.set("parameters/" + self.move_input + "/TimeScale/scale", 1)
 		attack(move_placeholder)
 	pass
@@ -152,10 +165,8 @@ func action(event):
 
 func _process(delta):
 	if timer:
-		if (!timer.time_left > 0):
+		if (timer.time_left == 0):
 			owner_char.anim_tree.set("parameters/" + self.move_input + "/TimeScale/scale", 0)
-		else:
-			print(timer.time_left)
 	flip_hurtbox()
 	if move_placeholder:
 		move_placeholder.move_charge_effect(delta)

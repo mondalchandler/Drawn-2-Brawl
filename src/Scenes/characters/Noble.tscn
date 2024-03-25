@@ -45,10 +45,10 @@
 [ext_resource type="Script" path="res://src/Scripts/Classes/BaseHitbox.gd" id="37_wuove"]
 [ext_resource type="Script" path="res://src/Scripts/ChargeableMove.gd" id="39_6y1ms"]
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_y3tex"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_vh6nm"]
 viewport_path = NodePath("SubViewport")
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_apmv3"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_m46s8"]
 viewport_path = NodePath("BillboardViewport")
 
 [sub_resource type="Animation" id="Animation_gcqbo"]
@@ -1270,7 +1270,7 @@ properties/0/spawn = true
 properties/0/sync = true
 properties/0/watch = false
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_0jux0"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_usk6i"]
 viewport_path = NodePath("BillboardViewport")
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sn8c4"]
@@ -1306,12 +1306,12 @@ debug_on = true
 [node name="StanimaBar3D" parent="." instance=ExtResource("2_5ljgc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.16405, 0)
 visible = false
-texture = SubResource("ViewportTexture_y3tex")
+texture = SubResource("ViewportTexture_vh6nm")
 
 [node name="DebugInfo" parent="." instance=ExtResource("2_45ys8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.21122, 2.46423)
 pixel_size = 0.015
-texture = SubResource("ViewportTexture_apmv3")
+texture = SubResource("ViewportTexture_m46s8")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 speed_scale = 2.0
@@ -1377,7 +1377,7 @@ target_position = Vector3(0, -30, 0)
 [node name="PlayerNametag" parent="." instance=ExtResource("2_45ys8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.859205, 0)
 pixel_size = 0.02
-texture = SubResource("ViewportTexture_0jux0")
+texture = SubResource("ViewportTexture_usk6i")
 
 [node name="TargetArrow" type="Sprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.41769, 0)
@@ -1592,7 +1592,7 @@ script = ExtResource("39_6y1ms")
 move_input = "ground_sf"
 move_type = "MELEE"
 move_name = "Charge"
-move_data = [0, [1.5]]
+move_data = [0, [1.8]]
 hitbox = NodePath("../../Hurtbox/Charge Hitbox")
 projectile_path = "res://src/Scenes/Characters/Projectiles/Bullet.tscn"
 is_chargable = true
@@ -1608,7 +1608,7 @@ hitbox = NodePath("../../Hurtbox/Excelsior Hitbox")
 script = ExtResource("37_bksw1")
 move_input = "air_nf"
 move_type = "PROJECTILE"
-move_name = "Throwing Knife"
+move_name = "Lance Uppercut"
 move_data = [1, [0.2]]
 projectile_path = "res://src/Scenes/Characters/Projectiles/Knife.tscn"
 

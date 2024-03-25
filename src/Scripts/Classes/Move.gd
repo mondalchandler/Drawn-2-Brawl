@@ -29,6 +29,8 @@ extends Node
 @export var projectile_path: String
 @export var is_chargable: bool = false
 
+var move_ended = false
+
 
 func move_charge_effect(delta):
 	pass
