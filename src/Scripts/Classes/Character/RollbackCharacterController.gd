@@ -131,6 +131,7 @@ var _is_spectator: bool = false
 @onready var target_arrow: Sprite3D = $TargetArrow
 
 @onready var stamina_bar = $StaminaBar3D
+@onready var spectator_action_cooldowns: Node = $SpectatorCooldowns
 
 # --------------------------------------- GLOBAL NODES ------------------------------------------- #
 
@@ -555,15 +556,30 @@ func _update_moves(input: Dictionary) -> void:
 	for move_name in INPUT_MOVE_NAMES:
 		self._input_state_text += "\n" + move_name + ": " + str(input.get(move_name, false))
 	if _is_spectator:
-#		if input.get("normal_close", false):
-#			pass
-#		if input.get("normal_far", false):
-#			pass
-#		if input.get("special_close", false):
-#			pass
-#		if input.get("special_far", false):
-#			pass
-		spectatorActions.parse_action(input, self)
+		if input.get("normal_close", false) and spectator_action_cooldowns.get_children()[0].is_stopped():
+			spectator_action_cooldowns.get_children()[0].start(spectatorActions.action1_cooldown)#need to add cooldowns to spectatoractions
+#			var action1_data = {"positionX" = self.position.x, "positionZ" = self.position.z}
+			spectatorActions.action1(self._save_state())
+			pass
+		if input.get("normal_far", false) and spectator_action_cooldowns.get_children()[1].is_stopped():
+			spectator_action_cooldowns.get_children()[1].start(spectatorActions.action1_cooldown)#need to add cooldowns to spectatoractions
+			var action1_data = {"positionX" = self.position.x, "positionZ" = self.position.z}
+			spectatorActions.action1(self._save_state())
+			pass
+		if input.get("special_close", false) and spectator_action_cooldowns.get_children()[2].is_stopped():
+			spectator_action_cooldowns.get_children()[2].start(spectatorActions.action1_cooldown)#need to add cooldowns to spectatoractions
+			var action1_data = {"positionX" = self.position.x, "positionZ" = self.position.z}
+			spectatorActions.action1(self._save_state())
+			pass
+		if input.get("special_far", false) and spectator_action_cooldowns.get_children()[3].is_stopped():
+			spectator_action_cooldowns.get_children()[3].start(spectatorActions.action1_cooldown)#need to add cooldowns to spectatoractions
+			var action1_data = {"positionX" = self.position.x, "positionZ" = self.position.z}
+			spectatorActions.action1(self._save_state())
+			pass
+		#spectatorActions.parse_action(input, self)
+
+func _set_spectator_action_cooldown(action: int, time: int):
+	pass
 
 
 # this is essentially the "_process" method for this node, but with network sychronization
