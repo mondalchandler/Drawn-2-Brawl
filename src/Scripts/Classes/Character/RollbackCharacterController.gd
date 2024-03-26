@@ -30,11 +30,6 @@ const INPUT_MOVE_NAMES = [
 	"special_close", "special_far"
 ]
 
-const MOVE_MAP_NAMES = [
-	"ground_nc", "ground_nf", "ground_sc", "ground_sf", 
-	"air_nc", "air_nf", "air_sc", "air_sf"
-]
-
 # --------------------------------------- PROPERTIES ------------------------------------------- #
 
 # inherited properties from CharacterBody3D: 
@@ -86,16 +81,6 @@ var grab_target: Node3D = null
 
 var in_game : bool = false
 
-# variables used to track the moves currently loaded onto our character
-@export var ground_nc: Move = null
-@export var ground_nf: Move = null
-@export var ground_sc: Move = null
-@export var ground_sf: Move = null
-@export var air_nc: Move = null
-@export var air_nf: Move = null
-@export var air_sc: Move = null
-@export var air_sf: Move = null
-
 # --------------------------------------- PRIVATE PROPERTIES ------------------------------------------- #
 
 var _on_floor : bool = false
@@ -136,6 +121,8 @@ var _can_roll : bool = true
 @onready var perfect_block_timer = $Cooldowns/PerfectBlockTimer
 @onready var block_input_timer = $Cooldowns/BlockInputDebounce
 @onready var roll_input_timer = $Cooldowns/RollInputDebounce
+
+@onready var move_controller = $MoveController
 
 # --------------------------------------- GLOBAL NODES ------------------------------------------- #
 
@@ -517,11 +504,17 @@ func _update_custom_physics(input : Dictionary, delta : float) -> void:
 
 
 func _update_moves(input: Dictionary) -> void:
+	# iterate through the move names and update the move controller
+	for move_name in INPUT_MOVE_NAMES:
+		var holding_move_input = input.get(move_name, false)
+		move_controller.on_update(move_name, holding_move_input, self._on_floor)
 	
 	# update the debug text with the move input being put
 	self._input_state_text = ""
 	for move_name in INPUT_MOVE_NAMES:
 		self._input_state_text += "\n" + move_name + ": " + str(input.get(move_name, false))
+	
+	
 
 
 # this is essentially the "_process" method for this node, but with network sychronization
