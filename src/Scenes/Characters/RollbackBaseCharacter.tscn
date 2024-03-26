@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=3 uid="uid://cfwg16u4t5r01"]
+[gd_scene load_steps=39 format=3 uid="uid://cfwg16u4t5r01"]
 
 [ext_resource type="Script" path="res://src/Scripts/Classes/Character/RollbackCharacterController.gd" id="1_d8h7s"]
 [ext_resource type="PackedScene" uid="uid://cojs7ish64cv5" path="res://src/Scenes/UI/Billboard/billboard_sprite_3d.tscn" id="2_33ndn"]
@@ -14,8 +14,9 @@
 [ext_resource type="Texture2D" uid="uid://bx5ukutk4wum3" path="res://resources/Images/arrow_down.png" id="12_co1d8"]
 [ext_resource type="PackedScene" uid="uid://du1ce84fu4a65" path="res://src/Scenes/UI/Pause/pause_menu.tscn" id="13_besuu"]
 [ext_resource type="PackedScene" uid="uid://dasqrf4pd4bpe" path="res://src/Scenes/Stamina/StanimaBar3D.tscn" id="14_kl2fp"]
+[ext_resource type="Script" path="res://addons/godot-rollback-netcode/NetworkTimer.gd" id="15_od4bj"]
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_hujkc"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_yn17p"]
 viewport_path = NodePath("BillboardViewport")
 
 [sub_resource type="Animation" id="Animation_gcqbo"]
@@ -154,10 +155,10 @@ states/run/position = Vector2(651, 290.523)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_u83ke"), "idle", "run", SubResource("AnimationNodeStateMachineTransition_gvbk0"), "idle", "jump", SubResource("AnimationNodeStateMachineTransition_ysa4w"), "idle", "End", SubResource("AnimationNodeStateMachineTransition_hq702"), "jump", "idle", SubResource("AnimationNodeStateMachineTransition_0gub3"), "run", "idle", SubResource("AnimationNodeStateMachineTransition_lah6g"), "idle", "normal_close", SubResource("AnimationNodeStateMachineTransition_psxqy"), "normal_close", "idle", SubResource("AnimationNodeStateMachineTransition_qfppb")]
 graph_offset = Vector2(0, -73.4572)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_87klo"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_k0gip"]
 viewport_path = NodePath("BillboardViewport")
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_8hxap"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_tbupx"]
 viewport_path = NodePath("SubViewport")
 
 [node name="BaseCharacter" type="CharacterBody3D" groups=["network_sync"]]
@@ -169,7 +170,7 @@ script = ExtResource("1_d8h7s")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.21122, 2.46423)
 visible = false
 pixel_size = 0.015
-texture = SubResource("ViewportTexture_hujkc")
+texture = SubResource("ViewportTexture_yn17p")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 speed_scale = 2.0
@@ -220,7 +221,7 @@ process_callback = 2
 [node name="PlayerNametag" parent="." instance=ExtResource("2_33ndn")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.40802, 0)
 pixel_size = 0.02
-texture = SubResource("ViewportTexture_87klo")
+texture = SubResource("ViewportTexture_k0gip")
 
 [node name="TargetArrow" type="Sprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.41769, 0)
@@ -235,4 +236,22 @@ script = null
 
 [node name="StaminaBar3D" parent="." instance=ExtResource("14_kl2fp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.93205, 0)
-texture = SubResource("ViewportTexture_8hxap")
+texture = SubResource("ViewportTexture_tbupx")
+
+[node name="Cooldowns" type="Node" parent="."]
+
+[node name="BlockInputDebounce" type="Node" parent="Cooldowns"]
+script = ExtResource("15_od4bj")
+wait_ticks = 30
+
+[node name="PerfectBlockTimer" type="Node" parent="Cooldowns"]
+script = ExtResource("15_od4bj")
+wait_ticks = 15
+
+[node name="RollInputDebounce" type="Node" parent="Cooldowns"]
+script = ExtResource("15_od4bj")
+wait_ticks = 30
+
+[connection signal="timeout" from="Cooldowns/BlockInputDebounce" to="." method="_on_block_input_debounce_timeout"]
+[connection signal="timeout" from="Cooldowns/PerfectBlockTimer" to="." method="_on_perfect_block_timer_timeout"]
+[connection signal="timeout" from="Cooldowns/RollInputDebounce" to="." method="_on_roll_input_debounce_timeout"]

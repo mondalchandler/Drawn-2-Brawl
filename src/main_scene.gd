@@ -142,18 +142,19 @@ func play_map():
 		#using call_deferred allows existing map cleanup logic to be called before the scene cleans up
 		self._start_map.call_deferred(map_scene)
 
+
 func pick_map():
 	var maps = map_votes.values()
 	var peers_count = len(multiplayer.get_peers()) + 1
 	if len(maps) != peers_count:
 		peers_count -= len(maps)
 		for i in range(peers_count):
-			var randnumtemp = randi_range(0, get_node("MapSpawner").get_spawnable_scene_count()-1)
-			maps.append( get_node("MapSpawner").get_spawnable_scene(randnumtemp))
-	var randnum = randi_range(0, len(maps)-1)
-	return maps[randnum]
-	
-	pass
+			var randnumtemp = randi_range(0, map_spawner.get_spawnable_scene_count() - 1)
+			maps.append(map_spawner.get_spawnable_scene(randnumtemp))
+	var randnum = randi_range(0, len(maps) - 1)
+	return "res://src/Scenes/Levels/SaloonMap.tscn"#load()#maps[0]	#randnum
+
+
 #The following method will change the current scene to the scene at a given path.
 #It will clear out the current main scene, then load the new scene to go to
 #if a callback is provided, it will call the function BEFORE adding the new scene
