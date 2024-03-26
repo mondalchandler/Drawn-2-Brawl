@@ -463,32 +463,6 @@ func _change_to_spectator():
 	self.sprite.set_layer_mask_value(1, false)
 	pass
 
-
-# -- alex function that updates the stamina bar values and rendering
-func _update_block_recharge_delay(delta):
-	if not self.blocking:
-		if self.temp_block_recharge_time < BLOCK_RECHARGE_TIME:
-			self.temp_block_recharge_time += delta
-			if self.temp_block_recharge_time > BLOCK_RECHARGE_TIME:
-				self.temp_block_recharge_time = BLOCK_RECHARGE_TIME
-		elif self.block_stamina < BLOCK_STAMINA_AMOUNT:
-			self.block_stamina += delta
-			if self.block_stamina >= BLOCK_STAMINA_AMOUNT:
-				self.block_stamina = BLOCK_STAMINA_AMOUNT
-				if (stamina_bar):
-					stamina_bar.visible = false
-	else:	
-		if perfect_block_time > 0:
-			perfect_block_time -= delta
-		else:
-			perfect_blocking = false
-		self.block_stamina -= delta
-		if (stamina_bar):
-			stamina_bar.visible = true
-	
-	if (stamina_bar):
-		stamina_bar.update_stamina_bar(block_stamina * 10)
-
 # --------------------------------------- ROLLBACK FUNCTIONS ------------------------------------------- #
 
 # this is a special virtual method that will get called by SyncManager
@@ -523,6 +497,7 @@ func _predict_remote_input(previous_input: Dictionary, _ticks_since_real_input: 
 	
 	# it's very unlikely we will get two of these inputs in a row, so we can throw out these values
 	# for example, full pressed space twice in 2 frames,
+	print(previous_input)
 	predicted_input.erase("pressed_jump")
 	predicted_input.erase("pressed_target")
 	predicted_input.erase("pressed_change_target")
@@ -557,10 +532,6 @@ func _update_custom_physics(input : Dictionary, delta : float) -> void:
 		var angle_radians = acos(dot_product)
 		var angle_degrees = angle_radians * 180.0 / PI
 		
-#		print()
-#		print(angle_degrees)
-#		print(self.floor_max_angle + FLOOR_ANGLE_THRESHOLD)
-#		print()
 		# if we're on a slope, check to ensure the slope is shallow enough to be considered a floor. else, it's a wall and we're not grounded
 		if (angle_degrees <= self.floor_max_angle + FLOOR_ANGLE_THRESHOLD):
 			self._on_floor = true
@@ -572,21 +543,15 @@ func _update_custom_physics(input : Dictionary, delta : float) -> void:
 		self._on_floor = false
 	
 	#---- apply gravity and jump forces
-	if not _is_spectator:
-		if not self._on_floor:
+	if not self._on_floor:
+		if not _is_spectator:
 			self.velocity.y -= gravity * delta
 		else:
-			var pressed_jump = input.get("pressed_jump", false)
-			if pressed_jump:
-				self.velocity.y += jump_power
-		
-		#---- apply rolling forces
-		var pressed_roll = input.get("roll", false)
-		if pressed_roll:
-			#TODO: Implement
-			print("I ROLLED!")
+			self.velocity.y = 0
 	else:
-		self.velocity.y = 0
+		var pressed_jump = input.get("pressed_jump", false)
+		if pressed_jump:
+			self.velocity.y += jump_power
 	
 	# TODO: This is messing up the _on_floor detection, so it's commented out
 	#if self._has_collision:

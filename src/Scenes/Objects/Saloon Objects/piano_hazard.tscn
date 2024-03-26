@@ -880,7 +880,7 @@ skeleton = NodePath("")
 script = ExtResource("2_w38yf")
 fragmented = ExtResource("3_dmtr6")
 scales = Vector3(1, 1, 1)
-shard_container = NodePath("../..")
+shard_container = NodePath("")
 collision_layer = 16
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
