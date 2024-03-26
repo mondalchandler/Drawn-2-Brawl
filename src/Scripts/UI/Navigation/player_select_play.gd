@@ -46,7 +46,6 @@ func run_task():
 	#	saloon.spawn_players()
 
 func _extra_ready():
-	print("helo")
 	if multiplayer.is_server():
 		self.visible = true
 	else:

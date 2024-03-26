@@ -555,6 +555,14 @@ func _update_moves(input: Dictionary) -> void:
 	for move_name in INPUT_MOVE_NAMES:
 		self._input_state_text += "\n" + move_name + ": " + str(input.get(move_name, false))
 	if _is_spectator:
+#		if input.get("normal_close", false):
+#			pass
+#		if input.get("normal_far", false):
+#			pass
+#		if input.get("special_close", false):
+#			pass
+#		if input.get("special_far", false):
+#			pass
 		spectatorActions.parse_action(input, self)
 
 
