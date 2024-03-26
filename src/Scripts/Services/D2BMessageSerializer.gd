@@ -211,6 +211,8 @@ func unserialize_input(serialized: PackedByteArray) -> Dictionary:
 		player_input["holding_block"] = true
 	if has_input_header & HeaderFlags.JUMP_INPUT:
 		player_input["pressed_jump"] = true
+	if has_input_header & HeaderFlags.ROLL_INPUT:
+		player_input["roll"] = true
 	if has_input_header & HeaderFlags.HAS_INPUT_VECTOR:
 		player_input["input_vector"] = Vector2(buffer.get_float(), buffer.get_float())
 	if has_input_header & HeaderFlags.HOLDING_MOVE_INPUT:

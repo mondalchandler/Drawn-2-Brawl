@@ -1,8 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://byvk5j3rsfxi2"]
+[gd_scene load_steps=4 format=3 uid="uid://dksphdi5qjtnp"]
 
-[ext_resource type="Script" path="res://src/Scenes/main_scene.gd" id="1_xbd8a"]
+[ext_resource type="Script" path="res://src/main_scene.gd" id="1_xbd8a"]
 [ext_resource type="PackedScene" uid="uid://dufgk3e4kmxyu" path="res://src/Scenes/UI/main_menu.tscn" id="2_namr8"]
-[ext_resource type="PackedScene" uid="uid://chrk1ljxxad1h" path="res://src/Scenes/music_node.tscn" id="3_awfen"]
+[ext_resource type="PackedScene" uid="uid://chrk1ljxxad1h" path="res://src/Scenes/Services/music_node.tscn" id="3_awfen"]
 
 [node name="main_scene" type="Node"]
 script = ExtResource("1_xbd8a")

@@ -12,9 +12,13 @@ const FLOOR_ANGLE_THRESHOLD : float = 0.01
 
 const FLASH_DELAY: float = 0.125
 
-const BLOCK_STAMINA_AMOUNT : float = 10
-const BLOCK_RECHARGE_TIME : float = 4
-const PERFECT_BLOCK_TIME_TOTAL : float = 0.25
+const MAX_STAMINIA_TICKS : int = 600				# at 60 ticks a second, this is 10 seconds
+const BLOCKING_STAMINA_USAGE_PER_TICK : int = 1		# how much stamina is used per tick when blocking
+const STAMINA_RECHARGE_PER_TICK : int = 2			# how much stamina is recharged per tick
+const STAMINIA_RECHARGE_COOLDOWN : int  = 240		# cooldown before stamina beings recharging after it is used
+
+const ROLL_VELOCITY : int = 10
+const ROLL_COST : int = MAX_STAMINIA_TICKS / 4
 
 const TARGET_ARROW_DEFAULT_SIZE: float = 0.0002
 
@@ -67,10 +71,9 @@ var knockback : Vector3 = Vector3.ZERO
 var anim_speed_scale: float = 1.0
 var sprite_flipped: bool = false
 
-# variables used to track our player's status with blocking abilities
-var block_stamina : float = BLOCK_STAMINA_AMOUNT
-var perfect_block_time : float = PERFECT_BLOCK_TIME_TOTAL
-var temp_block_recharge_time : float = 4.0
+# variables used to track our player's status with blocking and rolling abilities
+var stamina : int = MAX_STAMINIA_TICKS
+var stamina_recharge_cooldown : int = 0
 
 # variables used to track who our character is currently targetting and grabbing
 var z_target: Node3D = null
@@ -106,8 +109,8 @@ var _flashing_time: float = 0.0
 var _flashing_switch_time: float = 0.0
 var _input_state_text: String = ""
 
-var _enabled_targetting : bool = false
-#var _move_controller = null
+var _can_block : bool = true
+var _can_roll : bool = true
 var _is_spectator: bool = false
 
 # --------------------------------------- SELF NODES ------------------------------------------- #
@@ -131,6 +134,10 @@ var _is_spectator: bool = false
 @onready var target_arrow: Sprite3D = $TargetArrow
 
 @onready var stamina_bar = $StaminaBar3D
+
+@onready var perfect_block_timer = $Cooldowns/PerfectBlockTimer
+@onready var block_input_timer = $Cooldowns/BlockInputDebounce
+@onready var roll_input_timer = $Cooldowns/RollInputDebounce
 @onready var spectator_action_cooldowns: Node = $SpectatorCooldowns
 
 # --------------------------------------- GLOBAL NODES ------------------------------------------- #
@@ -146,9 +153,11 @@ signal health_changed
 
 # --------------------------------------- HELPER FUNCTIONS ------------------------------------------- #
 
+
 # determines if we can jump input. We need to be on the floor and we need to be NOT blocking
 func can_jump():
 	return self._on_floor and not self.blocking
+
 
 # traslates a vector3 of WASD/Joystick input into an input relative to the camera's orientation
 func _get_camera_relative_input(input : Vector3) -> Vector3:
@@ -256,20 +265,52 @@ func _update_movement(dt) -> void:
 		self.velocity = knockback
 
 
+# --------------------------------------- STAMINA RELATED FUNCTIONS ------------------------------------------- #
+
+
 # used in the network update functions to update blocking values/times
 func _update_block(is_holding_input : bool) -> void:
-	if is_holding_input and self.block_stamina > 0:
+	# block_input_timer
+	if is_holding_input and self.stamina > 0 and self._can_block:
+		self._can_block = false
 		self.blocking = true
 		self._state = PlayerState.BLOCKING
-		#self.temp_block_recharge_time = 0.0
-		#self.perfect_blocking = true
-	
+		perfect_block_timer.start()
+		self.perfect_blocking = true
+		
 	if self.blocking:
-		if not is_holding_input or self.block_stamina <= 0:
+		if not is_holding_input or self.stamina <= 0:
 			self.blocking = false
+			self.stamina_recharge_cooldown = STAMINIA_RECHARGE_COOLDOWN
+			block_input_timer.start()
 			self._state = PlayerState.IDLE
-			#self.perfect_blocking = false
-			#self.perfect_block_time = self.PERFECT_BLOCK_TIME_TOTAL
+			self.perfect_blocking = false
+
+
+# used in network update to change our stamina values when blocking and when we're on cooldown 
+func _update_stamina():
+	# update the stamina bar visuals
+	if stamina_bar:
+		var stamina_ratio = (self.stamina / float(MAX_STAMINIA_TICKS)) * 100
+		stamina_bar.update_stamina_bar(stamina_ratio)
+	
+	# if we have stamina and we're doing an action that requires stamina, we will update our values for this tick
+	if self.stamina > 0:
+		if self.blocking:
+			self.stamina -= BLOCKING_STAMINA_USAGE_PER_TICK
+	
+	# if our stamina somehow goes below 0, set it to 0
+	if self.stamina < 0:
+		self.stamina = 0
+	
+	# dont continue any stamina updating if we're on stamina updating cooldown
+	if self.stamina_recharge_cooldown > 0:
+		self.stamina_recharge_cooldown -= 1
+		return
+		
+	# recharge stamina if we're not on charging cooldown and if we're not blocking
+	if self.stamina < MAX_STAMINIA_TICKS and not self.blocking:
+		self.stamina += STAMINA_RECHARGE_PER_TICK
 
 
 # --------------------------------------- VARIOUS PROCESS FUNCTIONS ------------------------------------------- #
@@ -287,13 +328,11 @@ func _update_core_animations() -> void:
 	elif self._state == PlayerState.BLOCKING:
 		self.anim_tree_state_machine.travel("block")
 
-
 # -- checks if the player health has changed; if so, send a signal
 func _update_health_change() -> void:
 	if self.health != self._old_health:
 		emit_signal("health_changed", self.health, self._old_health)
 		self._old_health = self.health
-
 
 # -- updates the positions of the floor indicators
 func _update_floor_indicator() -> void:
@@ -464,7 +503,7 @@ func _get_local_input() -> Dictionary:
 		self._handle_block_input(total_input)
 		self._handle_target_input(total_input)
 		
-		if not total_input.get("holding_block", false):
+		if not self.blocking:
 			self._handle_directional_input(total_input)
 			self._handle_jump_input(total_input)
 			self._handle_roll_input(total_input)
@@ -487,6 +526,7 @@ func _predict_remote_input(previous_input: Dictionary, _ticks_since_real_input: 
 	predicted_input.erase("pressed_jump")
 	predicted_input.erase("pressed_target")
 	predicted_input.erase("pressed_change_target")
+	predicted_input.erase("roll")
 	
 	# return new prediction
 	return predicted_input
@@ -496,6 +536,15 @@ func _predict_remote_input(previous_input: Dictionary, _ticks_since_real_input: 
 # please note that this function will likely evolve over time, and it should eventually be replaced to not use
 # floating points since those are proven to be non-deterministic due to floating point errors
 func _update_custom_physics(input : Dictionary, delta : float) -> void:
+	
+	#---- apply rolling forces
+	var pressed_roll = input.get("roll", false)
+	if pressed_roll and self._can_roll and self.stamina > ROLL_COST and self.move_direction and self.move_direction.length() > 0.0:
+		self._can_roll = false
+		roll_input_timer.start()
+		self.stamina -= ROLL_COST
+		self.stamina_recharge_cooldown = STAMINIA_RECHARGE_COOLDOWN
+		self.velocity += self.move_direction * ROLL_VELOCITY
 	
 	#---- handle collisions with floor to determine if we're grounded or not
 	var collision = move_and_collide(self.velocity * delta)
@@ -542,7 +591,7 @@ func _update_custom_physics(input : Dictionary, delta : float) -> void:
 	# TODO: This is messing up the _on_floor detection, so it's commented out
 	#if self._has_collision:
 	#	self.velocity = self.velocity.slide(self._collision_normal)
-		
+	
 	#-- apply final positioning for physics
 	self.position += self.velocity * delta
 
@@ -599,19 +648,20 @@ func _network_process(input: Dictionary) -> void:
 	var is_holding_block_input : bool = input.get("holding_block", false)
 	self._update_block(is_holding_block_input)
 	
-	
 	#-- get our movement variables and update how we move
 	var vector2Input : Vector2 = input.get("input_vector", Vector2.ZERO)
 	self.move_direction = Vector3(vector2Input.x, 0, vector2Input.y)
 	self._update_movement(delta)
 	
+	#-- update the rest of the stamina
+	self._update_stamina()
 	
 	#-- update our targetting state
 	var pressed_target : bool = input.get("pressed_target", false)
 	if pressed_target:
 		self.targetting = not self.targetting
 	
-	
+	#-- update our targetting changing state
 	var pressed_change_target : bool = input.get("pressed_change_target", false)
 	if pressed_change_target:
 		print("pressed change target input")
@@ -668,7 +718,17 @@ func _save_state() -> Dictionary:
 		lives = self.lives,
 		is_spectator = self._is_spectator,
 		#targetting = self.targetting,
-		#blocking = self.blocking,
+		
+		blocking = self.blocking,
+		can_block = self._can_block,
+		
+		stamina = self.stamina,
+		stamina_recharge_cooldown = self.stamina_recharge_cooldown,
+		
+		perfect_blocking = self.perfect_blocking,
+		
+		can_roll = self._can_roll,
+		
 		#knockback = self.knockback,
 	}
 
@@ -693,7 +753,17 @@ func _load_state(state: Dictionary) -> void:
 	self.lives = state["lives"]
 	self._is_spectator = state["is_spectator"]
 	#self.targetting = state["targetting"]
-	#self.blocking = state["blocking"]
+	
+	self.blocking = state["blocking"]
+	self._can_block = state["can_block"]
+	
+	self.stamina = state["stamina"]
+	self.stamina_recharge_cooldown = state["stamina_recharge_cooldown"]
+	
+	self.perfect_blocking = state["perfect_blocking"]
+	
+	self._can_roll = state["can_roll"]
+	
 	#self.knockback = state["knockback"]
 
 
@@ -728,7 +798,6 @@ func take_damage(damage: float) -> void:
 
 # ---------------------------------------- INIT AND CONNECTIONS ------------------------------------------------- #
 
-
 # -- constructor
 func _init() -> void:
 	pass
@@ -739,6 +808,16 @@ func _ready() -> void:
 	self.anim_tree_state_machine.start("idle")
 	#_move_controller = MoveController.new(self, $AnimationTree, $CharacterSprite, $Hurtbox)
 	#add_child(_move_controller)
+
+
+func _on_block_input_debounce_timeout():
+	self._can_block = true
+
+func _on_perfect_block_timer_timeout():
+	self.perfect_blocking = false
+
+func _on_roll_input_debounce_timeout():
+	self._can_roll = true
 
 # ---------------------------------------- END OF SCRIPT ------------------------------------------------- #
 
@@ -799,3 +878,5 @@ func _ready() -> void:
 #		#		input will not match with what move is actually being output in the debugger text.
 #		for name in MOVE_MAP_NAMES:
 #			_input_state_text += "\n" + name + ": " + str(event.is_action_pressed(name))
+
+
