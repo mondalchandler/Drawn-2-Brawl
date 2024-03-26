@@ -8,6 +8,7 @@ extends Node
 
 const LOG_FILE_DRECTORY = "user://detailed_logs"
 const LOGGING_ENABLED := true
+const FORCE_SALOON := true
 
 # ------------------ VARIABLES ------------------ #
 
@@ -144,6 +145,9 @@ func play_map():
 
 
 func pick_map():
+	if FORCE_SALOON:
+		return "res://src/Scenes/Levels/SaloonMap.tscn"
+	
 	var maps = map_votes.values()
 	var peers_count = len(multiplayer.get_peers()) + 1
 	if len(maps) != peers_count:
@@ -152,7 +156,7 @@ func pick_map():
 			var randnumtemp = randi_range(0, map_spawner.get_spawnable_scene_count() - 1)
 			maps.append(map_spawner.get_spawnable_scene(randnumtemp))
 	var randnum = randi_range(0, len(maps) - 1)
-	return "res://src/Scenes/Levels/SaloonMap.tscn"#load()#maps[0]	#randnum
+	return maps[randnum]
 
 
 #The following method will change the current scene to the scene at a given path.
