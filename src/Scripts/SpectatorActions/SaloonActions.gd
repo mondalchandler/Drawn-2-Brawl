@@ -14,8 +14,6 @@ func action1(data: Dictionary):
 	piano.position.z = data["position"].z * -1
 	piano.position.y = 30
 	get_parent().add_child(piano)
-	print("start")
-#	piano_timer.start()
 	pass
 func action2(data: Dictionary):
 	pass
@@ -25,11 +23,6 @@ func action3(data: Dictionary):
 	
 func action4(data: Dictionary):
 	pass
-#
-#func _on_network_timer_timeout():
-#	print("hello")
-#	piano_timer.stop()
-#	allow_piano = true
 
 func _ready():
 	action1_cooldown = 300
