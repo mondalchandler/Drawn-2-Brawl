@@ -14,17 +14,26 @@ var hb_flipped = false
 var move_placeholder = null
 var move_input
 var timer : Timer
+var current_move
 
 # ---------------- FUNCTIONS ---------------- #
 
 func attack(move):
+	self.current_move = move
 	match move.move_type:
 		"MELEE":
 			pass
 		"GRAB":
 			pass
 		"GRAPPLE":
-			pass
+			var TETHER: PackedScene = load(move.tether_path)
+			if TETHER:
+				var tether = TETHER.instantiate()
+				# must add the projectile to the map so that it doesn't move w/ character
+				self.owner_char.get_parent().get_parent().add_child(tether)
+				tether.global_position = self.owner_char.global_position
+				tether.owner_char = self.owner_char
+				tether.emit()
 		"HITSCAN":
 			pass
 		"PROJECTILE":
@@ -97,11 +106,11 @@ func move_start(move):
 		self.add_child(timer)
 		# if there is custom stopping point in animation for charge move
 		# we use move_data[1] to store timestamps, similarly to emitting projectiles
-		# move_data[0] does not matter atm bc we are not iterating through multiple animations
+		# removed move_data[0] as does not matter bc we are not iterating through multiple animations
 		if move_placeholder.move_data.size() > 0:
 			# this should be just short of when the move is active (e.g. if hbx becomes active at 1.8s, have this value be 1.79s)
 			# prevents move from instantly activating once charge is complete
-			timer.start(move_placeholder.move_data[1][0]-0.01)
+			timer.start(move_placeholder.move_data[0]-0.01)
 		else:
 			# needs to be larger than 0 so that we can properly freeze-frame
 			timer.start(0.01)
@@ -115,7 +124,7 @@ func move_end():
 		move_placeholder.move_ended = true
 		# skip to active frame of move if released
 		if move_placeholder.move_data.size() > 0:
-			owner_char.anim_tree.set("parameters/" + self.move_input + "/TimeSeek/seek_request", move_placeholder.move_data[1][0])
+			owner_char.anim_tree.set("parameters/" + self.move_input + "/TimeSeek/seek_request", move_placeholder.move_data[0])
 		owner_char.anim_tree.set("parameters/" + self.move_input + "/TimeScale/scale", 1)
 		attack(move_placeholder)
 	pass

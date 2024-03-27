@@ -6,18 +6,17 @@
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_aehhs"]
 
-[node name="Knife" type="Area3D" node_paths=PackedStringArray("collision_shape", "mesh_instance")]
+[node name="Knife" type="Area3D" node_paths=PackedStringArray("mesh_instance", "collision_shape")]
 collision_layer = 4
 collision_mask = 19
 script = ExtResource("1_qb8vw")
 speed = 25
-collision_shape = NodePath("CollisionShape3D")
 mesh_instance = NodePath("MeshInstance3D")
+collision_shape = NodePath("CollisionShape3D")
 damage_range = [10, 10]
 kb_length = 0.1
 hitstun_length = 0.1
 knockback_strength = Vector3(2, 2, 2)
-debug_on = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1.2, 0, 0, 0, 0.8, 0, 0, 0, 1, 0.5, 0, 0.5)

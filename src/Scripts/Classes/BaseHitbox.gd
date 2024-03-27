@@ -168,8 +168,8 @@ func _process(delta) -> void:
 
 # constructor
 func _init(	owner_char = null,
-			damage_range = [5, 5],
-			kb_length = 0.0, hitstun_length = 0.5,
+			damage_range = [0, 0],
+			kb_length = 0.0, hitstun_length = 0.0,
 			knockback_strength = Vector3.ZERO,
 			collision_shape = CollisionShape3D.new(),
 			mesh_instance = MeshInstance3D.new(),

@@ -27,6 +27,7 @@ extends Node
 @export var hitbox: BaseHitbox      # HOW TO ADD CUSTOM HITBOXES documentation in BaseHitbox.gd
 @export var hitscan: Hitscan
 @export var projectile_path: String
+@export var tether_path: String
 @export var is_chargable: bool = false
 
 var move_ended = false
@@ -40,7 +41,7 @@ func move_reset():
 
 # ---------------- INIT ---------------- #
 
-func _init(move_input = "", move_type = "", move_name = "", move_data = [], hitbox = null, hitscan = null, projectile_path = ""):
+func _init(move_input = "", move_type = "", move_name = "", move_data = [], hitbox = null, hitscan = null, projectile_path = "", tether_path = ""):
 	self.move_input = move_input
 	self.move_type = move_type
 	self.move_name = move_name
@@ -48,3 +49,4 @@ func _init(move_input = "", move_type = "", move_name = "", move_data = [], hitb
 	self.hitbox = hitbox
 	self.hitscan = hitscan
 	self.projectile_path = projectile_path
+	self.tether_path = tether_path

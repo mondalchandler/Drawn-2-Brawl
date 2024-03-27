@@ -302,7 +302,7 @@ func _check_for_death():
 	if(self.health <= 0 and not _is_spectator):
 		self.lives -=1
 		_try_respawn()
-		
+
 
 func _try_respawn():
 	if(self.lives > 0):
@@ -310,12 +310,14 @@ func _try_respawn():
 	elif not _is_spectator:
 		_change_to_spectator()
 
+
 func _respawn():
 	self.health = self.max_health
 	emit_signal("health_changed", self.health, self._old_health)
 	self._old_health = self.health
 	self.transform.origin = self.get_meta("spawn_point").transform.origin
 	perform_invincible_frame_flashing(1)
+
 
 func _change_to_spectator():
 	#next line not needed, just here for presenting

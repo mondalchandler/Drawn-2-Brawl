@@ -45,10 +45,10 @@
 [ext_resource type="Script" path="res://src/Scripts/Classes/BaseHitbox.gd" id="37_wuove"]
 [ext_resource type="Script" path="res://src/Scripts/ChargeableMove.gd" id="39_6y1ms"]
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_i8cr5"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_ukhdj"]
 viewport_path = NodePath("SubViewport")
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_t3qgx"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_72kxr"]
 viewport_path = NodePath("BillboardViewport")
 
 [sub_resource type="Animation" id="Animation_gcqbo"]
@@ -1270,7 +1270,7 @@ properties/0/spawn = true
 properties/0/sync = true
 properties/0/watch = false
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_fpw5c"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_2emh6"]
 viewport_path = NodePath("BillboardViewport")
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sn8c4"]
@@ -1291,6 +1291,7 @@ collision_layer = 2
 collision_mask = 23
 platform_floor_layers = 4294967294
 script = ExtResource("1_tmjry")
+debug_on = true
 display_name = "Ranger"
 targetting = true
 ground_nc = NodePath("Moves/Lance Jab")
@@ -1305,12 +1306,12 @@ air_sf = NodePath("Moves/Flail")
 [node name="StanimaBar3D" parent="." instance=ExtResource("2_5ljgc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.16405, 0)
 visible = false
-texture = SubResource("ViewportTexture_i8cr5")
+texture = SubResource("ViewportTexture_ukhdj")
 
 [node name="DebugInfo" parent="." instance=ExtResource("2_45ys8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.21122, 2.46423)
 pixel_size = 0.015
-texture = SubResource("ViewportTexture_t3qgx")
+texture = SubResource("ViewportTexture_72kxr")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 speed_scale = 2.0
@@ -1376,7 +1377,7 @@ target_position = Vector3(0, -30, 0)
 [node name="PlayerNametag" parent="." instance=ExtResource("2_45ys8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.859205, 0)
 pixel_size = 0.02
-texture = SubResource("ViewportTexture_fpw5c")
+texture = SubResource("ViewportTexture_2emh6")
 
 [node name="TargetArrow" type="Sprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.41769, 0)
@@ -1591,9 +1592,8 @@ script = ExtResource("39_6y1ms")
 move_input = "ground_sf"
 move_type = "MELEE"
 move_name = "Charge"
-move_data = [0, [1.8]]
+move_data = [1.8]
 hitbox = NodePath("../../Hurtbox/Charge Hitbox")
-projectile_path = "res://src/Scenes/Characters/Projectiles/Bullet.tscn"
 is_chargable = true
 
 [node name="Excelsior" type="Node" parent="Moves" node_paths=PackedStringArray("hitbox")]
@@ -1623,6 +1623,3 @@ script = ExtResource("37_bksw1")
 move_input = "air_sf"
 move_type = "GRAPPLE"
 move_name = "Wrangle 'Em"
-
-[node name="Timer" type="Timer" parent="."]
-wait_time = 1.8
