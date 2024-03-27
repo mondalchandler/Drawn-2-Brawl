@@ -55,7 +55,6 @@ enum PlayerState { IDLE, RUNNING, JUMPING, FALLING, KNOCKBACK, BLOCKING }
 @export var blocking : bool = false
 @export var invincible : bool = false
 @export var perfect_blocking : bool = false
-@export var grabbing : bool = false
 @export var dodging : bool = false
 @export var can_move : bool = true
 
@@ -71,7 +70,9 @@ var stamina_recharge_cooldown : int = 0
 
 # variables used to track who our character is currently targetting and grabbing
 var z_target: Node3D = null
-var grab_target: Node3D = null
+var grabbing : bool = false
+var being_grabbed : bool = false
+var grabbing_player : RollbackCharacterController = null
 
 # used to show the floor indicator
 @export var floor_indicator_enabled: bool = true
@@ -129,7 +130,7 @@ var _can_roll : bool = true
 @onready var main_scene = get_tree().root.get_node("main_scene")
 @onready var players = main_scene.get_node("Players")
 
-## ------------------------------------------- SIGNALS --------------------------------------------- #
+# ------------------------------------------- SIGNALS --------------------------------------------- #
 
 signal died
 signal health_changed
@@ -146,7 +147,7 @@ func can_jump():
 func _get_camera_relative_input(input : Vector3) -> Vector3:
 	if not self.current_cam: 
 		return input
-
+	
 	var cam_right = self.current_cam.global_transform.basis.x
 	var cam_forward = self.current_cam.global_transform.basis.z
 	
@@ -311,11 +312,13 @@ func _update_core_animations() -> void:
 	elif self._state == PlayerState.BLOCKING:
 		self.anim_tree_state_machine.travel("block")
 
+
 # -- checks if the player health has changed; if so, send a signal
 func _update_health_change() -> void:
 	if self.health != self._old_health:
 		emit_signal("health_changed", self.health, self._old_health)
 		self._old_health = self.health
+
 
 # -- updates the positions of the floor indicators
 func _update_floor_indicator() -> void:
@@ -337,7 +340,7 @@ func _update_floor_indicator() -> void:
 
 # -- function that iterates through a player list and returns the one closest to self
 # -- author: Kyle Senebouttarath
-func _get_closest_player() -> Node3D:
+func get_closest_player() -> Array:
 	
 	# track the closet player and their distance
 	var closest_target: Node3D = null
@@ -356,7 +359,7 @@ func _get_closest_player() -> Node3D:
 				closest_target = player
 	
 	# return the closet player
-	return closest_target
+	return [closest_target, closest_distance]
 
 
 # -- updates the z target if targetting is enabled
@@ -364,7 +367,7 @@ func _update_z_target() -> void:
 	
 	# if we're targetting, get the closest player as our target
 	if self.targetting:
-		self.z_target = self._get_closest_player()
+		self.z_target = self.get_closest_player()[0]
 	else:
 		self.z_target = null
 	
@@ -386,10 +389,12 @@ func _update_debug_text() -> void:
 		self.debug_tag.global_position += self.current_cam.global_transform.basis.x * 2
 	self.debug_tag.visible = SHOW_DEBUG_INFO
 	self.debug_tag.text = "PlayerState: " + PlayerState.keys()[_state] 
-	self.debug_tag.text += "\nAnimationNode: " + anim_tree_state_machine.get_current_node()
-	self.debug_tag.text += "\nTargetting: " + str(targetting)
-	self.debug_tag.text += "\nTarget: " + str(z_target)
-	self.debug_tag.text += "\nBlocking: " + str(self.blocking)
+	#self.debug_tag.text += "\nAnimationNode: " + anim_tree_state_machine.get_current_node()
+	#self.debug_tag.text += "\nTargetting: " + str(targetting)
+	#self.debug_tag.text += "\nTarget: " + str(z_target)
+	#self.debug_tag.text += "\nBlocking: " + str(self.blocking)
+	self.debug_tag.text += "\nGrabbing: " + str(self.grabbing)
+	self.debug_tag.text += "\nBeing Grabbed: " + str(self.being_grabbed)
 	self.debug_tag.text += "\n" + _input_state_text
 
 
@@ -409,7 +414,9 @@ func _update_invincible_flash(dt: float) -> void:
 		_flashing_switch_time = 0.0
 		sprite.show()
 
+
 # --------------------------------------- ROLLBACK FUNCTIONS ------------------------------------------- #
+
 
 # this is a special virtual method that will get called by SyncManager
 # this is because this node is part of the "network_sync" group
@@ -456,6 +463,12 @@ func _predict_remote_input(previous_input: Dictionary, _ticks_since_real_input: 
 # please note that this function will likely evolve over time, and it should eventually be replaced to not use
 # floating points since those are proven to be non-deterministic due to floating point errors
 func _update_custom_physics(input : Dictionary, delta : float) -> void:
+	
+	#---- dont update any player physics if they're being grabbed
+		# this effectively gives the other player full ownership over their physics
+	if self.being_grabbed:
+		self.velocity = Vector3.ZERO
+		return
 	
 	#---- apply rolling forces
 	var pressed_roll = input.get("roll", false)
@@ -513,8 +526,6 @@ func _update_moves(input: Dictionary) -> void:
 	self._input_state_text = ""
 	for move_name in INPUT_MOVE_NAMES:
 		self._input_state_text += "\n" + move_name + ": " + str(input.get(move_name, false))
-	
-	
 
 
 # this is essentially the "_process" method for this node, but with network sychronization
@@ -553,7 +564,6 @@ func _network_process(input: Dictionary) -> void:
 		print("pressed change target input")
 		pass #TODO: Implement
 	
-	
 	# these probably shouldn't use delta anymore?
 	#self._update_invincible_flash(delta)
 	#self._update_block_recharge_delay(delta)
@@ -571,6 +581,13 @@ func _network_process(input: Dictionary) -> void:
 	self._update_z_target()
 	self._update_debug_text()
 	#self._update_health_change()
+	
+	# update grabbing positions
+	if self.grabbing_player and self.grabbing:
+		self.grabbing_player.velocity = Vector3.ZERO
+		var cam_right = self.current_cam.global_transform.basis.x
+		var horz_offset = cam_right if not self.sprite_flipped else -cam_right
+		self.grabbing_player.global_position = self.global_position + Vector3(0, 0.25, 0) + horz_offset
 	
 	# update display name (in case it gets changed mid playtime)
 	self.player_nametag.text = self.display_name
@@ -593,7 +610,7 @@ func _save_state() -> Dictionary:
 		
 		has_collision = self._has_collision,
 		collision_normal = self._collision_normal,
-		#
+		
 		#sprite_flipped = self.sprite_flipped,
 		
 		#health = self.health,
@@ -609,6 +626,8 @@ func _save_state() -> Dictionary:
 		
 		can_roll = self._can_roll,
 		
+		grabbing = self.grabbing,
+		being_grabbed = self.being_grabbed,
 		#knockback = self.knockback,
 	}
 
@@ -642,14 +661,18 @@ func _load_state(state: Dictionary) -> void:
 	
 	self._can_roll = state["can_roll"]
 	
+	self.grabbing = state["grabbing"]
+	self.being_grabbed = state["being_grabbed"]
 	#self.knockback = state["knockback"]
 
 
 # ---------------------------------------- PUBLIC FUNCTIONS ------------------------------------------------- #
 
+
 # -- heals the player to full. should be used on the server only!
 func full_heal() -> void:
 	health = max_health
+
 
 # -- returns if health is greater than zero. can be used on both client and server
 func is_alive() -> bool:
@@ -699,30 +722,6 @@ func _on_roll_input_debounce_timeout():
 
 # ---------------------------------------- END OF SCRIPT ------------------------------------------------- #
 
-
-## ---------------- PRIVATE FUNCTIONS ---------------- #
-
-## -- converts the move name to the type for the move controller
-## -- NOT FULLY IMPLEMENTED DUE TO LACK OF MOVES
-#func _move_name_to_type(name):
-#	if name == "ground_nc":
-#		return ""
-#	if name == "ground_nf":
-#		return ""
-#	if name == "ground_sc":
-#		return ""
-#	if name == "ground_sf":
-#		return ""
-#	if name == "air_nc":
-#		return ""
-#	if name == "air_nf":
-#		return ""
-#	if name == "air_sc":
-#		return ""
-#	if name == "air_sf":
-#		return ""
-
-
 ## TODO: When provided a desination vector, move the player to said direction
 #func move_to(destination: Vector3) -> void:
 #	pass
@@ -741,7 +740,6 @@ func _on_roll_input_debounce_timeout():
 #	if pause_menu_layer.is_open():
 #		return
 #
-#
 ##	if event.as_text()
 #
 #	# move inputs
@@ -756,5 +754,3 @@ func _on_roll_input_debounce_timeout():
 #		#		input will not match with what move is actually being output in the debugger text.
 #		for name in MOVE_MAP_NAMES:
 #			_input_state_text += "\n" + name + ": " + str(event.is_action_pressed(name))
-
-
