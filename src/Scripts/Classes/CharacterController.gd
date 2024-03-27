@@ -298,6 +298,7 @@ func _update_invincible_flash(dt: float) -> void:
 		_flashing_switch_time = 0.0
 		sprite.show()
 
+
 func _check_for_death():
 	if(self.health <= 0 and not _is_spectator):
 		self.lives -=1
