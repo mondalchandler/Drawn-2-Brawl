@@ -26,6 +26,7 @@ func attack(move):
 		"GRAB":
 			pass
 		"GRAPPLE":
+			flip_sprite_if_behind()
 			var TETHER: PackedScene = load(move.tether_path)
 			if TETHER:
 				var tether = TETHER.instantiate()
