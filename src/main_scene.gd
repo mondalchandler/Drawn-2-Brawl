@@ -9,6 +9,7 @@ extends Node
 const LOG_FILE_DRECTORY = "user://detailed_logs"
 const LOGGING_ENABLED := true
 const FORCE_SALOON := true
+const FORCE_CASTLE := false
 
 # ------------------ VARIABLES ------------------ #
 
@@ -147,6 +148,8 @@ func play_map():
 func pick_map():
 	if FORCE_SALOON:
 		return "res://src/Scenes/Levels/SaloonMap.tscn"
+	if FORCE_CASTLE:
+		return "res://src/Scenes/Levels/CastleMap.tscn"
 	
 	var maps = map_votes.values()
 	var peers_count = len(multiplayer.get_peers()) + 1
