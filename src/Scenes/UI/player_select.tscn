@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://6cv8bs5iycg7" path="res://resources/Images/PlayerSelectImages/BGText.jpg" id="2_qmmb5"]
 [ext_resource type="Texture2D" uid="uid://cxoyb38ikx36t" path="res://resources/Images/PlayerSelectImages/Assassin99Portrait.png" id="4_82iii"]
 [ext_resource type="Texture2D" uid="uid://bvnroba7l3ivs" path="res://resources/Images/PlayerSelectImages/RangerPortrait.png" id="5_5d2ge"]
-[ext_resource type="PackedScene" path="res://src/Scenes/characters/Ranger.tscn" id="6_8mryq"]
+[ext_resource type="PackedScene" uid="uid://ds55r3e3det8w" path="res://src/Scenes/characters/Ranger.tscn" id="6_8mryq"]
 [ext_resource type="Texture2D" uid="uid://dpv1knjr8e0rw" path="res://resources/Images/PlayerSelectImages/NoblePortrait.png" id="7_dubgh"]
 [ext_resource type="Texture2D" uid="uid://b1ehxxaxqbbm3" path="res://resources/Images/PlayerSelectImages/PlaceholderPortrait1.png" id="8_bk4bv"]
 [ext_resource type="Texture2D" uid="uid://b83s4eia36hg5" path="res://resources/Images/PlayerSelectImages/PlaceholderPortrait2.png" id="9_guhas"]
