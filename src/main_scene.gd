@@ -8,8 +8,8 @@ extends Node
 
 const LOG_FILE_DRECTORY = "user://detailed_logs"
 const LOGGING_ENABLED := true
-const FORCE_SALOON := true
-const FORCE_CASTLE := false
+const FORCE_SALOON := false
+const FORCE_CASTLE := true
 
 # ------------------ VARIABLES ------------------ #
 

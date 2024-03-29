@@ -488,10 +488,11 @@ func _update_custom_physics(input : Dictionary, delta : float) -> void:
 		# determine the angle we have with the floor
 		var dot_product = self._collision_normal.dot(self.up_direction)
 		var angle_radians = acos(dot_product)
-		var angle_degrees = angle_radians * 180.0 / PI
+		#var angle_degrees = angle_radians * 180.0 / PI
 		
 		# if we're on a slope, check to ensure the slope is shallow enough to be considered a floor. else, it's a wall and we're not grounded
-		if (angle_degrees <= self.floor_max_angle + FLOOR_ANGLE_THRESHOLD):
+		
+		if (angle_radians <= self.floor_max_angle + FLOOR_ANGLE_THRESHOLD):
 			self._on_floor = true
 		else:
 			self._on_floor = false
