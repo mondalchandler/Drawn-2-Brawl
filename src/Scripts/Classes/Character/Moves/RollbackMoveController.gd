@@ -24,14 +24,14 @@ const MOVE_NAMES = [
 @onready var char : RollbackCharacterController = $".."
 
 # variables used to track the moves currently loaded onto our character
-@export var ground_nc: Move = null
-@export var ground_nf: Move = null
-@export var ground_sc: Move = null
-@export var ground_sf: Move = null
-@export var air_nc: Move = null
-@export var air_nf: Move = null
-@export var air_sc: Move = null
-@export var air_sf: Move = null
+@export var ground_nc: RollbackMove = null
+@export var ground_nf: RollbackMove = null
+@export var ground_sc: RollbackMove = null
+@export var ground_sf: RollbackMove = null
+@export var air_nc: RollbackMove = null
+@export var air_nf: RollbackMove = null
+@export var air_sc: RollbackMove = null
+@export var air_sf: RollbackMove = null
 
 # ---------------------------------------- FUNCTIONS ------------------------------------------ #
 

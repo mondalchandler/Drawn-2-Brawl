@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=3 uid="uid://cfwg16u4t5r01"]
+[gd_scene load_steps=45 format=3 uid="uid://cfwg16u4t5r01"]
 
 [ext_resource type="Script" path="res://src/Scripts/Classes/Character/RollbackCharacterController.gd" id="1_d8h7s"]
 [ext_resource type="PackedScene" uid="uid://cojs7ish64cv5" path="res://src/Scenes/UI/Billboard/billboard_sprite_3d.tscn" id="2_33ndn"]
@@ -14,9 +14,11 @@
 [ext_resource type="Texture2D" uid="uid://bx5ukutk4wum3" path="res://resources/Images/arrow_down.png" id="12_co1d8"]
 [ext_resource type="PackedScene" uid="uid://du1ce84fu4a65" path="res://src/Scenes/UI/Pause/pause_menu.tscn" id="13_besuu"]
 [ext_resource type="PackedScene" uid="uid://dasqrf4pd4bpe" path="res://src/Scenes/Stamina/StanimaBar3D.tscn" id="14_kl2fp"]
+[ext_resource type="Script" path="res://src/Scripts/Classes/Character/RollbackHitbox.gd" id="15_foqi0"]
 [ext_resource type="Script" path="res://addons/godot-rollback-netcode/NetworkTimer.gd" id="15_od4bj"]
 [ext_resource type="Script" path="res://src/Scripts/Classes/Character/Moves/RollbackMoveController.gd" id="16_c5e66"]
 [ext_resource type="Script" path="res://src/Scripts/Classes/Character/Moves/ChargableMoves/Test/TestGrab.gd" id="17_iwirs"]
+[ext_resource type="Script" path="res://src/Scripts/Classes/Character/Moves/RollbackMove.gd" id="19_xdm2c"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_1yy5m"]
 viewport_path = NodePath("BillboardViewport")
@@ -111,9 +113,6 @@ _data = {
 "run": SubResource("Animation_727vt")
 }
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sn8c4"]
-height = 1.10297
-
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_b6h1n"]
 animation = &"idle"
 
@@ -163,6 +162,13 @@ viewport_path = NodePath("BillboardViewport")
 [sub_resource type="ViewportTexture" id="ViewportTexture_sm5on"]
 viewport_path = NodePath("SubViewport")
 
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sn8c4"]
+height = 1.10297
+
+[sub_resource type="BoxMesh" id="BoxMesh_3eisd"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_g07xf"]
+
 [node name="BaseCharacter" type="CharacterBody3D" groups=["network_sync"]]
 collision_layer = 2
 platform_floor_layers = 4294967294
@@ -175,21 +181,17 @@ pixel_size = 0.015
 texture = SubResource("ViewportTexture_1yy5m")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-speed_scale = 2.0
-method_call_mode = 1
+callback_mode_method = 1
 libraries = {
 "": SubResource("AnimationLibrary_bchoe")
 }
+speed_scale = 2.0
 
 [node name="CharacterSprite" type="Sprite3D" parent="."]
 transform = Transform3D(0.397235, 0, 0, 0, 0.366733, 0, 0, 0, 0.5, 0, -0.0537091, 0)
 billboard = 1
 shaded = true
 texture = ExtResource("3_yuvv0")
-
-[node name="Hurtbox" type="CollisionShape3D" parent="."]
-transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, -0.302027, 0)
-shape = SubResource("CapsuleShape3D_sn8c4")
 
 [node name="FloorRing" type="Decal" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00604342, -0.884379, -0.0541416)
@@ -215,10 +217,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.46114e-05, -1.09399, 0.0004
 target_position = Vector3(0, -10, 0)
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
+callback_mode_process = 2
+libraries = {
+"": SubResource("AnimationLibrary_bchoe")
+}
 tree_root = SubResource("AnimationNodeStateMachine_ata2m")
 anim_player = NodePath("../AnimationPlayer")
-active = true
-process_callback = 2
 
 [node name="PlayerNametag" parent="." instance=ExtResource("2_33ndn")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.40802, 0)
@@ -239,6 +243,24 @@ script = null
 [node name="StaminaBar3D" parent="." instance=ExtResource("14_kl2fp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.93205, 0)
 texture = SubResource("ViewportTexture_sm5on")
+
+[node name="Hurtbox" type="CollisionShape3D" parent="."]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, -0.302027, 0)
+shape = SubResource("CapsuleShape3D_sn8c4")
+
+[node name="Axe Uppercut Hitbox" type="Area3D" parent="Hurtbox" groups=["network_sync"]]
+transform = Transform3D(0.848528, 0, 0.707107, 0, 0.8, 0, -0.848528, 0, 0.707107, -0.19036, 8.13752e-05, 0.645388)
+monitoring = false
+script = ExtResource("15_foqi0")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Hurtbox/Axe Uppercut Hitbox" groups=["network_sync"]]
+transform = Transform3D(1.2, 0, 0, 0, 0.8, 0, 0, 0, 1, 0.5, 0, 0.5)
+visible = false
+mesh = SubResource("BoxMesh_3eisd")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox/Axe Uppercut Hitbox" groups=["network_sync"]]
+transform = Transform3D(1.2, 0, 0, 0, 0.8, 0, 0, 0, 1, 0.5, 0, 0.5)
+shape = SubResource("BoxShape3D_g07xf")
 
 [node name="Cooldowns" type="Node" parent="."]
 
@@ -263,11 +285,19 @@ ground_nc = NodePath("TestGrab")
 
 [node name="TestGrab" type="Node" parent="MoveController" groups=["network_sync"]]
 script = ExtResource("17_iwirs")
+move_name = "test_grab"
 
 [node name="GrabCooldownDebounce" type="Node" parent="MoveController/TestGrab"]
 script = ExtResource("15_od4bj")
 one_shot = true
 wait_ticks = 30
+
+[node name="Axe Uppercut" type="Node" parent="MoveController" node_paths=PackedStringArray("hitbox") groups=["network_sync"]]
+script = ExtResource("19_xdm2c")
+move_input = "ground_sc"
+move_type = "MELEE"
+move_name = "Axe Uppercut"
+hitbox = NodePath("../../Hurtbox/Axe Uppercut Hitbox")
 
 [connection signal="timeout" from="Cooldowns/BlockInputDebounce" to="." method="_on_block_input_debounce_timeout"]
 [connection signal="timeout" from="Cooldowns/PerfectBlockTimer" to="." method="_on_perfect_block_timer_timeout"]

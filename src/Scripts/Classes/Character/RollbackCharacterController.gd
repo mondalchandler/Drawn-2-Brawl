@@ -299,6 +299,7 @@ func _update_stamina():
 
 # --------------------------------------- VARIOUS PROCESS FUNCTIONS ------------------------------------------- #
 
+
 # -- given the current state of the player, update the animation tree
 func _update_core_animations() -> void:
 	if self._state == PlayerState.IDLE:
@@ -531,8 +532,7 @@ func _update_moves(input: Dictionary) -> void:
 
 # this is essentially the "_process" method for this node, but with network sychronization
 # NOTE: this is run on every TICK, not every FRAME
-func _network_process(input: Dictionary) -> void:
-	
+func _network_process(input: Dictionary) -> void:	
 	# get and set initial physics variables for easy state management
 	var delta = (0.0166667)
 	
@@ -697,7 +697,6 @@ func take_damage(damage: float) -> void:
 			self.health = 0
 			emit_signal("died")
 
-
 # ---------------------------------------- INIT AND CONNECTIONS ------------------------------------------------- #
 
 # -- constructor
@@ -715,8 +714,10 @@ func _ready() -> void:
 func _on_block_input_debounce_timeout():
 	self._can_block = true
 
+
 func _on_perfect_block_timer_timeout():
 	self.perfect_blocking = false
+
 
 func _on_roll_input_debounce_timeout():
 	self._can_roll = true
