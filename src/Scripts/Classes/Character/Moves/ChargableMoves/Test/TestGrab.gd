@@ -9,6 +9,7 @@ const GRAB_RANGE = 2
 # ---------------------------------------- NODES ------------------------------------------ #
 
 @onready var grab_cooldown : NetworkTimer = $GrabCooldownDebounce
+@onready var axe_hitbox : RollbackHitbox = $"../../Hurtbox/Axe Uppercut Hitbox"
 
 var char : RollbackCharacterController = null
 var grabbing_character : RollbackCharacterController = null
@@ -37,23 +38,9 @@ func ungrab() -> void:
 # this function is called on every rollback network update
 func move_update(input_down : bool) -> void:
 	if not self.char: return
-	if not self.can_grab:
-		return
 	
 	if input_down:
-		if not char.grabbing:
-			self.hitbox.active = true
-			var closest_data = char.get_closest_player()
-			var target_char = closest_data[0]
-			var target_dist = closest_data[1]
-			if target_char and not target_char.being_grabbed and target_dist <= GRAB_RANGE :
-				self.grab_char(target_char)
-		else:
-			self.hitbox.active = false
-			self.ungrab()
-		
-		self.can_grab = false
-		grab_cooldown.start()
+		self.axe_hitbox.active = true
 
 
 # this function is called on when the move controller runs _ready, but it sends the using character to this move file
@@ -72,10 +59,8 @@ func _network_process(_input: Dictionary) -> void:
 func _save_state() -> Dictionary:
 	return {
 		can_grab = self.can_grab,
-		hitbox = self.hitbox
 	}
 
 
 func _load_state(state: Dictionary) -> void:
 	self.can_grab = state["can_grab"]
-	self.hitbox = state["hitbox"]

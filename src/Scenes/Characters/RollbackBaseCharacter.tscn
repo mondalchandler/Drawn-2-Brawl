@@ -248,10 +248,13 @@ texture = SubResource("ViewportTexture_sm5on")
 transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, -0.302027, 0)
 shape = SubResource("CapsuleShape3D_sn8c4")
 
-[node name="Axe Uppercut Hitbox" type="Area3D" parent="Hurtbox" groups=["network_sync"]]
+[node name="Axe Uppercut Hitbox" type="Area3D" parent="Hurtbox" node_paths=PackedStringArray("collision_shape", "mesh_instance", "owner_char") groups=["network_sync"]]
 transform = Transform3D(0.848528, 0, 0.707107, 0, 0.8, 0, -0.848528, 0, 0.707107, -0.19036, 8.13752e-05, 0.645388)
 monitoring = false
 script = ExtResource("15_foqi0")
+collision_shape = NodePath("CollisionShape3D")
+mesh_instance = NodePath("MeshInstance3D")
+owner_char = NodePath("../..")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Hurtbox/Axe Uppercut Hitbox" groups=["network_sync"]]
 transform = Transform3D(1.2, 0, 0, 0, 0.8, 0, 0, 0, 1, 0.5, 0, 0.5)

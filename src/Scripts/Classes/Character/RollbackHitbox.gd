@@ -25,7 +25,7 @@ extends Area3D
 @export var mesh_instance: MeshInstance3D	# for hitbox visuals
 
 # the original character object, creator of the hitbox. can be null
-@export var owner_char : CharacterController
+@export var owner_char : RollbackCharacterController
 
 # a range of two numbers to indicate what damage rolls the hitbox can have. the second number MUST be greater. integers only
 @export var damage_range: Array
@@ -160,7 +160,7 @@ func _ready() -> void:
 
 
 # called every frame. 'delta' is the elapsed time since the previous frame
-func _process(_delta) -> void:
+func _network_process(_input: Dictionary) -> void:
 	if self.active:
 		self.hit_chars = {}
 		self.monitoring = true
