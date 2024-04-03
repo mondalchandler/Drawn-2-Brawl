@@ -28,16 +28,16 @@ extends Area3D
 @export var owner_char : RollbackCharacterController
 
 # a range of two numbers to indicate what damage rolls the hitbox can have. the second number MUST be greater. integers only
-@export var damage_range: Array
+@export var damage_range: Array  = [5, 5]
 var PLAYER_STAMINA_PERCENT_REDUCTION = 0.25
 
 # a dictionary to track hit characters from the hitbox
-var hit_chars: Dictionary
+var hit_chars: Dictionary = {}
 
 # determine how long a character cannot act for when hit, and how long a knockback force is applied
-@export var kb_length: float
-@export var hitstun_length: float
-@export var knockback_strength: Vector3
+@export var kb_length: float = 0.0
+@export var hitstun_length: float = 0.5
+@export var knockback_strength: Vector3 = Vector3.ZERO
 
 # determines if hitboxes should show or not
 @export var debug_on: bool
@@ -173,27 +173,16 @@ func _network_process(_input: Dictionary) -> void:
 			self.mesh_instance.visible = false
 
 
-# constructor
-func _init(	new_owner_char = null,
-			new_damage_range = [5, 5],
-			new_kb_length = 0.0, new_hitstun_length = 0.5,
-			new_knockback_strength = Vector3.ZERO,
-			new_debug_on = false,
-			_new_collision_shape = CollisionShape3D.new(),
-			_new_mesh_instance = MeshInstance3D.new(),
-			new_active = false,
-			new_collision_level = 1) -> void:
-	self.collision_level = new_collision_level
-	self.active = new_active
-	self.owner_char = new_owner_char
-	
-	self.kb_length = new_kb_length
-	self.knockback_strength = new_knockback_strength
-	self.damage_range = new_damage_range
-	self.hitstun_length = new_hitstun_length
-	
-	self.hit_chars = {}
-	self.name = "Hitbox"
-	self.monitoring = false
-	
-	self.debug_on = new_debug_on
+func _save_state() -> Dictionary:
+	return {
+		active = self.active,
+		monitoring = self.monitoring,
+		hit_chars = self.hit_chars
+	}
+
+
+func _load_state(state: Dictionary) -> void:
+	self.active = state["active"]
+	self.monitoring = state["monitoring"]
+	self.hit_chars = state["hit_chars"]
+

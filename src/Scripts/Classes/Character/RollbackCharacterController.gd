@@ -629,7 +629,7 @@ func _save_state() -> Dictionary:
 		
 		grabbing = self.grabbing,
 		being_grabbed = self.being_grabbed,
-		#knockback = self.knockback,
+		knockback = self.knockback,
 	}
 
 
@@ -664,7 +664,7 @@ func _load_state(state: Dictionary) -> void:
 	
 	self.grabbing = state["grabbing"]
 	self.being_grabbed = state["being_grabbed"]
-	#self.knockback = state["knockback"]
+	self.knockback = state["knockback"]
 
 
 # ---------------------------------------- PUBLIC FUNCTIONS ------------------------------------------------- #

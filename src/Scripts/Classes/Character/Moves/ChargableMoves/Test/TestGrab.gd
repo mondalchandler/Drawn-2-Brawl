@@ -38,7 +38,10 @@ func ungrab() -> void:
 # this function is called on every rollback network update
 func move_update(input_down : bool) -> void:
 	if not self.char: return
-	
+	if (char.sprite.flip_h): # if we are facing left
+		char.hurtbox.rotation.y = PI
+	else: # else we are facing right
+		char.hurtbox.rotation.y = 0
 	if input_down:
 		self.axe_hitbox.active = true
 
