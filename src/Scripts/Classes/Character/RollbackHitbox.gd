@@ -42,6 +42,12 @@ var hit_chars: Dictionary = {}
 # determines if hitboxes should show or not
 @export var debug_on: bool
 
+var kb_x
+var kb_y
+var kb_z
+
+var dealt_kb = false
+
 # ------------------- METHODS --------------------- #
 
 
@@ -52,6 +58,7 @@ func _before_hit_computation() -> void:
 
 # overrideable virtual method.
 func _after_hit_computation() -> void:
+	dealt_kb = false
 	pass
 
 
@@ -62,10 +69,16 @@ func deal_stun(hit_char) -> void:
 
 
 func deal_kb(hit_char) -> void:
-	var dir_to_enemy = (hit_char.position - owner_char.position).normalized()
-	hit_char.knockback = Vector3(dir_to_enemy.x * knockback_strength.x, knockback_strength.y, dir_to_enemy.z * knockback_strength.z)
-	var knockback_tween = hit_char.get_tree().create_tween()
-	knockback_tween.tween_property(hit_char, "knockback", Vector3.ZERO, kb_length)
+	if !dealt_kb:
+		dealt_kb = true
+		var dir_to_enemy = (hit_char.position - owner_char.position).normalized()
+		kb_x = dir_to_enemy.x * knockback_strength.x
+		kb_y = knockback_strength.y
+		kb_z = dir_to_enemy.z * knockback_strength.z
+		
+		hit_char.knockback = Vector3(kb_x, kb_y, kb_z)
+		var knockback_tween = hit_char.get_tree().create_tween()
+		knockback_tween.tween_property(hit_char, "knockback", Vector3.ZERO, kb_length)
 
 
 # computes a damage value, then updates an enemy char's hp value
@@ -141,10 +154,6 @@ func body_entered(body: Node3D) -> void:
 
 # ------------------- INIT AND LOOP --------------------- #
 
-func _network_spawn(data: Dictionary) -> void:
-	print("ayo I'm tryna fuck")
-
-
 # this only runs when the node and ITS CHILDREN and loaded
 func _ready() -> void:
 	# turn off collisions with default world
@@ -177,7 +186,10 @@ func _save_state() -> Dictionary:
 	return {
 		active = self.active,
 		monitoring = self.monitoring,
-		hit_chars = self.hit_chars
+		hit_chars = self.hit_chars,
+		kb_x = self.kb_x,
+		kb_y = self.kb_y,
+		kb_z = self.kb_z
 	}
 
 
@@ -185,4 +197,7 @@ func _load_state(state: Dictionary) -> void:
 	self.active = state["active"]
 	self.monitoring = state["monitoring"]
 	self.hit_chars = state["hit_chars"]
+	self.kb_x = state["kb_x"]
+	self.kb_y = state["kb_y"]
+	self.kb_z = state["kb_z"]
 
