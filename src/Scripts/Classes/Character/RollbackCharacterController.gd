@@ -544,6 +544,12 @@ func _network_process(input: Dictionary) -> void:
 		#print("kb in RollbackCharacterController.gd:")
 		#print(knockback)
 		#pass
+	#if kb_x > 0 or kb_y > 0 or kb_z > 0:
+		#print(Vector3(kb_x, kb_y, kb_z))
+		#velocity += Vector3(kb_x, kb_y, kb_z)
+		#kb_x = 0
+		#kb_y = 0
+		#kb_z = 0
 	
 	# TODO: this should probably be changed to be something else
 #	if event.is_action_pressed("pause"):
@@ -609,8 +615,8 @@ func _network_process(input: Dictionary) -> void:
 # called at the end of every tick
 func _save_state() -> Dictionary:
 	return {
-		position = self.position,
-		velocity = self.velocity,
+		#position = self.position,
+		#velocity = self.velocity,
 		
 		can_move = self.can_move,
 		move_direction = self.move_direction,	
@@ -640,16 +646,16 @@ func _save_state() -> Dictionary:
 		grabbing = self.grabbing,
 		being_grabbed = self.being_grabbed,
 		#knockback = self.knockback,
-		#kb_x = self.kb_x,
-		#kb_y = self.kb_y,
-		#kb_z = self.kb_z
+		kb_x = self.kb_x,
+		kb_y = self.kb_y,
+		kb_z = self.kb_z
 	}
 
 
 # called whenever a rollback is neccessary; applies state to our current scene
 func _load_state(state: Dictionary) -> void:
-	self.position = state["position"] 
-	self.velocity = state["velocity"]
+	#self.position = state["position"] 
+	#self.velocity = state["velocity"]
 	
 	self.can_move = state["can_move"]
 	self.move_direction = state["move_direction"]
@@ -679,9 +685,9 @@ func _load_state(state: Dictionary) -> void:
 	self.grabbing = state["grabbing"]
 	self.being_grabbed = state["being_grabbed"]
 	#self.knockback = state["knockback"]
-	#self.kb_x = state["kb_x"]
-	#self.kb_y = state["kb_y"]
-	#self.kb_z = state["kb_z"]
+	self.kb_x = state["kb_x"]
+	self.kb_y = state["kb_y"]
+	self.kb_z = state["kb_z"]
 
 
 # ---------------------------------------- PUBLIC FUNCTIONS ------------------------------------------------- #

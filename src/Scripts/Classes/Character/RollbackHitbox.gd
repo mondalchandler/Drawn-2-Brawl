@@ -96,10 +96,12 @@ func deal_kb(hit_char) -> void:
 	if !dealt_kb:
 		hb_timer.start()
 		var dir_to_enemy = (hit_char.position - owner_char.position).normalized()
+		#hit_char.kb_x = dir_to_enemy.x * knockback_strength.x
+		#hit_char.kb_y = knockback_strength.y
+		#hit_char.kb_z = dir_to_enemy.z * knockback_strength.z
 		kb_x = dir_to_enemy.x * knockback_strength.x
 		kb_y = knockback_strength.y
 		kb_z = dir_to_enemy.z * knockback_strength.z
-		
 		
 		#hit_char.knockback = Vector3(0.1, 0.1, 0.1) kb_x, kb_y, kb_z 1, 1, 1
 		hit_char.velocity += Vector3(kb_x, kb_y, kb_z)
