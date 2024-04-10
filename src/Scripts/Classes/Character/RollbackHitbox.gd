@@ -42,11 +42,14 @@ var hit_chars: Dictionary = {}
 # determines if hitboxes should show or not
 @export var debug_on: bool
 
+@onready var hb_timer = $HitboxDebounce
+
 var kb_x
 var kb_y
 var kb_z
 
 var dealt_kb = false
+var dealt_stun = false
 
 # ------------------- METHODS --------------------- #
 
@@ -58,27 +61,55 @@ func _before_hit_computation() -> void:
 
 # overrideable virtual method.
 func _after_hit_computation() -> void:
-	dealt_kb = false
-	pass
+	self.dealt_kb = false
+	self.dealt_stun = false
+	self.active = false
 
 
 func deal_stun(hit_char) -> void:
-	hit_char.can_move = false
-	var stun_tween = hit_char.get_tree().create_tween()
-	stun_tween.tween_property(hit_char, "can_move", true, hitstun_length)
+	if !dealt_stun:
+		hit_char.can_move = false
+		var stun_tween = hit_char.get_tree().create_tween()
+		stun_tween.tween_property(hit_char, "can_move", true, hitstun_length)
+		dealt_stun = true
+
+
+# Custom easing function (linear interpolation)
+func lerp(a: float, b: float, t: float) -> float:
+	return a + (b - a) * t
+
+
+# Custom tweening function
+func custom_tween(node: Node, property: String, target_value: Variant, duration: float):
+	var start_value = node.get(property)
+	var elapsed_time = 0.0
+
+	while elapsed_time < duration:
+		var t = elapsed_time / duration
+		var interpolated_value = lerp(start_value, target_value, t)
+		node.set(property, interpolated_value)
+		await get_tree().create_timer(0.016667).timeout  # Wait for one frame
+		elapsed_time += 0.016667
 
 
 func deal_kb(hit_char) -> void:
 	if !dealt_kb:
-		dealt_kb = true
+		hb_timer.start()
 		var dir_to_enemy = (hit_char.position - owner_char.position).normalized()
 		kb_x = dir_to_enemy.x * knockback_strength.x
 		kb_y = knockback_strength.y
 		kb_z = dir_to_enemy.z * knockback_strength.z
 		
-		hit_char.knockback = Vector3(kb_x, kb_y, kb_z)
-		var knockback_tween = hit_char.get_tree().create_tween()
-		knockback_tween.tween_property(hit_char, "knockback", Vector3.ZERO, kb_length)
+		
+		#hit_char.knockback = Vector3(0.1, 0.1, 0.1) kb_x, kb_y, kb_z 1, 1, 1
+		hit_char.velocity += Vector3(kb_x, kb_y, kb_z)
+		
+		#print("kb in RollbackHitbox.gd:")
+		#print(hit_char.knockback)
+		dealt_kb = true
+		#custom_tween(hit_char, "knockback", Vector3.ZERO, kb_length)
+		#var knockback_tween = hit_char.get_tree().create_tween()
+		#knockback_tween.tween_property(hit_char, "knockback", Vector3.ZERO, kb_length)
 
 
 # computes a damage value, then updates an enemy char's hp value
@@ -100,19 +131,19 @@ func on_hit(hit_char) -> void:
 	# intensity/specific kb effect?
 	
 	self._before_hit_computation()
-	
+	self.deal_kb(hit_char)
 	# deal values to character
-	if not hit_char.blocking:
-		self.deal_stun(hit_char)
-		self.deal_kb(hit_char)
-		self.deal_dmg(hit_char)
-	else:
-		hit_char.stamina -= hit_char.STAMINA_AMOUNT * PLAYER_STAMINA_PERCENT_REDUCTION
-		if hit_char.perfect_block:
-			var temp_stun = self.hitstun_length
-			self.hitstun_length = 1 # is this just always applying the perfect block effect no matter what if the opponent is blocking?
-			self.deal_stun(owner_char)
-			self.hitstun_length = temp_stun
+	#if not hit_char.blocking:
+		##self.deal_stun(hit_char)
+		#self.deal_kb(hit_char)
+		##self.deal_dmg(hit_char)
+	#else:
+		#hit_char.stamina -= hit_char.STAMINA_AMOUNT * PLAYER_STAMINA_PERCENT_REDUCTION
+		#if hit_char.perfect_block:
+			#var temp_stun = self.hitstun_length
+			#self.hitstun_length = 1 # is this just always applying the perfect block effect no matter what if the opponent is blocking?
+			#self.deal_stun(owner_char)
+			#self.hitstun_length = temp_stun
 	
 	self._after_hit_computation()
 
@@ -189,7 +220,9 @@ func _save_state() -> Dictionary:
 		hit_chars = self.hit_chars,
 		kb_x = self.kb_x,
 		kb_y = self.kb_y,
-		kb_z = self.kb_z
+		kb_z = self.kb_z,
+		dealt_kb = self.dealt_kb,
+		dealt_stun = self.dealt_stun
 	}
 
 
@@ -200,4 +233,6 @@ func _load_state(state: Dictionary) -> void:
 	self.kb_x = state["kb_x"]
 	self.kb_y = state["kb_y"]
 	self.kb_z = state["kb_z"]
+	self.dealt_kb = state["dealt_kb"]
+	self.dealt_stun = state["dealt_stun"]
 

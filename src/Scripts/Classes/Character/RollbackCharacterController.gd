@@ -61,6 +61,9 @@ enum PlayerState { IDLE, RUNNING, JUMPING, FALLING, KNOCKBACK, BLOCKING }
 # various dynamic and quick updating properties for state and physics
 var move_direction : Vector3 = Vector3.ZERO
 var knockback : Vector3 = Vector3.ZERO
+var kb_x : float = 0.0
+var kb_y : float = 0.0
+var kb_z : float = 0.0
 var anim_speed_scale: float = 1.0
 var sprite_flipped: bool = false
 
@@ -246,6 +249,7 @@ func _update_movement(dt) -> void:
 			self.velocity.z = lerp(velocity.z, 0.0, dt * 7.0) + knockback.z
 			
 	if !self.can_move:
+		print("in the !can_move statement")
 		self.velocity = knockback
 
 
@@ -445,8 +449,7 @@ func _get_local_input() -> Dictionary:
 # custom code used to predict what the player's input may be if there is a rollback
 # the better we can predict the player, the smaller the network artifacts
 func _predict_remote_input(previous_input: Dictionary, _ticks_since_real_input: int) -> Dictionary:
-	
-	# clone new dictionary for the input
+		# clone new dictionary for the input
 	var predicted_input = previous_input.duplicate()
 	
 	# it's very unlikely we will get two of these inputs in a row, so we can throw out these values
@@ -464,8 +467,7 @@ func _predict_remote_input(previous_input: Dictionary, _ticks_since_real_input: 
 # please note that this function will likely evolve over time, and it should eventually be replaced to not use
 # floating points since those are proven to be non-deterministic due to floating point errors
 func _update_custom_physics(input : Dictionary, delta : float) -> void:
-	
-	#---- dont update any player physics if they're being grabbed
+		#---- dont update any player physics if they're being grabbed
 		# this effectively gives the other player full ownership over their physics
 	if self.being_grabbed:
 		self.velocity = Vector3.ZERO
@@ -515,7 +517,7 @@ func _update_custom_physics(input : Dictionary, delta : float) -> void:
 	#	self.velocity = self.velocity.slide(self._collision_normal)
 	
 	#-- apply final positioning for physics
-	self.position += self.velocity * delta
+	self.position += (self.velocity * delta)
 
 
 func _update_moves(input: Dictionary) -> void:
@@ -532,9 +534,16 @@ func _update_moves(input: Dictionary) -> void:
 
 # this is essentially the "_process" method for this node, but with network sychronization
 # NOTE: this is run on every TICK, not every FRAME
-func _network_process(input: Dictionary) -> void:	
+func _network_process(input: Dictionary) -> void:
 	# get and set initial physics variables for easy state management
 	var delta = (0.0166667)
+	
+	#if knockback > Vector3.ZERO:
+		#self.can_move = false
+		#print(can_move)
+		#print("kb in RollbackCharacterController.gd:")
+		#print(knockback)
+		#pass
 	
 	# TODO: this should probably be changed to be something else
 #	if event.is_action_pressed("pause"):
@@ -603,6 +612,7 @@ func _save_state() -> Dictionary:
 		position = self.position,
 		velocity = self.velocity,
 		
+		can_move = self.can_move,
 		move_direction = self.move_direction,	
 		up_direction = self.up_direction,	
 		on_floor = self._on_floor,
@@ -629,7 +639,10 @@ func _save_state() -> Dictionary:
 		
 		grabbing = self.grabbing,
 		being_grabbed = self.being_grabbed,
-		knockback = self.knockback,
+		#knockback = self.knockback,
+		#kb_x = self.kb_x,
+		#kb_y = self.kb_y,
+		#kb_z = self.kb_z
 	}
 
 
@@ -638,6 +651,7 @@ func _load_state(state: Dictionary) -> void:
 	self.position = state["position"] 
 	self.velocity = state["velocity"]
 	
+	self.can_move = state["can_move"]
 	self.move_direction = state["move_direction"]
 	self.up_direction = state["up_direction"]
 	self._on_floor = state["on_floor"]
@@ -664,7 +678,10 @@ func _load_state(state: Dictionary) -> void:
 	
 	self.grabbing = state["grabbing"]
 	self.being_grabbed = state["being_grabbed"]
-	self.knockback = state["knockback"]
+	#self.knockback = state["knockback"]
+	#self.kb_x = state["kb_x"]
+	#self.kb_y = state["kb_y"]
+	#self.kb_z = state["kb_z"]
 
 
 # ---------------------------------------- PUBLIC FUNCTIONS ------------------------------------------------- #
