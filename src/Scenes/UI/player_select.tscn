@@ -1,10 +1,10 @@
-[gd_scene load_steps=17 format=3 uid="uid://cekvrq3c2qkiu"]
+[gd_scene load_steps=18 format=3 uid="uid://cekvrq3c2qkiu"]
 
 [ext_resource type="Script" path="res://src/Scripts/UI/player_select.gd" id="1_3nuvs"]
 [ext_resource type="Texture2D" uid="uid://6cv8bs5iycg7" path="res://resources/Images/PlayerSelectImages/BGText.jpg" id="2_qmmb5"]
 [ext_resource type="Texture2D" uid="uid://cxoyb38ikx36t" path="res://resources/Images/PlayerSelectImages/Assassin99Portrait.png" id="4_82iii"]
 [ext_resource type="Texture2D" uid="uid://bvnroba7l3ivs" path="res://resources/Images/PlayerSelectImages/RangerPortrait.png" id="5_5d2ge"]
-[ext_resource type="PackedScene" path="res://src/Scenes/characters/Ranger.tscn" id="6_8mryq"]
+[ext_resource type="PackedScene" uid="uid://ds55r3e3det8w" path="res://src/Scenes/characters/Ranger.tscn" id="6_8mryq"]
 [ext_resource type="Texture2D" uid="uid://dpv1knjr8e0rw" path="res://resources/Images/PlayerSelectImages/NoblePortrait.png" id="7_dubgh"]
 [ext_resource type="Texture2D" uid="uid://b1ehxxaxqbbm3" path="res://resources/Images/PlayerSelectImages/PlaceholderPortrait1.png" id="8_bk4bv"]
 [ext_resource type="Texture2D" uid="uid://b83s4eia36hg5" path="res://resources/Images/PlayerSelectImages/PlaceholderPortrait2.png" id="9_guhas"]
@@ -16,6 +16,10 @@
 [ext_resource type="Script" path="res://src/Scripts/UI/Navigation/go_to_scene_button.gd" id="14_k26lg"]
 [ext_resource type="Texture2D" uid="uid://bcosy0o5ex8p1" path="res://resources/Images/PlayerSelectImages/OptionsButton.png" id="15_lnmre"]
 [ext_resource type="Texture2D" uid="uid://brdcm5gw0io12" path="res://resources/Images/PlayerSelectImages/MapBtn.png" id="16_kixxh"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_04514"]
+font_size = 25
+font_color = Color(0, 0, 0, 1)
 
 [node name="PlayerSelect" type="Control"]
 layout_mode = 3
@@ -98,6 +102,31 @@ texture = ExtResource("11_4g4s0")
 texture_scale = Vector2(2, 2)
 polygon = PackedVector2Array(163, 4, 237, -1, 236, 190, -0.00012207, 189, 1.99988, 150, 8.99988, 129, 16.9999, 110, 28.9999, 90, 42.9999, 71, 61.9999, 54, 63.9999, 14, 102, 27, 128, 15)
 script = ExtResource("12_8yg1b")
+
+[node name="TimeTextHolder" type="Control" parent="FunctionButtons/PlayButton"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 235.0
+offset_bottom = 190.0
+mouse_filter = 2
+mouse_force_pass_scroll_events = false
+
+[node name="TimeText" type="Label" parent="FunctionButtons/PlayButton/TimeTextHolder"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -21.5
+offset_top = -29.0
+offset_right = 14.5
+offset_bottom = 18.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "15"
+label_settings = SubResource("LabelSettings_04514")
 
 [node name="BackToMainButton" parent="FunctionButtons" instance=ExtResource("10_82nx1")]
 position = Vector2(10, 960)
