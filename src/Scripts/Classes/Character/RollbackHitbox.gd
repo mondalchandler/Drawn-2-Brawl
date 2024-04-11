@@ -42,7 +42,7 @@ var hit_chars: Dictionary = {}
 # determines if hitboxes should show or not
 @export var debug_on: bool
 
-@onready var hb_timer = $HitboxDebounce
+@onready var hb_timer : NetworkTimer = $KnockbackCooldown
 
 var kb_x
 var kb_y
@@ -50,6 +50,8 @@ var kb_z
 
 var dealt_kb = false
 var dealt_stun = false
+
+var hit_char_path
 
 # ------------------- METHODS --------------------- #
 
@@ -69,8 +71,9 @@ func _after_hit_computation() -> void:
 func deal_stun(hit_char) -> void:
 	if !dealt_stun:
 		hit_char.can_move = false
-		var stun_tween = hit_char.get_tree().create_tween()
-		stun_tween.tween_property(hit_char, "can_move", true, hitstun_length)
+		#var stun_tween = hit_char.get_tree().create_tween()
+		#stun_tween.tween_property(hit_char, "can_move", true, hitstun_length)
+		#custom_tween(hit_char, "can_move", true, hitstun_length)
 		dealt_stun = true
 
 
@@ -93,25 +96,27 @@ func custom_tween(node: Node, property: String, target_value: Variant, duration:
 
 
 func deal_kb(hit_char) -> void:
+	hit_char_path = hit_char.get_path()
 	if !dealt_kb:
-		hb_timer.start()
 		var dir_to_enemy = (hit_char.position - owner_char.position).normalized()
+		print(dir_to_enemy)
 		#hit_char.kb_x = dir_to_enemy.x * knockback_strength.x
 		#hit_char.kb_y = knockback_strength.y
 		#hit_char.kb_z = dir_to_enemy.z * knockback_strength.z
 		kb_x = dir_to_enemy.x * knockback_strength.x
 		kb_y = knockback_strength.y
 		kb_z = dir_to_enemy.z * knockback_strength.z
-		
 		#hit_char.knockback = Vector3(0.1, 0.1, 0.1) kb_x, kb_y, kb_z 1, 1, 1
-		hit_char.velocity += Vector3(kb_x, kb_y, kb_z)
+		hit_char.can_move = false
+		hit_char.knockback = Vector3(0.5, 0.5, 0.5)
+		#hb_timer.start()
 		
 		#print("kb in RollbackHitbox.gd:")
 		#print(hit_char.knockback)
-		dealt_kb = true
 		#custom_tween(hit_char, "knockback", Vector3.ZERO, kb_length)
-		#var knockback_tween = hit_char.get_tree().create_tween()
-		#knockback_tween.tween_property(hit_char, "knockback", Vector3.ZERO, kb_length)
+		var knockback_tween = hit_char.get_tree().create_tween()
+		knockback_tween.tween_property(hit_char, "knockback", Vector3.ZERO, kb_length)
+		dealt_kb = true
 
 
 # computes a damage value, then updates an enemy char's hp value
@@ -133,12 +138,14 @@ func on_hit(hit_char) -> void:
 	# intensity/specific kb effect?
 	
 	self._before_hit_computation()
+	#self.deal_stun(hit_char)
+	#hit_char.can_move = false
 	self.deal_kb(hit_char)
 	# deal values to character
 	#if not hit_char.blocking:
-		##self.deal_stun(hit_char)
+		#self.deal_stun(hit_char)
 		#self.deal_kb(hit_char)
-		##self.deal_dmg(hit_char)
+		#self.deal_dmg(hit_char)
 	#else:
 		#hit_char.stamina -= hit_char.STAMINA_AMOUNT * PLAYER_STAMINA_PERCENT_REDUCTION
 		#if hit_char.perfect_block:
@@ -219,22 +226,31 @@ func _save_state() -> Dictionary:
 	return {
 		active = self.active,
 		monitoring = self.monitoring,
-		hit_chars = self.hit_chars,
+		hit_chars = self.hit_chars.duplicate(),
 		kb_x = self.kb_x,
 		kb_y = self.kb_y,
 		kb_z = self.kb_z,
 		dealt_kb = self.dealt_kb,
-		dealt_stun = self.dealt_stun
+		dealt_stun = self.dealt_stun,
+		hit_char_path = self.hit_char_path
 	}
 
 
 func _load_state(state: Dictionary) -> void:
 	self.active = state["active"]
 	self.monitoring = state["monitoring"]
-	self.hit_chars = state["hit_chars"]
+	self.hit_chars = state["hit_chars"].duplicate()
 	self.kb_x = state["kb_x"]
 	self.kb_y = state["kb_y"]
 	self.kb_z = state["kb_z"]
 	self.dealt_kb = state["dealt_kb"]
 	self.dealt_stun = state["dealt_stun"]
+	self.hit_char_path = state["hit_char_path"]
 
+
+func _on_knockback_cooldown_timeout():
+	#print("knockback timer end")
+	#var hit_char = get_node(hit_char_path)
+	#hit_char.knockback = Vector3.ZERO
+	#hit_char.can_move = true
+	pass

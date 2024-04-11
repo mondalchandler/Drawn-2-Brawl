@@ -44,6 +44,7 @@ func move_update(input_down : bool) -> void:
 		char.hurtbox.rotation.y = 0
 	if input_down:
 		self.axe_hitbox.active = true
+		grab_cooldown.start()
 
 
 # this function is called on when the move controller runs _ready, but it sends the using character to this move file
@@ -52,6 +53,7 @@ func move_ready(set_char : RollbackCharacterController) -> void:
 
 
 func _on_grab_cooldown_debounce_timeout():
+	self.axe_hitbox.active = false
 	self.can_grab = true
 
 

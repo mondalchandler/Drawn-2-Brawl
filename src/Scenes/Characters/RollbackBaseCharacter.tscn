@@ -244,7 +244,7 @@ script = null
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.93205, 0)
 texture = SubResource("ViewportTexture_sm5on")
 
-[node name="Hurtbox" type="CollisionShape3D" parent="."]
+[node name="Hurtbox" type="CollisionShape3D" parent="." groups=["network_sync"]]
 transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, -0.302027, 0)
 shape = SubResource("CapsuleShape3D_sn8c4")
 
@@ -259,11 +259,6 @@ kb_length = 0.1
 knockback_strength = Vector3(5, 5, 5)
 debug_on = true
 
-[node name="HitboxDebounce" type="Node" parent="Hurtbox/Axe Uppercut Hitbox"]
-script = ExtResource("15_od4bj")
-one_shot = true
-wait_ticks = 30
-
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Hurtbox/Axe Uppercut Hitbox" groups=["network_sync"]]
 transform = Transform3D(1.2, 0, 0, 0, 0.8, 0, 0, 0, 1, 0.5, 0, 0.5)
 visible = false
@@ -272,6 +267,11 @@ mesh = SubResource("BoxMesh_3eisd")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox/Axe Uppercut Hitbox" groups=["network_sync"]]
 transform = Transform3D(1.2, 0, 0, 0, 0.8, 0, 0, 0, 1, 0.5, 0, 0.5)
 shape = SubResource("BoxShape3D_g07xf")
+
+[node name="KnockbackCooldown" type="Node" parent="Hurtbox/Axe Uppercut Hitbox"]
+script = ExtResource("15_od4bj")
+one_shot = true
+wait_ticks = 60
 
 [node name="Cooldowns" type="Node" parent="."]
 
@@ -310,7 +310,7 @@ move_type = "MELEE"
 move_name = "Axe Uppercut"
 hitbox = NodePath("../../Hurtbox/Axe Uppercut Hitbox")
 
-[connection signal="timeout" from="Hurtbox/Axe Uppercut Hitbox/HitboxDebounce" to="." method="_on_roll_input_debounce_timeout"]
+[connection signal="timeout" from="Hurtbox/Axe Uppercut Hitbox/KnockbackCooldown" to="Hurtbox/Axe Uppercut Hitbox" method="_on_knockback_cooldown_timeout"]
 [connection signal="timeout" from="Cooldowns/BlockInputDebounce" to="." method="_on_block_input_debounce_timeout"]
 [connection signal="timeout" from="Cooldowns/PerfectBlockTimer" to="." method="_on_perfect_block_timer_timeout"]
 [connection signal="timeout" from="Cooldowns/RollInputDebounce" to="." method="_on_roll_input_debounce_timeout"]

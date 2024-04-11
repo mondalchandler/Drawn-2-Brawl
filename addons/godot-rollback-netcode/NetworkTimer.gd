@@ -70,3 +70,7 @@ func _load_state(state: Dictionary) -> void:
 		_running = state['_running']
 		wait_ticks = state['_wait_ticks']
 		ticks_left = state['_ticks_left']
+
+
+func _on_timeout():
+	pass # Replace with function body.

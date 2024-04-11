@@ -218,39 +218,40 @@ func _handle_move_input(total_input : Dictionary) -> void:
 
 # -- update the velocities of the character and then apply them
 func _update_movement(dt) -> void:
-	if !self.blocking:
-		if self._on_floor:
-			if self.move_direction.length() > 0.0:
-				self._state = PlayerState.RUNNING
-				self.velocity.x = self.move_direction.x * self.speed + self.knockback.x
-				self.velocity.z = self.move_direction.z * self.speed + self.knockback.z
+	if can_move:
+		if !self.blocking:
+			if self._on_floor:
+				if self.move_direction.length() > 0.0:
+					self._state = PlayerState.RUNNING
+					self.velocity.x = self.move_direction.x * self.speed
+					self.velocity.z = self.move_direction.z * self.speed
 
-				# if player is moving left, flip the sprite
-				self.sprite_flipped = (self.move_direction.x < 0)
+					# if player is moving left, flip the sprite
+					self.sprite_flipped = (self.move_direction.x < 0)
+				else:
+					self._state = PlayerState.IDLE
+
+					#TODO: Lowkey feels weird and could be better
+					self.velocity.x = lerp(velocity.x, 0.0, dt * 7.0)
+					self.velocity.z = lerp(velocity.z, 0.0, dt * 7.0)
 			else:
-				self._state = PlayerState.IDLE
-
-				#TODO: Lowkey feels weird and could be better
-				self.velocity.x = lerp(velocity.x, 0.0, dt * 7.0) + self.knockback.x
-				self.velocity.z = lerp(velocity.z, 0.0, dt * 7.0) + self.knockback.z
+				self.velocity.x = lerp(velocity.x, self.move_direction.x * self.air_speed, dt * 3.0)
+				self.velocity.z = lerp(velocity.z, self.move_direction.z * self.air_speed, dt * 3.0)
+				if velocity.y > 0.0:
+					self._state = PlayerState.JUMPING
+				else:
+					self._state = PlayerState.FALLING
 		else:
-			self.velocity.x = lerp(velocity.x, self.move_direction.x * self.air_speed, dt * 3.0)
-			self.velocity.z = lerp(velocity.z, self.move_direction.z * self.air_speed, dt * 3.0)
-			if velocity.y > 0.0:
-				self._state = PlayerState.JUMPING
+			if !self._on_floor:
+				self.velocity.x = lerp(velocity.x, 0.0, dt * 3.0)
+				self.velocity.z = lerp(velocity.z, 0.0, dt * 3.0)
 			else:
-				self._state = PlayerState.FALLING
+				self.velocity.x = lerp(velocity.x, 0.0, dt * 7.0)
+				self.velocity.z = lerp(velocity.z, 0.0, dt * 7.0)
+		self.velocity += self.knockback
 	else:
-		if !self._on_floor:
-			self.velocity.x = lerp(velocity.x, 0.0, dt * 3.0)
-			self.velocity.z = lerp(velocity.z, 0.0, dt * 3.0)
-		else:
-			self.velocity.x = lerp(velocity.x, 0.0, dt * 7.0) + knockback.x
-			self.velocity.z = lerp(velocity.z, 0.0, dt * 7.0) + knockback.z
-			
-	if !self.can_move:
-		print("in the !can_move statement")
-		self.velocity = knockback
+		print('not moving!')
+		self.velocity += self.knockback
 
 
 # --------------------------------------- STAMINA RELATED FUNCTIONS ------------------------------------------- #
@@ -537,7 +538,8 @@ func _update_moves(input: Dictionary) -> void:
 func _network_process(input: Dictionary) -> void:
 	# get and set initial physics variables for easy state management
 	var delta = (0.0166667)
-	
+	#if !self.can_move:
+		#self.can_move = false
 	#if knockback > Vector3.ZERO:
 		#self.can_move = false
 		#print(can_move)
@@ -545,11 +547,15 @@ func _network_process(input: Dictionary) -> void:
 		#print(knockback)
 		#pass
 	#if kb_x > 0 or kb_y > 0 or kb_z > 0:
-		#print(Vector3(kb_x, kb_y, kb_z))
-		#velocity += Vector3(kb_x, kb_y, kb_z)
-		#kb_x = 0
-		#kb_y = 0
-		#kb_z = 0
+		##print(Vector3(kb_x, kb_y, kb_z))
+		##velocity += Vector3(kb_x, kb_y, kb_z)
+		#self.can_move = false
+		#self.knockback = Vector3(kb_x, kb_y, kb_z)
+		##kb_x = 0
+		##kb_y = 0
+		##kb_z = 0
+	#if !can_input:
+		#print(velocity)
 	
 	# TODO: this should probably be changed to be something else
 #	if event.is_action_pressed("pause"):
@@ -615,9 +621,10 @@ func _network_process(input: Dictionary) -> void:
 # called at the end of every tick
 func _save_state() -> Dictionary:
 	return {
-		#position = self.position,
-		#velocity = self.velocity,
+		position = self.position,
+		velocity = self.velocity,
 		
+		can_input = self.can_input,
 		can_move = self.can_move,
 		move_direction = self.move_direction,	
 		up_direction = self.up_direction,	
@@ -654,9 +661,10 @@ func _save_state() -> Dictionary:
 
 # called whenever a rollback is neccessary; applies state to our current scene
 func _load_state(state: Dictionary) -> void:
-	#self.position = state["position"] 
-	#self.velocity = state["velocity"]
+	self.position = state["position"] 
+	self.velocity = state["velocity"]
 	
+	self.can_input = state["can_input"]
 	self.can_move = state["can_move"]
 	self.move_direction = state["move_direction"]
 	self.up_direction = state["up_direction"]
@@ -744,6 +752,12 @@ func _on_perfect_block_timer_timeout():
 
 func _on_roll_input_debounce_timeout():
 	self._can_roll = true
+
+
+func _interpolate_state(old_state: Dictionary, new_state: Dictionary, weight: float) -> void:
+	print("interpolating...")
+	position = lerp(old_state['position'], new_state['position'], weight)
+	velocity = lerp(old_state['velocity'], new_state['velocity'], weight)
 
 # ---------------------------------------- END OF SCRIPT ------------------------------------------------- #
 
