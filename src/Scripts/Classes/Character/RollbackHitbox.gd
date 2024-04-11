@@ -106,9 +106,10 @@ func deal_kb(hit_char) -> void:
 		kb_x = dir_to_enemy.x * knockback_strength.x
 		kb_y = knockback_strength.y
 		kb_z = dir_to_enemy.z * knockback_strength.z
+		
 		#hit_char.knockback = Vector3(0.1, 0.1, 0.1) kb_x, kb_y, kb_z 1, 1, 1
 		hit_char.can_move = false
-		hit_char.knockback = Vector3(0.5, 0.5, 0.5)
+		hit_char.knockback = Vector3(kb_x, kb_y, kb_z)
 		#hb_timer.start()
 		
 		#print("kb in RollbackHitbox.gd:")

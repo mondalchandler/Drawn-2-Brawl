@@ -250,8 +250,9 @@ func _update_movement(dt) -> void:
 				self.velocity.z = lerp(velocity.z, 0.0, dt * 7.0)
 		self.velocity += self.knockback
 	else:
-		print('not moving!')
-		self.velocity += self.knockback
+		pass
+		#print('not moving!')
+		#self.velocity += self.knockback
 
 
 # --------------------------------------- STAMINA RELATED FUNCTIONS ------------------------------------------- #
