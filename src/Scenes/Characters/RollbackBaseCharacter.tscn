@@ -14,6 +14,7 @@
 [ext_resource type="Texture2D" uid="uid://bx5ukutk4wum3" path="res://resources/Images/arrow_down.png" id="12_co1d8"]
 [ext_resource type="PackedScene" uid="uid://du1ce84fu4a65" path="res://src/Scenes/UI/Pause/pause_menu.tscn" id="13_besuu"]
 [ext_resource type="PackedScene" uid="uid://dasqrf4pd4bpe" path="res://src/Scenes/Stamina/StanimaBar3D.tscn" id="14_kl2fp"]
+[ext_resource type="PackedScene" uid="uid://dcwy6gxlinend" path="res://src/Scenes/Characters/Character Nodes/SpectatorCooldowns.tscn" id="15_7nmhe"]
 [ext_resource type="Script" path="res://addons/godot-rollback-netcode/NetworkTimer.gd" id="15_od4bj"]
 [ext_resource type="Script" path="res://src/Scripts/Classes/Character/Moves/RollbackMoveController.gd" id="16_c5e66"]
 [ext_resource type="Script" path="res://src/Scripts/Classes/Character/Moves/ChargableMoves/Test/TestGrab.gd" id="17_iwirs"]
@@ -212,7 +213,7 @@ lower_fade = 1e-05
 
 [node name="FloorRaycast" type="RayCast3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.46114e-05, -1.09399, 0.000412941)
-target_position = Vector3(0, -10, 0)
+target_position = Vector3(0, -30, 0)
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
 tree_root = SubResource("AnimationNodeStateMachine_ata2m")
@@ -268,6 +269,8 @@ script = ExtResource("17_iwirs")
 script = ExtResource("15_od4bj")
 one_shot = true
 wait_ticks = 30
+
+[node name="SpectatorCooldowns" parent="." instance=ExtResource("15_7nmhe")]
 
 [connection signal="timeout" from="Cooldowns/BlockInputDebounce" to="." method="_on_block_input_debounce_timeout"]
 [connection signal="timeout" from="Cooldowns/PerfectBlockTimer" to="." method="_on_perfect_block_timer_timeout"]

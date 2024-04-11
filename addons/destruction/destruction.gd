@@ -44,7 +44,6 @@ static var cached_shapes := {}
 ## Remove the parent node and add shards to the shard container.
 func destroy(explosion_power := 1.0) -> void:
 	var parent = get_parent()
-	print(str(parent))
 	if not fragmented in cached_meshes:
 		cached_meshes[fragmented] = fragmented.instantiate()
 		for shard_mesh in cached_meshes[fragmented].get_children():

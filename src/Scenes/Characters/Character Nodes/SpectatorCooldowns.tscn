@@ -1,0 +1,21 @@
+[gd_scene load_steps=2 format=3 uid="uid://dcwy6gxlinend"]
+
+[ext_resource type="Script" path="res://addons/godot-rollback-netcode/NetworkTimer.gd" id="1_y66wo"]
+
+[node name="SpectatorCooldowns" type="Node"]
+
+[node name="NetworkTimer" type="Node" parent="."]
+script = ExtResource("1_y66wo")
+one_shot = true
+
+[node name="NetworkTimer2" type="Node" parent="."]
+script = ExtResource("1_y66wo")
+one_shot = true
+
+[node name="NetworkTimer3" type="Node" parent="."]
+script = ExtResource("1_y66wo")
+one_shot = true
+
+[node name="NetworkTimer4" type="Node" parent="."]
+script = ExtResource("1_y66wo")
+one_shot = true

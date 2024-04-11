@@ -37,6 +37,7 @@ const INPUT_MOVE_NAMES = [
 	# velocity : Vector3
 
 # base character settings
+@export var lives: int = 2
 @export var display_name: String = "TestCharacter"
 @export var health: float = 100
 @export var max_health: float = 100
@@ -96,6 +97,7 @@ var _input_state_text: String = ""
 
 var _can_block : bool = true
 var _can_roll : bool = true
+var _is_spectator: bool = false
 
 # --------------------------------------- SELF NODES ------------------------------------------- #
 
@@ -122,6 +124,7 @@ var _can_roll : bool = true
 @onready var perfect_block_timer = $Cooldowns/PerfectBlockTimer
 @onready var block_input_timer = $Cooldowns/BlockInputDebounce
 @onready var roll_input_timer = $Cooldowns/RollInputDebounce
+@onready var spectator_action_cooldowns: Node = $SpectatorCooldowns
 
 @onready var move_controller = $MoveController
 
@@ -129,6 +132,7 @@ var _can_roll : bool = true
 
 @onready var main_scene = get_tree().root.get_node("main_scene")
 @onready var players = main_scene.get_node("Players")
+@onready var spectatorActions: Node = main_scene.get_node("Map").get_children()[0].get_node("SpectatorActions")
 
 # ------------------------------------------- SIGNALS --------------------------------------------- #
 
@@ -415,6 +419,42 @@ func _update_invincible_flash(dt: float) -> void:
 		sprite.show()
 
 
+
+func _check_for_death():
+	if(self.health <= 0 and not _is_spectator):
+		self.lives -=1
+		_try_respawn()
+		
+
+func _try_respawn():
+	if(self.lives > 0):
+		_respawn()
+	elif not _is_spectator:
+		_change_to_spectator()
+
+func _respawn():
+	self.health = self.max_health
+	emit_signal("health_changed", self.health, self._old_health)
+	self._old_health = self.health
+	self.transform.origin = self.get_meta("spawn_point").transform.origin
+	perform_invincible_frame_flashing(1)
+
+func _change_to_spectator():
+	#next line not needed, just here for presenting
+	#self._show_debug_info = false
+	self.player_nametag.visible = false
+	self.transform.origin = self.get_meta("spawn_point").transform.origin
+	self.set_collision_layer_value(4, true)
+	self.set_collision_layer_value(2, false)
+	self.set_collision_mask_value(2, false)
+	self.set_collision_mask_value(3, false)
+	self.set_collision_mask_value(5, false)
+	self._is_spectator = true
+	self.position.y += 15
+	self.sprite.set_layer_mask_value(2, true)
+	self.sprite.set_layer_mask_value(1, false)
+	pass
+
 # --------------------------------------- ROLLBACK FUNCTIONS ------------------------------------------- #
 
 
@@ -450,6 +490,7 @@ func _predict_remote_input(previous_input: Dictionary, _ticks_since_real_input: 
 	
 	# it's very unlikely we will get two of these inputs in a row, so we can throw out these values
 	# for example, full pressed space twice in 2 frames,
+	print(previous_input)
 	predicted_input.erase("pressed_jump")
 	predicted_input.erase("pressed_target")
 	predicted_input.erase("pressed_change_target")
@@ -503,7 +544,10 @@ func _update_custom_physics(input : Dictionary, delta : float) -> void:
 	
 	#---- apply gravity and jump forces
 	if not self._on_floor:
-		self.velocity.y -= gravity * delta
+		if not _is_spectator:
+			self.velocity.y -= gravity * delta
+		else:
+			self.velocity.y = 0
 	else:
 		var pressed_jump = input.get("pressed_jump", false)
 		if pressed_jump:
@@ -522,11 +566,38 @@ func _update_moves(input: Dictionary) -> void:
 	for move_name in INPUT_MOVE_NAMES:
 		var holding_move_input = input.get(move_name, false)
 		move_controller.on_update(move_name, holding_move_input, self._on_floor)
-	
+	if input.get("normal_close", false) && health > 0:
+		health = 0
+		pass
 	# update the debug text with the move input being put
 	self._input_state_text = ""
 	for move_name in INPUT_MOVE_NAMES:
 		self._input_state_text += "\n" + move_name + ": " + str(input.get(move_name, false))
+	if _is_spectator:
+		if input.get("normal_close", false) and spectator_action_cooldowns.get_children()[0].is_stopped():
+			spectator_action_cooldowns.get_children()[0].start(spectatorActions.action1_cooldown)#need to add cooldowns to spectatoractions
+#			var action1_data = {"positionX" = self.position.x, "positionZ" = self.position.z}
+			spectatorActions.action1(self._save_state())
+			pass
+		if input.get("normal_far", false) and spectator_action_cooldowns.get_children()[1].is_stopped():
+			spectator_action_cooldowns.get_children()[1].start(spectatorActions.action1_cooldown)#need to add cooldowns to spectatoractions
+			var action1_data = {"positionX" = self.position.x, "positionZ" = self.position.z}
+			spectatorActions.action1(self._save_state())
+			pass
+		if input.get("special_close", false) and spectator_action_cooldowns.get_children()[2].is_stopped():
+			spectator_action_cooldowns.get_children()[2].start(spectatorActions.action1_cooldown)#need to add cooldowns to spectatoractions
+			var action1_data = {"positionX" = self.position.x, "positionZ" = self.position.z}
+			spectatorActions.action1(self._save_state())
+			pass
+		if input.get("special_far", false) and spectator_action_cooldowns.get_children()[3].is_stopped():
+			spectator_action_cooldowns.get_children()[3].start(spectatorActions.action1_cooldown)#need to add cooldowns to spectatoractions
+			var action1_data = {"positionX" = self.position.x, "positionZ" = self.position.z}
+			spectatorActions.action1(self._save_state())
+			pass
+		#spectatorActions.parse_action(input, self)
+
+func _set_spectator_action_cooldown(action: int, time: int):
+	pass
 
 
 # this is essentially the "_process" method for this node, but with network sychronization
@@ -541,7 +612,7 @@ func _network_process(input: Dictionary) -> void:
 #		pause_menu_layer.toggle()
 #	if pause_menu_layer.is_open():
 #		return
-
+	#print(main_scene.get_node("Map").get_children()[0].get_node("SpectatorActions"))
 	#-- get our blocking input and determine if we can be in the blocking state
 	var is_holding_block_input : bool = input.get("holding_block", false)
 	self._update_block(is_holding_block_input)
@@ -582,6 +653,11 @@ func _network_process(input: Dictionary) -> void:
 	self._update_z_target()
 	self._update_debug_text()
 	#self._update_health_change()
+	self._check_for_death()
+	self._update_health_change()
+	self._update_invincible_flash(delta)
+	#_update_recharge_delay(delta)
+	
 	
 	# update grabbing positions
 	if self.grabbing_player and self.grabbing:
@@ -614,7 +690,9 @@ func _save_state() -> Dictionary:
 		
 		#sprite_flipped = self.sprite_flipped,
 		
-		#health = self.health,
+		health = self.health,
+		lives = self.lives,
+		is_spectator = self._is_spectator,
 		#targetting = self.targetting,
 		
 		blocking = self.blocking,
@@ -649,7 +727,9 @@ func _load_state(state: Dictionary) -> void:
 	
 	#self.sprite_flipped = state["sprite_flipped"]
 	
-	#self.health = state["health"]
+	self.health = state["health"]
+	self.lives = state["lives"]
+	self._is_spectator = state["is_spectator"]
 	#self.targetting = state["targetting"]
 	
 	self.blocking = state["blocking"]

@@ -38,7 +38,6 @@ func spawn_char_at_pos(data) -> Node:
 	var spawn_point = player_spawns.get_children()[spawn_index]
 	new_player_char.set_meta("spawn_point", spawn_point)
 	new_player_char.global_position = spawn_point.global_position
-	
 	if owner_peer_id and multiplayer.get_unique_id() == owner_peer_id:
 		new_player_char.set_multiplayer_authority(owner_peer_id)
 	else:
@@ -99,7 +98,6 @@ func start_match():
 	match_started = true
 
 
-#var one_kill = true
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):

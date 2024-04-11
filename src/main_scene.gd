@@ -38,6 +38,11 @@ var map_votes = {}
 
 # -------------------------------------- PRIVATE METHODS ----------------------------------------- #
 
+@rpc("any_peer", "call_local", "reliable")
+func map_vote(map_choice):
+	map_votes[multiplayer.get_remote_sender_id()] = map_choice
+	pass
+
 
 func _get_current_map():
 	if map_container.get_child_count() > 0:
@@ -93,7 +98,6 @@ func _start_map(map_scene: PackedScene):
 	
 	# Add new map
 	map_container.add_child(loaded_map)
-	
 	#spawn players into the map
 	self._spawn_players_into_map(loaded_map)
 
