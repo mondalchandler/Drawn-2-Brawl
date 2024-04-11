@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Drawn To Brawl"
 run/main_scene="res://src/main_scene.tscn"
-config/features=PackedStringArray("4.1", "Forward Plus")
+config/features=PackedStringArray("4.2", "Forward Plus")
 
 [autoload]
 
@@ -132,6 +132,10 @@ sync_debug={
 rollback/classes/message_serializer="res://src/Scripts/Services/D2BMessageSerializer.gd"
 rollback/debug/rollback_ticks=4
 rollback/debug/random_rollback_ticks=10
+
+[physics]
+
+3d/physics_engine="JoltPhysics3D"
 
 [playfab]
 

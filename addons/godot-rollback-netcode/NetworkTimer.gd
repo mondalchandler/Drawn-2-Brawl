@@ -7,7 +7,6 @@ class_name NetworkTimer
 @export var hash_state := true
 
 var ticks_left := 0
-
 var _running := false
 
 signal timeout ()
@@ -42,11 +41,11 @@ func _network_process(_input: Dictionary) -> void:
 		return
 
 	ticks_left -= 1
-
 	if ticks_left == 0:
 		if not one_shot:
 			ticks_left = wait_ticks
 		timeout.emit()
+
 
 func _save_state() -> Dictionary:
 	if hash_state:

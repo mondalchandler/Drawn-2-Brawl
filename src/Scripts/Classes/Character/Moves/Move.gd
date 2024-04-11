@@ -32,7 +32,7 @@ extends Node
 
 func move_charge_effect(_delta):
 	pass
-	
+
 func move_reset():
 	pass
 

@@ -901,8 +901,7 @@ _data = {
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_y3gwe"]
 properties/0/path = NodePath(".:position")
 properties/0/spawn = true
-properties/0/sync = true
-properties/0/watch = false
+properties/0/replication_mode = 1
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ss7qx"]
 animation = &"air_nc"
@@ -914,7 +913,7 @@ nodes/Animation/node = SubResource("AnimationNodeAnimation_ss7qx")
 nodes/Animation/position = Vector2(20, 120)
 nodes/TimeScale/node = SubResource("AnimationNodeTimeScale_8cmi1")
 nodes/TimeScale/position = Vector2(160, 120)
-node_connections = [&"output", 0, &"TimeScale", &"TimeScale", 0, &"Animation"]
+node_connections = [&"TimeScale", 0, &"Animation", &"output", 0, &"TimeScale"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_4p6r5"]
 animation = &"air_nf"
@@ -926,7 +925,7 @@ nodes/Animation/node = SubResource("AnimationNodeAnimation_4p6r5")
 nodes/Animation/position = Vector2(20, 140)
 nodes/TimeScale/node = SubResource("AnimationNodeTimeScale_rdyia")
 nodes/TimeScale/position = Vector2(160, 140)
-node_connections = [&"output", 0, &"TimeScale", &"TimeScale", 0, &"Animation"]
+node_connections = [&"TimeScale", 0, &"Animation", &"output", 0, &"TimeScale"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_52ned"]
 animation = &"air_sc"
@@ -938,7 +937,7 @@ nodes/Animation/node = SubResource("AnimationNodeAnimation_52ned")
 nodes/Animation/position = Vector2(20, 100)
 nodes/TimeScale/node = SubResource("AnimationNodeTimeScale_o6cm8")
 nodes/TimeScale/position = Vector2(160, 100)
-node_connections = [&"output", 0, &"TimeScale", &"TimeScale", 0, &"Animation"]
+node_connections = [&"TimeScale", 0, &"Animation", &"output", 0, &"TimeScale"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_5w1t0"]
 animation = &"air_sf"
@@ -950,7 +949,7 @@ nodes/Animation/node = SubResource("AnimationNodeAnimation_5w1t0")
 nodes/Animation/position = Vector2(20, 100)
 nodes/TimeScale/node = SubResource("AnimationNodeTimeScale_vuoqx")
 nodes/TimeScale/position = Vector2(160, 120)
-node_connections = [&"output", 0, &"TimeScale", &"TimeScale", 0, &"Animation"]
+node_connections = [&"TimeScale", 0, &"Animation", &"output", 0, &"TimeScale"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ujryt"]
 animation = &"block"
@@ -965,7 +964,7 @@ nodes/Animation/node = SubResource("AnimationNodeAnimation_tdjvr")
 nodes/Animation/position = Vector2(0, 140)
 nodes/TimeScale/node = SubResource("AnimationNodeTimeScale_d5up6")
 nodes/TimeScale/position = Vector2(160, 120)
-node_connections = [&"output", 0, &"TimeScale", &"TimeScale", 0, &"Animation"]
+node_connections = [&"TimeScale", 0, &"Animation", &"output", 0, &"TimeScale"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_niwvd"]
 animation = &"ground_nf"
@@ -977,7 +976,7 @@ nodes/Animation/node = SubResource("AnimationNodeAnimation_niwvd")
 nodes/Animation/position = Vector2(0, 120)
 nodes/TimeScale/node = SubResource("AnimationNodeTimeScale_6pkwe")
 nodes/TimeScale/position = Vector2(140, 120)
-node_connections = [&"output", 0, &"TimeScale", &"TimeScale", 0, &"Animation"]
+node_connections = [&"TimeScale", 0, &"Animation", &"output", 0, &"TimeScale"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_isdv1"]
 animation = &"ground_sc"
@@ -989,7 +988,7 @@ nodes/Animation/node = SubResource("AnimationNodeAnimation_isdv1")
 nodes/Animation/position = Vector2(0, 120)
 nodes/TimeScale/node = SubResource("AnimationNodeTimeScale_rhv65")
 nodes/TimeScale/position = Vector2(140, 120)
-node_connections = [&"output", 0, &"TimeScale", &"TimeScale", 0, &"Animation"]
+node_connections = [&"TimeScale", 0, &"Animation", &"output", 0, &"TimeScale"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_avha0"]
 animation = &"ground_sf"
@@ -1001,7 +1000,7 @@ nodes/Animation/node = SubResource("AnimationNodeAnimation_avha0")
 nodes/Animation/position = Vector2(0, 100)
 nodes/TimeScale/node = SubResource("AnimationNodeTimeScale_aa04f")
 nodes/TimeScale/position = Vector2(140, 100)
-node_connections = [&"output", 0, &"TimeScale", &"TimeScale", 0, &"Animation"]
+node_connections = [&"TimeScale", 0, &"Animation", &"output", 0, &"TimeScale"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_b6h1n"]
 animation = &"idle"
@@ -1149,11 +1148,11 @@ pixel_size = 0.015
 texture = SubResource("ViewportTexture_tib68")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-speed_scale = 2.0
-method_call_mode = 1
+callback_mode_method = 1
 libraries = {
 "": SubResource("AnimationLibrary_bchoe")
 }
+speed_scale = 2.0
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_y3gwe")
@@ -1194,9 +1193,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.46114e-05, -1.09399, 0.0004
 target_position = Vector3(0, -10, 0)
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
+callback_mode_process = 2
+libraries = {
+"": SubResource("AnimationLibrary_bchoe")
+}
 tree_root = SubResource("AnimationNodeStateMachine_ata2m")
 anim_player = NodePath("../AnimationPlayer")
-process_callback = 2
 parameters/air_nc/TimeScale/scale = 1.0
 parameters/air_nf/TimeScale/scale = 1.0
 parameters/air_sc/TimeScale/scale = 1.0
