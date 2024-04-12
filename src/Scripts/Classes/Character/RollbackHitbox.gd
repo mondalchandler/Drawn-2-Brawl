@@ -98,8 +98,13 @@ func custom_tween(node: Node, property: String, target_value: Variant, duration:
 func deal_kb(hit_char) -> void:
 	hit_char_path = hit_char.get_path()
 	if !dealt_kb:
+		# TODO: MAKE HIT DETECTION ONE-SHOT
+		# Right now, direction is being calculated differently after each rollback,
+		# making knockback slightly different and variant on each frame, thus, creating
+		# state mismatches with hit_char.position and hit_char.velocity.
 		var dir_to_enemy = (hit_char.position - owner_char.position).normalized()
 		print(dir_to_enemy)
+		
 		#hit_char.kb_x = dir_to_enemy.x * knockback_strength.x
 		#hit_char.kb_y = knockback_strength.y
 		#hit_char.kb_z = dir_to_enemy.z * knockback_strength.z
