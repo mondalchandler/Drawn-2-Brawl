@@ -23,6 +23,8 @@ const FORCE_CASTLE := false
 #	$MusicNode, $Leaderboard, $Players, $Map, $MapSpawner
 #]
 
+var vs_CPU = false
+
 const START_TIMEOUT_MAX = 15
 var start_timeout = START_TIMEOUT_MAX
 var num_votes = 0
@@ -151,6 +153,8 @@ func play_map():
 	if multiplayer.is_server():
 		start_timer.stop()
 		var map_scene = load(pick_map())
+		if self.vs_CPU:
+			self.spawn_dummies = true
 		#using call_deferred allows existing map cleanup logic to be called before the scene cleans up
 		self._start_map.call_deferred(map_scene)
 
@@ -173,7 +177,7 @@ func pick_map():
 
 
 
-var time_label_path = "PlayerSelect/FunctionButtons/PlayButton/TimeTextHolder/TimeText"
+var time_label_path = "PlayerSelect/MenuButtons/PlayButton/TimeTextHolder/TimeText"
 func vote_map_start():
 	num_votes += 1
 	if start_timer.is_stopped():

@@ -28,6 +28,8 @@ const TARGET_ARROW_DEFAULT_SIZE: float = 0.0002
 @export var perfect_block_time : float = PERFECT_BLOCK_TIME_TOTAL
 @export var temp_block_recharge_time : float = 4.0
 
+@export var lives: int = 2
+
 @export var speed: float = 5.0
 @export var air_speed: float = 5.0
 @export var jump_power: float = 15
