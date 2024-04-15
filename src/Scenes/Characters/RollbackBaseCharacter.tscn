@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=3 uid="uid://cfwg16u4t5r01"]
+[gd_scene load_steps=42 format=3 uid="uid://cfwg16u4t5r01"]
 
 [ext_resource type="Script" path="res://src/Scripts/Classes/Character/RollbackCharacterController.gd" id="1_d8h7s"]
 [ext_resource type="PackedScene" uid="uid://cojs7ish64cv5" path="res://src/Scenes/UI/Billboard/billboard_sprite_3d.tscn" id="2_33ndn"]
@@ -176,11 +176,11 @@ pixel_size = 0.015
 texture = SubResource("ViewportTexture_1yy5m")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-speed_scale = 2.0
-method_call_mode = 1
+callback_mode_method = 1
 libraries = {
 "": SubResource("AnimationLibrary_bchoe")
 }
+speed_scale = 2.0
 
 [node name="CharacterSprite" type="Sprite3D" parent="."]
 transform = Transform3D(0.397235, 0, 0, 0, 0.366733, 0, 0, 0, 0.5, 0, -0.0537091, 0)
@@ -211,15 +211,17 @@ modulate = Color(0.196078, 0.196078, 0.196078, 1)
 upper_fade = 0.0001
 lower_fade = 1e-05
 
-[node name="FloorRaycast" type="RayCast3D" parent="."]
+[node name="FloorIndicatorRaycast" type="RayCast3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.46114e-05, -1.09399, 0.000412941)
 target_position = Vector3(0, -30, 0)
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
+callback_mode_process = 2
+libraries = {
+"": SubResource("AnimationLibrary_bchoe")
+}
 tree_root = SubResource("AnimationNodeStateMachine_ata2m")
 anim_player = NodePath("../AnimationPlayer")
-active = true
-process_callback = 2
 
 [node name="PlayerNametag" parent="." instance=ExtResource("2_33ndn")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.40802, 0)

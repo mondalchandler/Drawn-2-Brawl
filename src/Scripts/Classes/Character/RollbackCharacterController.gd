@@ -7,17 +7,20 @@ extends CharacterBody3D
 
 # ---------------------------------------- CONSTANTS ------------------------------------------ #
 
+const TICKS_PER_SECOND : float = 30.0
+const DELTA : float = (1.0 / TICKS_PER_SECOND)
+
 #so, if you pass 45 as limit, avoid numerical precision errors when angle is 45.
 const FLOOR_ANGLE_THRESHOLD : float = 0.01
 
 const FLASH_DELAY: float = 0.125
 
-const MAX_STAMINIA_TICKS : int = 600				# at 60 ticks a second, this is 10 seconds
-const BLOCKING_STAMINA_USAGE_PER_TICK : int = 1		# how much stamina is used per tick when blocking
-const STAMINA_RECHARGE_PER_TICK : int = 2			# how much stamina is recharged per tick
-const STAMINIA_RECHARGE_COOLDOWN : int  = 240		# cooldown before stamina beings recharging after it is used
+const MAX_STAMINIA_TICKS : int = 300				# at 30 ticks a second, this is 10 seconds
+const BLOCKING_STAMINA_USAGE_PER_TICK : int = 2		# how much stamina is used per tick when blocking
+const STAMINA_RECHARGE_PER_TICK : int = 4			# how much stamina is recharged per tick
+const STAMINIA_RECHARGE_COOLDOWN : int  = 120		# cooldown before stamina beings recharging after it is used
 
-const ROLL_VELOCITY : int = 10
+const ROLL_VELOCITY : int = 20
 const ROLL_COST : int = MAX_STAMINIA_TICKS / 4
 
 const TARGET_ARROW_DEFAULT_SIZE: float = 0.0002
@@ -43,8 +46,12 @@ const INPUT_MOVE_NAMES = [
 @export var max_health: float = 100
 
 # core movement settings
-@export var speed: float = 5.0
-@export var air_speed: float = 5.0
+@export var max_speed : float = 10.0
+@export var max_air_speed : float = 10.0
+@export var speed_gain : float = 16.0
+@export var air_speed_gain : float = 16.0
+@export var speed_decay : float = 16.0
+
 @export var jump_power: float = 15
 @export var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity") + 15
 
@@ -58,6 +65,7 @@ enum PlayerState { IDLE, RUNNING, JUMPING, FALLING, KNOCKBACK, BLOCKING }
 @export var perfect_blocking : bool = false
 @export var dodging : bool = false
 @export var can_move : bool = true
+var hitstun_ticks : int = 0
 
 # various dynamic and quick updating properties for state and physics
 var move_direction : Vector3 = Vector3.ZERO
@@ -88,6 +96,7 @@ var in_game : bool = false
 var _on_floor : bool = false
 var _has_collision : bool = false
 var _collision_normal : Vector3 = Vector3.UP
+var _on_floor_pos : Vector3 = Vector3.ZERO
 
 var _old_health: float = health
 var _state: PlayerState = PlayerState.IDLE
@@ -110,7 +119,7 @@ var _is_spectator: bool = false
 
 @onready var floor_ring: Decal = $FloorRing
 @onready var floor_shadow: Decal = $FloorShadow
-@onready var floor_raycast: RayCast3D = $FloorRaycast
+@onready var floor_indicator_raycast: RayCast3D = $FloorIndicatorRaycast
 
 @onready var player_nametag: Sprite3D = $PlayerNametag
 @onready var debug_tag: Sprite3D = $DebugInfo
@@ -218,37 +227,30 @@ func _handle_move_input(total_input : Dictionary) -> void:
 
 
 # -- update the velocities of the character and then apply them
-func _update_movement(dt) -> void:
+func _update_movement(delta : float) -> void:
+	var is_moving : bool = self.move_direction.length() > 0.0
 	if !self.blocking:
 		if self._on_floor:
-			if self.move_direction.length() > 0.0:
+			if is_moving:
 				self._state = PlayerState.RUNNING
-				self.velocity.x = self.move_direction.x * self.speed + self.knockback.x
-				self.velocity.z = self.move_direction.z * self.speed + self.knockback.z
-
-				# if player is moving left, flip the sprite
-				self.sprite_flipped = (self.move_direction.x < 0)
+				self.velocity.x = lerp(self.velocity.x, self.move_direction.x * delta * self.max_speed, delta * self.speed_gain) 
+				self.velocity.z = lerp(self.velocity.z, self.move_direction.z * delta * self.max_speed, delta * self.speed_gain) 
 			else:
 				self._state = PlayerState.IDLE
-
-				#TODO: Lowkey feels weird and could be better
-				self.velocity.x = lerp(velocity.x, 0.0, dt * 7.0) + self.knockback.x
-				self.velocity.z = lerp(velocity.z, 0.0, dt * 7.0) + self.knockback.z
+				self.velocity.x = lerp(self.velocity.x, 0.0, delta * self.speed_decay)
+				self.velocity.z = lerp(self.velocity.z, 0.0, delta * self.speed_decay)
 		else:
-			self.velocity.x = lerp(velocity.x, self.move_direction.x * self.air_speed, dt * 3.0)
-			self.velocity.z = lerp(velocity.z, self.move_direction.z * self.air_speed, dt * 3.0)
+			self.velocity.x = lerp(self.velocity.x, self.move_direction.x * delta * self.max_air_speed, delta * self.air_speed_gain)
+			self.velocity.z = lerp(self.velocity.z, self.move_direction.z * delta * self.max_air_speed, delta * self.air_speed_gain)
 			if velocity.y > 0.0:
 				self._state = PlayerState.JUMPING
 			else:
 				self._state = PlayerState.FALLING
 	else:
-		if !self._on_floor:
-			self.velocity.x = lerp(velocity.x, 0.0, dt * 3.0)
-			self.velocity.z = lerp(velocity.z, 0.0, dt * 3.0)
-		else:
-			self.velocity.x = lerp(velocity.x, 0.0, dt * 7.0) + knockback.x
-			self.velocity.z = lerp(velocity.z, 0.0, dt * 7.0) + knockback.z
-			
+		self._state = PlayerState.BLOCKING
+		self.velocity.x = lerp(self.velocity.x, 0.0, delta * self.speed_decay)
+		self.velocity.z = lerp(self.velocity.z, 0.0, delta * self.speed_decay)
+		
 	if !self.can_move:
 		self.velocity = knockback
 
@@ -326,9 +328,9 @@ func _update_health_change() -> void:
 
 # -- updates the positions of the floor indicators
 func _update_floor_indicator() -> void:
-	if floor_raycast.is_colliding():
-		var floor_pos = floor_raycast.get_collision_point()
-		var floor_norm = floor_raycast.get_collision_normal()
+	if floor_indicator_raycast.is_colliding():
+		var floor_pos = floor_indicator_raycast.get_collision_point()
+		var floor_norm = floor_indicator_raycast.get_collision_normal()
 		floor_ring.global_position = floor_pos
 		floor_ring.global_rotation = floor_norm
 		floor_shadow.global_position = floor_pos
@@ -339,7 +341,7 @@ func _update_floor_indicator() -> void:
 	else:
 		floor_ring.set_meta("goal_albedo_mix", 1.0)
 	
-	floor_ring.albedo_mix = lerp(floor_ring.albedo_mix, floor_ring.get_meta("goal_albedo_mix"), 12 * (0.016667))
+	floor_ring.albedo_mix = lerp(floor_ring.albedo_mix, floor_ring.get_meta("goal_albedo_mix"), 12 * DELTA)
 
 
 # -- function that iterates through a player list and returns the one closest to self
@@ -490,7 +492,6 @@ func _predict_remote_input(previous_input: Dictionary, _ticks_since_real_input: 
 	
 	# it's very unlikely we will get two of these inputs in a row, so we can throw out these values
 	# for example, full pressed space twice in 2 frames,
-	print(previous_input)
 	predicted_input.erase("pressed_jump")
 	predicted_input.erase("pressed_target")
 	predicted_input.erase("pressed_change_target")
@@ -513,12 +514,12 @@ func _update_custom_physics(input : Dictionary, delta : float) -> void:
 	
 	#---- apply rolling forces
 	var pressed_roll = input.get("roll", false)
-	if pressed_roll and self._can_roll and self.stamina > ROLL_COST and self.move_direction and self.move_direction.length() > 0.0:
+	if pressed_roll and self._can_roll and self.stamina >= ROLL_COST and self.move_direction and self.move_direction.length() > 0.0:
 		self._can_roll = false
 		roll_input_timer.start()
 		self.stamina -= ROLL_COST
 		self.stamina_recharge_cooldown = STAMINIA_RECHARGE_COOLDOWN
-		self.velocity += self.move_direction * ROLL_VELOCITY
+		self.velocity += self.move_direction * ROLL_VELOCITY * delta
 	
 	#---- handle collisions with floor to determine if we're grounded or not
 	var collision = move_and_collide(self.velocity * delta)
@@ -529,12 +530,11 @@ func _update_custom_physics(input : Dictionary, delta : float) -> void:
 		# determine the angle we have with the floor
 		var dot_product = self._collision_normal.dot(self.up_direction)
 		var angle_radians = acos(dot_product)
-		#var angle_degrees = angle_radians * 180.0 / PI
 		
 		# if we're on a slope, check to ensure the slope is shallow enough to be considered a floor. else, it's a wall and we're not grounded
-		
 		if (angle_radians <= self.floor_max_angle + FLOOR_ANGLE_THRESHOLD):
 			self._on_floor = true
+			self.position.y = collision.get_position().y + hurtbox.scale.y * (2.0/3.0)
 		else:
 			self._on_floor = false
 	else:	# if we're not touching anything
@@ -542,23 +542,26 @@ func _update_custom_physics(input : Dictionary, delta : float) -> void:
 		self._collision_normal = Vector3.UP
 		self._on_floor = false
 	
+	# apply a "pushback" force to keep players from clipping through walls and to instead "slide" on them
+	if self._has_collision:
+		self.velocity = self.velocity.slide(self._collision_normal) 
+		#if not self._on_floor:
+		#	self.velocity += self._collision_normal * delta
+		
 	#---- apply gravity and jump forces
 	if not self._on_floor:
-		if not _is_spectator:
-			self.velocity.y -= gravity * delta
+		if not self._is_spectator:
+			self.velocity.y -= gravity * delta * delta
 		else:
 			self.velocity.y = 0
 	else:
 		var pressed_jump = input.get("pressed_jump", false)
 		if pressed_jump:
-			self.velocity.y += jump_power
-	
-	# TODO: This is messing up the _on_floor detection, so it's commented out
-	#if self._has_collision:
-	#	self.velocity = self.velocity.slide(self._collision_normal)
+			self._on_floor = false
+			self.velocity.y += jump_power * delta
 	
 	#-- apply final positioning for physics
-	self.position += self.velocity * delta
+	self.position += self.velocity
 
 
 func _update_moves(input: Dictionary) -> void:
@@ -605,8 +608,7 @@ func _set_spectator_action_cooldown(action: int, time: int):
 func _network_process(input: Dictionary) -> void:
 	
 	# get and set initial physics variables for easy state management
-	var delta = (0.0166667)
-	
+
 	# TODO: this should probably be changed to be something else
 #	if event.is_action_pressed("pause"):
 #		pause_menu_layer.toggle()
@@ -620,7 +622,7 @@ func _network_process(input: Dictionary) -> void:
 	#-- get our movement variables and update how we move
 	var vector2Input : Vector2 = input.get("input_vector", Vector2.ZERO)
 	self.move_direction = Vector3(vector2Input.x, 0, vector2Input.y)
-	self._update_movement(delta)
+	self._update_movement(DELTA)
 	
 	#-- update the rest of the stamina
 	self._update_stamina()
@@ -641,7 +643,7 @@ func _network_process(input: Dictionary) -> void:
 	#self._update_block_recharge_delay(delta)
 	
 	#-- update the rest of our physics and apply the changes
-	self._update_custom_physics(input, delta)
+	self._update_custom_physics(input, DELTA)
 	
 	#-- update animations
 	#self.anim_tree.advance(delta * anim_speed_scale)
@@ -649,15 +651,12 @@ func _network_process(input: Dictionary) -> void:
 	sprite.flip_h = self.sprite_flipped
 	
 	# do other misc updates
-	self._update_floor_indicator()
 	self._update_z_target()
 	self._update_debug_text()
-	#self._update_health_change()
 	self._check_for_death()
 	self._update_health_change()
-	self._update_invincible_flash(delta)
+	self._update_invincible_flash(DELTA)
 	#_update_recharge_delay(delta)
-	
 	
 	# update grabbing positions
 	if self.grabbing_player and self.grabbing:
@@ -678,10 +677,11 @@ func _save_state() -> Dictionary:
 	return {
 		position = self.position,
 		velocity = self.velocity,
-		
-		move_direction = self.move_direction,	
-		up_direction = self.up_direction,	
+
+		move_direction = self.move_direction,
+		up_direction = self.up_direction,
 		on_floor = self._on_floor,
+		on_floor_pos = self._on_floor_pos,
 		
 		state = self._state,
 		
@@ -715,10 +715,11 @@ func _save_state() -> Dictionary:
 func _load_state(state: Dictionary) -> void:
 	self.position = state["position"] 
 	self.velocity = state["velocity"]
-	
+
 	self.move_direction = state["move_direction"]
 	self.up_direction = state["up_direction"]
 	self._on_floor = state["on_floor"]
+	self._on_floor_pos = state["on_floor_pos"]
 	
 	self._state = state["state"]
 	
@@ -745,6 +746,11 @@ func _load_state(state: Dictionary) -> void:
 	self.grabbing = state["grabbing"]
 	self.being_grabbed = state["being_grabbed"]
 	#self.knockback = state["knockback"]
+
+
+func _interpolate_state(old_state : Dictionary, new_state : Dictionary, weight : float) -> void:
+	self.position = lerp(old_state["position"], new_state["position"], weight)
+	self._update_floor_indicator()
 
 
 # ---------------------------------------- PUBLIC FUNCTIONS ------------------------------------------------- #

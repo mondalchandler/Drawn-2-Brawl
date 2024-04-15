@@ -129,12 +129,14 @@ sync_debug={
 
 [network]
 
+rollback/interpolation=true
 rollback/classes/message_serializer="res://src/Scripts/Services/D2BMessageSerializer.gd"
 rollback/debug/rollback_ticks=4
 rollback/debug/random_rollback_ticks=10
 
 [physics]
 
+common/physics_ticks_per_second=30
 3d/physics_engine="JoltPhysics3D"
 
 [playfab]
