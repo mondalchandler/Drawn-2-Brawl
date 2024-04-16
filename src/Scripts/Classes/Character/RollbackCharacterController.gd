@@ -7,21 +7,18 @@ extends CharacterBody3D
 
 # ---------------------------------------- CONSTANTS ------------------------------------------ #
 
-const TICKS_PER_SECOND : float = 30.0
-const DELTA : float = (1.0 / TICKS_PER_SECOND)
-
 #so, if you pass 45 as limit, avoid numerical precision errors when angle is 45.
 const FLOOR_ANGLE_THRESHOLD : float = 0.01
 
 const FLASH_DELAY: float = 0.125
 
-const MAX_STAMINIA_TICKS : int = 300				# at 30 ticks a second, this is 10 seconds
-const BLOCKING_STAMINA_USAGE_PER_TICK : int = 2		# how much stamina is used per tick when blocking
-const STAMINA_RECHARGE_PER_TICK : int = 4			# how much stamina is recharged per tick
-const STAMINIA_RECHARGE_COOLDOWN : int  = 120		# cooldown before stamina beings recharging after it is used
+const MAX_STAMINIA_TICKS : int = 600				# at 60 ticks a second, this is 10 seconds
+const BLOCKING_STAMINA_USAGE_PER_TICK : int = 1		# how much stamina is used per tick when blocking
+const STAMINA_RECHARGE_PER_TICK : int = 2			# how much stamina is recharged per tick
+const STAMINIA_RECHARGE_COOLDOWN : int  = 240		# cooldown before stamina beings recharging after it is used
 
-const ROLL_VELOCITY : int = 30
-const ROLL_COST : int = MAX_STAMINIA_TICKS / 6
+const ROLL_VELOCITY : int = 10
+const ROLL_COST : int = MAX_STAMINIA_TICKS / 4
 
 const TARGET_ARROW_DEFAULT_SIZE: float = 0.0002
 
@@ -40,23 +37,18 @@ const INPUT_MOVE_NAMES = [
 	# velocity : Vector3
 
 # base character settings
-@export var lives: int = 2
 @export var display_name: String = "TestCharacter"
 @export var health: float = 100
 @export var max_health: float = 100
 
 # core movement settings
-@export var max_speed : float = 10.0
-@export var max_air_speed : float = 10.0
-@export var speed_gain : float = 16.0
-@export var air_speed_gain : float = 16.0
-@export var speed_decay : float = 16.0
-
+@export var speed: float = 5.0
+@export var air_speed: float = 5.0
 @export var jump_power: float = 15
 @export var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity") + 15
 
 # enum for core movement state management
-enum PlayerState { IDLE, RUNNING, JUMPING, FALLING, KNOCKBACK, BLOCKING, PERFORMING }
+enum PlayerState { IDLE, RUNNING, JUMPING, FALLING, KNOCKBACK, BLOCKING }
 
 # boolean flips for special states
 @export var targetting : bool = false
@@ -65,11 +57,14 @@ enum PlayerState { IDLE, RUNNING, JUMPING, FALLING, KNOCKBACK, BLOCKING, PERFORM
 @export var perfect_blocking : bool = false
 @export var dodging : bool = false
 @export var can_move : bool = true
-var hitstun_ticks : int = 0
 
 # various dynamic and quick updating properties for state and physics
 var move_direction : Vector3 = Vector3.ZERO
 var knockback : Vector3 = Vector3.ZERO
+var kb_x : float = 0.0
+var kb_y : float = 0.0
+var kb_z : float = 0.0
+var anim_speed_scale: float = 1.0
 var sprite_flipped: bool = false
 
 # variables used to track our player's status with blocking and rolling abilities
@@ -104,20 +99,19 @@ var _input_state_text: String = ""
 
 var _can_block : bool = true
 var _can_roll : bool = true
-var _is_spectator: bool = false
 
 # --------------------------------------- SELF NODES ------------------------------------------- #
 
 @onready var hurtbox: CollisionShape3D = $Hurtbox
 @onready var sprite: Sprite3D = $CharacterSprite
 
-@onready var anim_player: NetworkAnimationPlayer = $NetworkAnimationPlayer
-#@onready var anim_tree: AnimationTree = $AnimationTree
-#@onready var anim_tree_state_machine = anim_tree.get("parameters/playback")
+@onready var anim_player: AnimationPlayer = $AnimationPlayer
+@onready var anim_tree: AnimationTree = $AnimationTree
+@onready var anim_tree_state_machine = anim_tree.get("parameters/playback")
 
 @onready var floor_ring: Decal = $FloorRing
 @onready var floor_shadow: Decal = $FloorShadow
-@onready var floor_indicator_raycast: RayCast3D = $FloorIndicatorRaycast
+@onready var floor_raycast: RayCast3D = $FloorRaycast
 
 @onready var player_nametag: Sprite3D = $PlayerNametag
 @onready var debug_tag: Sprite3D = $DebugInfo
@@ -131,7 +125,6 @@ var _is_spectator: bool = false
 @onready var perfect_block_timer = $Cooldowns/PerfectBlockTimer
 @onready var block_input_timer = $Cooldowns/BlockInputDebounce
 @onready var roll_input_timer = $Cooldowns/RollInputDebounce
-@onready var spectator_action_cooldowns: Node = $SpectatorCooldowns
 
 @onready var move_controller = $MoveController
 
@@ -139,7 +132,6 @@ var _is_spectator: bool = false
 
 @onready var main_scene = get_tree().root.get_node("main_scene")
 @onready var players = main_scene.get_node("Players")
-@onready var spectatorActions: Node = main_scene.get_node("Map").get_children()[0].get_node("SpectatorActions")
 
 # ------------------------------------------- SIGNALS --------------------------------------------- #
 
@@ -225,44 +217,51 @@ func _handle_move_input(total_input : Dictionary) -> void:
 
 
 # -- update the velocities of the character and then apply them
-func _update_movement(delta : float) -> void:
-	if self.hitstun_ticks > 0:
-		self._state = PlayerState.KNOCKBACK
-		self.velocity = knockback * delta
-		return
-	
-	var is_moving : bool = self.move_direction.length() > 0.0
-	if !self.blocking:
-		if self._on_floor:
-			if is_moving:
-				self._state = PlayerState.RUNNING
-				self.velocity.x = lerp(self.velocity.x, self.move_direction.x * delta * self.max_speed, delta * self.speed_gain) 
-				self.velocity.z = lerp(self.velocity.z, self.move_direction.z * delta * self.max_speed, delta * self.speed_gain) 
-				self.sprite_flipped = self.move_direction.x < 0
+func _update_movement(dt) -> void:
+	if can_move:
+		if !self.blocking:
+			if self._on_floor:
+				if self.move_direction.length() > 0.0:
+					self._state = PlayerState.RUNNING
+					self.velocity.x = self.move_direction.x * self.speed
+					self.velocity.z = self.move_direction.z * self.speed
+
+					# if player is moving left, flip the sprite
+					self.sprite_flipped = (self.move_direction.x < 0)
+				else:
+					self._state = PlayerState.IDLE
+
+					#TODO: Lowkey feels weird and could be better
+					self.velocity.x = lerp(velocity.x, 0.0, dt * 7.0)
+					self.velocity.z = lerp(velocity.z, 0.0, dt * 7.0)
 			else:
-				self._state = PlayerState.IDLE
-				self.velocity.x = lerp(self.velocity.x, 0.0, delta * self.speed_decay)
-				self.velocity.z = lerp(self.velocity.z, 0.0, delta * self.speed_decay)
+				self.velocity.x = lerp(velocity.x, self.move_direction.x * self.air_speed, dt * 3.0)
+				self.velocity.z = lerp(velocity.z, self.move_direction.z * self.air_speed, dt * 3.0)
+				if velocity.y > 0.0:
+					self._state = PlayerState.JUMPING
+				else:
+					self._state = PlayerState.FALLING
 		else:
-			self.velocity.x = lerp(self.velocity.x, self.move_direction.x * delta * self.max_air_speed, delta * self.air_speed_gain)
-			self.velocity.z = lerp(self.velocity.z, self.move_direction.z * delta * self.max_air_speed, delta * self.air_speed_gain)
-			if velocity.y > 0.0:
-				self._state = PlayerState.JUMPING
+			if !self._on_floor:
+				self.velocity.x = lerp(velocity.x, 0.0, dt * 3.0)
+				self.velocity.z = lerp(velocity.z, 0.0, dt * 3.0)
 			else:
-				self._state = PlayerState.FALLING
+				self.velocity.x = lerp(velocity.x, 0.0, dt * 7.0)
+				self.velocity.z = lerp(velocity.z, 0.0, dt * 7.0)
+		self.velocity += self.knockback
 	else:
-		self._state = PlayerState.BLOCKING
-		self.velocity.x = lerp(self.velocity.x, 0.0, delta * self.speed_decay)
-		self.velocity.z = lerp(self.velocity.z, 0.0, delta * self.speed_decay)
-		
+		pass
+		#print('not moving!')
+		#self.velocity += self.knockback
 
 
 # --------------------------------------- STAMINA RELATED FUNCTIONS ------------------------------------------- #
 
 
-# -- used in the network update functions to update blocking values/times
+# used in the network update functions to update blocking values/times
 func _update_block(is_holding_input : bool) -> void:
-	if is_holding_input and self.stamina > 0 and self._can_block and self._on_floor:
+	# block_input_timer
+	if is_holding_input and self.stamina > 0 and self._can_block:
 		self._can_block = false
 		self.blocking = true
 		self._state = PlayerState.BLOCKING
@@ -278,7 +277,7 @@ func _update_block(is_holding_input : bool) -> void:
 			self.perfect_blocking = false
 
 
-# -- used in network update to change our stamina values when blocking and when we're on cooldown 
+# used in network update to change our stamina values when blocking and when we're on cooldown 
 func _update_stamina():
 	# update the stamina bar visuals
 	if stamina_bar:
@@ -306,33 +305,19 @@ func _update_stamina():
 
 # --------------------------------------- VARIOUS PROCESS FUNCTIONS ------------------------------------------- #
 
-func _play_action_anim(anim_name : String) -> void:
-	pass
-
-# -- checks to see if we're not currently playing the same animation. if not, we play the new one
-func _play_core_anim(anim_name : String) -> void:
-	if self.anim_player.current_animation == anim_name:
-		return
-	self.anim_player.stop()
-	self.anim_player.play(anim_name)
-
 
 # -- given the current state of the player, update the animation tree
 func _update_core_animations() -> void:
-	
-	# -- dont update core animations if we're playing a roll animation
-		# however, this should allow for the blocking animation to "cancel" rolling
-	if self.anim_player.current_animation == "roll" and self._state != PlayerState.BLOCKING: 
-		return
-		
 	if self._state == PlayerState.IDLE:
-		self._play_core_anim("idle")
+		self.anim_tree_state_machine.travel("idle")
 	elif self._state == PlayerState.RUNNING:
-		self._play_core_anim("run")
-	elif self._state == PlayerState.JUMPING or self._state == PlayerState.FALLING:
-		self._play_core_anim("jump")
+		self.anim_tree_state_machine.travel("run")
+	elif self._state == PlayerState.JUMPING:
+		self.anim_tree_state_machine.travel("jump")
+	elif self._state == PlayerState.FALLING:
+		self.anim_tree_state_machine.travel("jump")
 	elif self._state == PlayerState.BLOCKING:
-		self._play_core_anim("block")
+		self.anim_tree_state_machine.travel("block")
 
 
 # -- checks if the player health has changed; if so, send a signal
@@ -344,9 +329,9 @@ func _update_health_change() -> void:
 
 # -- updates the positions of the floor indicators
 func _update_floor_indicator() -> void:
-	if floor_indicator_raycast.is_colliding():
-		var floor_pos = floor_indicator_raycast.get_collision_point()
-		var floor_norm = floor_indicator_raycast.get_collision_normal()
+	if floor_raycast.is_colliding():
+		var floor_pos = floor_raycast.get_collision_point()
+		var floor_norm = floor_raycast.get_collision_normal()
 		floor_ring.global_position = floor_pos
 		floor_ring.global_rotation = floor_norm
 		floor_shadow.global_position = floor_pos
@@ -357,7 +342,7 @@ func _update_floor_indicator() -> void:
 	else:
 		floor_ring.set_meta("goal_albedo_mix", 1.0)
 	
-	floor_ring.albedo_mix = lerp(floor_ring.albedo_mix, floor_ring.get_meta("goal_albedo_mix"), 12 * DELTA)
+	floor_ring.albedo_mix = lerp(floor_ring.albedo_mix, floor_ring.get_meta("goal_albedo_mix"), 12 * (0.016667))
 
 
 # -- function that iterates through a player list and returns the one closest to self
@@ -414,6 +399,7 @@ func _update_debug_text() -> void:
 	#self.debug_tag.text += "\nAnimationNode: " + anim_tree_state_machine.get_current_node()
 	#self.debug_tag.text += "\nTargetting: " + str(targetting)
 	#self.debug_tag.text += "\nTarget: " + str(z_target)
+	#self.debug_tag.text += "\nBlocking: " + str(self.blocking)
 	self.debug_tag.text += "\nGrabbing: " + str(self.grabbing)
 	self.debug_tag.text += "\nBeing Grabbed: " + str(self.being_grabbed)
 	self.debug_tag.text += "\n" + _input_state_text
@@ -435,42 +421,6 @@ func _update_invincible_flash(dt: float) -> void:
 		_flashing_switch_time = 0.0
 		sprite.show()
 
-
-
-func _check_for_death():
-	if(self.health <= 0 and not _is_spectator):
-		self.lives -=1
-		_try_respawn()
-		
-
-func _try_respawn():
-	if(self.lives > 0):
-		_respawn()
-	elif not _is_spectator:
-		_change_to_spectator()
-
-func _respawn():
-	self.health = self.max_health
-	emit_signal("health_changed", self.health, self._old_health)
-	self._old_health = self.health
-	self.transform.origin = self.get_meta("spawn_point").transform.origin
-	perform_invincible_frame_flashing(1)
-
-func _change_to_spectator():
-	#next line not needed, just here for presenting
-	#self._show_debug_info = false
-	self.player_nametag.visible = false
-	self.transform.origin = self.get_meta("spawn_point").transform.origin
-	self.set_collision_layer_value(4, true)
-	self.set_collision_layer_value(2, false)
-	self.set_collision_mask_value(2, false)
-	self.set_collision_mask_value(3, false)
-	self.set_collision_mask_value(5, false)
-	self._is_spectator = true
-	self.position.y += 15
-	self.sprite.set_layer_mask_value(2, true)
-	self.sprite.set_layer_mask_value(1, false)
-	pass
 
 # --------------------------------------- ROLLBACK FUNCTIONS ------------------------------------------- #
 
@@ -527,14 +477,12 @@ func _update_custom_physics(input : Dictionary, delta : float) -> void:
 	
 	#---- apply rolling forces
 	var pressed_roll = input.get("roll", false)
-	if pressed_roll and self._can_roll and self.stamina >= ROLL_COST and self.move_direction and self.move_direction.length() > 0.0:
+	if pressed_roll and self._can_roll and self.stamina > ROLL_COST and self.move_direction and self.move_direction.length() > 0.0:
 		self._can_roll = false
 		roll_input_timer.start()
 		self.stamina -= ROLL_COST
 		self.stamina_recharge_cooldown = STAMINIA_RECHARGE_COOLDOWN
-		self.velocity += self.move_direction * ROLL_VELOCITY * delta
-		self.sprite_flipped = self.move_direction.x < 0
-		self._play_core_anim("roll")
+		self.velocity += self.move_direction * ROLL_VELOCITY
 	
 	#---- handle collisions with floor to determine if we're grounded or not
 	var collision = move_and_collide(self.velocity * delta)
@@ -545,11 +493,12 @@ func _update_custom_physics(input : Dictionary, delta : float) -> void:
 		# determine the angle we have with the floor
 		var dot_product = self._collision_normal.dot(self.up_direction)
 		var angle_radians = acos(dot_product)
+		#var angle_degrees = angle_radians * 180.0 / PI
 		
 		# if we're on a slope, check to ensure the slope is shallow enough to be considered a floor. else, it's a wall and we're not grounded
+		
 		if (angle_radians <= self.floor_max_angle + FLOOR_ANGLE_THRESHOLD):
 			self._on_floor = true
-			self.position.y = collision.get_position().y + hurtbox.scale.y * (2.0/3.0)
 		else:
 			self._on_floor = false
 	else:	# if we're not touching anything
@@ -557,26 +506,20 @@ func _update_custom_physics(input : Dictionary, delta : float) -> void:
 		self._collision_normal = Vector3.UP
 		self._on_floor = false
 	
-	# apply a "pushback" force to keep players from clipping through walls and to instead "slide" on them
-	if self._has_collision:
-		self.velocity = self.velocity.slide(self._collision_normal) 
-		#if not self._on_floor:
-		#	self.velocity += self._collision_normal * delta
-		
 	#---- apply gravity and jump forces
 	if not self._on_floor:
-		if not self._is_spectator:
-			self.velocity.y -= gravity * delta * delta
-		else:
-			self.velocity.y = 0
+		self.velocity.y -= gravity * delta
 	else:
 		var pressed_jump = input.get("pressed_jump", false)
 		if pressed_jump:
-			self._on_floor = false
-			self.velocity.y += jump_power * delta
+			self.velocity.y += jump_power
+	
+	# TODO: This is messing up the _on_floor detection, so it's commented out
+	#if self._has_collision:
+	#	self.velocity = self.velocity.slide(self._collision_normal)
 	
 	#-- apply final positioning for physics
-	self.position += self.velocity
+	self.position += (self.velocity * delta)
 
 
 func _update_moves(input: Dictionary) -> void:
@@ -584,59 +527,51 @@ func _update_moves(input: Dictionary) -> void:
 	for move_name in INPUT_MOVE_NAMES:
 		var holding_move_input = input.get(move_name, false)
 		move_controller.on_update(move_name, holding_move_input, self._on_floor)
-	if input.get("normal_close", false) && health > 0:
-		health = 0
-		pass
+	
 	# update the debug text with the move input being put
 	self._input_state_text = ""
 	for move_name in INPUT_MOVE_NAMES:
 		self._input_state_text += "\n" + move_name + ": " + str(input.get(move_name, false))
-	if _is_spectator:
-		if input.get("normal_close", false) and spectator_action_cooldowns.get_children()[0].is_stopped():
-			spectator_action_cooldowns.get_children()[0].start(spectatorActions.action1_cooldown)#need to add cooldowns to spectatoractions
-#			var action1_data = {"positionX" = self.position.x, "positionZ" = self.position.z}
-			spectatorActions.action1(self._save_state())
-			pass
-		if input.get("normal_far", false) and spectator_action_cooldowns.get_children()[1].is_stopped():
-			spectator_action_cooldowns.get_children()[1].start(spectatorActions.action1_cooldown)#need to add cooldowns to spectatoractions
-			var action1_data = {"positionX" = self.position.x, "positionZ" = self.position.z}
-			spectatorActions.action1(self._save_state())
-			pass
-		if input.get("special_close", false) and spectator_action_cooldowns.get_children()[2].is_stopped():
-			spectator_action_cooldowns.get_children()[2].start(spectatorActions.action1_cooldown)#need to add cooldowns to spectatoractions
-			var action1_data = {"positionX" = self.position.x, "positionZ" = self.position.z}
-			spectatorActions.action1(self._save_state())
-			pass
-		if input.get("special_far", false) and spectator_action_cooldowns.get_children()[3].is_stopped():
-			spectator_action_cooldowns.get_children()[3].start(spectatorActions.action1_cooldown)#need to add cooldowns to spectatoractions
-			var action1_data = {"positionX" = self.position.x, "positionZ" = self.position.z}
-			spectatorActions.action1(self._save_state())
-			pass
-		#spectatorActions.parse_action(input, self)
-
-func _set_spectator_action_cooldown(action: int, time: int):
-	pass
 
 
 # this is essentially the "_process" method for this node, but with network sychronization
 # NOTE: this is run on every TICK, not every FRAME
 func _network_process(input: Dictionary) -> void:
 	# get and set initial physics variables for easy state management
+	var delta = (0.0166667)
+	#if !self.can_move:
+		#self.can_move = false
+	#if knockback > Vector3.ZERO:
+		#self.can_move = false
+		#print(can_move)
+		#print("kb in RollbackCharacterController.gd:")
+		#print(knockback)
+		#pass
+	#if kb_x > 0 or kb_y > 0 or kb_z > 0:
+		##print(Vector3(kb_x, kb_y, kb_z))
+		##velocity += Vector3(kb_x, kb_y, kb_z)
+		#self.can_move = false
+		#self.knockback = Vector3(kb_x, kb_y, kb_z)
+		##kb_x = 0
+		##kb_y = 0
+		##kb_z = 0
+	#if !can_input:
+		#print(velocity)
+	
 	# TODO: this should probably be changed to be something else
 #	if event.is_action_pressed("pause"):
 #		pause_menu_layer.toggle()
 #	if pause_menu_layer.is_open():
 #		return
-	#print(main_scene.get_node("Map").get_children()[0].get_node("SpectatorActions"))
 
-	#-- get our movement variables and update how we move
-	var vector2Input : Vector2 = input.get("input_vector", Vector2.ZERO)
-	self.move_direction = Vector3(vector2Input.x, 0, vector2Input.y)
-	self._update_movement(DELTA)
-	
 	#-- get our blocking input and determine if we can be in the blocking state
 	var is_holding_block_input : bool = input.get("holding_block", false)
 	self._update_block(is_holding_block_input)
+	
+	#-- get our movement variables and update how we move
+	var vector2Input : Vector2 = input.get("input_vector", Vector2.ZERO)
+	self.move_direction = Vector3(vector2Input.x, 0, vector2Input.y)
+	self._update_movement(delta)
 	
 	#-- update the rest of the stamina
 	self._update_stamina()
@@ -656,24 +591,19 @@ func _network_process(input: Dictionary) -> void:
 	#self._update_invincible_flash(delta)
 	#self._update_block_recharge_delay(delta)
 	
-	# -- update the rest of our physics and apply the changes
-	self._update_custom_physics(input, DELTA)
-	
-	# -- reduce our hitstun ticks
-	if self.hitstun_ticks > 0:
-		self.hitstun_ticks -= 1
+	#-- update the rest of our physics and apply the changes
+	self._update_custom_physics(input, delta)
 	
 	#-- update animations
-	self._update_core_animations()
+	#self.anim_tree.advance(delta * anim_speed_scale)
+	#self._update_core_animations()
 	sprite.flip_h = self.sprite_flipped
 	
 	# do other misc updates
+	self._update_floor_indicator()
 	self._update_z_target()
 	self._update_debug_text()
-	self._check_for_death()
-	self._update_health_change()
-	self._update_invincible_flash(DELTA)
-	#_update_recharge_delay(delta)
+	#self._update_health_change()
 	
 	# update grabbing positions
 	if self.grabbing_player and self.grabbing:
@@ -694,21 +624,21 @@ func _save_state() -> Dictionary:
 	return {
 		position = self.position,
 		velocity = self.velocity,
-
-		move_direction = self.move_direction,
-		up_direction = self.up_direction,
+		
+		can_input = self.can_input,
+		can_move = self.can_move,
+		move_direction = self.move_direction,	
+		up_direction = self.up_direction,	
 		on_floor = self._on_floor,
-
+		
 		state = self._state,
 		
 		has_collision = self._has_collision,
 		collision_normal = self._collision_normal,
 		
-		sprite_flipped = self.sprite_flipped,
+		#sprite_flipped = self.sprite_flipped,
 		
-		health = self.health,
-		lives = self.lives,
-		is_spectator = self._is_spectator,
+		#health = self.health,
 		#targetting = self.targetting,
 		
 		blocking = self.blocking,
@@ -723,9 +653,10 @@ func _save_state() -> Dictionary:
 		
 		grabbing = self.grabbing,
 		being_grabbed = self.being_grabbed,
-		
-		hitstun_ticks = self.hitstun_ticks,
-		knockback = self.knockback,
+		#knockback = self.knockback,
+		kb_x = self.kb_x,
+		kb_y = self.kb_y,
+		kb_z = self.kb_z
 	}
 
 
@@ -733,20 +664,21 @@ func _save_state() -> Dictionary:
 func _load_state(state: Dictionary) -> void:
 	self.position = state["position"] 
 	self.velocity = state["velocity"]
+	
+	self.can_input = state["can_input"]
+	self.can_move = state["can_move"]
 	self.move_direction = state["move_direction"]
 	self.up_direction = state["up_direction"]
 	self._on_floor = state["on_floor"]
-
+	
 	self._state = state["state"]
 	
 	self._has_collision = state["has_collision"]
 	self._collision_normal = state["collision_normal"]
 	
-	self.sprite_flipped = state["sprite_flipped"]
+	#self.sprite_flipped = state["sprite_flipped"]
 	
-	self.health = state["health"]
-	self.lives = state["lives"]
-	self._is_spectator = state["is_spectator"]
+	#self.health = state["health"]
 	#self.targetting = state["targetting"]
 	
 	self.blocking = state["blocking"]
@@ -761,14 +693,10 @@ func _load_state(state: Dictionary) -> void:
 	
 	self.grabbing = state["grabbing"]
 	self.being_grabbed = state["being_grabbed"]
-	
-	self.hitstun_ticks = state["hitstun_ticks"]
-	self.knockback = state["knockback"]
-
-
-func _interpolate_state(old_state : Dictionary, new_state : Dictionary, weight : float) -> void:
-	self.position = lerp(old_state["position"], new_state["position"], weight)
-	self._update_floor_indicator()
+	#self.knockback = state["knockback"]
+	self.kb_x = state["kb_x"]
+	self.kb_y = state["kb_y"]
+	self.kb_z = state["kb_z"]
 
 
 # ---------------------------------------- PUBLIC FUNCTIONS ------------------------------------------------- #
@@ -810,8 +738,7 @@ func _init() -> void:
 
 # -- called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	self.anim_player.play("idle")
-	#self.anim_tree_state_machine.start("idle")
+	self.anim_tree_state_machine.start("idle")
 	#_move_controller = MoveController.new(self, $AnimationTree, $CharacterSprite, $Hurtbox)
 	#add_child(_move_controller)
 

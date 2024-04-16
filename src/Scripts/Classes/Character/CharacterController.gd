@@ -28,8 +28,6 @@ const TARGET_ARROW_DEFAULT_SIZE: float = 0.0002
 @export var perfect_block_time : float = PERFECT_BLOCK_TIME_TOTAL
 @export var temp_block_recharge_time : float = 4.0
 
-@export var lives: int = 2
-
 @export var speed: float = 5.0
 @export var air_speed: float = 5.0
 @export var jump_power: float = 15
@@ -78,7 +76,6 @@ var _flashing_switch_time: float = 0.0
 var _input_state_text: String = ""
 var _move_controller = null
 #var _direction: Vector3 = Vector3.ZERO
-var _is_spectator: bool = false
 
 # ---------------- CLIENT INSTANCES ---------------- #
 
@@ -291,43 +288,6 @@ func _update_invincible_flash(dt: float) -> void:
 		_flashing_time = 0.0
 		_flashing_switch_time = 0.0
 		sprite.show()
-
-
-func _check_for_death():
-	if(self.health <= 0 and not _is_spectator):
-		self.lives -=1
-		_try_respawn()
-		
-
-func _try_respawn():
-	if(self.lives > 0):
-		_respawn()
-	elif not _is_spectator:
-		_change_to_spectator()
-
-func _respawn():
-	self.health = self.max_health
-	emit_signal("health_changed", self.health, self._old_health)
-	self._old_health = self.health
-	self.transform.origin = self.get_meta("spawn_point").transform.origin
-	perform_invincible_frame_flashing(1)
-
-func _change_to_spectator():
-	#next line not needed, just here for presenting
-	self._show_debug_info = false
-	self.player_nametag.visible = false
-	self.transform.origin = self.get_meta("spawn_point").transform.origin
-	self.set_collision_layer_value(4, true)
-	self.set_collision_layer_value(2, false)
-	self.set_collision_mask_value(2, false)
-	self.set_collision_mask_value(3, false)
-	self.set_collision_mask_value(5, false)
-	self._is_spectator = true
-	self.position.y += 15
-	self.sprite.set_layer_mask_value(2, true)
-	self.sprite.set_layer_mask_value(1, false)
-	pass
-
 
 
 func _update_recharge_delay(delta):
