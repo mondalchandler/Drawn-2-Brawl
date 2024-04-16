@@ -113,9 +113,9 @@ var _is_spectator: bool = false
 @onready var hurtbox: CollisionShape3D = $Hurtbox
 @onready var sprite: Sprite3D = $CharacterSprite
 
-@onready var anim_player: AnimationPlayer = $AnimationPlayer
-@onready var anim_tree: AnimationTree = $AnimationTree
-@onready var anim_tree_state_machine = anim_tree.get("parameters/playback")
+#@onready var anim_player: AnimationPlayer = $AnimationPlayer
+#@onready var anim_tree: AnimationTree = $AnimationTree
+#@onready var anim_tree_state_machine = anim_tree.get("parameters/playback")
 
 @onready var floor_ring: Decal = $FloorRing
 @onready var floor_shadow: Decal = $FloorShadow
@@ -308,15 +308,20 @@ func _update_stamina():
 # -- given the current state of the player, update the animation tree
 func _update_core_animations() -> void:
 	if self._state == PlayerState.IDLE:
-		self.anim_tree_state_machine.travel("idle")
+		pass
+		#self.anim_tree_state_machine.travel("idle")
 	elif self._state == PlayerState.RUNNING:
-		self.anim_tree_state_machine.travel("run")
+		pass
+		#self.anim_tree_state_machine.travel("run")
 	elif self._state == PlayerState.JUMPING:
-		self.anim_tree_state_machine.travel("jump")
+		pass
+		#self.anim_tree_state_machine.travel("jump")
 	elif self._state == PlayerState.FALLING:
-		self.anim_tree_state_machine.travel("jump")
+		pass
+		#self.anim_tree_state_machine.travel("jump")
 	elif self._state == PlayerState.BLOCKING:
-		self.anim_tree_state_machine.travel("block")
+		pass
+		#self.anim_tree_state_machine.travel("block")
 
 
 # -- checks if the player health has changed; if so, send a signal
@@ -793,7 +798,8 @@ func _init() -> void:
 
 # -- called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	self.anim_tree_state_machine.start("idle")
+	pass
+	#self.anim_tree_state_machine.start("idle")
 	#_move_controller = MoveController.new(self, $AnimationTree, $CharacterSprite, $Hurtbox)
 	#add_child(_move_controller)
 
