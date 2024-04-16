@@ -1,6 +1,6 @@
 [gd_scene load_steps=18 format=3 uid="uid://bs7wdf3lvb22c"]
 
-[ext_resource type="Script" path="res://src/Scripts/Classes/Character/CharacterController.gd" id="1_ap6vf"]
+[ext_resource type="Script" path="res://src/Scripts/Classes/Character/RollbackCharacterController.gd" id="1_fwe8t"]
 [ext_resource type="PackedScene" uid="uid://cojs7ish64cv5" path="res://src/Scenes/UI/Billboard/billboard_sprite_3d.tscn" id="2_pxg65"]
 [ext_resource type="Texture2D" uid="uid://cy1c4viyud1mk" path="res://resources/Images/Animations/Dummy/Core/DummyIdleColor.png" id="4_wdr6w"]
 [ext_resource type="PackedScene" uid="uid://du1ce84fu4a65" path="res://src/Scenes/UI/Pause/pause_menu.tscn" id="10_iwkr5"]
@@ -36,8 +36,7 @@ _data = {
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_y3gwe"]
 properties/0/path = NodePath(".:position")
 properties/0/spawn = false
-properties/0/sync = false
-properties/0/watch = false
+properties/0/replication_mode = 0
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sn8c4"]
 height = 1.10297
@@ -65,11 +64,7 @@ collision_layer = 2
 collision_mask = 23
 motion_mode = 1
 platform_floor_layers = 4294967294
-script = ExtResource("1_ap6vf")
-display_name = "Dummy"
-floor_indicator_enabled = false
-can_player_input = false
-_show_debug_info = false
+script = ExtResource("1_fwe8t")
 
 [node name="DebugInfo" parent="." instance=ExtResource("2_pxg65")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.21122, 2.46423)
@@ -77,12 +72,12 @@ pixel_size = 0.015
 texture = SubResource("ViewportTexture_sljma")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-playback_process_mode = 2
-speed_scale = 2.5
-method_call_mode = 1
+callback_mode_process = 2
+callback_mode_method = 1
 libraries = {
 "": SubResource("AnimationLibrary_bchoe")
 }
+speed_scale = 2.5
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_y3gwe")
@@ -123,9 +118,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.46114e-05, -1.09399, 0.0004
 target_position = Vector3(0, -10, 0)
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_bchoe")
+}
 tree_root = SubResource("AnimationNodeStateMachine_ata2m")
 anim_player = NodePath("../AnimationPlayer")
-active = true
 
 [node name="PlayerNametag" parent="." instance=ExtResource("2_pxg65")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.859205, 0)

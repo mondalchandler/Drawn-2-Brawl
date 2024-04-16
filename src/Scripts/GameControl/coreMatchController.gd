@@ -13,7 +13,7 @@ extends Node
 @onready var players_node: = main_scene.get_node("Players")
 @onready var char_spawner: MultiplayerSpawner = main_scene.get_node("CharacterSpawner")
 
-enum GameMode {POINTS, LIVES}
+enum GameMode {POINTS, LIVES, TRAINING}
 @export var gamemode: GameMode = GameMode.LIVES
 
 var match_ended: bool = false
@@ -38,7 +38,6 @@ func spawn_char_at_pos(data) -> Node:
 	var spawn_point = player_spawns.get_children()[spawn_index]
 	new_player_char.set_meta("spawn_point", spawn_point)
 	new_player_char.global_position = spawn_point.global_position
-	
 	if owner_peer_id and multiplayer.get_unique_id() == owner_peer_id:
 		new_player_char.set_multiplayer_authority(owner_peer_id)
 	else:
@@ -99,7 +98,6 @@ func start_match():
 	match_started = true
 
 
-#var one_kill = true
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
@@ -108,13 +106,18 @@ func _process(_delta):
 	
 	if not multiplayer.is_server():
 		return
+	if not gamemode == GameMode.TRAINING:
+		update_players()
+		var current_alive_players = get_alive_players()
 		
-	update_players()
-	var current_alive_players = get_alive_players()
-	
-	if current_alive_players and current_alive_players.size() <= 1 and not match_ended:
-		match_ended = true
-		insert_char_into_next_available_slot(current_alive_players[0])
+		if current_alive_players and current_alive_players.size() <= 1 and not match_ended:
+			match_ended = true
+			insert_char_into_next_available_slot(current_alive_players[0])
+	else:
+		for character in players_node.get_children():
+			character.full_heal()
+			character.lives = 100
+		
 		
 		#var victory_screen_setup = func(victory_scene):
 		#	victory_scene.rankings.assign(rankings)

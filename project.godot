@@ -141,6 +141,7 @@ rollback/debug/random_rollback_ticks=10
 
 [physics]
 
+common/physics_ticks_per_second=30
 3d/physics_engine="JoltPhysics3D"
 
 [playfab]

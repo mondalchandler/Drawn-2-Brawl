@@ -23,6 +23,13 @@ const FORCE_CASTLE := false
 #	$MusicNode, $Leaderboard, $Players, $Map, $MapSpawner
 #]
 
+var vs_CPU = false
+
+const START_TIMEOUT_MAX = 15
+var start_timeout = START_TIMEOUT_MAX
+var num_votes = 0
+@onready var start_timer = $VoteStartTimer
+
 @onready var ui_container = $UI
 @onready var players = $Players
 @onready var map_container = $Map
@@ -32,6 +39,11 @@ var map_votes = {}
 @export var spawn_dummies : bool = false
 
 # -------------------------------------- PRIVATE METHODS ----------------------------------------- #
+
+@rpc("any_peer", "call_local", "reliable")
+func map_vote(map_choice):
+	map_votes[multiplayer.get_remote_sender_id()] = map_choice
+	pass
 
 
 func _get_current_map():
@@ -88,7 +100,6 @@ func _start_map(map_scene: PackedScene):
 	
 	# Add new map
 	map_container.add_child(loaded_map)
-	
 	#spawn players into the map
 	self._spawn_players_into_map(loaded_map)
 
@@ -140,7 +151,10 @@ func session_disconnect():
 
 func play_map():
 	if multiplayer.is_server():
+		start_timer.stop()
 		var map_scene = load(pick_map())
+		if self.vs_CPU:
+			self.spawn_dummies = true
 		#using call_deferred allows existing map cleanup logic to be called before the scene cleans up
 		self._start_map.call_deferred(map_scene)
 
@@ -161,6 +175,53 @@ func pick_map():
 	var randnum = randi_range(0, len(maps) - 1)
 	return maps[randnum]
 
+
+
+var time_label_path = "PlayerSelect/MenuButtons/PlayButton/TimeTextHolder/TimeText"
+func vote_map_start():
+	num_votes += 1
+	if start_timer.is_stopped():
+		show_timer.rpc()
+		update_timer.rpc(start_timeout)
+		start_timer.start()
+	pass
+
+func cancel_vote_map_start():
+	num_votes -= 1
+	if num_votes <= 0:
+		start_timeout = START_TIMEOUT_MAX
+		hide_timer.rpc()
+		start_timer.stop()
+	pass
+	
+func _vote_start_timeout():
+	if start_timeout > 0:
+		start_timeout -= 1
+		update_timer.rpc(start_timeout)
+		pass
+	else:
+		start_timer.stop()
+		play_map()
+		pass
+	pass
+	
+@rpc("any_peer", "call_local", "reliable")
+func show_timer():
+	var time_label = ui_container.get_node(time_label_path)
+	time_label.visible = true
+	pass
+	
+@rpc("any_peer", "call_local", "reliable")
+func hide_timer():
+	var time_label = ui_container.get_node(time_label_path)
+	time_label.visible = false
+	pass
+	
+@rpc("any_peer", "call_local", "reliable")
+func update_timer(time_left):
+	var time_label = ui_container.get_node(time_label_path)
+	time_label.text = str(time_left)
+	pass
 
 #The following method will change the current scene to the scene at a given path.
 #It will clear out the current main scene, then load the new scene to go to
