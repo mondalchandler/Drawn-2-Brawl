@@ -131,8 +131,6 @@ sync_debug={
 
 rollback/interpolation=true
 rollback/classes/message_serializer="res://src/Scripts/Services/D2BMessageSerializer.gd"
-rollback/debug/rollback_ticks=4
-rollback/debug/random_rollback_ticks=10
 
 [physics]
 

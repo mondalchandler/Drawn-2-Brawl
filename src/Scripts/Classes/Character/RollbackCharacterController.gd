@@ -230,11 +230,13 @@ func _handle_move_input(total_input : Dictionary) -> void:
 
 # -- update the velocities of the character and then apply them
 func _update_movement(delta : float) -> void:
-	if self.hitstun_timer._running:
-		self._state = PlayerState.KNOCKBACK
-		self.velocity = knockback * delta
-		return
-
+	#if self.hitstun_timer._running:
+		##self._state = PlayerState.KNOCKBACK
+		#print("ABCD im being knocked back! | ", self.knockback)
+		#self.velocity = self.knockback
+		#print("ABCD my velocity was chaged to KB | ", self.velocity)
+		#return
+		
 	var is_moving : bool = self.move_direction.length() > 0.0
 	if !self.blocking:
 		if self._on_floor:
@@ -259,7 +261,7 @@ func _update_movement(delta : float) -> void:
 		self._state = PlayerState.BLOCKING
 		self.velocity.x = lerp(self.velocity.x, 0.0, delta * self.speed_decay)
 		self.velocity.z = lerp(self.velocity.z, 0.0, delta * self.speed_decay)
-	
+		
 	if self.performing > 0:
 		self._state = PlayerState.PERFORMING
 
