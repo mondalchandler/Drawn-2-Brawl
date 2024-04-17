@@ -46,8 +46,8 @@ const INPUT_MOVE_NAMES = [
 @export var max_health: float = 100
 
 # core movement settings
-@export var max_speed : float = 10.0
-@export var max_air_speed : float = 10.0
+@export var speed : float = 10.0
+@export var air_speed : float = 10.0
 @export var speed_gain : float = 16.0
 @export var air_speed_gain : float = 16.0
 @export var speed_decay : float = 16.0
@@ -66,6 +66,8 @@ enum PlayerState { IDLE, RUNNING, JUMPING, FALLING, KNOCKBACK, BLOCKING, PERFORM
 @export var dodging : bool = false
 @export var can_move : bool = true
 var hitstun_ticks : int = 0
+var performing : int = 0     # if this value is greater than 0, then we're in the PERFORMING state
+var autorotate : int = 0     # if this value is greater than 0, then we disable the sprite flipping
 
 # various dynamic and quick updating properties for state and physics
 var move_direction : Vector3 = Vector3.ZERO
@@ -230,22 +232,23 @@ func _update_movement(delta : float) -> void:
 		self._state = PlayerState.KNOCKBACK
 		self.velocity = knockback * delta
 		return
-	
+
 	var is_moving : bool = self.move_direction.length() > 0.0
 	if !self.blocking:
 		if self._on_floor:
 			if is_moving:
 				self._state = PlayerState.RUNNING
-				self.velocity.x = lerp(self.velocity.x, self.move_direction.x * delta * self.max_speed, delta * self.speed_gain) 
-				self.velocity.z = lerp(self.velocity.z, self.move_direction.z * delta * self.max_speed, delta * self.speed_gain) 
-				self.sprite_flipped = self.move_direction.x < 0
+				self.velocity.x = lerp(self.velocity.x, self.move_direction.x * delta * self.speed, delta * self.speed_gain) 
+				self.velocity.z = lerp(self.velocity.z, self.move_direction.z * delta * self.speed, delta * self.speed_gain)
+				if self.autorotate <= 0:
+					self.sprite_flipped = self.move_direction.x < 0
 			else:
 				self._state = PlayerState.IDLE
 				self.velocity.x = lerp(self.velocity.x, 0.0, delta * self.speed_decay)
 				self.velocity.z = lerp(self.velocity.z, 0.0, delta * self.speed_decay)
 		else:
-			self.velocity.x = lerp(self.velocity.x, self.move_direction.x * delta * self.max_air_speed, delta * self.air_speed_gain)
-			self.velocity.z = lerp(self.velocity.z, self.move_direction.z * delta * self.max_air_speed, delta * self.air_speed_gain)
+			self.velocity.x = lerp(self.velocity.x, self.move_direction.x * delta * self.air_speed, delta * self.air_speed_gain)
+			self.velocity.z = lerp(self.velocity.z, self.move_direction.z * delta * self.air_speed, delta * self.air_speed_gain)
 			if velocity.y > 0.0:
 				self._state = PlayerState.JUMPING
 			else:
@@ -254,7 +257,9 @@ func _update_movement(delta : float) -> void:
 		self._state = PlayerState.BLOCKING
 		self.velocity.x = lerp(self.velocity.x, 0.0, delta * self.speed_decay)
 		self.velocity.z = lerp(self.velocity.z, 0.0, delta * self.speed_decay)
-		
+	
+	if self.performing > 0:
+		self._state = PlayerState.PERFORMING
 
 
 # --------------------------------------- STAMINA RELATED FUNCTIONS ------------------------------------------- #
@@ -306,8 +311,12 @@ func _update_stamina():
 
 # --------------------------------------- VARIOUS PROCESS FUNCTIONS ------------------------------------------- #
 
-func _play_action_anim(anim_name : String) -> void:
-	pass
+func play_action_anim(anim_name : String) -> void:
+	if self.anim_player.current_animation == anim_name:
+		return
+	self.anim_player.stop()
+	self.anim_player.play(anim_name)
+
 
 # -- checks to see if we're not currently playing the same animation. if not, we play the new one
 func _play_core_anim(anim_name : String) -> void:
@@ -410,12 +419,11 @@ func _update_debug_text() -> void:
 	if self.current_cam:
 		self.debug_tag.global_position += self.current_cam.global_transform.basis.x * 2
 	self.debug_tag.visible = SHOW_DEBUG_INFO
-	self.debug_tag.text = "PlayerState: " + PlayerState.keys()[_state] 
-	#self.debug_tag.text += "\nAnimationNode: " + anim_tree_state_machine.get_current_node()
-	#self.debug_tag.text += "\nTargetting: " + str(targetting)
-	#self.debug_tag.text += "\nTarget: " + str(z_target)
-	self.debug_tag.text += "\nGrabbing: " + str(self.grabbing)
-	self.debug_tag.text += "\nBeing Grabbed: " + str(self.being_grabbed)
+	self.debug_tag.text = "PlayerState: " + PlayerState.keys()[_state]
+	self.debug_tag.text += "\nPerforming Val: " + str(self.performing)
+	self.debug_tag.text += "\nAutorotate Val: " + str(self.autorotate)
+	#self.debug_tag.text += "\nGrabbing: " + str(self.grabbing)
+	#self.debug_tag.text += "\nBeing Grabbed: " + str(self.being_grabbed)
 	self.debug_tag.text += "\n" + _input_state_text
 
 
@@ -515,6 +523,24 @@ func _predict_remote_input(previous_input: Dictionary, _ticks_since_real_input: 
 	# return new prediction
 	return predicted_input
 
+func _update_roll_physics(input : Dictionary, delta : float) -> void:
+	var pressed_roll = input.get("roll", false)
+	
+	# we cant roll if we're not off cooldown, dont have stamina, aren't moving, or not blocking/doing a move
+	if not pressed_roll or not self._can_roll: return
+	if self.stamina < ROLL_COST: return
+	if not self.move_direction or self.move_direction.length() <= 0.0: return
+	if self._state == PlayerState.BLOCKING or self._state == PlayerState.PERFORMING: return
+	
+	# now perform the roll; setup timers for the roll cooldown, and apply velocity and animation
+	self._can_roll = false
+	roll_input_timer.start()
+	self.stamina -= ROLL_COST
+	self.stamina_recharge_cooldown = STAMINIA_RECHARGE_COOLDOWN
+	self.velocity += self.move_direction * ROLL_VELOCITY * delta
+	self.sprite_flipped = self.move_direction.x < 0
+	self._play_core_anim("roll")
+
 
 # this function will handle the new character controller's physics in a slightly more deterministic fashion
 # please note that this function will likely evolve over time, and it should eventually be replaced to not use
@@ -528,15 +554,7 @@ func _update_custom_physics(input : Dictionary, delta : float) -> void:
 		return
 	
 	#---- apply rolling forces
-	var pressed_roll = input.get("roll", false)
-	if pressed_roll and self._can_roll and self.stamina >= ROLL_COST and self.move_direction and self.move_direction.length() > 0.0:
-		self._can_roll = false
-		roll_input_timer.start()
-		self.stamina -= ROLL_COST
-		self.stamina_recharge_cooldown = STAMINIA_RECHARGE_COOLDOWN
-		self.velocity += self.move_direction * ROLL_VELOCITY * delta
-		self.sprite_flipped = self.move_direction.x < 0
-		self._play_core_anim("roll")
+	self._update_roll_physics(input, delta)
 	
 	#---- handle collisions with floor to determine if we're grounded or not
 	var collision = move_and_collide(self.velocity * delta)
@@ -586,13 +604,14 @@ func _update_moves(input: Dictionary) -> void:
 	for move_name in INPUT_MOVE_NAMES:
 		var holding_move_input = input.get(move_name, false)
 		move_controller.on_update(move_name, holding_move_input, self._on_floor)
-	if input.get("normal_close", false) && health > 0:
-		health = 0
-		pass
-	# update the debug text with the move input being put
-	self._input_state_text = ""
-	for move_name in INPUT_MOVE_NAMES:
-		self._input_state_text += "\n" + move_name + ": " + str(input.get(move_name, false))
+	
+	
+	# ALEX'S TEST CODE
+	#if input.get("normal_close", false) && health > 0:
+	#	health = 0
+	#	pass
+	
+	# update spectator actions
 	if _is_spectator:
 		if input.get("normal_close", false) and spectator_action_cooldowns.get_children()[0].is_stopped():
 			spectator_action_cooldowns.get_children()[0].start(spectatorActions.action1_cooldown)#need to add cooldowns to spectatoractions
@@ -615,6 +634,12 @@ func _update_moves(input: Dictionary) -> void:
 			spectatorActions.action1(self._save_state())
 			pass
 		#spectatorActions.parse_action(input, self)
+	
+	# update the debug text with the move input being put
+	self._input_state_text = ""
+	for move_name in INPUT_MOVE_NAMES:
+		self._input_state_text += "\n" + move_name + ": " + str(input.get(move_name, false))
+
 
 func _set_spectator_action_cooldown(action: int, time: int):
 	pass
@@ -631,7 +656,6 @@ func _network_process(input: Dictionary) -> void:
 #		pause_menu_layer.toggle()
 #	if pause_menu_layer.is_open():
 #		return
-	#print(main_scene.get_node("Map").get_children()[0].get_node("SpectatorActions"))
 
 	#-- get our movement variables and update how we move
 	var vector2Input : Vector2 = input.get("input_vector", Vector2.ZERO)
@@ -698,12 +722,16 @@ func _save_state() -> Dictionary:
 	return {
 		position = self.position,
 		velocity = self.velocity,
-
+		
 		move_direction = self.move_direction,
 		up_direction = self.up_direction,
 		on_floor = self._on_floor,
-
+		
 		state = self._state,
+		performing = self.performing,
+		autorotate = self.autorotate,
+		speed = self.speed,
+		air_speed = self.air_speed,
 		
 		has_collision = self._has_collision,
 		collision_normal = self._collision_normal,
@@ -717,11 +745,10 @@ func _save_state() -> Dictionary:
 		
 		blocking = self.blocking,
 		can_block = self._can_block,
+		perfect_blocking = self.perfect_blocking,
 		
 		stamina = self.stamina,
 		stamina_recharge_cooldown = self.stamina_recharge_cooldown,
-		
-		perfect_blocking = self.perfect_blocking,
 		
 		can_roll = self._can_roll,
 		
@@ -743,6 +770,10 @@ func _load_state(state: Dictionary) -> void:
 	self._on_floor = state["on_floor"]
 
 	self._state = state["state"]
+	self.performing = state["performing"]
+	self.autorotate = state["autorotate"]
+	self.speed = state["speed"]
+	self.air_speed = state["air_speed"]
 	
 	self._has_collision = state["has_collision"]
 	self._collision_normal = state["collision_normal"]
@@ -775,28 +806,22 @@ func _interpolate_state(old_state : Dictionary, new_state : Dictionary, weight :
 	self.position = lerp(old_state["position"], new_state["position"], weight)
 	self._update_floor_indicator()
 
-
 # ---------------------------------------- PUBLIC FUNCTIONS ------------------------------------------------- #
-
 
 # -- heals the player to full. should be used on the server only!
 func full_heal() -> void:
 	health = max_health
 
-
 # -- returns if health is greater than zero. can be used on both client and server
 func is_alive() -> bool:
 	return health > 0.0
 
-
 func perform_invincible_frame_flashing(time_length: float) -> void:
 	_flashing_time = time_length
-
 
 # -- sets the current camera object. should be used on the client only!
 func set_camera(cam: Camera3D) -> void:
 	self.current_cam = cam
-
 
 # -- makes the character take damage. should be used on the server only!
 func take_damage(damage: float) -> void:
@@ -806,21 +831,15 @@ func take_damage(damage: float) -> void:
 			self.health = 0
 			emit_signal("died")
 
-
 # ---------------------------------------- INIT AND CONNECTIONS ------------------------------------------------- #
 
 # -- constructor
 func _init() -> void:
 	pass
 
-
 # -- called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	self.anim_player.play("idle")
-	#self.anim_tree_state_machine.start("idle")
-	#_move_controller = MoveController.new(self, $AnimationTree, $CharacterSprite, $Hurtbox)
-	#add_child(_move_controller)
-
 
 func _on_block_input_debounce_timeout():
 	self._can_block = true
@@ -832,36 +851,3 @@ func _on_roll_input_debounce_timeout():
 	self._can_roll = true
 
 # ---------------------------------------- END OF SCRIPT ------------------------------------------------- #
-
-## TODO: When provided a desination vector, move the player to said direction
-#func move_to(destination: Vector3) -> void:
-#	pass
-
-# ----------------  MAIN FUNCTIONS ---------------- #
-#
-## -- called when the user inputs anything  
-#func _input(event : InputEvent) -> void:
-#
-#	if not can_player_input:
-#		return
-#
-#	if event.is_action_pressed("pause"):
-#		pause_menu_layer.toggle()
-#
-#	if pause_menu_layer.is_open():
-#		return
-#
-##	if event.as_text()
-#
-#	# move inputs
-#
-#	_move_controller.action(event)
-#	if event.is_pressed():
-#		_input_state_text = ""
-#
-#		# TODO: MoveController requires that the move animation name be in the MOVE_MAP_NAMES array
-#		#		in order to spawn the hitbox correctly. This required creating 4 extra states
-#		#		since each input has 2 outcomes (1 for on ground, 1 for in air). As a result, the
-#		#		input will not match with what move is actually being output in the debugger text.
-#		for name in MOVE_MAP_NAMES:
-#			_input_state_text += "\n" + name + ": " + str(event.is_action_pressed(name))

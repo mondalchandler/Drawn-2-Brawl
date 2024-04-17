@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://xrbqa40p1wry"]
+[gd_scene load_steps=40 format=3 uid="uid://xrbqa40p1wry"]
 
 [ext_resource type="Script" path="res://src/Scripts/Classes/Character/RollbackCharacterController.gd" id="1_hml51"]
 [ext_resource type="PackedScene" uid="uid://cojs7ish64cv5" path="res://src/Scenes/UI/Billboard/billboard_sprite_3d.tscn" id="2_l266c"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://dasqrf4pd4bpe" path="res://src/Scenes/Stamina/StanimaBar3D.tscn" id="8_gb5s5"]
 [ext_resource type="Script" path="res://addons/godot-rollback-netcode/NetworkTimer.gd" id="9_3k4re"]
 [ext_resource type="Script" path="res://src/Scripts/Classes/Character/Moves/RollbackMoveController.gd" id="10_gomby"]
+[ext_resource type="Script" path="res://src/Scripts/Classes/Character/Moves/ChargableMoves/Ranger/PistolWhip.gd" id="11_akmbg"]
 [ext_resource type="PackedScene" uid="uid://dcwy6gxlinend" path="res://src/Scenes/Characters/Character Nodes/SpectatorCooldowns.tscn" id="12_6k1du"]
 [ext_resource type="Texture2D" uid="uid://k1d6ljvlbigv" path="res://resources/Images/Animations/Ranger/Basic/RangerIdle1.png" id="13_bdi45"]
 [ext_resource type="Texture2D" uid="uid://innlwsw6s1s4" path="res://resources/Images/Animations/Ranger/Basic/RangerBlock.png" id="14_6xmey"]
@@ -23,6 +24,7 @@
 [ext_resource type="Texture2D" uid="uid://dpw7pb0cm3ah5" path="res://resources/Images/Animations/Ranger/Basic/RangerRun1.png" id="22_nxmh6"]
 [ext_resource type="Texture2D" uid="uid://buh8fvdr6lpji" path="res://resources/Images/Animations/Ranger/Basic/RangerRun2.png" id="23_blgt1"]
 [ext_resource type="Script" path="res://addons/godot-rollback-netcode/NetworkAnimationPlayer.gd" id="24_83usy"]
+[ext_resource type="Texture2D" uid="uid://0sm548fs50ud" path="res://resources/Images/Animations/Ranger/Moves/RangerGNC2.png" id="24_bg06u"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_1yy5m"]
 viewport_path = NodePath("BillboardViewport")
@@ -170,6 +172,23 @@ tracks/0/keys = {
 "values": [ExtResource("22_nxmh6"), ExtResource("23_blgt1")]
 }
 
+[sub_resource type="Animation" id="Animation_ikd84"]
+resource_name = "pistol_whip"
+length = 0.6
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CharacterSprite:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [ExtResource("3_bsp8x"), ExtResource("24_bg06u"), ExtResource("24_bg06u")]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_p8tbk"]
 _data = {
 "RESET": SubResource("Animation_hnhue"),
@@ -178,6 +197,7 @@ _data = {
 "grab": SubResource("Animation_kxrp2"),
 "idle": SubResource("Animation_w28gn"),
 "jump": SubResource("Animation_8l52l"),
+"pistol_whip": SubResource("Animation_ikd84"),
 "roll": SubResource("Animation_10x3q"),
 "run": SubResource("Animation_w0m0c")
 }
@@ -265,7 +285,25 @@ wait_ticks = 30
 
 [node name="MoveController" type="Node" parent="." node_paths=PackedStringArray("ground_nc")]
 script = ExtResource("10_gomby")
-ground_nc = NodePath("")
+ground_nc = NodePath("PistolWhip")
+
+[node name="PistolWhip" type="Node" parent="MoveController" groups=["network_sync"]]
+script = ExtResource("11_akmbg")
+
+[node name="CooldownTimer" type="Node" parent="MoveController/PistolWhip"]
+script = ExtResource("9_3k4re")
+one_shot = true
+wait_ticks = 30
+
+[node name="HitboxSpawnTimer" type="Node" parent="MoveController/PistolWhip"]
+script = ExtResource("9_3k4re")
+one_shot = true
+wait_ticks = 7
+
+[node name="MoveEndTimer" type="Node" parent="MoveController/PistolWhip"]
+script = ExtResource("9_3k4re")
+one_shot = true
+wait_ticks = 18
 
 [node name="SpectatorCooldowns" parent="." instance=ExtResource("12_6k1du")]
 
@@ -278,3 +316,6 @@ script = ExtResource("24_83usy")
 [connection signal="timeout" from="Cooldowns/BlockInputDebounce" to="." method="_on_block_input_debounce_timeout"]
 [connection signal="timeout" from="Cooldowns/PerfectBlockTimer" to="." method="_on_perfect_block_timer_timeout"]
 [connection signal="timeout" from="Cooldowns/RollInputDebounce" to="." method="_on_roll_input_debounce_timeout"]
+[connection signal="timeout" from="MoveController/PistolWhip/CooldownTimer" to="MoveController/PistolWhip" method="_on_cooldown_timeout"]
+[connection signal="timeout" from="MoveController/PistolWhip/HitboxSpawnTimer" to="MoveController/PistolWhip" method="_on_hitbox_spawn_timer_timeout"]
+[connection signal="timeout" from="MoveController/PistolWhip/MoveEndTimer" to="MoveController/PistolWhip" method="_on_move_end_timer_timeout"]

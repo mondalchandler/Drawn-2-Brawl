@@ -10,7 +10,6 @@ const GRAB_RANGE = 2
 
 @onready var grab_cooldown : NetworkTimer = $GrabCooldownDebounce
 
-var char : RollbackCharacterController = null
 var grabbing_character : RollbackCharacterController = null
 
 # ---------------------------------------- PROPERTIES ------------------------------------------ #

@@ -35,8 +35,8 @@
 [ext_resource type="Texture2D" uid="uid://h7gja44gkn6f" path="res://resources/Images/Animations/Ranger/Basic/RangerRoll3.png" id="28_h6rhq"]
 [ext_resource type="Script" path="res://src/Scripts/Classes/Character/BaseHitbox.gd" id="29_m1h5u"]
 [ext_resource type="Texture2D" uid="uid://bh5ficx1unnk8" path="res://resources/Images/Animations/Ranger/Basic/RangerRoll4.png" id="29_w7gmv"]
-[ext_resource type="Script" path="res://src/Scripts/Classes/Character/Moves/ChargableMoves/Ranger/pistol_whip.gd" id="32_ypbn0"]
-[ext_resource type="Script" path="res://src/Scripts/Classes/Character/Moves/ChargableMoves/Ranger/axe_uppercut.gd" id="34_pvw25"]
+[ext_resource type="Script" path="res://src/Scripts/Classes/Character/Moves/ChargableMoves/Ranger/Old/pistol_whip.gd" id="32_ypbn0"]
+[ext_resource type="Script" path="res://src/Scripts/Classes/Character/Moves/ChargableMoves/Ranger/Old/axe_uppercut.gd" id="34_pvw25"]
 [ext_resource type="Texture2D" uid="uid://d0bdww1ps6v0c" path="res://resources/Images/twinkle.png" id="38_c43ee"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_aipi8"]

@@ -63,7 +63,7 @@ func _spawn_players_into_map(map):
 	
 	# spawn in every play, including ourself
 	for id in all_players:
-		var character_path = "RollbackBaseCharacter"#load("res://src/Scenes/Characters/TestRollbackBaseCharacter.tscn")
+		var character_path = "RollbackRangerCharacter"#load("res://src/Scenes/Characters/TestRollbackBaseCharacter.tscn")
 		map.starting_player_info.append(
 			[character_path, id]
 		)
