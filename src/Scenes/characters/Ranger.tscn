@@ -1235,7 +1235,6 @@ mesh_instance = NodePath("MeshInstance3D")
 owner_char = NodePath("../..")
 damage_range = [10, 10]
 kb_length = 0.1
-hitstun_length = 0.1
 knockback_strength = Vector3(4, 4, 4)
 debug_on = true
 
@@ -1257,7 +1256,6 @@ mesh_instance = NodePath("MeshInstance3D")
 owner_char = NodePath("../..")
 damage_range = [10, 10]
 kb_length = 0.1
-hitstun_length = 0.1
 knockback_strength = Vector3(4, 20, 4)
 debug_on = true
 
@@ -1279,7 +1277,6 @@ mesh_instance = NodePath("MeshInstance3D")
 owner_char = NodePath("../..")
 damage_range = [10, 10]
 kb_length = 0.1
-hitstun_length = 0.1
 knockback_strength = Vector3(4, 20, 4)
 debug_on = true
 
@@ -1301,7 +1298,6 @@ mesh_instance = NodePath("MeshInstance3D")
 owner_char = NodePath("../..")
 damage_range = [10, 10]
 kb_length = 0.1
-hitstun_length = 0.1
 knockback_strength = Vector3(4, -4, 4)
 debug_on = true
 
@@ -1324,7 +1320,6 @@ mesh_instance = NodePath("MeshInstance3D")
 owner_char = NodePath("../..")
 damage_range = [10, 10]
 kb_length = 0.1
-hitstun_length = 0.1
 knockback_strength = Vector3(4, 4, 4)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Hurtbox/Roll Hitbox"]

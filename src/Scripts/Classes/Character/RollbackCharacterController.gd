@@ -42,6 +42,7 @@ const INPUT_MOVE_NAMES = [
 # base character settings
 @export var lives: int = 2
 @export var display_name: String = "TestCharacter"
+var id : int = 0
 @export var health: float = 100
 @export var max_health: float = 100
 
@@ -65,12 +66,12 @@ enum PlayerState { IDLE, RUNNING, JUMPING, FALLING, KNOCKBACK, BLOCKING, PERFORM
 @export var perfect_blocking : bool = false
 @export var dodging : bool = false
 @export var can_move : bool = true
-var hitstun_ticks : int = 0
 var performing : int = 0     # if this value is greater than 0, then we're in the PERFORMING state
 var autorotate : int = 0     # if this value is greater than 0, then we disable the sprite flipping
 
 # various dynamic and quick updating properties for state and physics
 var move_direction : Vector3 = Vector3.ZERO
+var last_nonzero_move_direction : Vector3 = Vector3.FORWARD
 var knockback : Vector3 = Vector3.ZERO
 var sprite_flipped: bool = false
 
@@ -133,6 +134,7 @@ var _is_spectator: bool = false
 @onready var perfect_block_timer = $Cooldowns/PerfectBlockTimer
 @onready var block_input_timer = $Cooldowns/BlockInputDebounce
 @onready var roll_input_timer = $Cooldowns/RollInputDebounce
+@onready var hitstun_timer = $Cooldowns/HitstunTimer
 @onready var spectator_action_cooldowns: Node = $SpectatorCooldowns
 
 @onready var move_controller = $MoveController
@@ -228,7 +230,7 @@ func _handle_move_input(total_input : Dictionary) -> void:
 
 # -- update the velocities of the character and then apply them
 func _update_movement(delta : float) -> void:
-	if self.hitstun_ticks > 0:
+	if self.hitstun_timer._running:
 		self._state = PlayerState.KNOCKBACK
 		self.velocity = knockback * delta
 		return
@@ -422,6 +424,7 @@ func _update_debug_text() -> void:
 	self.debug_tag.text = "PlayerState: " + PlayerState.keys()[_state]
 	self.debug_tag.text += "\nPerforming Val: " + str(self.performing)
 	self.debug_tag.text += "\nAutorotate Val: " + str(self.autorotate)
+	self.debug_tag.text += "\nHitstun Ticks: " + str(self.hitstun_timer.ticks_left)
 	#self.debug_tag.text += "\nGrabbing: " + str(self.grabbing)
 	#self.debug_tag.text += "\nBeing Grabbed: " + str(self.being_grabbed)
 	self.debug_tag.text += "\n" + _input_state_text
@@ -591,9 +594,9 @@ func _update_custom_physics(input : Dictionary, delta : float) -> void:
 			self.velocity.y = 0
 	else:
 		var pressed_jump = input.get("pressed_jump", false)
-		if pressed_jump:
+		if pressed_jump and jump_power > 0.5:
 			self._on_floor = false
-			self.velocity.y += jump_power * delta
+			self.velocity.y += (jump_power * delta)
 	
 	#-- apply final positioning for physics
 	self.position += self.velocity
@@ -660,6 +663,8 @@ func _network_process(input: Dictionary) -> void:
 	#-- get our movement variables and update how we move
 	var vector2Input : Vector2 = input.get("input_vector", Vector2.ZERO)
 	self.move_direction = Vector3(vector2Input.x, 0, vector2Input.y)
+	if self.move_direction.length() > 0.0:
+		self.last_nonzero_move_direction = self.move_direction
 	self._update_movement(DELTA)
 	
 	#-- get our blocking input and determine if we can be in the blocking state
@@ -686,10 +691,6 @@ func _network_process(input: Dictionary) -> void:
 	
 	# -- update the rest of our physics and apply the changes
 	self._update_custom_physics(input, DELTA)
-	
-	# -- reduce our hitstun ticks
-	if self.hitstun_ticks > 0:
-		self.hitstun_ticks -= 1
 	
 	#-- update animations
 	self._update_core_animations()
@@ -724,6 +725,7 @@ func _save_state() -> Dictionary:
 		velocity = self.velocity,
 		
 		move_direction = self.move_direction,
+		last_nonzero_move_direction = self.last_nonzero_move_direction,
 		up_direction = self.up_direction,
 		on_floor = self._on_floor,
 		
@@ -732,6 +734,7 @@ func _save_state() -> Dictionary:
 		autorotate = self.autorotate,
 		speed = self.speed,
 		air_speed = self.air_speed,
+		jump_power = self.jump_power,
 		
 		has_collision = self._has_collision,
 		collision_normal = self._collision_normal,
@@ -755,7 +758,6 @@ func _save_state() -> Dictionary:
 		grabbing = self.grabbing,
 		being_grabbed = self.being_grabbed,
 		
-		hitstun_ticks = self.hitstun_ticks,
 		knockback = self.knockback,
 	}
 
@@ -766,6 +768,7 @@ func _load_state(state: Dictionary) -> void:
 	self.velocity = state["velocity"]
 
 	self.move_direction = state["move_direction"]
+	self.last_nonzero_move_direction = state["last_nonzero_move_direction"]
 	self.up_direction = state["up_direction"]
 	self._on_floor = state["on_floor"]
 
@@ -774,7 +777,8 @@ func _load_state(state: Dictionary) -> void:
 	self.autorotate = state["autorotate"]
 	self.speed = state["speed"]
 	self.air_speed = state["air_speed"]
-	
+	self.jump_power = state["jump_power"]
+		
 	self._has_collision = state["has_collision"]
 	self._collision_normal = state["collision_normal"]
 	
@@ -798,7 +802,6 @@ func _load_state(state: Dictionary) -> void:
 	self.grabbing = state["grabbing"]
 	self.being_grabbed = state["being_grabbed"]
 	
-	self.hitstun_ticks = state["hitstun_ticks"]
 	self.knockback = state["knockback"]
 
 

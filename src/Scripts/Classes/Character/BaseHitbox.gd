@@ -10,22 +10,24 @@
 	# 4) In the corresponding Move node, assign the BaseHitbox node to this hitbox variable
 	# 5) Use the active variable in AnimationPlayer to activate/deactivate the hitbox
 
-# ---------------- IMPORTS ------------------- #
+# ------------------------------------------- IMPORTS --------------------------------------------------- #
 
 class_name BaseHitbox
 extends Area3D
 
-# ---------------- PROPERTIES ----------------- #
+# ------------------------------------------- PROPERTIES ------------------------------------------------ #
 
 @export var collision_level: int = 1
-@export var active: bool
+
+@export var active : bool = false
+var _prev_active : bool = false
 
 # nodes used for the hitbox
 @export var collision_shape: CollisionShape3D
 @export var mesh_instance: MeshInstance3D	# for hitbox visuals
 
 # the original character object, creator of the hitbox. can be null
-@export var owner_char : CharacterController
+@export var owner_char : RollbackCharacterController
 
 # a range of two numbers to indicate what damage rolls the hitbox can have. the second number MUST be greater. integers only
 @export var damage_range: Array
@@ -36,13 +38,13 @@ var hit_chars: Dictionary
 
 # determine how long a character cannot act for when hit, and how long a knockback force is applied
 @export var kb_length: float
-@export var hitstun_length: float
+@export var hitstun_ticks: int
 @export var knockback_strength: Vector3
 
 # determines if hitboxes should show or not
-@export var debug_on: bool
+@export var debug_on : bool = false
 
-# ------------------- METHODS --------------------- #
+# ------------------------------------------------ METHODS ---------------------------------------------------- #
 
 
 # overrideable virtual method.
@@ -55,17 +57,26 @@ func _after_hit_computation() -> void:
 	pass
 
 
-func deal_stun(hit_char) -> void:
-	hit_char.can_move = false
-	var stun_tween = hit_char.get_tree().create_tween()
-	stun_tween.tween_property(hit_char, "can_move", true, hitstun_length)
+func deal_stun(hit_char : RollbackCharacterController) -> void:
+	hit_char.hitstun_timer.stop()
+	hit_char.hitstun_timer.wait_ticks = self.hitstun_ticks
+	hit_char.hitstun_timer.start()
+	hit_char._state = 4
+	#hit_char.hitstun_ticks += self.hitstun_ticks
+	#hit_char.can_move = false
+	#var stun_tween = hit_char.get_tree().create_tween()
+	#stun_tween.tween_property(hit_char, "can_move", true, hitstun_length)
 
 
-func deal_kb(hit_char) -> void:
+func deal_kb(hit_char : RollbackCharacterController) -> void:
 	var dir_to_enemy = (hit_char.position - owner_char.position).normalized()
-	hit_char.knockback = Vector3(dir_to_enemy.x * knockback_strength.x, knockback_strength.y, dir_to_enemy.z * knockback_strength.z)
-	var knockback_tween = hit_char.get_tree().create_tween()
-	knockback_tween.tween_property(hit_char, "knockback", Vector3.ZERO, kb_length)
+	hit_char.knockback += Vector3(dir_to_enemy.x * knockback_strength.x, knockback_strength.y, dir_to_enemy.z * knockback_strength.z)
+	pass
+	
+	#print(hit_char, " | i apply velocity | ", dir_to_enemy)
+	#hit_char.knockback = Vector3(dir_to_enemy.x * knockback_strength.x, knockback_strength.y, dir_to_enemy.z * knockback_strength.z)
+	#var knockback_tween = hit_char.get_tree().create_tween()
+	#knockback_tween.tween_property(hit_char, "knockback", Vector3.ZERO, kb_length)
 
 
 # computes a damage value, then updates an enemy char's hp value
@@ -85,42 +96,38 @@ func on_hit(hit_char) -> void:
 	# NOTES FOR FUTURE, we will probs need to pass in the specific move, or attributes of said
 	# move so that we know what the effects should be. Should it stun/kb? If kb, what's the
 	# intensity/specific kb effect?
-	
 	self._before_hit_computation()
 	
 	# deal values to character
 	if not hit_char.blocking:
 		self.deal_stun(hit_char)
 		self.deal_kb(hit_char)
-		self.deal_dmg(hit_char)
+		#self.deal_dmg(hit_char)
 	else:
 		hit_char.stamina -= hit_char.STAMINA_AMOUNT * PLAYER_STAMINA_PERCENT_REDUCTION
 		if hit_char.perfect_block:
-			var temp_stun = self.hitstun_length
-			self.hitstun_length = 1 # is this just always applying the perfect block effect no matter what if the opponent is blocking?
-			self.deal_stun(owner_char)
-			self.hitstun_length = temp_stun
+			pass
+			#var temp_stun = self.hitstun_length
+			#self.hitstun_length = 1 # is this just always applying the perfect block effect no matter what if the opponent is blocking?
+			#self.deal_stun(owner_char)
+			#self.hitstun_length = temp_stun
 	
 	self._after_hit_computation()
-
 
 # determines if a hit node is a character. chars have hurtboxes and health
 func node_is_char(node) -> bool:
 	return node.get_node_or_null("Hurtbox") != null and node.health and node.max_health
 
-
 func node_is_object(node):
 	return node.get_node_or_null("Destruction") != null
-
 
 func node_is_world(node):
 	return node != self.owner_char and !self.node_is_object(node) and !self.node_is_char(node)
 
-
 # determines if a hit node is a player
 func on_collision_detected(colliding_node) -> void:
-	if self.node_is_char(colliding_node) and colliding_node != self.owner_char and (self.hit_chars.get(colliding_node) == null or self.hit_chars.get(colliding_node) == false):
-		self.hit_chars[colliding_node] = true
+	if self.node_is_char(colliding_node) and colliding_node != self.owner_char and not self.hit_chars.has(colliding_node.id):
+		self.hit_chars[colliding_node.id] = true
 		self.on_hit(colliding_node)
 	elif (self.node_is_object(colliding_node)):
 		# make it so the player can phase through the collding_node
@@ -130,16 +137,11 @@ func on_collision_detected(colliding_node) -> void:
 	elif self.node_is_world(colliding_node):
 		self._after_hit_computation()
 
-# ------------------- SIGNAL CONNECTION --------------------- #
-
-func area_entered(area: Area3D) -> void:
-	on_collision_detected(area)
+# -------------------------------------------- SIGNAL CONNECTION --------------------------------------------- #
 
 
-func body_entered(body: Node3D) -> void:
-	on_collision_detected(body)
 
-# ------------------- INIT AND LOOP --------------------- #
+# ---------------------------------------------- INIT AND LOOP ------------------------------------------------ #
 
 # this only runs when the node and ITS CHILDREN and loaded
 func _ready() -> void:
@@ -150,29 +152,58 @@ func _ready() -> void:
 	# set hitboxes to detect for areas on layer 2 and 5
 	self.set_collision_mask_value(2, true)
 	self.set_collision_mask_value(5, true)
+
+
+func _network_process(input: Dictionary) -> void:
+	if self.active != self._prev_active:
+		if self.active:
+			self.hit_chars = {}
+			self.monitoring = true
+			if self.debug_on == true and self.mesh_instance != null:
+				self.visible = true
+				self.mesh_instance.visible = true
+		else:
+			self.monitoring = false
+			self.hit_chars = {}
+			if self.mesh_instance != null:
+				self.visible = false
+				self.mesh_instance.visible = false
 	
-	self.connect("area_entered", area_entered)
-	self.connect("body_entered", body_entered)
+	if self.monitoring and self.has_overlapping_bodies():
+		for body in self.get_overlapping_bodies():
+			on_collision_detected(body)
+	
+	self._prev_active = self.active
 
 
-# called every frame. 'delta' is the elapsed time since the previous frame
-func _process(_delta) -> void:
-	if self.active:
-		self.hit_chars = {}
-		self.monitoring = true
-		if self.debug_on == true and self.mesh_instance != null:
-			self.mesh_instance.visible = true
-	else:
-		self.monitoring = false
-		self.hit_chars = {}
-		if self.mesh_instance != null:
-			self.mesh_instance.visible = false
+func _save_state() -> Dictionary:
+	return {
+		active = self.active,
+		_prev_active = self._prev_active,
+		monitoring = self.monitoring,
+		hit_chars = self.hit_chars,
+		position = self.position,
+		#dealt_kb = self.dealt_kb,
+		#dealt_stun = self.dealt_stun,
+		#hit_char_path = self.hit_char_path
+	}
+
+
+func _load_state(state: Dictionary) -> void:
+	self.active = state["active"]
+	self._prev_active = state["_prev_active"]
+	self.monitoring = state["monitoring"]
+	self.hit_chars = state["hit_chars"]
+	self.position = state["position"]
+	#self.dealt_kb = state["dealt_kb"]
+	#self.dealt_stun = state["dealt_stun"]
+	#self.hit_char_path = state["hit_char_path"]
 
 
 # constructor
 func _init(	new_owner_char = null,
 			new_damage_range = [5, 5],
-			new_kb_length = 0.0, new_hitstun_length = 0.5,
+			new_kb_length = 0.0, new_hitstun_ticks = 30,
 			new_knockback_strength = Vector3.ZERO,
 			new_debug_on = false,
 			_new_collision_shape = CollisionShape3D.new(),
@@ -186,7 +217,7 @@ func _init(	new_owner_char = null,
 	self.kb_length = new_kb_length
 	self.knockback_strength = new_knockback_strength
 	self.damage_range = new_damage_range
-	self.hitstun_length = new_hitstun_length
+	self.hitstun_ticks = new_hitstun_ticks
 	
 	self.hit_chars = {}
 	self.name = "Hitbox"

@@ -228,20 +228,13 @@ texture = ExtResource("3_bsp8x")
 transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, -0.302027, 0)
 shape = SubResource("CapsuleShape3D_sn8c4")
 
-[node name="PistolWhipHitbox" type="Area3D" parent="Hurtbox" node_paths=PackedStringArray("collision_shape", "mesh_instance", "owner_char") groups=["network_sync"]]
+[node name="PistolWhipHitbox" type="Area3D" parent="Hurtbox" groups=["network_sync"]]
 transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, 0, 0)
 visible = false
 monitoring = false
 script = ExtResource("4_cdt0h")
-collision_shape = NodePath("CollisionShape3D")
-mesh_instance = NodePath("VisualMesh")
-owner_char = NodePath("../..")
-damage_range = [5, 5]
-hitstun_ticks = 10
-knockback_strength = Vector3(10, 60, 10)
 
 [node name="VisualMesh" type="MeshInstance3D" parent="Hurtbox/PistolWhipHitbox"]
-visible = false
 mesh = SubResource("SphereMesh_a6uef")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox/PistolWhipHitbox"]
@@ -306,11 +299,6 @@ wait_ticks = 15
 script = ExtResource("9_3k4re")
 one_shot = true
 wait_ticks = 30
-
-[node name="HitstunTimer" type="Node" parent="Cooldowns"]
-script = ExtResource("9_3k4re")
-one_shot = true
-hash_state = false
 
 [node name="MoveController" type="Node" parent="." node_paths=PackedStringArray("ground_nc")]
 script = ExtResource("10_gomby")

@@ -264,6 +264,9 @@ script = ExtResource("15_od4bj")
 one_shot = true
 wait_ticks = 30
 
+[node name="HitstunTimer" type="Node" parent="Cooldowns"]
+script = ExtResource("15_od4bj")
+
 [node name="MoveController" type="Node" parent="." node_paths=PackedStringArray("ground_nc")]
 script = ExtResource("16_c5e66")
 ground_nc = NodePath("TestGrab")

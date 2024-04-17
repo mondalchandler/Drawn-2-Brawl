@@ -47,6 +47,7 @@ func spawn_char_at_pos(data) -> Node:
 		# the player name is important for the message serializer!
 	new_player_char.name = "Player" + str(spawn_index + 1)
 	new_player_char.display_name = "Player " + str(spawn_index + 1)
+	new_player_char.id = (spawn_index + 1)
 	
 	# return newly spawned node
 	return new_player_char
