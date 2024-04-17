@@ -1,29 +1,28 @@
-[gd_scene load_steps=38 format=3 uid="uid://cfwg16u4t5r01"]
+[gd_scene load_steps=37 format=3 uid="uid://xrbqa40p1wry"]
 
-[ext_resource type="Script" path="res://src/Scripts/Classes/Character/RollbackCharacterController.gd" id="1_d8h7s"]
-[ext_resource type="PackedScene" uid="uid://cojs7ish64cv5" path="res://src/Scenes/UI/Billboard/billboard_sprite_3d.tscn" id="2_33ndn"]
-[ext_resource type="Texture2D" uid="uid://c78gwvfeiv0v8" path="res://resources/Images/Animations/Ranger/Moves/RangerGNC1.png" id="3_yuvv0"]
-[ext_resource type="Texture2D" uid="uid://bpeb0ux7smvj2" path="res://resources/Images/whiteCircle.png" id="10_itfd0"]
-[ext_resource type="Texture2D" uid="uid://cwhdc0fkgp4k0" path="res://resources/Images/whiteBlurCircle.png" id="11_3i37i"]
-[ext_resource type="Texture2D" uid="uid://bx5ukutk4wum3" path="res://resources/Images/arrow_down.png" id="12_co1d8"]
-[ext_resource type="Texture2D" uid="uid://k1d6ljvlbigv" path="res://resources/Images/Animations/Ranger/Basic/RangerIdle1.png" id="13_b1rxa"]
-[ext_resource type="PackedScene" uid="uid://du1ce84fu4a65" path="res://src/Scenes/UI/Pause/pause_menu.tscn" id="13_besuu"]
-[ext_resource type="Script" path="res://addons/godot-rollback-netcode/NetworkAnimationPlayer.gd" id="13_ic8ku"]
-[ext_resource type="Texture2D" uid="uid://kfchhnmy5uy0" path="res://resources/Images/Animations/Ranger/Basic/RangerIdle2.png" id="14_0nod3"]
-[ext_resource type="PackedScene" uid="uid://dasqrf4pd4bpe" path="res://src/Scenes/Stamina/StanimaBar3D.tscn" id="14_kl2fp"]
-[ext_resource type="PackedScene" uid="uid://dcwy6gxlinend" path="res://src/Scenes/Characters/Character Nodes/SpectatorCooldowns.tscn" id="15_7nmhe"]
-[ext_resource type="Script" path="res://addons/godot-rollback-netcode/NetworkTimer.gd" id="15_od4bj"]
-[ext_resource type="Texture2D" uid="uid://dpw7pb0cm3ah5" path="res://resources/Images/Animations/Ranger/Basic/RangerRun1.png" id="15_trh7c"]
-[ext_resource type="Script" path="res://src/Scripts/Classes/Character/Moves/RollbackMoveController.gd" id="16_c5e66"]
-[ext_resource type="Texture2D" uid="uid://buh8fvdr6lpji" path="res://resources/Images/Animations/Ranger/Basic/RangerRun2.png" id="16_eyhdg"]
-[ext_resource type="Texture2D" uid="uid://c1ygl7tbs6jvj" path="res://resources/Images/Animations/Ranger/Basic/RangerJump.png" id="17_bwlcj"]
-[ext_resource type="Script" path="res://src/Scripts/Classes/Character/Moves/ChargableMoves/Test/TestGrab.gd" id="17_iwirs"]
-[ext_resource type="Texture2D" uid="uid://dqdgww1mkqy0w" path="res://resources/Images/Animations/Ranger/Basic/RangerRoll1.png" id="18_gkwkh"]
-[ext_resource type="Texture2D" uid="uid://dqmrb10oj7jog" path="res://resources/Images/Animations/Ranger/Basic/RangerRoll2.png" id="19_hfyau"]
-[ext_resource type="Texture2D" uid="uid://h7gja44gkn6f" path="res://resources/Images/Animations/Ranger/Basic/RangerRoll3.png" id="20_0mtbd"]
-[ext_resource type="Texture2D" uid="uid://bh5ficx1unnk8" path="res://resources/Images/Animations/Ranger/Basic/RangerRoll4.png" id="21_unjw8"]
-[ext_resource type="Texture2D" uid="uid://innlwsw6s1s4" path="res://resources/Images/Animations/Ranger/Basic/RangerBlock.png" id="22_qfect"]
-[ext_resource type="Texture2D" uid="uid://bayur7dmc0q1y" path="res://resources/Images/Animations/Ranger/Basic/RangerGrab.png" id="23_u2nso"]
+[ext_resource type="Script" path="res://src/Scripts/Classes/Character/RollbackCharacterController.gd" id="1_hml51"]
+[ext_resource type="PackedScene" uid="uid://cojs7ish64cv5" path="res://src/Scenes/UI/Billboard/billboard_sprite_3d.tscn" id="2_l266c"]
+[ext_resource type="Texture2D" uid="uid://c78gwvfeiv0v8" path="res://resources/Images/Animations/Ranger/Moves/RangerGNC1.png" id="3_bsp8x"]
+[ext_resource type="Texture2D" uid="uid://bpeb0ux7smvj2" path="res://resources/Images/whiteCircle.png" id="4_urjrg"]
+[ext_resource type="Texture2D" uid="uid://cwhdc0fkgp4k0" path="res://resources/Images/whiteBlurCircle.png" id="5_touo4"]
+[ext_resource type="Texture2D" uid="uid://bx5ukutk4wum3" path="res://resources/Images/arrow_down.png" id="6_i61dc"]
+[ext_resource type="PackedScene" uid="uid://du1ce84fu4a65" path="res://src/Scenes/UI/Pause/pause_menu.tscn" id="7_0ond0"]
+[ext_resource type="PackedScene" uid="uid://dasqrf4pd4bpe" path="res://src/Scenes/Stamina/StanimaBar3D.tscn" id="8_gb5s5"]
+[ext_resource type="Script" path="res://addons/godot-rollback-netcode/NetworkTimer.gd" id="9_3k4re"]
+[ext_resource type="Script" path="res://src/Scripts/Classes/Character/Moves/RollbackMoveController.gd" id="10_gomby"]
+[ext_resource type="PackedScene" uid="uid://dcwy6gxlinend" path="res://src/Scenes/Characters/Character Nodes/SpectatorCooldowns.tscn" id="12_6k1du"]
+[ext_resource type="Texture2D" uid="uid://k1d6ljvlbigv" path="res://resources/Images/Animations/Ranger/Basic/RangerIdle1.png" id="13_bdi45"]
+[ext_resource type="Texture2D" uid="uid://innlwsw6s1s4" path="res://resources/Images/Animations/Ranger/Basic/RangerBlock.png" id="14_6xmey"]
+[ext_resource type="Texture2D" uid="uid://c1ygl7tbs6jvj" path="res://resources/Images/Animations/Ranger/Basic/RangerJump.png" id="15_dd4t5"]
+[ext_resource type="Texture2D" uid="uid://bayur7dmc0q1y" path="res://resources/Images/Animations/Ranger/Basic/RangerGrab.png" id="16_g51sj"]
+[ext_resource type="Texture2D" uid="uid://kfchhnmy5uy0" path="res://resources/Images/Animations/Ranger/Basic/RangerIdle2.png" id="17_ts3sh"]
+[ext_resource type="Texture2D" uid="uid://dqmrb10oj7jog" path="res://resources/Images/Animations/Ranger/Basic/RangerRoll2.png" id="18_qfrsn"]
+[ext_resource type="Texture2D" uid="uid://h7gja44gkn6f" path="res://resources/Images/Animations/Ranger/Basic/RangerRoll3.png" id="19_2ed45"]
+[ext_resource type="Texture2D" uid="uid://bh5ficx1unnk8" path="res://resources/Images/Animations/Ranger/Basic/RangerRoll4.png" id="20_xv0wj"]
+[ext_resource type="Texture2D" uid="uid://dqdgww1mkqy0w" path="res://resources/Images/Animations/Ranger/Basic/RangerRoll1.png" id="21_6jldx"]
+[ext_resource type="Texture2D" uid="uid://dpw7pb0cm3ah5" path="res://resources/Images/Animations/Ranger/Basic/RangerRun1.png" id="22_nxmh6"]
+[ext_resource type="Texture2D" uid="uid://buh8fvdr6lpji" path="res://resources/Images/Animations/Ranger/Basic/RangerRun2.png" id="23_blgt1"]
+[ext_resource type="Script" path="res://addons/godot-rollback-netcode/NetworkAnimationPlayer.gd" id="24_83usy"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_1yy5m"]
 viewport_path = NodePath("BillboardViewport")
@@ -49,7 +48,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.001),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [ExtResource("3_yuvv0"), ExtResource("13_b1rxa")]
+"values": [ExtResource("3_bsp8x"), ExtResource("13_bdi45")]
 }
 
 [sub_resource type="Animation" id="Animation_tuddk"]
@@ -66,7 +65,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [ExtResource("22_qfect")]
+"values": [ExtResource("14_6xmey")]
 }
 
 [sub_resource type="Animation" id="Animation_qo61h"]
@@ -83,7 +82,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [ExtResource("17_bwlcj")]
+"values": [ExtResource("15_dd4t5")]
 }
 
 [sub_resource type="Animation" id="Animation_kxrp2"]
@@ -100,7 +99,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [ExtResource("23_u2nso")]
+"values": [ExtResource("16_g51sj")]
 }
 
 [sub_resource type="Animation" id="Animation_w28gn"]
@@ -117,7 +116,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.4),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [ExtResource("13_b1rxa"), ExtResource("14_0nod3")]
+"values": [ExtResource("13_bdi45"), ExtResource("17_ts3sh")]
 }
 
 [sub_resource type="Animation" id="Animation_8l52l"]
@@ -134,7 +133,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [ExtResource("17_bwlcj")]
+"values": [ExtResource("15_dd4t5")]
 }
 
 [sub_resource type="Animation" id="Animation_10x3q"]
@@ -151,7 +150,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.15, 0.25, 0.35),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
-"values": [ExtResource("19_hfyau"), ExtResource("20_0mtbd"), ExtResource("21_unjw8"), ExtResource("18_gkwkh")]
+"values": [ExtResource("18_qfrsn"), ExtResource("19_2ed45"), ExtResource("20_xv0wj"), ExtResource("21_6jldx")]
 }
 
 [sub_resource type="Animation" id="Animation_w0m0c"]
@@ -168,7 +167,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.2),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [ExtResource("15_trh7c"), ExtResource("16_eyhdg")]
+"values": [ExtResource("22_nxmh6"), ExtResource("23_blgt1")]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_p8tbk"]
@@ -186,9 +185,9 @@ _data = {
 [node name="BaseCharacter" type="CharacterBody3D" groups=["network_sync"]]
 collision_layer = 2
 platform_floor_layers = 4294967294
-script = ExtResource("1_d8h7s")
+script = ExtResource("1_hml51")
 
-[node name="DebugInfo" parent="." instance=ExtResource("2_33ndn")]
+[node name="DebugInfo" parent="." instance=ExtResource("2_l266c")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.21122, 2.46423)
 visible = false
 pixel_size = 0.015
@@ -198,7 +197,7 @@ texture = SubResource("ViewportTexture_1yy5m")
 transform = Transform3D(0.397235, 0, 0, 0, 0.366733, 0, 0, 0, 0.5, 0, -0.0537091, 0)
 billboard = 1
 shaded = true
-texture = ExtResource("3_yuvv0")
+texture = ExtResource("3_bsp8x")
 
 [node name="Hurtbox" type="CollisionShape3D" parent="."]
 transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, -0.302027, 0)
@@ -207,7 +206,7 @@ shape = SubResource("CapsuleShape3D_sn8c4")
 [node name="FloorRing" type="Decal" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00604342, -0.884379, -0.0541416)
 size = Vector3(1.75, 0.541, 1.75)
-texture_albedo = ExtResource("10_itfd0")
+texture_albedo = ExtResource("4_urjrg")
 emission_energy = 0.25
 modulate = Color(1, 1, 0, 1)
 upper_fade = 1e-05
@@ -217,7 +216,7 @@ metadata/goal_albedo_mix = 1.0
 [node name="FloorShadow" type="Decal" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00673626, -0.891057, -0.053015)
 size = Vector3(2.25, 0.321, 2.25)
-texture_albedo = ExtResource("11_3i37i")
+texture_albedo = ExtResource("5_touo4")
 emission_energy = 0.1
 modulate = Color(0.196078, 0.196078, 0.196078, 1)
 upper_fade = 0.0001
@@ -227,7 +226,7 @@ lower_fade = 1e-05
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.46114e-05, -1.09399, 0.000412941)
 target_position = Vector3(0, -30, 0)
 
-[node name="PlayerNametag" parent="." instance=ExtResource("2_33ndn")]
+[node name="PlayerNametag" parent="." instance=ExtResource("2_l266c")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.40802, 0)
 pixel_size = 0.02
 texture = SubResource("ViewportTexture_5jdb3")
@@ -237,54 +236,45 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.41769, 0)
 visible = false
 pixel_size = 0.0002
 billboard = 1
-texture = ExtResource("12_co1d8")
+texture = ExtResource("6_i61dc")
 
-[node name="PauseLayer" parent="." instance=ExtResource("13_besuu")]
+[node name="PauseLayer" parent="." instance=ExtResource("7_0ond0")]
 visible = false
 script = null
 
-[node name="StaminaBar3D" parent="." instance=ExtResource("14_kl2fp")]
+[node name="StaminaBar3D" parent="." instance=ExtResource("8_gb5s5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.93205, 0)
 texture = SubResource("ViewportTexture_sm5on")
 
 [node name="Cooldowns" type="Node" parent="."]
 
 [node name="BlockInputDebounce" type="Node" parent="Cooldowns"]
-script = ExtResource("15_od4bj")
+script = ExtResource("9_3k4re")
 one_shot = true
 wait_ticks = 30
 
 [node name="PerfectBlockTimer" type="Node" parent="Cooldowns"]
-script = ExtResource("15_od4bj")
+script = ExtResource("9_3k4re")
 one_shot = true
 wait_ticks = 15
 
 [node name="RollInputDebounce" type="Node" parent="Cooldowns"]
-script = ExtResource("15_od4bj")
+script = ExtResource("9_3k4re")
 one_shot = true
 wait_ticks = 30
 
 [node name="MoveController" type="Node" parent="." node_paths=PackedStringArray("ground_nc")]
-script = ExtResource("16_c5e66")
-ground_nc = NodePath("TestGrab")
+script = ExtResource("10_gomby")
+ground_nc = NodePath("")
 
-[node name="TestGrab" type="Node" parent="MoveController" groups=["network_sync"]]
-script = ExtResource("17_iwirs")
-
-[node name="GrabCooldownDebounce" type="Node" parent="MoveController/TestGrab"]
-script = ExtResource("15_od4bj")
-one_shot = true
-wait_ticks = 30
-
-[node name="SpectatorCooldowns" parent="." instance=ExtResource("15_7nmhe")]
+[node name="SpectatorCooldowns" parent="." instance=ExtResource("12_6k1du")]
 
 [node name="NetworkAnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_p8tbk")
 }
-script = ExtResource("13_ic8ku")
+script = ExtResource("24_83usy")
 
 [connection signal="timeout" from="Cooldowns/BlockInputDebounce" to="." method="_on_block_input_debounce_timeout"]
 [connection signal="timeout" from="Cooldowns/PerfectBlockTimer" to="." method="_on_perfect_block_timer_timeout"]
 [connection signal="timeout" from="Cooldowns/RollInputDebounce" to="." method="_on_roll_input_debounce_timeout"]
-[connection signal="timeout" from="MoveController/TestGrab/GrabCooldownDebounce" to="MoveController/TestGrab" method="_on_grab_cooldown_debounce_timeout"]
