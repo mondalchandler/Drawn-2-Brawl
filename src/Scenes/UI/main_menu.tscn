@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://dufgk3e4kmxyu"]
+[gd_scene load_steps=19 format=3 uid="uid://dufgk3e4kmxyu"]
 
 [ext_resource type="Script" path="res://src/Scripts/UI/main_menu.gd" id="1_5m3be"]
 [ext_resource type="Texture2D" uid="uid://dqmqdcpi3f1e1" path="res://resources/Images/MainMenuImages/MainMenuBG.jpg" id="2_wun5k"]
@@ -14,13 +14,14 @@
 [ext_resource type="Texture2D" uid="uid://bd64jbd5h5ltb" path="res://resources/Images/MainMenuImages/MainNoble.png" id="13_6igo4"]
 [ext_resource type="Texture2D" uid="uid://bc324ymr77qjs" path="res://resources/Images/MainMenuImages/MainRanger.png" id="14_3qdlw"]
 [ext_resource type="Texture2D" uid="uid://m61ftjtmqbxl" path="res://resources/Images/MainMenuImages/MainBGLines.png" id="15_3mlk5"]
+[ext_resource type="Script" path="res://src/Scripts/UI/position.gd" id="15_u1ooa"]
 
 [sub_resource type="Animation" id="Animation_x3bho"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Noble:position")
+tracks/0/path = NodePath("Background/Noble:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -32,7 +33,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Ranger:position")
+tracks/1/path = NodePath("Background/Ranger:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -48,7 +49,7 @@ length = 0.5
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Noble:position")
+tracks/0/path = NodePath("Background/Noble:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -60,7 +61,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Ranger:position")
+tracks/1/path = NodePath("Background/Ranger:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -78,15 +79,16 @@ _data = {
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchor_right = 1.5
+anchor_bottom = 1.5
+offset_right = -0.00012207
+offset_bottom = -0.00012207
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_5m3be")
 
-[node name="Background" type="TextureRect" parent="."]
+[node name="temp" type="TextureRect" parent="."]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -100,6 +102,7 @@ expand_mode = 1
 [node name="Buttons" type="Node" parent="."]
 
 [node name="QuitButton" parent="Buttons" instance=ExtResource("3_vgq1w")]
+z_index = 1
 position = Vector2(20, 944)
 texture = ExtResource("8_naxe8")
 texture_scale = Vector2(2, 2)
@@ -107,6 +110,7 @@ polygon = PackedVector2Array(-1, 31, 56, 39, 142, -1, 138, 26, 142, 75, 126, 79,
 script = ExtResource("6_dcvp8")
 
 [node name="OptionsButton" parent="Buttons" instance=ExtResource("3_vgq1w")]
+z_index = 1
 position = Vector2(167, 953)
 texture = ExtResource("6_iyfhi")
 texture_scale = Vector2(2, 2)
@@ -115,6 +119,7 @@ script = ExtResource("7_7ex03")
 scene = "res://src/Scenes/UI/options_menu.tscn"
 
 [node name="Play" parent="Buttons" instance=ExtResource("3_vgq1w")]
+z_index = 1
 position = Vector2(120, 630)
 texture = ExtResource("4_vu4aq")
 texture_offset = Vector2(0, 80)
@@ -123,74 +128,82 @@ polygon = PackedVector2Array(-4, -1, 373, -80, 373, -46, 402, -57, 371, 157, 38,
 script = ExtResource("10_bwoma")
 
 [node name="Create" parent="Buttons" instance=ExtResource("3_vgq1w")]
+z_index = 1
 position = Vector2(116, 769)
 texture = ExtResource("5_t4qaf")
 texture_offset = Vector2(35, 25)
 texture_scale = Vector2(2, 2)
 polygon = PackedVector2Array(-18, -24, 312, 39, 307, 105, -4, 156, -33, 6, -11, 14)
 
-[node name="ColorRect" type="ColorRect" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Noble" type="TextureRect" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 1397.0
-offset_top = 489.0
-offset_right = 10752.0
-offset_bottom = 5911.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("13_6igo4")
-expand_mode = 1
-
-[node name="Ranger" type="TextureRect" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_right = 10243.0
-offset_bottom = 5763.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("14_3qdlw")
-expand_mode = 1
-
-[node name="BG" type="TextureRect" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("15_3mlk5")
-expand_mode = 1
-
-[node name="Logo" type="TextureRect" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 2.0
-offset_top = 4.0
-offset_right = 2.0
-offset_bottom = 4.0
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(0.4, 0.4)
-texture = ExtResource("9_q027n")
-expand_mode = 1
-
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_ehj80")
 }
+
+[node name="Background" type="Node" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="Background"]
+anchors_preset = -1
+anchor_right = 1.5
+anchor_bottom = 1.5
+offset_right = -0.00012207
+offset_bottom = -0.00012207
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("15_u1ooa")
+
+[node name="Noble" type="TextureRect" parent="Background"]
+visible = false
+anchors_preset = -1
+anchor_right = 1.498
+anchor_bottom = 1.485
+offset_left = 1397.0
+offset_top = 489.0
+offset_right = 9586.76
+offset_bottom = 5345.8
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("13_6igo4")
+expand_mode = 1
+script = ExtResource("15_u1ooa")
+
+[node name="Ranger" type="TextureRect" parent="Background"]
+visible = false
+anchors_preset = -1
+anchor_right = 1.5
+anchor_bottom = 1.5
+offset_right = 9600.0
+offset_bottom = 5400.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("14_3qdlw")
+expand_mode = 1
+script = ExtResource("15_u1ooa")
+
+[node name="BG" type="TextureRect" parent="Background"]
+anchors_preset = -1
+anchor_right = 1.503
+anchor_bottom = 1.493
+offset_right = -3.84009
+offset_bottom = 5.04004
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("15_3mlk5")
+expand_mode = 1
+script = ExtResource("15_u1ooa")
+
+[node name="Logo" type="TextureRect" parent="Background"]
+anchors_preset = -1
+anchor_right = 1.499
+anchor_bottom = 1.497
+offset_left = 2.0
+offset_top = 4.0
+offset_right = -1404.72
+offset_bottom = -785.84
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("9_q027n")
+expand_mode = 1
+script = ExtResource("15_u1ooa")
 
 [connection signal="resized" from="." to="." method="_resized"]
