@@ -19,7 +19,8 @@ extends Polygon2D
 @onready var tempo_spring: Spring = Spring.new(0)
 @export var pulse_with_music : bool = true
 
-var default_scale
+var default_scale_y
+var default_scale_x
 
 # ------------------ HELPER FUNCTIONS ------------------- #
 
@@ -32,6 +33,8 @@ func position_method():
 	self.position.y = y*scale_y
 	self.scale.x = scale_x
 	self.scale.y = scale_y
+	default_scale_x = scale_x
+	default_scale_y = scale_y
 
 
 func run_task():
@@ -53,11 +56,14 @@ func _ready():
 	tempo_spring.set("speed", 20.5)
 	tempo_spring.set("damper", 0.44)
 	music_node.connect("on_music_pulse", _on_pulse)
-	default_scale = self.scale
+	default_scale_x = self.scale.x
+	default_scale_y = self.scale.y
 	self._extra_ready()
 
 
 func _process(_delta):
 	#print(tempo_spring.get("position"), Time.get_unix_time_from_system())
-	self.scale.y = default_scale.y + tempo_spring.get("position")
-	self.scale.x = default_scale.x + tempo_spring.get("position")
+	self.scale.y = default_scale_y + tempo_spring.get("position")
+	self.scale.x = default_scale_x + tempo_spring.get("position")
+	#self.scale.y = self.scale.y + tempo_spring.get("position")
+	#self.scale.x = self.scale.x + tempo_spring.get("position")

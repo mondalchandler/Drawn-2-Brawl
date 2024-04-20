@@ -153,14 +153,13 @@ grow_vertical = 2
 script = ExtResource("15_u1ooa")
 
 [node name="Noble" type="TextureRect" parent="Background"]
-visible = false
 anchors_preset = -1
 anchor_right = 1.498
 anchor_bottom = 1.485
 offset_left = 1397.0
 offset_top = 489.0
-offset_right = 9586.76
-offset_bottom = 5345.8
+offset_right = -0.440063
+offset_bottom = 19.8
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("13_6igo4")
@@ -168,12 +167,9 @@ expand_mode = 1
 script = ExtResource("15_u1ooa")
 
 [node name="Ranger" type="TextureRect" parent="Background"]
-visible = false
 anchors_preset = -1
 anchor_right = 1.5
 anchor_bottom = 1.5
-offset_right = 9600.0
-offset_bottom = 5400.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("14_3qdlw")

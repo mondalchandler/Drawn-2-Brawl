@@ -29,7 +29,7 @@ func _resized():
 		children.append_array(get_node("MenuButtons").get_children())
 		for i in range(len(children)):
 			children[i].position_method()
-		get_node("LevelSelect/Background").position_method()
-		get_node("PlayerSelect/Background").position_method()
+		#get_node("LevelSelect/Background").position_method()
+		#get_node("PlayerSelect/Background").position_method()
 	else:
 		first = true
