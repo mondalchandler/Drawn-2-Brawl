@@ -140,64 +140,50 @@ libraries = {
 "": SubResource("AnimationLibrary_ehj80")
 }
 
-[node name="Background" type="Node" parent="."]
+[node name="Background" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+mouse_filter = 2
 
 [node name="ColorRect" type="ColorRect" parent="Background"]
-anchors_preset = -1
-anchor_right = 1.5
-anchor_bottom = 1.5
-offset_right = -0.00012207
-offset_bottom = -0.00012207
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
 script = ExtResource("15_u1ooa")
 
 [node name="Noble" type="TextureRect" parent="Background"]
-anchors_preset = -1
-anchor_right = 1.498
-anchor_bottom = 1.485
+layout_mode = 0
 offset_left = 1397.0
 offset_top = 489.0
-offset_right = -0.440552
-offset_bottom = 19.8
-grow_horizontal = 2
-grow_vertical = 2
+offset_right = 1917.0
+offset_bottom = 1031.0
 texture = ExtResource("13_6igo4")
 expand_mode = 1
 script = ExtResource("15_u1ooa")
 
 [node name="Ranger" type="TextureRect" parent="Background"]
-anchors_preset = -1
-anchor_right = 1.5
-anchor_bottom = 1.5
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
 texture = ExtResource("14_3qdlw")
 expand_mode = 1
 script = ExtResource("15_u1ooa")
 
 [node name="BG" type="TextureRect" parent="Background"]
-anchors_preset = -1
-anchor_right = 1.503
-anchor_bottom = 1.493
-offset_right = -3.84009
-offset_bottom = 5.04004
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
 texture = ExtResource("15_3mlk5")
 expand_mode = 1
 script = ExtResource("15_u1ooa")
 
 [node name="Logo" type="TextureRect" parent="Background"]
-anchors_preset = -1
-anchor_right = 1.499
-anchor_bottom = 1.497
+layout_mode = 0
 offset_left = 2.0
 offset_top = 4.0
-offset_right = -1404.72
-offset_bottom = -785.84
-grow_horizontal = 2
-grow_vertical = 2
+offset_right = 502.0
+offset_bottom = 404.0
 texture = ExtResource("9_q027n")
 expand_mode = 1
 script = ExtResource("15_u1ooa")

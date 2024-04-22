@@ -17,6 +17,10 @@ func _resized():
 #		children.append_array(get_node("FunctionButtons").get_children())
 		for i in range(len(children)):
 			children[i].position_method()
+			
+		var bg_children = get_node("Background").get_children()
+		for i in range(len(bg_children)):
+			bg_children[i].position_method()
 	else:
 		first = true
 
