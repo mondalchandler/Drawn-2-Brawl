@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://bswfilpmmxd4k"]
+[gd_scene load_steps=22 format=3 uid="uid://bswfilpmmxd4k"]
 
 [ext_resource type="PackedScene" uid="uid://3s37qqt6r8je" path="res://src/Scenes/UI/custom_button.tscn" id="1_5o6sb"]
 [ext_resource type="Script" path="res://src/Scripts/UI/play_menu.gd" id="1_kbvim"]
@@ -16,6 +16,7 @@
 [ext_resource type="Texture2D" uid="uid://cwpowa1i1p7rj" path="res://resources/Images/PlayMenuImages/PlayBG.jpg" id="9_0v0sa"]
 [ext_resource type="Script" path="res://src/Scripts/UI/Navigation/multiplayer_button.gd" id="10_nkcax"]
 [ext_resource type="Script" path="res://src/Scripts/UI/host_button.gd" id="12_bfa0f"]
+[ext_resource type="Script" path="res://src/Scripts/UI/position.gd" id="15_ycr35"]
 
 [sub_resource type="Animation" id="Animation_v8s6n"]
 length = 0.001
@@ -43,58 +44,10 @@ tracks/1/keys = {
 "update": 0,
 "values": [Vector2(400, 407)]
 }
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Noble:position")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(1220, 0)]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Ranger:position")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(718, 0)]
-}
 
 [sub_resource type="Animation" id="Animation_x6pc3"]
 resource_name = "scene_entered"
 length = 0.5
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Noble:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(2000, 0), Vector2(1220, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Ranger:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(-700, 0), Vector2(718, 0)]
-}
 
 [sub_resource type="Animation" id="Animation_hw5po"]
 resource_name = "slide_host_and_join"
@@ -141,59 +94,17 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_kbvim")
 
-[node name="Background" type="TextureRect" parent="."]
+[node name="temp" type="TextureRect" parent="."]
 visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = 640.0
+offset_bottom = 360.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("9_0v0sa")
-expand_mode = 1
-
-[node name="ColorRect" type="ColorRect" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="BG" type="TextureRect" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("3_y1cpb")
-expand_mode = 1
-
-[node name="Noble" type="TextureRect" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 1220.0
-offset_right = 14724.0
-offset_bottom = 8255.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("4_tl5xo")
-expand_mode = 1
-
-[node name="Ranger" type="TextureRect" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 718.0
-offset_right = 13962.0
-offset_bottom = 7592.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("5_cw1of")
 expand_mode = 1
 
 [node name="Buttons" type="Control" parent="."]
@@ -253,6 +164,50 @@ scene = "res://src/Scenes/UI/options_menu.tscn"
 libraries = {
 "": SubResource("AnimationLibrary_xehgu")
 }
+
+[node name="Background" type="Control" parent="."]
+show_behind_parent = true
+anchors_preset = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+mouse_filter = 2
+
+[node name="RangerRect" type="TextureRect" parent="Background"]
+layout_mode = 0
+offset_left = 712.0
+offset_right = 1202.0
+offset_bottom = 390.0
+mouse_filter = 2
+texture = ExtResource("5_cw1of")
+expand_mode = 1
+script = ExtResource("15_ycr35")
+
+[node name="NobleRect" type="TextureRect" parent="Background"]
+layout_mode = 0
+offset_left = 1210.0
+offset_right = 1920.0
+offset_bottom = 1080.0
+mouse_filter = 2
+texture = ExtResource("4_tl5xo")
+expand_mode = 1
+script = ExtResource("15_ycr35")
+
+[node name="BG" type="TextureRect" parent="Background"]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+mouse_filter = 2
+texture = ExtResource("3_y1cpb")
+expand_mode = 1
+script = ExtResource("15_ycr35")
+
+[node name="ColorRect" type="ColorRect" parent="Background"]
+show_behind_parent = true
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+mouse_filter = 2
+script = ExtResource("15_ycr35")
 
 [connection signal="resized" from="." to="." method="_resized"]
 [connection signal="ready" from="AnimationPlayer" to="." method="scene_entered"]
