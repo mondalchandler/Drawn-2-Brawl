@@ -230,12 +230,12 @@ func _handle_move_input(total_input : Dictionary) -> void:
 
 # -- update the velocities of the character and then apply them
 func _update_movement(delta : float) -> void:
-	#if self.hitstun_timer._running:
-		##self._state = PlayerState.KNOCKBACK
+	if self.hitstun_timer._running:
+		self._state = PlayerState.KNOCKBACK
 		#print("ABCD im being knocked back! | ", self.knockback)
-		#self.velocity = self.knockback
-		#print("ABCD my velocity was chaged to KB | ", self.velocity)
-		#return
+		self.velocity = self.knockback
+		print("ABCD my velocity was chaged to KB | ", self.velocity)
+		return
 		
 	var is_moving : bool = self.move_direction.length() > 0.0
 	if !self.blocking:
@@ -574,7 +574,8 @@ func _update_custom_physics(input : Dictionary, delta : float) -> void:
 		# if we're on a slope, check to ensure the slope is shallow enough to be considered a floor. else, it's a wall and we're not grounded
 		if (angle_radians <= self.floor_max_angle + FLOOR_ANGLE_THRESHOLD):
 			self._on_floor = true
-			self.position.y = collision.get_position().y + hurtbox.scale.y * (2.0/3.0)
+			if !(self._state == PlayerState.KNOCKBACK):
+				self.position.y = collision.get_position().y + hurtbox.scale.y * (2.0/3.0)
 		else:
 			self._on_floor = false
 	else:	# if we're not touching anything

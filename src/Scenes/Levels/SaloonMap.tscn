@@ -33,11 +33,11 @@ script = ExtResource("1_orbom")
 [node name="Spawns" type="Node" parent="."]
 
 [node name="SpawnPoint" parent="Spawns" instance=ExtResource("8_dkgit")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.466, 1.5, 3.02287)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.07696, 1.5, -0.181354)
 script = null
 
 [node name="SpawnPoint2" parent="Spawns" instance=ExtResource("8_dkgit")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.836, 1.5, -2.081)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.85639, 1.5, 1.68585)
 script = null
 
 [node name="SpawnPoint3" parent="Spawns" instance=ExtResource("8_dkgit")]

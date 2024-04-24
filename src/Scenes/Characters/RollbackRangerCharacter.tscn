@@ -11,8 +11,8 @@
 [ext_resource type="PackedScene" uid="uid://dasqrf4pd4bpe" path="res://src/Scenes/Stamina/StanimaBar3D.tscn" id="8_gb5s5"]
 [ext_resource type="Script" path="res://addons/godot-rollback-netcode/NetworkTimer.gd" id="9_3k4re"]
 [ext_resource type="Script" path="res://src/Scripts/Classes/Character/Moves/RollbackMoveController.gd" id="10_gomby"]
-[ext_resource type="Script" path="res://src/Scripts/Classes/Character/Moves/ChargableMoves/Ranger/PistolWhip.gd" id="11_akmbg"]
-[ext_resource type="PackedScene" uid="uid://dcwy6gxlinend" path="res://src/Scenes/Characters/Character Nodes/SpectatorCooldowns.tscn" id="12_6k1du"]
+[ext_resource type="PackedScene" uid="uid://dcwy6gxlinend" path="res://src/Scenes/characters/Character Nodes/SpectatorCooldowns.tscn" id="12_6k1du"]
+[ext_resource type="Script" path="res://src/Scripts/Classes/Character/Moves/Move.gd" id="12_n6nvk"]
 [ext_resource type="Texture2D" uid="uid://k1d6ljvlbigv" path="res://resources/Images/Animations/Ranger/Basic/RangerIdle1.png" id="13_bdi45"]
 [ext_resource type="Texture2D" uid="uid://innlwsw6s1s4" path="res://resources/Images/Animations/Ranger/Basic/RangerBlock.png" id="14_6xmey"]
 [ext_resource type="Texture2D" uid="uid://c1ygl7tbs6jvj" path="res://resources/Images/Animations/Ranger/Basic/RangerJump.png" id="15_dd4t5"]
@@ -237,7 +237,7 @@ mesh_instance = NodePath("VisualMesh")
 owner_char = NodePath("../..")
 damage_range = [5, 5]
 hitstun_ticks = 5
-knockback_strength = Vector3(1, 5, 1)
+knockback_strength = Vector3(1, 1, 1)
 
 [node name="VisualMesh" type="MeshInstance3D" parent="Hurtbox/PistolWhipHitbox"]
 visible = false
@@ -309,6 +309,7 @@ wait_ticks = 30
 [node name="HitstunTimer" type="Node" parent="Cooldowns"]
 script = ExtResource("9_3k4re")
 one_shot = true
+wait_ticks = 30
 hash_state = false
 
 [node name="MoveController" type="Node" parent="." node_paths=PackedStringArray("ground_nc")]
@@ -316,7 +317,7 @@ script = ExtResource("10_gomby")
 ground_nc = NodePath("PistolWhip")
 
 [node name="PistolWhip" type="Node" parent="MoveController" node_paths=PackedStringArray("hitbox") groups=["network_sync"]]
-script = ExtResource("11_akmbg")
+script = ExtResource("12_n6nvk")
 hitbox = NodePath("../../Hurtbox/PistolWhipHitbox")
 
 [node name="CooldownTimer" type="Node" parent="MoveController/PistolWhip"]

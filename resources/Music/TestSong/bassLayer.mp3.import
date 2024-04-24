@@ -3,12 +3,12 @@
 importer="mp3"
 type="AudioStreamMP3"
 uid="uid://c1husnq4yjdg2"
-path="res://.godot/imported/BassLayer.mp3-d12a41040507d68d162fae88dbb3b0c9.mp3str"
+path="res://.godot/imported/bassLayer.mp3-4f5860c880660c78880865af6d880349.mp3str"
 
 [deps]
 
-source_file="res://resources/Music/TestSong/BassLayer.mp3"
-dest_files=["res://.godot/imported/BassLayer.mp3-d12a41040507d68d162fae88dbb3b0c9.mp3str"]
+source_file="res://resources/Music/TestSong/bassLayer.mp3"
+dest_files=["res://.godot/imported/bassLayer.mp3-4f5860c880660c78880865af6d880349.mp3str"]
 
 [params]
 

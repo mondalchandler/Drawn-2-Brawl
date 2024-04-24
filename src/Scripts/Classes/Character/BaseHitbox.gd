@@ -46,7 +46,6 @@ var hit_chars: Dictionary
 
 # ------------------------------------------------ METHODS ---------------------------------------------------- #
 
-
 # overrideable virtual method.
 func _before_hit_computation() -> void:
 	pass
@@ -71,7 +70,7 @@ func deal_kb(hit_char : RollbackCharacterController) -> void:
 	var dir_to_enemy = (hit_char.position - owner_char.position).normalized()
 	var kb = Vector3(dir_to_enemy.x * knockback_strength.x, knockback_strength.y, dir_to_enemy.z * knockback_strength.z)
 	print("ABCD time to update the knockback vector! | ", kb)
-	hit_char.knockback += kb
+	hit_char.knockback = kb
 	pass
 	
 	#print(hit_char, " | i apply velocity | ", dir_to_enemy)
@@ -103,7 +102,7 @@ func on_hit(hit_char) -> void:
 	if not hit_char.blocking:
 		self.deal_kb(hit_char)
 		self.deal_stun(hit_char)
-		#self.deal_dmg(hit_char)
+		self.deal_dmg(hit_char)
 	else:
 		hit_char.stamina -= hit_char.STAMINA_AMOUNT * PLAYER_STAMINA_PERCENT_REDUCTION
 		if hit_char.perfect_block:
