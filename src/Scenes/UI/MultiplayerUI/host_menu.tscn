@@ -1,0 +1,67 @@
+[gd_scene load_steps=2 format=3 uid="uid://bjco5pgv4lql6"]
+
+[ext_resource type="Script" path="res://src/Scenes/UI/MultiplayerUI/host_menu.gd" id="1_1j2i3"]
+
+[node name="HostMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_1j2i3")
+
+[node name="Hosting Room" type="Label" parent="."]
+layout_mode = 0
+offset_left = 858.0
+offset_top = 364.0
+offset_right = 981.0
+offset_bottom = 390.0
+text = "Hosting Room"
+
+[node name="VBox" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 680.0
+offset_top = 35.0
+offset_right = 1167.0
+offset_bottom = 1047.0
+alignment = 1
+
+[node name="Room Name" type="Label" parent="VBox"]
+layout_mode = 2
+text = "Room Name"
+
+[node name="Room Name Edit" type="TextEdit" parent="VBox"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+placeholder_text = "Add a name here..."
+
+[node name="Player Limit" type="Label" parent="VBox"]
+layout_mode = 2
+text = "Player Limit (2)"
+
+[node name="Player Limit Edit" type="HSlider" parent="VBox"]
+layout_mode = 2
+min_value = 2.0
+max_value = 8.0
+value = 2.0
+
+[node name="Private Room?" type="Label" parent="VBox"]
+layout_mode = 2
+text = "Private Room?"
+
+[node name="Private Room Edit" type="CheckButton" parent="VBox"]
+layout_mode = 2
+
+[node name="Passcode" type="Label" parent="VBox"]
+layout_mode = 2
+
+[node name="Passcode Edit" type="TextEdit" parent="VBox"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+placeholder_text = "Leave blank for no passcode..."
+
+[node name="Go" type="Button" parent="VBox"]
+layout_mode = 2
+text = "Go
+"

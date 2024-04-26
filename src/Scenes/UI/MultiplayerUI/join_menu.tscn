@@ -1,0 +1,110 @@
+[gd_scene load_steps=2 format=3 uid="uid://bk6f3bd2veo3r"]
+
+[ext_resource type="Script" path="res://src/Scenes/UI/MultiplayerUI/join_menu.gd" id="1_1cy6b"]
+
+[node name="JoinMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_1cy6b")
+
+[node name="Server Container" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 726.0
+offset_top = 288.0
+offset_right = 1121.0
+offset_bottom = 808.0
+
+[node name="Existing Rooms" type="Label" parent="Server Container"]
+layout_mode = 2
+text = "Existing Rooms"
+horizontal_alignment = 1
+
+[node name="Server List" type="VBoxContainer" parent="Server Container"]
+custom_minimum_size = Vector2(0, 450)
+layout_mode = 2
+
+[node name="Room Count" type="Label" parent="Server Container"]
+layout_mode = 2
+text = "0"
+horizontal_alignment = 1
+
+[node name="Players Background" type="Polygon2D" parent="."]
+z_index = -200
+position = Vector2(585, 267)
+scale = Vector2(1.04423, 0.46762)
+color = Color(0, 0, 0, 0.341176)
+polygon = PackedVector2Array(161.842, 105.866, 503.722, 96.232, 495.104, 1046.8, 146.52, 1004.03)
+
+[node name="Room Debug" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 62.0
+offset_top = 117.0
+offset_right = 253.0
+offset_bottom = 235.0
+
+[node name="Add Room" type="Button" parent="Room Debug"]
+layout_mode = 2
+text = "Add Room"
+
+[node name="Remove Room" type="Button" parent="Room Debug"]
+layout_mode = 2
+text = "Remove Room"
+
+[node name="Room Debug Output" type="Label" parent="Room Debug"]
+layout_mode = 2
+
+[node name="Filter Container" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 72.0
+offset_top = 304.0
+offset_right = 272.0
+offset_bottom = 399.0
+alignment = 1
+
+[node name="Filter" type="Label" parent="Filter Container"]
+layout_mode = 2
+text = "Filter"
+horizontal_alignment = 1
+
+[node name="Filter Input" type="TextEdit" parent="Filter Container"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+placeholder_text = "Filter param here..."
+
+[node name="Run Filter" type="Button" parent="Filter Container"]
+layout_mode = 2
+text = "Go"
+
+[node name="Passcode Container" type="VBoxContainer" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 1263.0
+offset_top = 422.0
+offset_right = 1463.0
+offset_bottom = 517.0
+
+[node name="Passcode Header" type="Label" parent="Passcode Container"]
+layout_mode = 2
+text = "Passcode"
+horizontal_alignment = 1
+
+[node name="Passcode Input" type="TextEdit" parent="Passcode Container"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+placeholder_text = "Passcode here..."
+
+[node name="Join" type="Button" parent="Passcode Container"]
+layout_mode = 2
+text = "Go"
+
+[node name="Join Success" type="Label" parent="Passcode Container"]
+layout_mode = 2
+
+[connection signal="pressed" from="Room Debug/Add Room" to="." method="_on_add_room_pressed"]
+[connection signal="pressed" from="Room Debug/Remove Room" to="." method="_on_remove_room_pressed"]
+[connection signal="pressed" from="Filter Container/Run Filter" to="." method="_on_run_filter_pressed"]
+[connection signal="pressed" from="Passcode Container/Join" to="." method="_on_join_pressed"]

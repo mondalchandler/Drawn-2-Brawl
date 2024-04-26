@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://bswfilpmmxd4k"]
+[gd_scene load_steps=22 format=3 uid="uid://bswfilpmmxd4k"]
 
 [ext_resource type="PackedScene" uid="uid://3s37qqt6r8je" path="res://src/Scenes/UI/custom_button.tscn" id="1_5o6sb"]
 [ext_resource type="Script" path="res://src/Scenes/UI/play_menu.gd" id="1_kbvim"]
@@ -7,7 +7,6 @@
 [ext_resource type="Texture2D" uid="uid://6v6ksu3fen5u" path="res://resources/Images/PlayMenuImages/PlayBGLines.png" id="3_y1cpb"]
 [ext_resource type="Texture2D" uid="uid://brgy4q5ef1uck" path="res://resources/Images/PlayMenuImages/PlayNoble.png" id="4_tl5xo"]
 [ext_resource type="Texture2D" uid="uid://b0dnphf6t4u6w" path="res://resources/Images/PlayMenuImages/PlayJoinBtn.png" id="4_yn3ph"]
-[ext_resource type="Script" path="res://src/Scenes/UI/ButtonScripts/custom_button.gd" id="5_3by5l"]
 [ext_resource type="Texture2D" uid="uid://b4k7dfsutq3bm" path="res://resources/Images/PlayMenuImages/PlayRanger.png" id="5_cw1of"]
 [ext_resource type="Script" path="res://src/Scenes/UI/ButtonScripts/vs_cpu_button.gd" id="5_r7s2m"]
 [ext_resource type="Texture2D" uid="uid://cjdu4pa8t1yke" path="res://resources/Images/PlayMenuImages/PlayHostBtn.png" id="5_vg7xm"]
@@ -15,7 +14,9 @@
 [ext_resource type="Script" path="res://src/Scenes/UI/ButtonScripts/go_to_scene_button.gd" id="7_vabfm"]
 [ext_resource type="Texture2D" uid="uid://bcosy0o5ex8p1" path="res://resources/Images/PlayerSelectImages/OptionsButton.png" id="8_8mufi"]
 [ext_resource type="Texture2D" uid="uid://cwpowa1i1p7rj" path="res://resources/Images/PlayMenuImages/PlayBG.jpg" id="9_0v0sa"]
+[ext_resource type="Script" path="res://src/Scenes/UI/ButtonScripts/join_button.gd" id="10_c5ppy"]
 [ext_resource type="Script" path="res://src/Scenes/UI/ButtonScripts/multiplayer_button.gd" id="10_nkcax"]
+[ext_resource type="Script" path="res://src/Scenes/UI/ButtonScripts/host_button.gd" id="12_htw7u"]
 
 [sub_resource type="Animation" id="Animation_v8s6n"]
 length = 0.001
@@ -189,6 +190,7 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 718.0
+offset_bottom = 3630.0
 offset_right = 718.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -215,7 +217,7 @@ texture = ExtResource("4_yn3ph")
 texture_offset = Vector2(75, 55)
 texture_scale = Vector2(2, 2)
 polygon = PackedVector2Array(-67, 20, 183, -52, 145, 107, -63, 104)
-script = ExtResource("5_3by5l")
+script = ExtResource("10_c5ppy")
 
 [node name="Host" parent="Buttons" instance=ExtResource("1_5o6sb")]
 position = Vector2(400, 407)
@@ -223,7 +225,7 @@ texture = ExtResource("5_vg7xm")
 texture_offset = Vector2(60, 25)
 texture_scale = Vector2(2, 2)
 polygon = PackedVector2Array(-55, -23, 157, 2, 86, 123, -54, 47)
-script = ExtResource("5_3by5l")
+script = ExtResource("12_htw7u")
 
 [node name="Multiplayer" parent="Buttons" instance=ExtResource("1_5o6sb")]
 position = Vector2(151, 388)
