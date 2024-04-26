@@ -22,9 +22,14 @@ func _load_player(character):
 var first = false
 func _resized():
 	if first:
-		var children = get_node("CharacterButtons").get_children()
-		children.append_array(get_node("FunctionButtons").get_children())
+		var children = get_node("PlayerSelect/CharacterButtons").get_children()
+		children.append_array(get_node("PlayerSelect/FunctionButtons").get_children())
+		children.append_array(get_node("LevelSelect/FunctionButtons").get_children())
+		children.append_array(get_node("LevelSelect/LevelButtons").get_children())
+		children.append_array(get_node("MenuButtons").get_children())
 		for i in range(len(children)):
 			children[i].position_method()
+		#get_node("LevelSelect/Background").position_method()
+		#get_node("PlayerSelect/Background").position_method()
 	else:
 		first = true
