@@ -1,0 +1,36 @@
+[gd_scene load_steps=2 format=3 uid="uid://c4cku04i22eyd"]
+
+[ext_resource type="Script" path="res://src/Scenes/UI/MultiplayerUI/lobby_host_room.gd" id="1_we30e"]
+
+[node name="LobbyHostRoom" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_we30e")
+
+[node name="Players" type="Label" parent="."]
+layout_mode = 0
+offset_left = 138.0
+offset_top = 57.0
+offset_right = 541.0
+offset_bottom = 137.0
+text = "Players"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PlayersBackground" type="Polygon2D" parent="."]
+z_index = -200
+position = Vector2(-5.4398, 24.5706)
+scale = Vector2(1.04423, 0.82574)
+color = Color(0, 0, 0, 0.341176)
+polygon = PackedVector2Array(123, 141, 530, 147, 521, 1004, 143, 1019)
+
+[node name="PlayersContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 141.0
+offset_top = 129.0
+offset_right = 533.0
+offset_bottom = 838.0

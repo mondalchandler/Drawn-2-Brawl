@@ -21,3 +21,4 @@ func _resized():
 
 func scene_entered():
 	get_node("AnimationPlayer").play("scene_entered")
+
