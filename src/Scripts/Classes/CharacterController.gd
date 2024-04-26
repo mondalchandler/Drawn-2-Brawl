@@ -18,6 +18,7 @@ const TARGET_ARROW_DEFAULT_SIZE: float = 0.0002
 # ---------------- PROPERTIES ---------------- #
 
 # note: you can use self to refer to the character
+@export var lives: int = 2
 @export var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity") + 15
 @export var health: float = 100
 @export var max_health: float = 100
@@ -76,6 +77,7 @@ var _flashing_switch_time: float = 0.0
 var _input_state_text: String = ""
 var _move_controller = null
 var _direction: Vector3 = Vector3.ZERO
+var _is_spectator: bool = false
 
 # ---------------- CLIENT INSTANCES ---------------- #
 
@@ -96,6 +98,7 @@ var _direction: Vector3 = Vector3.ZERO
 
 @onready var current_cam: Camera3D = get_viewport().get_camera_3d()
 @onready var players: Node = self.get_parent()
+@onready var spectatorActions: Node = self.get_parent().get_parent().get_node("SpectatorActions")
 	
 @onready var target_arrow: Sprite3D = $TargetArrow
 @onready var pause_menu_layer: PauseLayer = $PauseLayer
@@ -276,6 +279,7 @@ func _update_health_change() -> void:
 # -- updates player flashing. used for invincibility
 func _update_invincible_flash(dt: float) -> void:
 	if _flashing_time > 0.0:
+		self.invincible = true
 		_flashing_switch_time += dt
 		if _flashing_switch_time >= FLASH_DELAY:
 			if sprite.visible:
@@ -285,9 +289,45 @@ func _update_invincible_flash(dt: float) -> void:
 			_flashing_switch_time = 0.0
 		_flashing_time -= dt
 	else:
+		self.invincible = false
 		_flashing_time = 0.0
 		_flashing_switch_time = 0.0
 		sprite.show()
+
+func _check_for_death():
+	if(self.health <= 0 and not _is_spectator):
+		self.lives -=1
+		_try_respawn()
+		
+
+func _try_respawn():
+	if(self.lives > 0):
+		_respawn()
+	elif not _is_spectator:
+		_change_to_spectator()
+
+func _respawn():
+	self.health = self.max_health
+	emit_signal("health_changed", self.health, self._old_health)
+	self._old_health = self.health
+	self.transform.origin = self.get_meta("spawn_point").transform.origin
+	perform_invincible_frame_flashing(1)
+
+func _change_to_spectator():
+	#next line not needed, just here for presenting
+	self._show_debug_info = false
+	self.player_nametag.visible = false
+	self.transform.origin = self.get_meta("spawn_point").transform.origin
+	self.set_collision_layer_value(4, true)
+	self.set_collision_layer_value(2, false)
+	self.set_collision_mask_value(2, false)
+	self.set_collision_mask_value(3, false)
+	self.set_collision_mask_value(5, false)
+	self._is_spectator = true
+	self.position.y += 15
+	self.sprite.set_layer_mask_value(2, true)
+	self.sprite.set_layer_mask_value(1, false)
+	pass
 
 
 func _update_recharge_delay(delta):
@@ -349,7 +389,7 @@ func full_heal() -> void:
 
 
 func is_alive() -> bool:
-	return health > 0.0
+	return self.health > 0.0 or self.lives > 0
 
 
 func perform_invincible_frame_flashing(time_length: float) -> void:
@@ -389,62 +429,66 @@ func _ready() -> void:
 
 # -- called when the user inputs anything  
 func _input(event : InputEvent) -> void:
-	if event.is_action_pressed("block") and stamina > 0 and can_player_input:
-		self.blocking = true
-		self._state = PlayerState.BLOCKING
-		self.temp_block_recharge_time = 0
-		self.perfect_block = true
-	
-	if self.blocking:
-		if event.is_action_released("block") or stamina <= 0:
-			self.blocking = false
-			self._state = PlayerState.IDLE
-			self.perfect_block = false
-			self.perfect_block_time = self.PERFECT_BLOCK_TIME_TOTAL
-	
-	if not can_player_input:
-		return
-	
-	if event.is_action_pressed("pause"):
-		pause_menu_layer.toggle()
-	
-	if pause_menu_layer.is_open():
-		return
-	
-	# targetting
-	if event.is_action_pressed("z_target"):
-		targetting = not targetting
-		
-	if event.is_action_pressed("change_target"):
-		_find_next_target()
-	
-	if event.is_action_pressed("roll"):
-		if stamina >= ROLL_STAMINA_COST and !self.rolling and !self.attacking:
-			if stamina_bar:
-				stamina_bar.visible = true
-			self.stamina -= ROLL_STAMINA_COST
-			self._state = PlayerState.ROLLING
-			self.rolling = true
+	if not self._is_spectator:
+		if event.is_action_pressed("block") and stamina > 0 and can_player_input:
+			self.blocking = true
+			self._state = PlayerState.BLOCKING
 			self.temp_block_recharge_time = 0
-	
-	# jumping
-	if is_on_floor() and Input.is_action_just_pressed("jump") and !self.blocking:
-		velocity.y = jump_power
-	
-	# move inputs
-	_move_controller.action(event)
-	
-	if event.is_pressed():
-		_input_state_text = ""
-		for name in MOVE_MAP_NAMES:
-			_input_state_text += "\n" + name + ": " + str(event.is_action_pressed(name))
+			self.perfect_block = true
+		
+		if self.blocking:
+			if event.is_action_released("block") or stamina <= 0:
+				self.blocking = false
+				self._state = PlayerState.IDLE
+				self.perfect_block = false
+				self.perfect_block_time = self.PERFECT_BLOCK_TIME_TOTAL
+		
+		if not can_player_input:
+			return
+		
+		if event.is_action_pressed("pause"):
+			pause_menu_layer.toggle()
+		
+		if pause_menu_layer.is_open():
+			return
+		
+		# targetting
+		if event.is_action_pressed("z_target"):
+			targetting = not targetting
+			
+		if event.is_action_pressed("change_target"):
+			_find_next_target()
+		
+		if event.is_action_pressed("roll"):
+			if stamina >= ROLL_STAMINA_COST and !self.rolling and !self.attacking:
+				if stamina_bar:
+					stamina_bar.visible = true
+				self.stamina -= ROLL_STAMINA_COST
+				self._state = PlayerState.ROLLING
+				self.rolling = true
+				self.temp_block_recharge_time = 0
+		
+		# jumping
+		if is_on_floor() and Input.is_action_just_pressed("jump") and !self.blocking:
+			velocity.y = jump_power
+		
+		# move inputs
+		_move_controller.action(event)
+		
+		if event.is_pressed():
+			_input_state_text = ""
+			for name in MOVE_MAP_NAMES:
+				_input_state_text += "\n" + name + ": " + str(event.is_action_pressed(name))
+	elif self.can_player_input:
+		spectatorActions.parse_action(event, self)
+		pass
 
 
 
 # -- updates every frame aswell, but can fluxate or be more consistent since its based on the physics task process
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
-	if not is_on_floor():
+	if not is_on_floor() and not self._is_spectator:
 		velocity.y -= gravity * delta
 	
 	# Get the input direction and handle the movement/deceleration.
@@ -472,6 +516,7 @@ func _process(delta: float) -> void:
 	player_nametag.text = display_name
 	_update_debug_text()
 	_update_floor_indicator(delta)
+	_check_for_death()
 	_update_health_change()
 	_update_invincible_flash(delta)
 	_update_recharge_delay(delta)

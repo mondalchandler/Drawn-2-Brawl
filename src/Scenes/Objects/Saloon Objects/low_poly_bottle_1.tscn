@@ -76,11 +76,13 @@ points = PackedVector3Array(-1, 0.999811, 0, -0.866092, 0.999811, -0.5, -0.82341
 
 [node name="LowPolyBottle1" type="RigidBody3D"]
 transform = Transform3D(1, 0, -6.4462e-08, 0, 1, 0, 6.4462e-08, 0, 1, 0, 0, 0)
+collision_layer = 16
+collision_mask = 23
 
 [node name="Destruction" type="Node" parent="." node_paths=PackedStringArray("shard_container")]
 script = ExtResource("1_vanaj")
 fragmented = ExtResource("2_c2piw")
-shard_container = NodePath("../Cylinder")
+shard_container = NodePath("")
 
 [node name="Cylinder" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.384, 0, 0, 0, 0.627, 0, 0, 0, 0.35, 0, 0, 0)

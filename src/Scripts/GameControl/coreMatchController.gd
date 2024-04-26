@@ -62,7 +62,7 @@ func start_match():
 	match_started = true
 
 
-#var one_kill = false
+#var one_kill = true
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -70,12 +70,12 @@ func _process(delta):
 		return
 
 	# TODO: Delete this later
-	#if(one_kill):
-	#	one_kill = false
-	#	await get_tree().create_timer(5).timeout
-	#	get_node("Players").get_children()[0].set_meta("Health", 0)
-	#	await get_tree().create_timer(1).timeout
-	#	one_kill = true
+#	if(one_kill and get_node("Players").get_children()[0].is_alive()):
+#		one_kill = false
+#		await get_tree().create_timer(2).timeout
+#		get_node("Players").get_children()[0].health = 0
+#		await get_tree().create_timer(1).timeout
+#		one_kill = true
 		
 	update_players()
 	var current_alive_players = get_alive_players()
