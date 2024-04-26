@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=3 uid="uid://xrbqa40p1wry"]
+[gd_scene load_steps=52 format=3 uid="uid://xrbqa40p1wry"]
 
 [ext_resource type="Script" path="res://src/Scripts/Classes/Character/RollbackCharacterController.gd" id="1_hml51"]
 [ext_resource type="PackedScene" uid="uid://cojs7ish64cv5" path="res://src/Scenes/UI/Billboard/billboard_sprite_3d.tscn" id="2_l266c"]
@@ -26,6 +26,12 @@
 [ext_resource type="Texture2D" uid="uid://buh8fvdr6lpji" path="res://resources/Images/Animations/Ranger/Basic/RangerRun2.png" id="23_blgt1"]
 [ext_resource type="Script" path="res://addons/godot-rollback-netcode/NetworkAnimationPlayer.gd" id="24_83usy"]
 [ext_resource type="Texture2D" uid="uid://0sm548fs50ud" path="res://resources/Images/Animations/Ranger/Moves/RangerGNC2.png" id="24_bg06u"]
+[ext_resource type="Texture2D" uid="uid://bn6q6f7dupf5c" path="res://resources/Images/Animations/Ranger/Moves/RangerGSC1.png" id="26_1apxn"]
+[ext_resource type="Texture2D" uid="uid://dvwixncak0gk4" path="res://resources/Images/Animations/Ranger/Moves/RangerGSC2.png" id="27_l7cmm"]
+[ext_resource type="Texture2D" uid="uid://dv6x8dy56bwhb" path="res://resources/Images/Animations/Ranger/Moves/RangerGNF1.png" id="28_h24r3"]
+[ext_resource type="Texture2D" uid="uid://da68bh42u6jho" path="res://resources/Images/Animations/Ranger/Moves/RangerGNF2.png" id="29_3cs3e"]
+[ext_resource type="Texture2D" uid="uid://dnv1i0rhkdbbl" path="res://resources/Images/Animations/Ranger/Moves/RangerANC1.png" id="30_80avn"]
+[ext_resource type="Texture2D" uid="uid://c64jtkwpapsms" path="res://resources/Images/Animations/Ranger/Moves/RangerANC2.png" id="31_ie5h8"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_1yy5m"]
 viewport_path = NodePath("BillboardViewport")
@@ -33,9 +39,9 @@ viewport_path = NodePath("BillboardViewport")
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sn8c4"]
 height = 1.10297
 
-[sub_resource type="SphereMesh" id="SphereMesh_a6uef"]
-
 [sub_resource type="SphereShape3D" id="SphereShape3D_hlx15"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_a6uef"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_5jdb3"]
 viewport_path = NodePath("BillboardViewport")
@@ -56,6 +62,30 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [ExtResource("3_bsp8x"), ExtResource("13_bdi45")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CharacterSprite:offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-25, -20)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CharacterSprite:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.413, 0.382, 0.52)]
 }
 
 [sub_resource type="Animation" id="Animation_tuddk"]
@@ -109,6 +139,128 @@ tracks/0/keys = {
 "values": [ExtResource("16_g51sj")]
 }
 
+[sub_resource type="Animation" id="Animation_ikd84"]
+resource_name = "ground_nc"
+length = 0.6
+step = 0.0333333
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CharacterSprite:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [ExtResource("3_bsp8x"), ExtResource("24_bg06u")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CharacterSprite:offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2(-25, -20)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CharacterSprite:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.397, 0.367, 0.5)]
+}
+
+[sub_resource type="Animation" id="Animation_sehs6"]
+resource_name = "ground_nf"
+length = 0.6
+step = 0.0333333
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CharacterSprite:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [ExtResource("28_h24r3"), ExtResource("29_3cs3e")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CharacterSprite:offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.233333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [Vector2(30, -20), Vector2(-40, -10)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CharacterSprite:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.397, 0.367, 0.5)]
+}
+
+[sub_resource type="Animation" id="Animation_jf1wu"]
+resource_name = "ground_sc"
+length = 0.7
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CharacterSprite:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [ExtResource("26_1apxn"), ExtResource("27_l7cmm")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CharacterSprite:offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [Vector2(0, -30), Vector2(20, -5)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CharacterSprite:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [Vector3(0.397, 0.367, 0.5), Vector3(0.413, 0.382, 0.52)]
+}
+
 [sub_resource type="Animation" id="Animation_w28gn"]
 resource_name = "idle"
 length = 0.8
@@ -141,23 +293,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [ExtResource("15_dd4t5")]
-}
-
-[sub_resource type="Animation" id="Animation_ikd84"]
-resource_name = "pistol_whip"
-length = 0.6
-step = 0.0333333
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("CharacterSprite:texture")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.233333, 0.6),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [ExtResource("3_bsp8x"), ExtResource("24_bg06u"), ExtResource("24_bg06u")]
 }
 
 [sub_resource type="Animation" id="Animation_10x3q"]
@@ -194,15 +329,57 @@ tracks/0/keys = {
 "values": [ExtResource("22_nxmh6"), ExtResource("23_blgt1")]
 }
 
+[sub_resource type="Animation" id="Animation_qmwwb"]
+resource_name = "air_nc"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CharacterSprite:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [ExtResource("30_80avn"), ExtResource("31_ie5h8")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CharacterSprite:offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2(20, -10)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CharacterSprite:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [Vector3(0.4, 0.37, 0.505), Vector3(0.44, 0.406, 0.555)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_p8tbk"]
 _data = {
 "RESET": SubResource("Animation_hnhue"),
+"air_nc": SubResource("Animation_qmwwb"),
 "block": SubResource("Animation_tuddk"),
 "fall": SubResource("Animation_qo61h"),
 "grab": SubResource("Animation_kxrp2"),
+"ground_nc": SubResource("Animation_ikd84"),
+"ground_nf": SubResource("Animation_sehs6"),
+"ground_sc": SubResource("Animation_jf1wu"),
 "idle": SubResource("Animation_w28gn"),
 "jump": SubResource("Animation_8l52l"),
-"pistol_whip": SubResource("Animation_ikd84"),
 "roll": SubResource("Animation_10x3q"),
 "run": SubResource("Animation_w0m0c")
 }
@@ -219,7 +396,8 @@ pixel_size = 0.015
 texture = SubResource("ViewportTexture_1yy5m")
 
 [node name="CharacterSprite" type="Sprite3D" parent="."]
-transform = Transform3D(0.397235, 0, 0, 0, 0.366733, 0, 0, 0, 0.5, 0, -0.0537091, 0)
+transform = Transform3D(0.413, 0, 0, 0, 0.382, 0, 0, 0, 0.52, 0, -0.0537091, 0)
+offset = Vector2(-25, -20)
 billboard = 1
 shaded = true
 texture = ExtResource("3_bsp8x")
@@ -237,14 +415,32 @@ mesh_instance = NodePath("VisualMesh")
 owner_char = NodePath("../..")
 damage_range = [5, 5]
 hitstun_ticks = 5
-knockback_strength = Vector3(1, 1, 1)
+knockback_strength = Vector3(0.25, 0.1, 0.25)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox/PistolWhipHitbox"]
+shape = SubResource("SphereShape3D_hlx15")
 
 [node name="VisualMesh" type="MeshInstance3D" parent="Hurtbox/PistolWhipHitbox"]
 visible = false
 mesh = SubResource("SphereMesh_a6uef")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox/PistolWhipHitbox"]
+[node name="AxeUppercutHitbox" type="Area3D" parent="Hurtbox" node_paths=PackedStringArray("collision_shape", "mesh_instance", "owner_char") groups=["network_sync"]]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, 0, 0)
+monitoring = false
+script = ExtResource("4_cdt0h")
+collision_shape = NodePath("CollisionShape3D")
+mesh_instance = NodePath("VisualMesh")
+owner_char = NodePath("../..")
+damage_range = [5, 5]
+hitstun_ticks = 5
+knockback_strength = Vector3(0.25, 0.25, 0.25)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox/AxeUppercutHitbox"]
 shape = SubResource("SphereShape3D_hlx15")
+
+[node name="VisualMesh" type="MeshInstance3D" parent="Hurtbox/AxeUppercutHitbox"]
+visible = false
+mesh = SubResource("SphereMesh_a6uef")
 
 [node name="FloorRing" type="Decal" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00604342, -0.884379, -0.0541416)
@@ -312,12 +508,21 @@ one_shot = true
 wait_ticks = 30
 hash_state = false
 
-[node name="MoveController" type="Node" parent="." node_paths=PackedStringArray("ground_nc")]
+[node name="MoveController" type="Node" parent="." node_paths=PackedStringArray("char", "ground_nc", "ground_nf", "ground_sc", "air_nc")]
 script = ExtResource("10_gomby")
+char = NodePath("..")
 ground_nc = NodePath("PistolWhip")
+ground_nf = NodePath("Standoff")
+ground_sc = NodePath("AxeUppercut")
+air_nc = NodePath("AirSwing")
 
-[node name="PistolWhip" type="Node" parent="MoveController" node_paths=PackedStringArray("hitbox") groups=["network_sync"]]
+[node name="PistolWhip" type="Node" parent="MoveController" node_paths=PackedStringArray("cooldown_timer", "hitbox_spawn_timer", "move_end_timer", "hitbox") groups=["network_sync"]]
 script = ExtResource("12_n6nvk")
+cooldown_timer = NodePath("CooldownTimer")
+hitbox_spawn_timer = NodePath("HitboxSpawnTimer")
+move_end_timer = NodePath("MoveEndTimer")
+move_input = "ground_nc"
+move_type = "MELEE"
 hitbox = NodePath("../../Hurtbox/PistolWhipHitbox")
 
 [node name="CooldownTimer" type="Node" parent="MoveController/PistolWhip"]
@@ -335,6 +540,85 @@ script = ExtResource("9_3k4re")
 one_shot = true
 wait_ticks = 18
 
+[node name="Standoff" type="Node" parent="MoveController" node_paths=PackedStringArray("cooldown_timer", "hitbox_spawn_timer", "move_end_timer", "hitbox") groups=["network_sync"]]
+script = ExtResource("12_n6nvk")
+DASH_FORCE = 0.0
+HITBOX_DIST = 0.0
+cooldown_timer = NodePath("CooldownTimer")
+hitbox_spawn_timer = NodePath("HitboxSpawnTimer")
+move_end_timer = NodePath("MoveEndTimer")
+move_input = "ground_nf"
+move_type = "PROJECTILE"
+move_data = [1, [0.2]]
+hitbox = NodePath("../../Hurtbox/PistolWhipHitbox")
+projectile_path = "res://src/Scenes/characters/Projectiles/Bullet.tscn"
+
+[node name="CooldownTimer" type="Node" parent="MoveController/Standoff"]
+script = ExtResource("9_3k4re")
+one_shot = true
+wait_ticks = 30
+
+[node name="HitboxSpawnTimer" type="Node" parent="MoveController/Standoff"]
+script = ExtResource("9_3k4re")
+one_shot = true
+wait_ticks = 7
+
+[node name="MoveEndTimer" type="Node" parent="MoveController/Standoff"]
+script = ExtResource("9_3k4re")
+one_shot = true
+wait_ticks = 18
+
+[node name="AxeUppercut" type="Node" parent="MoveController" node_paths=PackedStringArray("cooldown_timer", "hitbox_spawn_timer", "move_end_timer", "hitbox") groups=["network_sync"]]
+script = ExtResource("12_n6nvk")
+DASH_FORCE = 0.0
+cooldown_timer = NodePath("CooldownTimer")
+hitbox_spawn_timer = NodePath("HitboxSpawnTimer")
+move_end_timer = NodePath("MoveEndTimer")
+move_input = "ground_sc"
+move_type = "MELEE"
+hitbox = NodePath("../../Hurtbox/AxeUppercutHitbox")
+
+[node name="CooldownTimer" type="Node" parent="MoveController/AxeUppercut"]
+script = ExtResource("9_3k4re")
+one_shot = true
+wait_ticks = 30
+
+[node name="HitboxSpawnTimer" type="Node" parent="MoveController/AxeUppercut"]
+script = ExtResource("9_3k4re")
+one_shot = true
+wait_ticks = 9
+
+[node name="MoveEndTimer" type="Node" parent="MoveController/AxeUppercut"]
+script = ExtResource("9_3k4re")
+one_shot = true
+wait_ticks = 21
+
+[node name="AirSwing" type="Node" parent="MoveController" node_paths=PackedStringArray("cooldown_timer", "hitbox_spawn_timer", "move_end_timer", "hitbox") groups=["network_sync"]]
+script = ExtResource("12_n6nvk")
+SPEED_REDUCTION = 100.0
+DASH_FORCE = 0.0
+cooldown_timer = NodePath("CooldownTimer")
+hitbox_spawn_timer = NodePath("HitboxSpawnTimer")
+move_end_timer = NodePath("MoveEndTimer")
+move_input = "air_nc"
+move_type = "MELEE"
+hitbox = NodePath("../../Hurtbox/AxeUppercutHitbox")
+
+[node name="CooldownTimer" type="Node" parent="MoveController/AirSwing"]
+script = ExtResource("9_3k4re")
+one_shot = true
+wait_ticks = 30
+
+[node name="HitboxSpawnTimer" type="Node" parent="MoveController/AirSwing"]
+script = ExtResource("9_3k4re")
+one_shot = true
+wait_ticks = 9
+
+[node name="MoveEndTimer" type="Node" parent="MoveController/AirSwing"]
+script = ExtResource("9_3k4re")
+one_shot = true
+wait_ticks = 21
+
 [node name="SpectatorCooldowns" parent="." instance=ExtResource("12_6k1du")]
 
 [node name="NetworkAnimationPlayer" type="AnimationPlayer" parent="."]
@@ -349,3 +633,12 @@ script = ExtResource("24_83usy")
 [connection signal="timeout" from="MoveController/PistolWhip/CooldownTimer" to="MoveController/PistolWhip" method="_on_cooldown_timeout"]
 [connection signal="timeout" from="MoveController/PistolWhip/HitboxSpawnTimer" to="MoveController/PistolWhip" method="_on_hitbox_spawn_timer_timeout"]
 [connection signal="timeout" from="MoveController/PistolWhip/MoveEndTimer" to="MoveController/PistolWhip" method="_on_move_end_timer_timeout"]
+[connection signal="timeout" from="MoveController/Standoff/CooldownTimer" to="MoveController/Standoff" method="_on_cooldown_timeout"]
+[connection signal="timeout" from="MoveController/Standoff/HitboxSpawnTimer" to="MoveController/Standoff" method="_on_hitbox_spawn_timer_timeout"]
+[connection signal="timeout" from="MoveController/Standoff/MoveEndTimer" to="MoveController/Standoff" method="_on_move_end_timer_timeout"]
+[connection signal="timeout" from="MoveController/AxeUppercut/CooldownTimer" to="MoveController/AxeUppercut" method="_on_cooldown_timeout"]
+[connection signal="timeout" from="MoveController/AxeUppercut/HitboxSpawnTimer" to="MoveController/AxeUppercut" method="_on_hitbox_spawn_timer_timeout"]
+[connection signal="timeout" from="MoveController/AxeUppercut/MoveEndTimer" to="MoveController/AxeUppercut" method="_on_move_end_timer_timeout"]
+[connection signal="timeout" from="MoveController/AirSwing/CooldownTimer" to="MoveController/AirSwing" method="_on_cooldown_timeout"]
+[connection signal="timeout" from="MoveController/AirSwing/HitboxSpawnTimer" to="MoveController/AirSwing" method="_on_hitbox_spawn_timer_timeout"]
+[connection signal="timeout" from="MoveController/AirSwing/MoveEndTimer" to="MoveController/AirSwing" method="_on_move_end_timer_timeout"]

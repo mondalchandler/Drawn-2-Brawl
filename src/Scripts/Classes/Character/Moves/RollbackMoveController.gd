@@ -21,7 +21,7 @@ const MOVE_NAMES = [
 
 # ---------------------------------------- PROPERTIES ------------------------------------------ #
 
-@onready var char : RollbackCharacterController = $".."
+@export var char : RollbackCharacterController = null
 
 # variables used to track the moves currently loaded onto our character
 @export var ground_nc: Move = null

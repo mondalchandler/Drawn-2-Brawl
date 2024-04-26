@@ -22,16 +22,16 @@ extends Node
 
 # ---------------------------------------- CONSTANTS ------------------------------------------ #
 
-const SPEED_REDUCTION : float = 10.0
-const JUMP_REDUCTION : float = 100.0
-const DASH_FORCE : float = 2.0
-const HITBOX_DIST : float = 1.5
+@export var SPEED_REDUCTION : float = 10.0
+@export var JUMP_REDUCTION : float = 100.0
+@export var DASH_FORCE : float = 2.0
+@export var HITBOX_DIST : float = 1.5
 
 # ---------------------------------------- NODES ------------------------------------------ #
 
-@onready var cooldown_timer : NetworkTimer = $CooldownTimer
-@onready var hitbox_spawn_timer : NetworkTimer = $HitboxSpawnTimer
-@onready var move_end_timer : NetworkTimer = $MoveEndTimer
+@export var cooldown_timer : NetworkTimer = null
+@export var hitbox_spawn_timer : NetworkTimer = null
+@export var move_end_timer : NetworkTimer = null
 
 # ----------------------------------------- PROPERTIES ------------------------------------------------ #
 
@@ -77,8 +77,10 @@ func move_update(input_down : bool) -> void:
 	hitbox_spawn_timer.start()
 	move_end_timer.start()
 	
-	self.char.play_action_anim("pistol_whip")
+	self.char.play_action_anim(self.move_input)
+	print("character speed before reduction: ", char.speed)
 	self.char.speed /= SPEED_REDUCTION
+	print("character speed after reduction: ", char.speed)
 	self.char.jump_power /= JUMP_REDUCTION
 
 # ---------------------------------------- CONNECTIONS ------------------------------------------ #
@@ -96,9 +98,21 @@ func _on_move_end_timer_timeout():
 
 
 func _on_hitbox_spawn_timer_timeout():
-	self.char.velocity += self.cached_move_dir * DASH_FORCE
-	self._position_hitbox()
-	self.hitbox.active = true
+	if self.move_type == "PROJECTILE":
+		for i in range(self.move_data[0]):
+			var PROJECTILE: PackedScene = load(self.projectile_path)
+			if PROJECTILE:
+				var projectile = PROJECTILE.instantiate()
+				self.char.get_parent().get_parent().add_child(projectile)
+				projectile.global_position = self.char.global_position
+				projectile.owner_char = self.char
+				# TODO: Create timer for spawning multiple projectiles
+				#await get_tree().create_timer(self.move_data[1][i-1]).timeout
+				projectile.emit()
+	else:
+		self.char.velocity += self.cached_move_dir * DASH_FORCE
+		self._position_hitbox()
+		self.hitbox.active = true
 
 # ----------------------------------------- INIT ------------------------------------------------ #
 

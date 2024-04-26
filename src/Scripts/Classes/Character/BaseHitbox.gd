@@ -114,15 +114,19 @@ func on_hit(hit_char) -> void:
 	
 	self._after_hit_computation()
 
+
 # determines if a hit node is a character. chars have hurtboxes and health
 func node_is_char(node) -> bool:
 	return node.get_node_or_null("Hurtbox") != null and node.health and node.max_health
 
+
 func node_is_object(node):
 	return node.get_node_or_null("Destruction") != null
 
+
 func node_is_world(node):
 	return node != self.owner_char and !self.node_is_object(node) and !self.node_is_char(node)
+
 
 # determines if a hit node is a player
 func on_collision_detected(colliding_node) -> void:
@@ -136,10 +140,6 @@ func on_collision_detected(colliding_node) -> void:
 		self._after_hit_computation()
 	elif self.node_is_world(colliding_node):
 		self._after_hit_computation()
-
-# -------------------------------------------- SIGNAL CONNECTION --------------------------------------------- #
-
-
 
 # ---------------------------------------------- INIT AND LOOP ------------------------------------------------ #
 
@@ -182,10 +182,7 @@ func _save_state() -> Dictionary:
 		_prev_active = self._prev_active,
 		monitoring = self.monitoring,
 		hit_chars = self.hit_chars,
-		position = self.position,
-		#dealt_kb = self.dealt_kb,
-		#dealt_stun = self.dealt_stun,
-		#hit_char_path = self.hit_char_path
+		position = self.position
 	}
 
 
@@ -195,9 +192,6 @@ func _load_state(state: Dictionary) -> void:
 	self.monitoring = state["monitoring"]
 	self.hit_chars = state["hit_chars"]
 	self.position = state["position"]
-	#self.dealt_kb = state["dealt_kb"]
-	#self.dealt_stun = state["dealt_stun"]
-	#self.hit_char_path = state["hit_char_path"]
 
 
 # constructor

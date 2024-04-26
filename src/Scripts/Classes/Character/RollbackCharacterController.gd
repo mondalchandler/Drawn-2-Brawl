@@ -611,12 +611,6 @@ func _update_moves(input: Dictionary) -> void:
 		var holding_move_input = input.get(move_name, false)
 		move_controller.on_update(move_name, holding_move_input, self._on_floor)
 	
-	
-	# ALEX'S TEST CODE
-	#if input.get("normal_close", false) && health > 0:
-	#	health = 0
-	#	pass
-	
 	# update spectator actions
 	if _is_spectator:
 		if input.get("normal_close", false) and spectator_action_cooldowns.get_children()[0].is_stopped():

@@ -24,6 +24,11 @@ class_name Projectile
 		#        Ex:    [ 3, [ 0.1, 0.2, 0.2 ] ]
 		#    Check out MoveController.gd to see how we interact with this data.
 
+# ---------------------------------------- CONSTANTS ------------------------------------------ #
+
+const TICKS_PER_SECOND : float = 30.0
+const DELTA : float = (1.0 / TICKS_PER_SECOND)
+
 # ---------------- PROPERTIES ----------------- #
 
 @export var speed: int
@@ -77,18 +82,15 @@ func get_direction():
 # this only runs when the node and ITS CHILDREN have loaded
 func _ready() -> void:
 	# turn off collisions with default world
-	self.set_collision_layer_value(1, false)
-	# hitboxes will be on layer 2
-	self.set_collision_layer_value(2, true)
+	# hitboxes will be on layer 3
+	self.set_collision_layer_value(3, true)
 	
-	# set hitboxes to detect for areas on layer 1, but not layer 2
-	self.set_collision_mask_value(1, true)
-	self.set_collision_mask_value(2, false)
-	
-	self.connect("area_entered", area_entered)
-	self.connect("body_entered", body_entered)
+	# set hitboxes to detect for areas on layer 2 and 5
+	self.set_collision_mask_value(2, true)
+	self.set_collision_mask_value(5, true)
 
 
+# TODO: NEEDS TO BE RE-WORKED TO USE _network_process() and a proper DELTA
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):	
 	if self.active:
@@ -106,6 +108,37 @@ func _process(delta):
 		self.hit_chars = {}
 		if self.mesh_instance != null:
 			self.mesh_instance.visible = false
+
+#func _network_process(input: Dictionary) -> void:
+	#if self.active:
+		#if self.target_displayed:
+			#self.map.remove_child(self.target)
+		#self.global_position += self.speed * self.direction * DELTA
+		#self.hit_chars = {}
+		#self.monitoring = true
+		#if self.debug_on == true and self.mesh_instance != null:
+			#self.mesh_instance.visible = true
+	#else:
+		#display_target()
+		#self.global_position = self.owner_char.global_position
+		#self.monitoring = false
+		#self.hit_chars = {}
+		#if self.mesh_instance != null:
+			#self.mesh_instance.visible = false
+
+
+func _save_state() -> Dictionary:
+	return {
+		global_position = self.global_position,
+		speed = self.speed,
+		direction = self.direction
+	}
+
+
+func _load_state(state: Dictionary) -> void:
+	self.global_position = state["global_position"]
+	self.speed = state["speed"]
+	self.direction = state["direction"]
 
 
 func _init(speed = 0):
