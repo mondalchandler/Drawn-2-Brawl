@@ -17,6 +17,9 @@ const TARGET_ARROW_DEFAULT_SIZE: float = 0.0002
 
 # ---------------- PROPERTIES ---------------- #
 
+# determines if hitboxes should show or not
+@export var debug_on: bool
+
 # note: you can use self to refer to the character
 @export var lives: int = 2
 @export var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity") + 15
@@ -30,6 +33,7 @@ const TARGET_ARROW_DEFAULT_SIZE: float = 0.0002
 @export var temp_block_recharge_time : float = 4.0
 
 @export var speed: float = 5.0
+@export var velocity_modifier: float = 10.0
 @export var air_speed: float = 5.0
 @export var jump_power: float = 15
 
@@ -45,7 +49,7 @@ const TARGET_ARROW_DEFAULT_SIZE: float = 0.0002
 @export var can_move: bool = true
 @export var targetting: bool = false
 
-var rolling: bool = false
+@export var rolling: bool = false
 var attacking: bool = false
 
 @export var floor_indicator_enabled: bool = true
@@ -194,19 +198,19 @@ func _update_core_animations() -> void:
 # -- update the velocities of the character and then apply them
 func _update_movement(delta: float = 0) -> void:
 	if move_direction.length() > 0.0:
-		if !self.attacking:
+		if !self.attacking or self.rolling:
 			# if player is moving left, flip the sprite
 			sprite.flip_h = move_direction.x < 0
 	if self.rolling:
 		var relative_move_dir = _get_camera_relative_input()
 		var right = (self.transform.basis * Vector3(relative_move_dir.x, 0, relative_move_dir.z)).normalized()
 		if move_direction:
-			velocity = move_direction * 10
+			velocity = move_direction * self.velocity_modifier
 		# if we're standing still, simply roll either left or right
 		elif sprite.flip_h:
-			velocity = -right * 10
+			velocity = -right * self.velocity_modifier
 		else:
-			velocity = right * 10
+			velocity = right * self.velocity_modifier
 	else:
 		if !self.blocking:
 			if is_on_floor():
@@ -294,11 +298,12 @@ func _update_invincible_flash(dt: float) -> void:
 		_flashing_switch_time = 0.0
 		sprite.show()
 
+
 func _check_for_death():
 	if(self.health <= 0 and not _is_spectator):
 		self.lives -=1
 		_try_respawn()
-		
+
 
 func _try_respawn():
 	if(self.lives > 0):
@@ -306,12 +311,14 @@ func _try_respawn():
 	elif not _is_spectator:
 		_change_to_spectator()
 
+
 func _respawn():
 	self.health = self.max_health
 	emit_signal("health_changed", self.health, self._old_health)
 	self._old_health = self.health
 	self.transform.origin = self.get_meta("spawn_point").transform.origin
 	perform_invincible_frame_flashing(1)
+
 
 func _change_to_spectator():
 	#next line not needed, just here for presenting

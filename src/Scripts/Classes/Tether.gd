@@ -1,28 +1,13 @@
 # Chandler Frakes
 
 extends BaseHitbox
-class_name Projectile
+class_name Tether
 
-# HOW TO ADD CUSTOM PROJECTILES
-	# 1) Create a new scene, call it whatever you want
-			# a) We reparent projectiles to the map scene so that they can move independently of the player.
-			#    Doing so requires that we instantiate a PackedScene of the projectile we are spawning.
-			#    The next few steps are the same as those in BaseHitbox.gd, since all we are creating is a
-			#    moving hitbox.
-	# 2) Attatch a MeshInstance3D as well as a CollisionShape3D node to Projectile node
-	# 3) In Projectile node, assign the mesh and collision shape to the corresponding varialbes
-	# 4) In the corresponding Move node, assign the projectile_path node to the path of the proj. scene
-		# a) From this point forward, one should be able to mess around with the custom parameters,
-		#    position/size of the mesh
-		# b) WE USE MOVE_DATA HERE!!!!!!!!!!!!!!!!!!!!!!!!!!
-		#    Because some moves require multiple projectiles for the same animation, we need to provide
-		#    the information of how many times we repeat the projectile, and at what times they appear.
-		#    We use a timer to delay the next proj. from appearing, so the second parameter in move_data
-		#    should be an array (size of which == repeated_times) that has each offset (try best to match
-		#    with animation). The format is as such:
-		#        [ repeated_times: int, [ delay_1: float, delay_2: float, etc. ] ]
-		#        Ex:    [ 3, [ 0.1, 0.2, 0.2 ] ]
-		#    Check out MoveController.gd to see how we interact with this data.
+# HOW GRAPPLING / TETHERING DATA IS FORMATTED IN move_data:
+# [ 0.5 (active monitoring window, can be thought of as legnth of chain),
+#   1.5 (legnth of animation so that we can skip to the end if player not detected in window shown above),
+#   0.8 ("yoink" frame / point in animation where character reacts to tethering to the opponent),
+#   0.4 (time between reaction frames in animation and actual activation of the knockback)]
 
 # ---------------- PROPERTIES ----------------- #
 
@@ -33,6 +18,11 @@ var target_displayed = false
 var image = load("res://resources/Images/red_crosshair.png")
 var target = Sprite3D.new()
 var map
+var hooked = false
+var active_timer
+var full_move_timer
+var move_finished = false
+var fired_timer = false
 
 # ---------------- FUNCTIONS ---------------- #
 
@@ -72,6 +62,24 @@ func get_direction():
 		else:
 			return self.owner_char.global_position.direction_to(Vector3(self.owner_char.global_position.x - 1000, 0, self.owner_char.global_position.x - 1000))
 
+
+func on_collision_detected(colliding_node) -> void:
+	if self.node_is_char(colliding_node) and colliding_node != self.owner_char and (self.hit_chars.get(colliding_node) == null or self.hit_chars.get(colliding_node) == false):
+		self.hit_chars[colliding_node] = true
+		self.speed = 0
+		self.hooked = true
+		self.active = false
+		if self.move_finished:
+			on_hit(colliding_node)
+
+
+func finish_move():
+	self.owner_char.anim_tree.set("parameters/" + self.owner_char._move_controller.move_input + "/TimeSeek/seek_request", self.owner_char._move_controller.current_move.move_data[2])
+	self.owner_char.can_move = false
+	await get_tree().create_timer(self.owner_char._move_controller.current_move.move_data[3]).timeout
+	self.move_finished = true
+	self.active = true
+
 # ------------------- INIT AND LOOP --------------------- #
 
 # this only runs when the node and ITS CHILDREN have loaded
@@ -89,7 +97,28 @@ func _ready() -> void:
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):	
+func _process(delta):
+	# start the monitoring window to grab opponent
+	if !fired_timer:
+		active_timer = Timer.new()
+		active_timer.one_shot = true
+		self.add_child(active_timer)
+		# active window
+		active_timer.start(self.owner_char._move_controller.current_move.move_data[0])
+		self.fired_timer = true
+	if self.hooked:
+		self.global_position = self.owner_char.z_target.global_position
+	else:
+		self.owner_char.can_move = true
+	if active_timer:
+		if active_timer.time_left > 0:
+			if hooked:
+				active_timer = null
+				finish_move()
+		else:
+			# cancel/skip to end of animation and queue_free()
+			self.owner_char.anim_tree.set("parameters/" + self.owner_char._move_controller.move_input + "/TimeSeek/seek_request", self.owner_char._move_controller.current_move.move_data[1])
+			_after_hit_computation()
 	if self.active:
 		if self.target_displayed:
 			self.map.remove_child(self.target)
@@ -99,7 +128,7 @@ func _process(delta):
 		if owner_char.debug_on == true and self.mesh_instance != null:
 			self.mesh_instance.visible = true
 	else:
-		display_target()
+#		display_target() <- not doing anything w this rn because we aren't waiting to emit the grapple, also crosshair appears when we apply kb
 		self.global_position = self.owner_char.global_position
 		self.monitoring = false
 		self.hit_chars = {}

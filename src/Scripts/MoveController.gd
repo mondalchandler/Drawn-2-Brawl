@@ -13,18 +13,28 @@ var hb_flipped = false
 
 var move_placeholder = null
 var move_input
+var timer : Timer
+var current_move
 
 # ---------------- FUNCTIONS ---------------- #
 
 func attack(move):
-	flip_hurtbox()
+	self.current_move = move
 	match move.move_type:
 		"MELEE":
 			pass
 		"GRAB":
 			pass
 		"GRAPPLE":
-			pass
+			flip_sprite_if_behind()
+			var TETHER: PackedScene = load(move.tether_path)
+			if TETHER:
+				var tether = TETHER.instantiate()
+				# must add the projectile to the map so that it doesn't move w/ character
+				self.owner_char.get_parent().get_parent().add_child(tether)
+				tether.global_position = self.owner_char.global_position
+				tether.owner_char = self.owner_char
+				tether.emit()
 		"HITSCAN":
 			pass
 		"PROJECTILE":
@@ -33,6 +43,7 @@ func attack(move):
 				var PROJECTILE: PackedScene = load(move.projectile_path)
 				if PROJECTILE:
 					var projectile = PROJECTILE.instantiate()
+					# must add the projectile to the map so that it doesn't move w/ character
 					self.owner_char.get_parent().get_parent().add_child(projectile)
 					projectile.global_position = self.owner_char.global_position
 					projectile.owner_char = self.owner_char
@@ -90,13 +101,31 @@ func move_start(move):
 	play_animation()
 	if move.is_chargable:
 		move_placeholder = move
-		owner_char.anim_tree.set("parameters/" + self.move_input + "/TimeScale/scale", 0)
+		move_placeholder.move_ended = false
+		timer = Timer.new()
+		timer.one_shot = true
+		self.add_child(timer)
+		# if there is custom stopping point in animation for charge move
+		# we use move_data[1] to store timestamps, similarly to emitting projectiles
+		# removed move_data[0] as does not matter bc we are not iterating through multiple animations
+		if move_placeholder.move_data.size() > 0:
+			# this should be just short of when the move is active (e.g. if hbx becomes active at 1.8s, have this value be 1.79s)
+			# prevents move from instantly activating once charge is complete
+			timer.start(move_placeholder.move_data[0]-0.01)
+		else:
+			# needs to be larger than 0 so that we can properly freeze-frame
+			timer.start(0.01)
 	else:
 		attack(move)
 
 
 func move_end():
+	timer = null
 	if move_placeholder and move_placeholder.is_chargable:
+		move_placeholder.move_ended = true
+		# skip to active frame of move if released
+		if move_placeholder.move_data.size() > 0:
+			owner_char.anim_tree.set("parameters/" + self.move_input + "/TimeSeek/seek_request", move_placeholder.move_data[0])
 		owner_char.anim_tree.set("parameters/" + self.move_input + "/TimeScale/scale", 1)
 		attack(move_placeholder)
 	pass
@@ -145,6 +174,10 @@ func action(event):
 
 
 func _process(delta):
+	if timer:
+		if (timer.time_left == 0):
+			owner_char.anim_tree.set("parameters/" + self.move_input + "/TimeScale/scale", 0)
+	flip_hurtbox()
 	if move_placeholder:
 		move_placeholder.move_charge_effect(delta)
 	pass
