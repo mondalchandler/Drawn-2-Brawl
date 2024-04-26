@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://cekvrq3c2qkiu"]
+[gd_scene load_steps=19 format=3 uid="uid://cekvrq3c2qkiu"]
 
 [ext_resource type="Script" path="res://src/Scenes/UI/player_select.gd" id="1_3nuvs"]
 [ext_resource type="Texture2D" uid="uid://6cv8bs5iycg7" path="res://resources/Images/PlayerSelectImages/BGText.jpg" id="2_qmmb5"]
@@ -15,6 +15,11 @@
 [ext_resource type="Texture2D" uid="uid://dw8yen50qp7de" path="res://resources/Images/PlayerSelectImages/LeaveButton.png" id="13_mp22v"]
 [ext_resource type="Script" path="res://src/Scenes/UI/ButtonScripts/go_to_scene_button.gd" id="14_k26lg"]
 [ext_resource type="Texture2D" uid="uid://bcosy0o5ex8p1" path="res://resources/Images/PlayerSelectImages/OptionsButton.png" id="15_lnmre"]
+[ext_resource type="Texture2D" uid="uid://cnwq0swjuai6n" path="res://resources/Images/PlayerSelectImages/button.png" id="16_03kum"]
+[ext_resource type="Script" path="res://src/Scenes/UI/ButtonScripts/cursor_token.gd" id="17_mki2l"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_r6kn6"]
+radius = 41.49
 
 [node name="PlayerSelect" type="Control"]
 layout_mode = 3
@@ -110,4 +115,26 @@ polygon = PackedVector2Array(0, 0, 100, 0, 99, 104, 1, 103)
 script = ExtResource("14_k26lg")
 scene = "res://src/Scenes/UI/options_menu.tscn"
 
+[node name="InteractiveObjects" type="Node" parent="."]
+
+[node name="CursorToken" type="Polygon2D" parent="InteractiveObjects"]
+position = Vector2(47.5474, 63.8392)
+scale = Vector2(1.05627, 1.39505)
+texture = ExtResource("16_03kum")
+texture_offset = Vector2(45, 35)
+texture_scale = Vector2(2.705, 3.5)
+polygon = PackedVector2Array(-41.2274, -32.1415, -40.2807, 28.788, 43.9779, 30.2217, 47.7648, -34.292)
+script = ExtResource("17_mki2l")
+
+[node name="Area2D" type="Area2D" parent="InteractiveObjects/CursorToken"]
+position = Vector2(-45.0143, -35.0088)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractiveObjects/CursorToken/Area2D"]
+position = Vector2(44.5658, 34.5349)
+scale = Vector2(0.895, 0.685)
+shape = SubResource("CircleShape2D_r6kn6")
+
 [connection signal="resized" from="." to="." method="_resized"]
+[connection signal="input_event" from="InteractiveObjects/CursorToken/Area2D" to="InteractiveObjects/CursorToken" method="_on_area_2d_input_event"]
+[connection signal="mouse_entered" from="InteractiveObjects/CursorToken/Area2D" to="InteractiveObjects/CursorToken" method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="InteractiveObjects/CursorToken/Area2D" to="InteractiveObjects/CursorToken" method="_on_area_2d_mouse_exited"]
