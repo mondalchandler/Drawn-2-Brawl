@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://ccob0gb7yfnt1"]
+[gd_scene load_steps=3 format=3 uid="uid://ccob0gb7yfnt1"]
 
 [ext_resource type="Script" path="res://src/Scripts/UI/options_menu.gd" id="1_iml0d"]
+[ext_resource type="Script" path="res://src/Scenes/UI/ButtonScripts/control_change.gd" id="2_cunwu"]
 
 [node name="OptionsMenu" type="Control"]
 layout_mode = 3
@@ -88,6 +89,130 @@ layout_mode = 2
 layout_mode = 2
 text = "Apply
 "
+
+[node name="MoveControlButtons" type="Node" parent="."]
+
+[node name="SFB" type="Button" parent="MoveControlButtons"]
+offset_left = 780.0
+offset_top = 130.0
+offset_right = 880.0
+offset_bottom = 150.0
+script = ExtResource("2_cunwu")
+move = "special_far"
+
+[node name="SCB" type="Button" parent="MoveControlButtons"]
+offset_left = 780.0
+offset_top = 100.0
+offset_right = 880.0
+offset_bottom = 120.0
+script = ExtResource("2_cunwu")
+move = "special_close"
+
+[node name="NFB" type="Button" parent="MoveControlButtons"]
+offset_left = 780.0
+offset_top = 70.0
+offset_right = 880.0
+offset_bottom = 90.0
+script = ExtResource("2_cunwu")
+move = "normal_far"
+
+[node name="NCB" type="Button" parent="MoveControlButtons"]
+offset_left = 780.0
+offset_top = 40.0
+offset_right = 880.0
+offset_bottom = 60.0
+script = ExtResource("2_cunwu")
+move = "normal_close"
+
+[node name="DRB" type="Button" parent="MoveControlButtons"]
+offset_left = 780.0
+offset_top = 160.0
+offset_right = 880.0
+offset_bottom = 180.0
+script = ExtResource("2_cunwu")
+move = "roll"
+
+[node name="BB" type="Button" parent="MoveControlButtons"]
+offset_left = 780.0
+offset_top = 190.0
+offset_right = 880.0
+offset_bottom = 210.0
+script = ExtResource("2_cunwu")
+move = "block"
+
+[node name="PTB" type="Button" parent="MoveControlButtons"]
+offset_left = 780.0
+offset_top = 220.0
+offset_right = 880.0
+offset_bottom = 240.0
+script = ExtResource("2_cunwu")
+move = "z_target"
+
+[node name="CTB" type="Button" parent="MoveControlButtons"]
+offset_left = 780.0
+offset_top = 250.0
+offset_right = 880.0
+offset_bottom = 270.0
+script = ExtResource("2_cunwu")
+move = "change_target"
+
+[node name="MoveControlLabels" type="Node" parent="."]
+
+[node name="NCL" type="Label" parent="MoveControlLabels"]
+offset_left = 668.0
+offset_top = 38.0
+offset_right = 777.0
+offset_bottom = 61.0
+text = "Normal Close:"
+
+[node name="NFL" type="Label" parent="MoveControlLabels"]
+offset_left = 685.0
+offset_top = 68.0
+offset_right = 781.0
+offset_bottom = 91.0
+text = "Normal Far: "
+
+[node name="SCL" type="Label" parent="MoveControlLabels"]
+offset_left = 672.0
+offset_top = 98.0
+offset_right = 781.0
+offset_bottom = 121.0
+text = "Special Close: "
+
+[node name="SFL" type="Label" parent="MoveControlLabels"]
+offset_left = 688.0
+offset_top = 128.0
+offset_right = 776.0
+offset_bottom = 151.0
+text = "Special Far:"
+
+[node name="PTL" type="Label" parent="MoveControlLabels"]
+offset_left = 645.0
+offset_top = 218.0
+offset_right = 778.0
+offset_bottom = 241.0
+text = "Toggle Targeting:"
+
+[node name="CTL" type="Label" parent="MoveControlLabels"]
+offset_left = 660.0
+offset_top = 248.0
+offset_right = 772.0
+offset_bottom = 271.0
+text = "Change Target:"
+
+[node name="DRL" type="Label" parent="MoveControlLabels"]
+offset_left = 688.0
+offset_top = 158.0
+offset_right = 776.0
+offset_bottom = 181.0
+text = "Dodge Roll:"
+
+[node name="BL" type="Label" parent="MoveControlLabels"]
+offset_left = 730.0
+offset_top = 188.0
+offset_right = 777.0
+offset_bottom = 211.0
+text = "Block:"
 
 [connection signal="pressed" from="MarginContainer2/VBoxContainer/Back" to="." method="_on_back_pressed"]
 [connection signal="pressed" from="MarginContainer5/VBoxContainer/Apply" to="." method="_apply_changes"]

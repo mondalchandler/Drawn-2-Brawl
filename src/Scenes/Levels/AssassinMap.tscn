@@ -1,0 +1,62 @@
+[gd_scene load_steps=8 format=3 uid="uid://bs2goaey131dl"]
+
+[ext_resource type="Script" path="res://src/Scripts/GameControl/coreMatchController.gd" id="1_hjoj8"]
+[ext_resource type="PackedScene" uid="uid://dmm2q56al3tel" path="res://src/Scenes/Spawns/SpawnPoint.tscn" id="3_ro3k7"]
+[ext_resource type="Script" path="res://src/Scenes/Levels/CanvasLayer.gd" id="4_b27lu"]
+[ext_resource type="PackedScene" uid="uid://ckm0xvo2o5k16" path="res://resources/Maps/assassin_scene.tscn" id="5_n0ugl"]
+[ext_resource type="PackedScene" uid="uid://b8ho0wqibktcr" path="res://src/Scenes/UI/Health/all_player_health_list.tscn" id="5_ycxew"]
+
+[sub_resource type="Environment" id="Environment_c0gxy"]
+background_mode = 1
+background_color = Color(0.172549, 0.811765, 0.894118, 1)
+ambient_light_energy = 16.0
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.001
+volumetric_fog_emission = Color(0.968627, 0.92549, 0.501961, 1)
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_8nl4k"]
+
+[node name="AssassinMap" type="Node3D"]
+script = ExtResource("1_hjoj8")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.707107, 0.241845, -0.664463, 0, 0.939693, 0.34202, 0.707107, -0.241845, 0.664463, -6.54562, 11.9686, 7)
+cull_mask = 1048573
+projection = 1
+current = true
+size = 30.0
+
+[node name="Lighting" type="Node" parent="."]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Lighting"]
+transform = Transform3D(-0.93292, 0.0993713, 0.3461, 0.359927, 0.229014, 0.904436, 0.0106132, 0.968338, -0.249418, 0, -4.15366, -33.9049)
+light_color = Color(1, 1, 0.882353, 1)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_c0gxy")
+camera_attributes = SubResource("CameraAttributesPractical_8nl4k")
+
+[node name="Spawns" type="Node" parent="."]
+
+[node name="SpawnPoint3" parent="Spawns" instance=ExtResource("3_ro3k7")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 9.91266, -4.12975, -13.6695)
+
+[node name="SpawnPoint" parent="Spawns" instance=ExtResource("3_ro3k7")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 15.6413, -3.8574, -13)
+
+[node name="SpawnPoint2" parent="Spawns" instance=ExtResource("3_ro3k7")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 4.58893, -4.5925, -11.285)
+
+[node name="SpawnPoint4" parent="Spawns" instance=ExtResource("3_ro3k7")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 12.1849, -4.49636, -5.74096)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+script = ExtResource("4_b27lu")
+
+[node name="PlayerHealthUI" parent="CanvasLayer" instance=ExtResource("5_ycxew")]
+
+[node name="Players" type="Node" parent="."]
+
+[node name="AssassinScene" parent="." instance=ExtResource("5_n0ugl")]
+transform = Transform3D(-1.31134e-07, 0, -3, 0, 3, 0, 3, 0, -1.31134e-07, 12.5651, -9.26511, -11.573)
