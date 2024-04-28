@@ -661,7 +661,6 @@ func _network_process(input: Dictionary) -> void:
 #		pause_menu_layer.toggle()
 #	if pause_menu_layer.is_open():
 #		return
-
 	#-- get our movement variables and update how we move
 	var vector2Input : Vector2 = input.get("input_vector", Vector2.ZERO)
 	self.move_direction = Vector3(vector2Input.x, 0, vector2Input.y)
