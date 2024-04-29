@@ -236,7 +236,7 @@ func _update_movement(delta : float) -> void:
 		self.velocity = self.knockback
 		print("ABCD my velocity was chaged to KB | ", self.velocity)
 		return
-		
+	
 	var is_moving : bool = self.move_direction.length() > 0.0
 	if !self.blocking:
 		if self._on_floor:
@@ -261,9 +261,13 @@ func _update_movement(delta : float) -> void:
 		self._state = PlayerState.BLOCKING
 		self.velocity.x = lerp(self.velocity.x, 0.0, delta * self.speed_decay)
 		self.velocity.z = lerp(self.velocity.z, 0.0, delta * self.speed_decay)
-		
+	
 	if self.performing > 0:
 		self._state = PlayerState.PERFORMING
+	
+	if !self.can_move:
+		self.velocity = Vector3.ZERO
+		return
 
 
 # --------------------------------------- STAMINA RELATED FUNCTIONS ------------------------------------------- #
@@ -449,12 +453,12 @@ func _update_invincible_flash(dt: float) -> void:
 		sprite.show()
 
 
-
 func _check_for_death():
 	if(self.health <= 0 and not _is_spectator):
 		self.lives -=1
 		_try_respawn()
 		
+
 
 func _try_respawn():
 	if(self.lives > 0):
@@ -462,12 +466,14 @@ func _try_respawn():
 	elif not _is_spectator:
 		_change_to_spectator()
 
+
 func _respawn():
 	self.health = self.max_health
 	emit_signal("health_changed", self.health, self._old_health)
 	self._old_health = self.health
 	self.transform.origin = self.get_meta("spawn_point").transform.origin
 	perform_invincible_frame_flashing(1)
+
 
 func _change_to_spectator():
 	#next line not needed, just here for presenting
@@ -486,7 +492,6 @@ func _change_to_spectator():
 	pass
 
 # --------------------------------------- ROLLBACK FUNCTIONS ------------------------------------------- #
-
 
 # this is a special virtual method that will get called by SyncManager
 # this is because this node is part of the "network_sync" group
@@ -527,6 +532,7 @@ func _predict_remote_input(previous_input: Dictionary, _ticks_since_real_input: 
 	
 	# return new prediction
 	return predicted_input
+
 
 func _update_roll_physics(input : Dictionary, delta : float) -> void:
 	var pressed_roll = input.get("roll", false)
@@ -591,8 +597,8 @@ func _update_custom_physics(input : Dictionary, delta : float) -> void:
 		
 	#---- apply gravity and jump forces
 	if not self._on_floor:
-		if not self._is_spectator:
-			self.velocity.y -= gravity * delta * delta
+		if not self._is_spectator and not self.performing:
+			self.velocity.y -= gravity * delta * delta # huh? -Chandler
 		else:
 			self.velocity.y = 0
 	else:
@@ -720,6 +726,7 @@ func _save_state() -> Dictionary:
 	return {
 		position = self.position,
 		velocity = self.velocity,
+		can_move = self.can_move,
 		
 		move_direction = self.move_direction,
 		last_nonzero_move_direction = self.last_nonzero_move_direction,
@@ -763,6 +770,7 @@ func _save_state() -> Dictionary:
 func _load_state(state: Dictionary) -> void:
 	self.position = state["position"] 
 	self.velocity = state["velocity"]
+	self.can_move = state["can_move"]
 
 	self.move_direction = state["move_direction"]
 	self.last_nonzero_move_direction = state["last_nonzero_move_direction"]

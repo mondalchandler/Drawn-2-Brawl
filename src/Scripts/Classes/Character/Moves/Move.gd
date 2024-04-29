@@ -77,10 +77,9 @@ func move_update(input_down : bool) -> void:
 	hitbox_spawn_timer.start()
 	move_end_timer.start()
 	
+	self.char.can_move = false
 	self.char.play_action_anim(self.move_input)
-	print("character speed before reduction: ", char.speed)
 	self.char.speed /= SPEED_REDUCTION
-	print("character speed after reduction: ", char.speed)
 	self.char.jump_power /= JUMP_REDUCTION
 
 # ---------------------------------------- CONNECTIONS ------------------------------------------ #
@@ -95,6 +94,7 @@ func _on_move_end_timer_timeout():
 	self.char.performing -= 1
 	self.char.autorotate -= 1
 	self.hitbox.active = false
+	self.char.can_move = true
 
 
 func _on_hitbox_spawn_timer_timeout():

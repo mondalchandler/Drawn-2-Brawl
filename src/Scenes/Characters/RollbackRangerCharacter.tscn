@@ -88,6 +88,45 @@ tracks/2/keys = {
 "values": [Vector3(0.413, 0.382, 0.52)]
 }
 
+[sub_resource type="Animation" id="Animation_qmwwb"]
+resource_name = "air_nc"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CharacterSprite:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [ExtResource("30_80avn"), ExtResource("31_ie5h8")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CharacterSprite:offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2(20, -10)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CharacterSprite:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [Vector3(0.4, 0.37, 0.505), Vector3(0.44, 0.406, 0.555)]
+}
+
 [sub_resource type="Animation" id="Animation_tuddk"]
 resource_name = "block"
 length = 0.1
@@ -329,45 +368,6 @@ tracks/0/keys = {
 "values": [ExtResource("22_nxmh6"), ExtResource("23_blgt1")]
 }
 
-[sub_resource type="Animation" id="Animation_qmwwb"]
-resource_name = "air_nc"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("CharacterSprite:texture")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.4),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [ExtResource("30_80avn"), ExtResource("31_ie5h8")]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("CharacterSprite:offset")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [Vector2(20, -10)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("CharacterSprite:scale")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.4),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [Vector3(0.4, 0.37, 0.505), Vector3(0.44, 0.406, 0.555)]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_p8tbk"]
 _data = {
 "RESET": SubResource("Animation_hnhue"),
@@ -595,7 +595,6 @@ wait_ticks = 21
 
 [node name="AirSwing" type="Node" parent="MoveController" node_paths=PackedStringArray("cooldown_timer", "hitbox_spawn_timer", "move_end_timer", "hitbox") groups=["network_sync"]]
 script = ExtResource("12_n6nvk")
-SPEED_REDUCTION = 100.0
 DASH_FORCE = 0.0
 cooldown_timer = NodePath("CooldownTimer")
 hitbox_spawn_timer = NodePath("HitboxSpawnTimer")
