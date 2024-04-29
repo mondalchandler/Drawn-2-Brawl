@@ -79,11 +79,13 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="Polygon2D" parent="LevelSelect/LevelButtons" instance=ExtResource("10_82nx1")]
+[node name="Future" parent="LevelSelect/LevelButtons" instance=ExtResource("10_82nx1")]
 position = Vector2(717, 553)
 texture = ExtResource("6_dv8rh")
 texture_scale = Vector2(2, 2)
 polygon = PackedVector2Array(151, -6, 346, 12, 512, 170, 512, 326, 338, 418, 184, 388, 62, 298, -8, 151, 49, 48)
+script = ExtResource("8_gpl7s")
+map_path = "res://src/Scenes/Levels/AssassinMap.tscn"
 
 [node name="Castle" parent="LevelSelect/LevelButtons" instance=ExtResource("10_82nx1")]
 position = Vector2(1063, 158)
