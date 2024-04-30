@@ -55,9 +55,9 @@ func _position_hitbox() -> void:
 	self.hitbox.global_position = self.char.global_position + (self.cached_move_dir * HITBOX_DIST)
 
 
-func move_ready(set_char : RollbackCharacterController) -> void:
+func move_ready(set_char : RollbackCharacterController, debug_on : bool) -> void:
 	self.char = set_char
-	self.hitbox.debug_on = true
+	if hitbox: self.hitbox.debug_on = debug_on
 
 
 # this function is called on every rollback network update
@@ -71,7 +71,7 @@ func move_update(input_down : bool) -> void:
 	self.char.performing += 1
 	self.char.autorotate += 1
 	self.cached_move_dir = self.char.last_nonzero_move_direction
-	self._position_hitbox()
+	if hitbox: self._position_hitbox()
 	
 	cooldown_timer.start()
 	hitbox_spawn_timer.start()
@@ -93,7 +93,7 @@ func _on_move_end_timer_timeout():
 	self.char.jump_power *= JUMP_REDUCTION
 	self.char.performing -= 1
 	self.char.autorotate -= 1
-	self.hitbox.active = false
+	if hitbox: self.hitbox.active = false
 	self.char.can_move = true
 
 
@@ -111,8 +111,9 @@ func _on_hitbox_spawn_timer_timeout():
 				projectile.emit()
 	else:
 		self.char.velocity += self.cached_move_dir * DASH_FORCE
-		self._position_hitbox()
-		self.hitbox.active = true
+		if hitbox:
+			self._position_hitbox()
+			self.hitbox.active = true
 
 # ----------------------------------------- INIT ------------------------------------------------ #
 

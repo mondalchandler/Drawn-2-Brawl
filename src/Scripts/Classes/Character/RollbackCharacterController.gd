@@ -135,7 +135,7 @@ var _is_spectator: bool = false
 @onready var block_input_timer = $Cooldowns/BlockInputDebounce
 @onready var roll_input_timer = $Cooldowns/RollInputDebounce
 @onready var hitstun_timer = $Cooldowns/HitstunTimer
-@onready var spectator_action_cooldowns: Node = $SpectatorCooldowns
+@onready var spectator_action_cooldowns: Node = $Cooldowns/SpectatorCooldowns
 
 @onready var move_controller = $MoveController
 

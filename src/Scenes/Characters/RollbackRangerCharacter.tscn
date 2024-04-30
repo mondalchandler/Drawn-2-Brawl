@@ -1,9 +1,10 @@
-[gd_scene load_steps=52 format=3 uid="uid://xrbqa40p1wry"]
+[gd_scene load_steps=65 format=3 uid="uid://xrbqa40p1wry"]
 
 [ext_resource type="Script" path="res://src/Scripts/Classes/Character/RollbackCharacterController.gd" id="1_hml51"]
 [ext_resource type="PackedScene" uid="uid://cojs7ish64cv5" path="res://src/Scenes/UI/Billboard/billboard_sprite_3d.tscn" id="2_l266c"]
 [ext_resource type="Texture2D" uid="uid://c78gwvfeiv0v8" path="res://resources/Images/Animations/Ranger/Moves/RangerGNC1.png" id="3_bsp8x"]
 [ext_resource type="Script" path="res://src/Scripts/Classes/Character/BaseHitbox.gd" id="4_cdt0h"]
+[ext_resource type="Script" path="res://src/Scenes/characters/CharacterSprite.gd" id="4_ejnp6"]
 [ext_resource type="Texture2D" uid="uid://bpeb0ux7smvj2" path="res://resources/Images/whiteCircle.png" id="4_urjrg"]
 [ext_resource type="Texture2D" uid="uid://cwhdc0fkgp4k0" path="res://resources/Images/whiteBlurCircle.png" id="5_touo4"]
 [ext_resource type="Texture2D" uid="uid://bx5ukutk4wum3" path="res://resources/Images/arrow_down.png" id="6_i61dc"]
@@ -32,6 +33,14 @@
 [ext_resource type="Texture2D" uid="uid://da68bh42u6jho" path="res://resources/Images/Animations/Ranger/Moves/RangerGNF2.png" id="29_3cs3e"]
 [ext_resource type="Texture2D" uid="uid://dnv1i0rhkdbbl" path="res://resources/Images/Animations/Ranger/Moves/RangerANC1.png" id="30_80avn"]
 [ext_resource type="Texture2D" uid="uid://c64jtkwpapsms" path="res://resources/Images/Animations/Ranger/Moves/RangerANC2.png" id="31_ie5h8"]
+[ext_resource type="Texture2D" uid="uid://cb4cqhs763ua2" path="res://resources/Images/Animations/Ranger/Moves/RangerGSF1.png" id="32_iidtm"]
+[ext_resource type="Texture2D" uid="uid://1vg6ksef0i67" path="res://resources/Images/Animations/Ranger/Moves/RangerASC1.png" id="32_ktrro"]
+[ext_resource type="Texture2D" uid="uid://bpig43rdl73cu" path="res://resources/Images/Animations/Ranger/Moves/RangerASC2.png" id="33_1salp"]
+[ext_resource type="Texture2D" uid="uid://cyi3r6pjscqmv" path="res://resources/Images/Animations/Ranger/Moves/RangerGSF2.png" id="33_kf7n2"]
+[ext_resource type="Texture2D" uid="uid://cwq0j5eq0bybj" path="res://resources/Images/Animations/Ranger/Moves/RangerANF1.png" id="36_ld4t4"]
+[ext_resource type="Texture2D" uid="uid://bmiw52bvhe6xc" path="res://resources/Images/Animations/Ranger/Moves/RangerANF2.png" id="37_dqb11"]
+[ext_resource type="Texture2D" uid="uid://c0gujiauuc7k" path="res://resources/Images/Animations/Ranger/Moves/RangerASF1.png" id="38_xmlyw"]
+[ext_resource type="Texture2D" uid="uid://1dt7nivwdgpq" path="res://resources/Images/Animations/Ranger/Moves/RangerASF2.png" id="39_bf0s3"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_1yy5m"]
 viewport_path = NodePath("BillboardViewport")
@@ -72,7 +81,7 @@ tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 0,
+"update": 1,
 "values": [Vector2(-25, -20)]
 }
 tracks/2/type = "value"
@@ -84,12 +93,12 @@ tracks/2/loop_wrap = true
 tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 0,
+"update": 1,
 "values": [Vector3(0.413, 0.382, 0.52)]
 }
 
-[sub_resource type="Animation" id="Animation_qmwwb"]
-resource_name = "air_nc"
+[sub_resource type="Animation" id="Animation_6v2pa"]
+resource_name = "air_nf"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -100,7 +109,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.4),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [ExtResource("30_80avn"), ExtResource("31_ie5h8")]
+"values": [ExtResource("36_ld4t4"), ExtResource("37_dqb11")]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -109,10 +118,10 @@ tracks/1/path = NodePath("CharacterSprite:offset")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [Vector2(20, -10)]
+"values": [Vector2(0, -50), Vector2(200, -45)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -124,7 +133,46 @@ tracks/2/keys = {
 "times": PackedFloat32Array(0, 0.4),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [Vector3(0.4, 0.37, 0.505), Vector3(0.44, 0.406, 0.555)]
+"values": [Vector3(0.37, 0.343, 0.467), Vector3(0.4, 0.371, 0.505)]
+}
+
+[sub_resource type="Animation" id="Animation_2woax"]
+resource_name = "air_sf"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CharacterSprite:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [ExtResource("38_xmlyw"), ExtResource("39_bf0s3")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CharacterSprite:offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [Vector2(-50, 50), Vector2(500, -300)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CharacterSprite:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector3(0.35, 0.324, 0.442)]
 }
 
 [sub_resource type="Animation" id="Animation_tuddk"]
@@ -215,7 +263,7 @@ tracks/2/loop_wrap = true
 tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 0,
+"update": 1,
 "values": [Vector3(0.397, 0.367, 0.5)]
 }
 
@@ -256,7 +304,7 @@ tracks/2/loop_wrap = true
 tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 0,
+"update": 1,
 "values": [Vector3(0.397, 0.367, 0.5)]
 }
 
@@ -300,6 +348,45 @@ tracks/2/keys = {
 "values": [Vector3(0.397, 0.367, 0.5), Vector3(0.413, 0.382, 0.52)]
 }
 
+[sub_resource type="Animation" id="Animation_w6qmf"]
+resource_name = "ground_sf"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CharacterSprite:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("32_iidtm"), ExtResource("33_kf7n2"), ExtResource("32_iidtm"), ExtResource("33_kf7n2"), ExtResource("32_iidtm"), ExtResource("33_kf7n2"), ExtResource("32_iidtm")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CharacterSprite:offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2(-40, -30)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CharacterSprite:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector3(0.37, 0.343, 0.467)]
+}
+
 [sub_resource type="Animation" id="Animation_w28gn"]
 resource_name = "idle"
 length = 0.8
@@ -315,6 +402,18 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [ExtResource("13_bdi45"), ExtResource("17_ts3sh")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CharacterSprite:offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2(0, -60)]
 }
 
 [sub_resource type="Animation" id="Animation_8l52l"]
@@ -332,6 +431,18 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [ExtResource("15_dd4t5")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CharacterSprite:offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2(0, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_10x3q"]
@@ -367,17 +478,111 @@ tracks/0/keys = {
 "update": 1,
 "values": [ExtResource("22_nxmh6"), ExtResource("23_blgt1")]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CharacterSprite:offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2(0, -40)]
+}
+
+[sub_resource type="Animation" id="Animation_jriqn"]
+resource_name = "air_sc"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CharacterSprite:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [ExtResource("32_ktrro"), ExtResource("33_1salp")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CharacterSprite:offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2(50, -10)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CharacterSprite:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [Vector3(0.37, 0.342, 0.467), Vector3(0.35, 0.324, 0.442)]
+}
+
+[sub_resource type="Animation" id="Animation_2gj6d"]
+resource_name = "air_nc"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CharacterSprite:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [ExtResource("30_80avn"), ExtResource("31_ie5h8")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CharacterSprite:offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [Vector2(0, -50), Vector2(0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CharacterSprite:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [Vector3(0.37, 0.343, 0.467), Vector3(0.4, 0.371, 0.505)]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_p8tbk"]
 _data = {
 "RESET": SubResource("Animation_hnhue"),
-"air_nc": SubResource("Animation_qmwwb"),
+"air_nc": SubResource("Animation_2gj6d"),
+"air_nf": SubResource("Animation_6v2pa"),
+"air_sc": SubResource("Animation_jriqn"),
+"air_sf": SubResource("Animation_2woax"),
 "block": SubResource("Animation_tuddk"),
 "fall": SubResource("Animation_qo61h"),
 "grab": SubResource("Animation_kxrp2"),
 "ground_nc": SubResource("Animation_ikd84"),
 "ground_nf": SubResource("Animation_sehs6"),
 "ground_sc": SubResource("Animation_jf1wu"),
+"ground_sf": SubResource("Animation_w6qmf"),
 "idle": SubResource("Animation_w28gn"),
 "jump": SubResource("Animation_8l52l"),
 "roll": SubResource("Animation_10x3q"),
@@ -401,6 +606,7 @@ offset = Vector2(-25, -20)
 billboard = 1
 shaded = true
 texture = ExtResource("3_bsp8x")
+script = ExtResource("4_ejnp6")
 
 [node name="Hurtbox" type="CollisionShape3D" parent="."]
 transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, -0.302027, 0)
@@ -439,6 +645,42 @@ knockback_strength = Vector3(0.25, 0.25, 0.25)
 shape = SubResource("SphereShape3D_hlx15")
 
 [node name="VisualMesh" type="MeshInstance3D" parent="Hurtbox/AxeUppercutHitbox"]
+visible = false
+mesh = SubResource("SphereMesh_a6uef")
+
+[node name="AirSwingHitbox" type="Area3D" parent="Hurtbox" node_paths=PackedStringArray("collision_shape", "mesh_instance", "owner_char") groups=["network_sync"]]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, 0, 0)
+monitoring = false
+script = ExtResource("4_cdt0h")
+collision_shape = NodePath("CollisionShape3D")
+mesh_instance = NodePath("VisualMesh")
+owner_char = NodePath("../..")
+damage_range = [5, 5]
+hitstun_ticks = 5
+knockback_strength = Vector3(0.25, 0.25, 0.25)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox/AirSwingHitbox"]
+shape = SubResource("SphereShape3D_hlx15")
+
+[node name="VisualMesh" type="MeshInstance3D" parent="Hurtbox/AirSwingHitbox"]
+visible = false
+mesh = SubResource("SphereMesh_a6uef")
+
+[node name="ShotgunExplosionHitbox" type="Area3D" parent="Hurtbox" node_paths=PackedStringArray("collision_shape", "mesh_instance", "owner_char") groups=["network_sync"]]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, 0, 0)
+monitoring = false
+script = ExtResource("4_cdt0h")
+collision_shape = NodePath("CollisionShape3D")
+mesh_instance = NodePath("VisualMesh")
+owner_char = NodePath("../..")
+damage_range = [5, 5]
+hitstun_ticks = 5
+knockback_strength = Vector3(0.25, 0.25, 0.25)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox/ShotgunExplosionHitbox"]
+shape = SubResource("SphereShape3D_hlx15")
+
+[node name="VisualMesh" type="MeshInstance3D" parent="Hurtbox/ShotgunExplosionHitbox"]
 visible = false
 mesh = SubResource("SphereMesh_a6uef")
 
@@ -508,13 +750,20 @@ one_shot = true
 wait_ticks = 30
 hash_state = false
 
-[node name="MoveController" type="Node" parent="." node_paths=PackedStringArray("char", "ground_nc", "ground_nf", "ground_sc", "air_nc")]
+[node name="SpectatorCooldowns" parent="Cooldowns" instance=ExtResource("12_6k1du")]
+
+[node name="MoveController" type="Node" parent="." node_paths=PackedStringArray("char", "ground_nc", "ground_nf", "ground_sc", "ground_sf", "air_nc", "air_nf", "air_sc", "air_sf")]
 script = ExtResource("10_gomby")
 char = NodePath("..")
+debug_on = true
 ground_nc = NodePath("PistolWhip")
 ground_nf = NodePath("Standoff")
 ground_sc = NodePath("AxeUppercut")
+ground_sf = NodePath("ThreeInTheChamber")
 air_nc = NodePath("AirSwing")
+air_nf = NodePath("ThrowingKnife")
+air_sc = NodePath("ShotgunExplosion")
+air_sf = NodePath("WrangleEm")
 
 [node name="PistolWhip" type="Node" parent="MoveController" node_paths=PackedStringArray("cooldown_timer", "hitbox_spawn_timer", "move_end_timer", "hitbox") groups=["network_sync"]]
 script = ExtResource("12_n6nvk")
@@ -540,7 +789,7 @@ script = ExtResource("9_3k4re")
 one_shot = true
 wait_ticks = 18
 
-[node name="Standoff" type="Node" parent="MoveController" node_paths=PackedStringArray("cooldown_timer", "hitbox_spawn_timer", "move_end_timer", "hitbox") groups=["network_sync"]]
+[node name="Standoff" type="Node" parent="MoveController" node_paths=PackedStringArray("cooldown_timer", "hitbox_spawn_timer", "move_end_timer") groups=["network_sync"]]
 script = ExtResource("12_n6nvk")
 DASH_FORCE = 0.0
 HITBOX_DIST = 0.0
@@ -550,7 +799,6 @@ move_end_timer = NodePath("MoveEndTimer")
 move_input = "ground_nf"
 move_type = "PROJECTILE"
 move_data = [1, [0.2]]
-hitbox = NodePath("../../Hurtbox/PistolWhipHitbox")
 projectile_path = "res://src/Scenes/characters/Projectiles/Bullet.tscn"
 
 [node name="CooldownTimer" type="Node" parent="MoveController/Standoff"]
@@ -561,7 +809,6 @@ wait_ticks = 30
 [node name="HitboxSpawnTimer" type="Node" parent="MoveController/Standoff"]
 script = ExtResource("9_3k4re")
 one_shot = true
-wait_ticks = 7
 
 [node name="MoveEndTimer" type="Node" parent="MoveController/Standoff"]
 script = ExtResource("9_3k4re")
@@ -593,6 +840,32 @@ script = ExtResource("9_3k4re")
 one_shot = true
 wait_ticks = 21
 
+[node name="ThreeInTheChamber" type="Node" parent="MoveController" node_paths=PackedStringArray("cooldown_timer", "hitbox_spawn_timer", "move_end_timer") groups=["network_sync"]]
+script = ExtResource("12_n6nvk")
+DASH_FORCE = 0.0
+HITBOX_DIST = 0.0
+cooldown_timer = NodePath("CooldownTimer")
+hitbox_spawn_timer = NodePath("HitboxSpawnTimer")
+move_end_timer = NodePath("MoveEndTimer")
+move_input = "ground_sf"
+move_type = "PROJECTILE"
+move_data = [3, [0.1, 0.2, 0.2]]
+projectile_path = "res://src/Scenes/characters/Projectiles/Bullet.tscn"
+
+[node name="CooldownTimer" type="Node" parent="MoveController/ThreeInTheChamber"]
+script = ExtResource("9_3k4re")
+one_shot = true
+wait_ticks = 30
+
+[node name="HitboxSpawnTimer" type="Node" parent="MoveController/ThreeInTheChamber"]
+script = ExtResource("9_3k4re")
+one_shot = true
+
+[node name="MoveEndTimer" type="Node" parent="MoveController/ThreeInTheChamber"]
+script = ExtResource("9_3k4re")
+one_shot = true
+wait_ticks = 30
+
 [node name="AirSwing" type="Node" parent="MoveController" node_paths=PackedStringArray("cooldown_timer", "hitbox_spawn_timer", "move_end_timer", "hitbox") groups=["network_sync"]]
 script = ExtResource("12_n6nvk")
 DASH_FORCE = 0.0
@@ -601,7 +874,7 @@ hitbox_spawn_timer = NodePath("HitboxSpawnTimer")
 move_end_timer = NodePath("MoveEndTimer")
 move_input = "air_nc"
 move_type = "MELEE"
-hitbox = NodePath("../../Hurtbox/AxeUppercutHitbox")
+hitbox = NodePath("../../Hurtbox/AirSwingHitbox")
 
 [node name="CooldownTimer" type="Node" parent="MoveController/AirSwing"]
 script = ExtResource("9_3k4re")
@@ -611,14 +884,91 @@ wait_ticks = 30
 [node name="HitboxSpawnTimer" type="Node" parent="MoveController/AirSwing"]
 script = ExtResource("9_3k4re")
 one_shot = true
-wait_ticks = 9
+wait_ticks = 12
 
 [node name="MoveEndTimer" type="Node" parent="MoveController/AirSwing"]
 script = ExtResource("9_3k4re")
 one_shot = true
-wait_ticks = 21
+wait_ticks = 30
 
-[node name="SpectatorCooldowns" parent="." instance=ExtResource("12_6k1du")]
+[node name="ThrowingKnife" type="Node" parent="MoveController" node_paths=PackedStringArray("cooldown_timer", "hitbox_spawn_timer", "move_end_timer")]
+script = ExtResource("12_n6nvk")
+DASH_FORCE = 0.0
+HITBOX_DIST = 0.0
+cooldown_timer = NodePath("CooldownTimer")
+hitbox_spawn_timer = NodePath("HitboxSpawnTimer")
+move_end_timer = NodePath("MoveEndTimer")
+move_input = "air_nf"
+move_type = "PROJECTILE"
+move_data = [1, [0.2]]
+projectile_path = "res://src/Scenes/characters/Projectiles/Bullet.tscn"
+
+[node name="CooldownTimer" type="Node" parent="MoveController/ThrowingKnife"]
+script = ExtResource("9_3k4re")
+one_shot = true
+wait_ticks = 30
+
+[node name="HitboxSpawnTimer" type="Node" parent="MoveController/ThrowingKnife"]
+script = ExtResource("9_3k4re")
+one_shot = true
+wait_ticks = 12
+
+[node name="MoveEndTimer" type="Node" parent="MoveController/ThrowingKnife"]
+script = ExtResource("9_3k4re")
+one_shot = true
+wait_ticks = 30
+
+[node name="ShotgunExplosion" type="Node" parent="MoveController" node_paths=PackedStringArray("cooldown_timer", "hitbox_spawn_timer", "move_end_timer", "hitbox") groups=["network_sync"]]
+script = ExtResource("12_n6nvk")
+DASH_FORCE = 0.0
+cooldown_timer = NodePath("CooldownTimer")
+hitbox_spawn_timer = NodePath("HitboxSpawnTimer")
+move_end_timer = NodePath("MoveEndTimer")
+move_input = "air_sc"
+move_type = "MELEE"
+hitbox = NodePath("../../Hurtbox/ShotgunExplosionHitbox")
+
+[node name="CooldownTimer" type="Node" parent="MoveController/ShotgunExplosion"]
+script = ExtResource("9_3k4re")
+one_shot = true
+wait_ticks = 30
+
+[node name="HitboxSpawnTimer" type="Node" parent="MoveController/ShotgunExplosion"]
+script = ExtResource("9_3k4re")
+one_shot = true
+wait_ticks = 12
+
+[node name="MoveEndTimer" type="Node" parent="MoveController/ShotgunExplosion"]
+script = ExtResource("9_3k4re")
+one_shot = true
+wait_ticks = 30
+
+[node name="WrangleEm" type="Node" parent="MoveController" node_paths=PackedStringArray("cooldown_timer", "hitbox_spawn_timer", "move_end_timer") groups=["network_sync"]]
+script = ExtResource("12_n6nvk")
+DASH_FORCE = 0.0
+HITBOX_DIST = 0.0
+cooldown_timer = NodePath("CooldownTimer")
+hitbox_spawn_timer = NodePath("HitboxSpawnTimer")
+move_end_timer = NodePath("MoveEndTimer")
+move_input = "air_sf"
+move_type = "PROJECTILE"
+move_data = [1, [0.2]]
+projectile_path = "res://src/Scenes/characters/Projectiles/Bullet.tscn"
+
+[node name="CooldownTimer" type="Node" parent="MoveController/WrangleEm"]
+script = ExtResource("9_3k4re")
+one_shot = true
+wait_ticks = 30
+
+[node name="HitboxSpawnTimer" type="Node" parent="MoveController/WrangleEm"]
+script = ExtResource("9_3k4re")
+one_shot = true
+wait_ticks = 12
+
+[node name="MoveEndTimer" type="Node" parent="MoveController/WrangleEm"]
+script = ExtResource("9_3k4re")
+one_shot = true
+wait_ticks = 30
 
 [node name="NetworkAnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -638,6 +988,18 @@ script = ExtResource("24_83usy")
 [connection signal="timeout" from="MoveController/AxeUppercut/CooldownTimer" to="MoveController/AxeUppercut" method="_on_cooldown_timeout"]
 [connection signal="timeout" from="MoveController/AxeUppercut/HitboxSpawnTimer" to="MoveController/AxeUppercut" method="_on_hitbox_spawn_timer_timeout"]
 [connection signal="timeout" from="MoveController/AxeUppercut/MoveEndTimer" to="MoveController/AxeUppercut" method="_on_move_end_timer_timeout"]
+[connection signal="timeout" from="MoveController/ThreeInTheChamber/CooldownTimer" to="MoveController/ThreeInTheChamber" method="_on_cooldown_timeout"]
+[connection signal="timeout" from="MoveController/ThreeInTheChamber/HitboxSpawnTimer" to="MoveController/ThreeInTheChamber" method="_on_hitbox_spawn_timer_timeout"]
+[connection signal="timeout" from="MoveController/ThreeInTheChamber/MoveEndTimer" to="MoveController/ThreeInTheChamber" method="_on_move_end_timer_timeout"]
 [connection signal="timeout" from="MoveController/AirSwing/CooldownTimer" to="MoveController/AirSwing" method="_on_cooldown_timeout"]
 [connection signal="timeout" from="MoveController/AirSwing/HitboxSpawnTimer" to="MoveController/AirSwing" method="_on_hitbox_spawn_timer_timeout"]
 [connection signal="timeout" from="MoveController/AirSwing/MoveEndTimer" to="MoveController/AirSwing" method="_on_move_end_timer_timeout"]
+[connection signal="timeout" from="MoveController/ThrowingKnife/CooldownTimer" to="MoveController/ThrowingKnife" method="_on_cooldown_timeout"]
+[connection signal="timeout" from="MoveController/ThrowingKnife/HitboxSpawnTimer" to="MoveController/ThrowingKnife" method="_on_hitbox_spawn_timer_timeout"]
+[connection signal="timeout" from="MoveController/ThrowingKnife/MoveEndTimer" to="MoveController/ThrowingKnife" method="_on_move_end_timer_timeout"]
+[connection signal="timeout" from="MoveController/ShotgunExplosion/CooldownTimer" to="MoveController/ShotgunExplosion" method="_on_cooldown_timeout"]
+[connection signal="timeout" from="MoveController/ShotgunExplosion/HitboxSpawnTimer" to="MoveController/ShotgunExplosion" method="_on_hitbox_spawn_timer_timeout"]
+[connection signal="timeout" from="MoveController/ShotgunExplosion/MoveEndTimer" to="MoveController/ShotgunExplosion" method="_on_move_end_timer_timeout"]
+[connection signal="timeout" from="MoveController/WrangleEm/CooldownTimer" to="MoveController/WrangleEm" method="_on_cooldown_timeout"]
+[connection signal="timeout" from="MoveController/WrangleEm/HitboxSpawnTimer" to="MoveController/WrangleEm" method="_on_hitbox_spawn_timer_timeout"]
+[connection signal="timeout" from="MoveController/WrangleEm/MoveEndTimer" to="MoveController/WrangleEm" method="_on_move_end_timer_timeout"]

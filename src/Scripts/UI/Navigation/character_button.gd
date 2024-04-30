@@ -5,5 +5,3 @@ extends CustomButton
 
 func run_task():
 	parent._load_player(Character)
-	
-

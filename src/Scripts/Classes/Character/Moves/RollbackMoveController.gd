@@ -22,6 +22,7 @@ const MOVE_NAMES = [
 # ---------------------------------------- PROPERTIES ------------------------------------------ #
 
 @export var char : RollbackCharacterController = null
+@export var debug_on : bool = false
 
 # variables used to track the moves currently loaded onto our character
 @export var ground_nc: Move = null
@@ -55,4 +56,4 @@ func _ready():
 	
 	for move_name in MOVE_NAMES:
 		if self[move_name] and self[move_name]["move_ready"]:
-			self[move_name].move_ready(self.char)
+			self[move_name].move_ready(self.char, self.debug_on)
