@@ -64,9 +64,6 @@ func _spawn_players_into_map(map):
 	# get all connected players
 	var all_players = players.get_all_player_peer_ids()
 	
-	
-	#all_players.append(1)
-	
 	# spawn in every play, including ourself
 	for id in all_players:
 		var character_path = "RollbackRangerCharacter"#load("res://src/Scenes/Characters/TestRollbackBaseCharacter.tscn")

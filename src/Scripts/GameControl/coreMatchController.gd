@@ -66,13 +66,13 @@ func spawn_players():
 		if char_name_to_create:
 			var full_char_path = "res://src/Scenes/Characters/" + char_name_to_create + ".tscn"
 			if FileAccess.file_exists(full_char_path):
-				print([char_name_to_create, index, peer_id])
+				print("FIRE ", [char_name_to_create, index, peer_id])
 				var new_player_char = char_spawner.spawn([char_name_to_create, index, peer_id])
-				if new_player_char:
-					if peer_id and not players.localplay_mode:
-						new_player_char.set_multiplayer_authority(peer_id)
-					else:
-						new_player_char.set_multiplayer_authority(1)
+				#if new_player_char:
+				#	if peer_id and not players.localplay_mode:
+				#		new_player_char.set_multiplayer_authority(peer_id)
+				#	else:
+				#		new_player_char.set_multiplayer_authority(1)
 
 
 func insert_char_into_next_available_slot(character):

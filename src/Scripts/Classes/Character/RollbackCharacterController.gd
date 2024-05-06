@@ -42,7 +42,8 @@ const INPUT_MOVE_NAMES = [
 # base character settings
 @export var lives: int = 2
 @export var display_name: String = "TestCharacter"
-var id : int = 0
+var id : int = 1
+var _input_prefix : String = "player" + str(self.id)
 @export var health: float = 100
 @export var max_health: float = 100
 
@@ -180,8 +181,8 @@ func _handle_directional_input(total_input : Dictionary) -> void:
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
 	var input_dir := Vector3.ZERO
-	input_dir.x = Input.get_axis("move_left", "move_right")
-	input_dir.z = Input.get_axis("move_forward", "move_back")
+	input_dir.x = Input.get_axis(_input_prefix + "_move_left", _input_prefix + "_move_right")
+	input_dir.z = Input.get_axis(_input_prefix + "_move_forward", _input_prefix + "_move_back")
 	
 	# update the input based on our perspective with our player camera
 	# this is done client sided because players could have their own unique camera angles
@@ -194,34 +195,34 @@ func _handle_directional_input(total_input : Dictionary) -> void:
 
 # this function will determine the local input for jumping
 func _handle_jump_input(total_input : Dictionary) -> void:
-	if Input.is_action_just_pressed("jump") and can_jump():
+	if Input.is_action_just_pressed(_input_prefix + "_jump") and can_jump():
 		total_input["pressed_jump"] = true
 
 
 # this function will determine the local input targetiung and switching targets
 func _handle_target_input(total_input : Dictionary) -> void:
-	if Input.is_action_just_pressed("z_target"):
+	if Input.is_action_just_pressed(_input_prefix + "_z_target"):
 		total_input["pressed_target"] = true
-	if Input.is_action_just_pressed("change_target"):
+	if Input.is_action_just_pressed(_input_prefix + "_change_target"):
 		total_input["pressed_change_target"] = true
 
 
 # this function will determine the local input for holding block
 func _handle_block_input(total_input : Dictionary) -> void:
-	if Input.is_action_pressed("block"):
+	if Input.is_action_pressed(_input_prefix + "_block"):
 		total_input["holding_block"] = true
 
 
 # this function will determine the local input for rolling/dodging
 func _handle_roll_input(total_input : Dictionary) -> void:
-	if Input.is_action_just_pressed("roll"):
+	if Input.is_action_just_pressed(_input_prefix + "_roll"):
 		total_input["roll"] = true
 
 
 # this function will determine the local input for abilities/moves
 func _handle_move_input(total_input : Dictionary) -> void:
 	for move_name in INPUT_MOVE_NAMES:
-		if Input.is_action_pressed(move_name):
+		if Input.is_action_pressed(_input_prefix + "_" + move_name):
 			total_input[move_name] = true
 
 
@@ -837,11 +838,12 @@ func take_damage(damage: float) -> void:
 
 # -- constructor
 func _init() -> void:
-	pass
+	self._input_prefix = "player" + str(self.id)
 
 # -- called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	self.anim_player.play("idle")
+	self._input_prefix = "player" + str(self.id)
 
 func _on_block_input_debounce_timeout():
 	self._can_block = true

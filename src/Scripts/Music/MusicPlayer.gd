@@ -6,7 +6,7 @@ extends Node
 
 # ---------------- CONSTANTS ---------------- #
 
-const DEFAULT_VOLUME: float = -80.0
+const DEFAULT_VOLUME: float = 0
 const PAUSE_VOLUME: float = DEFAULT_VOLUME - 25.0
 
 # ---------------- PROPERTIES ---------------- #

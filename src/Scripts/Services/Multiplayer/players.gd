@@ -95,8 +95,8 @@ func disconnect_client():
 
 func get_all_player_peer_ids() -> Array:
 	if not self.localplay_mode:
-		var ids = multiplayer.get_peers()
-		ids.append(1)	# add ourself (aka the host) to the players 
+		var ids = [1]	# add ourself (aka the host) to the players 
+		ids.append_array(multiplayer.get_peers())
 		return ids
 	else:
 		var ids = []
