@@ -4,7 +4,7 @@
 
 [node name="MenuMusic" type="Node"]
 script = ExtResource("1_vwqag")
-DEFAULT_VOLUME = -20.0
+DEFAULT_VOLUME = -80.0
 
 [node name="VocalLayer" type="AudioStreamPlayer" parent="."]
 

@@ -653,9 +653,7 @@ func _set_spectator_action_cooldown(action: int, time: int):
 # this is essentially the "_process" method for this node, but with network sychronization
 # NOTE: this is run on every TICK, not every FRAME
 func _network_process(input: Dictionary) -> void:
-	
 	# get and set initial physics variables for easy state management
-
 	# TODO: this should probably be changed to be something else
 #	if event.is_action_pressed("pause"):
 #		pause_menu_layer.toggle()

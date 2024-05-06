@@ -11,7 +11,17 @@ const LOGGING_ENABLED := true
 const FORCE_SALOON := true
 const FORCE_CASTLE := false
 
-# ------------------ VARIABLES ------------------ #
+# ------------------ NODES ------------------ #
+
+# players service 
+@onready var players = $Players
+
+@onready var start_timer = $VoteStartTimer
+@onready var ui_container = $UI
+@onready var map_container = $Map
+@onready var map_spawner = $MapSpawner
+
+# ------------------ GLOBAL VARIABLES ------------------ #
 
 #@onready var multiplayer_scenes = [
 #	"res://src/Scenes/UI/VictoryUI/victory_screen.tscn", 
@@ -28,17 +38,13 @@ var vs_CPU = false
 const START_TIMEOUT_MAX = 15
 var start_timeout = START_TIMEOUT_MAX
 var num_votes = 0
-@onready var start_timer = $VoteStartTimer
 
-@onready var ui_container = $UI
-@onready var players = $Players
-@onready var map_container = $Map
-@onready var map_spawner = $MapSpawner
 var map_votes = {}
 
 @export var spawn_dummies : bool = false
 
 # -------------------------------------- PRIVATE METHODS ----------------------------------------- #
+
 
 @rpc("any_peer", "call_local", "reliable")
 func map_vote(map_choice):
@@ -56,10 +62,10 @@ func _spawn_players_into_map(map):
 	if not map: return
 	
 	# get all connected players
-	var all_players = multiplayer.get_peers()
+	var all_players = players.get_all_player_peer_ids()
 	
-	# add ourself to the players 
-	all_players.append(1)
+	
+	#all_players.append(1)
 	
 	# spawn in every play, including ourself
 	for id in all_players:
@@ -118,7 +124,7 @@ func _on_sync_started():
 			datetime['hour'],
 			datetime['minute'],
 			datetime['second'],
-			multiplayer.get_unique_id()
+			SyncManager.network_adaptor.get_unique_id(),
 		]
 		SyncManager.start_logging(LOG_FILE_DRECTORY + "/" + log_filename)
 	
