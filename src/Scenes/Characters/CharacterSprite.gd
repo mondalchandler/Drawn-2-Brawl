@@ -10,6 +10,7 @@ extends Sprite3D
 # ---------------- PROPERTIES ----------------- #
 
 var current_texture = self.texture
+var texture_offset = Vector2.ZERO
 
 # ---------------- FUNCTIONS ---------------- #
 
@@ -20,22 +21,11 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
+	# check for if we have advanced to the next frame
 	if self.current_texture != self.texture:
 		self.current_texture = self.texture
 		if self.flip_h:
-			self.offset.x = -self.offset.x
-
-
-#func _network_process(_input: Dictionary) -> void:
-	#if self.current_texture != self.texture:
-		#self.current_texture = self.texture
-		#if self.flip_h:
-			#self.offset.x = -self.offset.x
-#
-#func _save_state() -> Dictionary:
-	#return {
-		#offset = self.offset
-	#}
-#
-#func _load_state(state: Dictionary) -> void:
-	#self.offset = state["offset"]
+			self.texture_offset = Vector2(-self.offset.x, self.offset.y)
+		else:
+			self.texture_offset = Vector2(self.offset.x, self.offset.y)
+	self.offset = self.texture_offset
