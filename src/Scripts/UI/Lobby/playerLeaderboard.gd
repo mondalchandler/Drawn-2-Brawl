@@ -32,7 +32,7 @@ func toggle_visible(visible : bool):
 
 func _create_player_label(text : String, id : int):
 	var text_color = Color(1, 1, 1)
-	if multiplayer.get_unique_id() == id:
+	if SyncManager.network_adaptor.get_unique_id() == id:
 		text_color = Color(0, 1, 0.25)
 	
 	var newNode = playerLabel.duplicate()

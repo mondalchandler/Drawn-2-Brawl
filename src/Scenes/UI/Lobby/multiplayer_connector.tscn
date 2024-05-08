@@ -169,6 +169,55 @@ size_flags_horizontal = 3
 size_flags_vertical = 6
 text = "Join"
 
+[node name="LobbyOfflinePanel" type="PanelContainer" parent="CanvasLayer"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -185.0
+offset_top = -135.0
+offset_right = 188.0
+offset_bottom = -34.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 4
+size_flags_vertical = 8
+
+[node name="Main" type="GridContainer" parent="CanvasLayer/LobbyOfflinePanel"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="TitleLabel" type="Label" parent="CanvasLayer/LobbyOfflinePanel/Main"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Local Play
+"
+horizontal_alignment = 1
+
+[node name="MiddleContent" type="GridContainer" parent="CanvasLayer/LobbyOfflinePanel/Main"]
+layout_mode = 2
+size_flags_vertical = 4
+columns = 2
+
+[node name="NumPlayersLabel" type="Label" parent="CanvasLayer/LobbyOfflinePanel/Main/MiddleContent"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 6
+text = "Number Of Players:"
+
+[node name="NumPlayersField" type="LineEdit" parent="CanvasLayer/LobbyOfflinePanel/Main/MiddleContent"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 6
+text = "2"
+
+[node name="StartButton" type="Button" parent="CanvasLayer/LobbyOfflinePanel/Main"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 6
+text = "Start"
+
 [node name="BackToPlayScene" parent="." instance=ExtResource("1_1580d")]
 position = Vector2(20, 944)
 texture = ExtResource("2_p7j5j")

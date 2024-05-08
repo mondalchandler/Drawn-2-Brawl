@@ -25,6 +25,10 @@ extends Node
 @onready var joinLobbyPlayerNameField = $CanvasLayer/LobbyJoinPanel/Main/MiddleContent/PlayerNameField
 @onready var joinLobbyButton = $CanvasLayer/LobbyJoinPanel/Main/JoinButton
 
+#elements for the offline play control panel
+@onready var offlineLobbyNumPlayersField = $CanvasLayer/LobbyOfflinePanel/Main/MiddleContent/NumPlayersField
+@onready var offlineLobbyStartButton = $CanvasLayer/LobbyOfflinePanel/Main/StartButton
+
 # ------------------------------- UI FUNCTIONS --------------------------------- #
 
 func onCreateButtonPressed():
@@ -43,11 +47,18 @@ func onJoinButtonPressed():
 	main_scene.change_ui("res://src/Scenes/UI/player_select.tscn")
 
 
+func onOfflineButtonPressed():
+	var numberOfflinePlayers = int(offlineLobbyNumPlayersField.text)
+	players.create_offline_lobby(numberOfflinePlayers)
+	main_scene.change_ui("res://src/Scenes/UI/player_select.tscn")
+
+
 # ------------------------------- GODOT FUNCTIONS --------------------------------- #
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	createLobbyButton.pressed.connect(self.onCreateButtonPressed)
 	joinLobbyButton.pressed.connect(self.onJoinButtonPressed)
+	offlineLobbyStartButton.pressed.connect(self.onOfflineButtonPressed)
 
 

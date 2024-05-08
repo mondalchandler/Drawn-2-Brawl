@@ -13,6 +13,10 @@ signal player_connected(peer_id, player_info)
 signal player_disconnected(peer_id)
 signal server_disconnected
 
+# ------------------------------------------------------ CONSTANTS ------------------------------------------ #
+
+const DummyNetworkAdaptor = preload("res://addons/godot-rollback-netcode/DummyNetworkAdaptor.gd")
+
 # ------------------------------------------------------ PROPERTIES ------------------------------------------ #
 
 @export var lobby_name : String = "<lobby name>"
@@ -31,6 +35,7 @@ var player_info = {
 
 # indicator of number of players that are in the lobby
 var players_loaded = 0
+var localplay_mode : bool = false
 
 # ---------------------------------------------- INIT --------------------------------------------- #
 
@@ -79,18 +84,33 @@ func _on_peer_disconnected(id : int) -> void:
 	player_disconnected.emit(id)
 	SyncManager.remove_peer(id)
 
+
 # disconnects the client from the current server they're connected to
 func disconnect_client():
-	var peer_id = multiplayer.get_unique_id()
+	var peer_id = SyncManager.network_adaptor.get_unique_id()
 	self._on_peer_disconnected(peer_id)
 	server_disconnected.emit()
 	multiplayer.multiplayer_peer = null
+
+
+func get_all_player_peer_ids() -> Array:
+	if not self.localplay_mode:
+		var ids = [1]	# add ourself (aka the host) to the players 
+		ids.append_array(multiplayer.get_peers())
+		return ids
+	else:
+		var ids = []
+		for i in self.max_players:
+			ids.append(i + 1)
+		return ids
 
 # ----------------------------------------------- SERVER METHODS ----------------------------------------------- #
 
 # creates a new lobby by setting this player as a host on a specified IP
 func create_lobby(port : int, max_players_for_lobby : int, new_lobby_name : String) -> void:
-
+	# indicate that we're not in local play
+	self.localplay_mode = false
+	
 	# create a server for the lobby
 	var host = ENetMultiplayerPeer.new()
 	var error = host.create_server(port, max_players_for_lobby)
@@ -109,11 +129,14 @@ func create_lobby(port : int, max_players_for_lobby : int, new_lobby_name : Stri
 	self.max_players = max_players_for_lobby
 	self.lobby_name = new_lobby_name
 	
+	# reset up the network adaptor back to the online version
+	SyncManager.reset_network_adaptor()
+	
 	# add their player information
 	players[1] = player_info
 	player_connected.emit(1, player_info)
 
-# joins a exsiting lobby
+# joins an existing lobby
 func join_lobby(lobby_ip : String, lobby_port : int, _player_name : String) -> void:
 	# fallback IP
 	if lobby_ip.is_empty():
@@ -121,7 +144,7 @@ func join_lobby(lobby_ip : String, lobby_port : int, _player_name : String) -> v
 	
 	# create new client peer
 	var peer = ENetMultiplayerPeer.new()
-	var error = peer.create_client(lobby_ip, lobby_port)
+	var error = peer.create_client(lobby_ip, lobby_port)	# this will trigger on_peer_connected
 	
 	# error handling
 	if error:
@@ -135,9 +158,21 @@ func join_lobby(lobby_ip : String, lobby_port : int, _player_name : String) -> v
 	multiplayer.set_multiplayer_peer(peer)
 	multiplayer.multiplayer_peer = peer
 
+# sets up an offline lobby
+func create_offline_lobby(num_players : int) -> void:
+	# indicate that we're ARE in local play
+	self.localplay_mode = true
+	
+	# set up the network adaptor 
+	SyncManager.network_adaptor = DummyNetworkAdaptor.new()
+	
+	self.max_players = num_players
+	self.lobby_name = "Local Lobby"
+	
+
 # if a client connected successfully to the server, give them some info
 func _on_connected_ok():
-	var peer_id = multiplayer.get_unique_id()
+	var peer_id = SyncManager.network_adaptor.get_unique_id()
 	players[peer_id] = player_info
 	player_connected.emit(peer_id, player_info)
 

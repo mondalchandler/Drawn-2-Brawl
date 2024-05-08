@@ -6,7 +6,7 @@ extends Node
 
 # ---------------- CONSTANTS ---------------- #
 
-const DEFAULT_VOLUME: float = 0.0
+const DEFAULT_VOLUME: float = 0
 const PAUSE_VOLUME: float = DEFAULT_VOLUME - 25.0
 
 # ---------------- PROPERTIES ---------------- #
@@ -15,7 +15,7 @@ var in_game_pause: bool = false
 var _volumeTween
 var current_song_scene = null
 var in_window = true 
-@export var volume: float = 0.0
+@export var volume: float = DEFAULT_VOLUME
 
 # ---------------- SIGNALS ---------------- #
 

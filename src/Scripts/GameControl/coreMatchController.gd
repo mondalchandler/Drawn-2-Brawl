@@ -7,6 +7,7 @@ extends Node
 # --------------- GLOBALS ----------------- #
 
 @onready var main_scene = get_tree().root.get_node("main_scene")
+@onready var players = main_scene.get_node("Players")
 @onready var music_node = main_scene.get_node("MusicNode")
 
 @onready var player_spawns: Node = $Spawns
@@ -38,7 +39,8 @@ func spawn_char_at_pos(data) -> Node:
 	var spawn_point = player_spawns.get_children()[spawn_index]
 	new_player_char.set_meta("spawn_point", spawn_point)
 	new_player_char.global_position = spawn_point.global_position
-	if owner_peer_id and multiplayer.get_unique_id() == owner_peer_id:
+	
+	if owner_peer_id and SyncManager.network_adaptor.get_unique_id() == owner_peer_id:
 		new_player_char.set_multiplayer_authority(owner_peer_id)
 	else:
 		new_player_char.set_multiplayer_authority(1)
@@ -64,9 +66,13 @@ func spawn_players():
 		if char_name_to_create:
 			var full_char_path = "res://src/Scenes/Characters/" + char_name_to_create + ".tscn"
 			if FileAccess.file_exists(full_char_path):
+				print("FIRE ", [char_name_to_create, index, peer_id])
 				var new_player_char = char_spawner.spawn([char_name_to_create, index, peer_id])
-				if peer_id and new_player_char:
-					new_player_char.set_multiplayer_authority(peer_id)
+				#if new_player_char:
+				#	if peer_id and not players.localplay_mode:
+				#		new_player_char.set_multiplayer_authority(peer_id)
+				#	else:
+				#		new_player_char.set_multiplayer_authority(1)
 
 
 func insert_char_into_next_available_slot(character):
