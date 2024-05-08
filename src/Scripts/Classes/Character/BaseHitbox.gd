@@ -111,8 +111,6 @@ func on_hit(hit_char) -> void:
 			#self.hitstun_length = 1 # is this just always applying the perfect block effect no matter what if the opponent is blocking?
 			#self.deal_stun(owner_char)
 			#self.hitstun_length = temp_stun
-	
-	self._after_hit_computation()
 
 
 # determines if a hit node is a character. chars have hurtboxes and health
@@ -137,9 +135,9 @@ func on_collision_detected(colliding_node) -> void:
 		# make it so the player can phase through the collding_node
 		colliding_node.get_node("Destruction").collision_layer = 0
 		colliding_node.get_node("Destruction").destroy()
-		self._after_hit_computation()
 	elif self.node_is_world(colliding_node):
-		self._after_hit_computation()
+		pass
+	self._after_hit_computation()
 
 # ---------------------------------------------- INIT AND LOOP ------------------------------------------------ #
 

@@ -92,28 +92,11 @@ func _ready() -> void:
 
 # TODO: NEEDS TO BE RE-WORKED TO USE _network_process() and a proper DELTA
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):	
-	if self.active:
-		if self.target_displayed:
-			self.map.remove_child(self.target)
-		self.global_position += self.speed * self.direction * delta
-		self.hit_chars = {}
-		self.monitoring = true
-		if self.debug_on == true and self.mesh_instance != null:
-			self.mesh_instance.visible = true
-	else:
-		display_target()
-		self.global_position = self.owner_char.global_position
-		self.monitoring = false
-		self.hit_chars = {}
-		if self.mesh_instance != null:
-			self.mesh_instance.visible = false
-
-#func _network_process(input: Dictionary) -> void:
+#func _process(delta):	
 	#if self.active:
 		#if self.target_displayed:
 			#self.map.remove_child(self.target)
-		#self.global_position += self.speed * self.direction * DELTA
+		#self.global_position += self.speed * self.direction * delta
 		#self.hit_chars = {}
 		#self.monitoring = true
 		#if self.debug_on == true and self.mesh_instance != null:
@@ -125,6 +108,27 @@ func _process(delta):
 		#self.hit_chars = {}
 		#if self.mesh_instance != null:
 			#self.mesh_instance.visible = false
+
+func _network_process(input: Dictionary) -> void:
+	if self.active:
+		if self.target_displayed:
+			self.map.remove_child(self.target)
+		self.global_position += self.speed * self.direction * DELTA
+		self.hit_chars = {}
+		self.monitoring = true
+		if self.debug_on == true and self.mesh_instance != null:
+			self.mesh_instance.visible = true
+	else:
+		display_target()
+		self.global_position = self.owner_char.global_position
+		self.monitoring = false
+		self.hit_chars = {}
+		if self.mesh_instance != null:
+			self.mesh_instance.visible = false
+	
+	if self.monitoring and self.has_overlapping_bodies():
+		for body in self.get_overlapping_bodies():
+			on_collision_detected(body)
 
 
 func _save_state() -> Dictionary:
