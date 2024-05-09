@@ -74,7 +74,18 @@ func move_update(input_down : bool) -> void:
 	if hitbox: self._position_hitbox()
 	
 	cooldown_timer.start()
-	hitbox_spawn_timer.start()
+	# spawn multiple projectiles for successive firing
+	if self.move_type == "PROJECTILE":
+		for i in range(self.move_data[0]):
+			var temp_timer : NetworkTimer = NetworkTimer.new()
+			temp_timer.one_shot = true
+			temp_timer.wait_ticks = int(self.move_data[1][i-1] * 30)
+			print(self.move_data[1][i-1] * 30)
+			self.get_parent().add_child(temp_timer)
+			temp_timer.connect("timeout", self._on_hitbox_spawn_timer_timeout)
+			temp_timer.start()
+	else:
+		hitbox_spawn_timer.start()
 	move_end_timer.start()
 	
 	self.char.can_move = false
@@ -99,16 +110,15 @@ func _on_move_end_timer_timeout():
 
 func _on_hitbox_spawn_timer_timeout():
 	if self.move_type == "PROJECTILE":
-		for i in range(self.move_data[0]):
-			var PROJECTILE: PackedScene = load(self.projectile_path)
-			if PROJECTILE:
-				var projectile = PROJECTILE.instantiate()
-				self.char.get_parent().get_parent().add_child(projectile)
-				projectile.global_position = self.char.global_position
-				projectile.owner_char = self.char
-				# TODO: Create timer for spawning multiple projectiles
-				#await get_tree().create_timer(self.move_data[1][i-1]).timeout
-				projectile.emit()
+		var PROJECTILE: PackedScene = load(self.projectile_path)
+		if PROJECTILE:
+			var projectile = PROJECTILE.instantiate()
+			self.char.get_parent().get_parent().add_child(projectile)
+			projectile.global_position = self.char.global_position
+			projectile.owner_char = self.char
+			# TODO: Create timer for spawning multiple projectiles
+			#await get_tree().create_timer(self.move_data[1][i-1]).timeout
+			projectile.emit()
 	else:
 		self.char.velocity += self.cached_move_dir * DASH_FORCE
 		if hitbox:

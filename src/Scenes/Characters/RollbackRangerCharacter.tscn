@@ -565,11 +565,11 @@ pixel_size = 0.015
 texture = SubResource("ViewportTexture_1yy5m")
 
 [node name="CharacterSprite" type="Sprite3D" parent="." groups=["network_sync"]]
-transform = Transform3D(0.35, 0, 0, 0, 0.324, 0, 0, 0, 0.442, 0, -0.0537091, 0)
-offset = Vector2(-50, 50)
+transform = Transform3D(0.37, 0, 0, 0, 0.343, 0, 0, 0, 0.467, 0, -0.0537091, 0)
+offset = Vector2(-40, -30)
 billboard = 1
 shaded = true
-texture = ExtResource("38_xmlyw")
+texture = ExtResource("33_kf7n2")
 script = ExtResource("4_ejnp6")
 
 [node name="Hurtbox" type="CollisionShape3D" parent="."]
@@ -773,6 +773,7 @@ wait_ticks = 30
 [node name="HitboxSpawnTimer" type="Node" parent="MoveController/Standoff"]
 script = ExtResource("9_3k4re")
 one_shot = true
+wait_ticks = 7
 
 [node name="MoveEndTimer" type="Node" parent="MoveController/Standoff"]
 script = ExtResource("9_3k4re")
@@ -813,7 +814,7 @@ hitbox_spawn_timer = NodePath("HitboxSpawnTimer")
 move_end_timer = NodePath("MoveEndTimer")
 move_input = "ground_sf"
 move_type = "PROJECTILE"
-move_data = [3, [0.1, 0.2, 0.2]]
+move_data = [3, [0.1, 0.3, 0.5]]
 projectile_path = "res://src/Scenes/characters/Projectiles/Bullet.tscn"
 
 [node name="CooldownTimer" type="Node" parent="MoveController/ThreeInTheChamber"]

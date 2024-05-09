@@ -233,9 +233,7 @@ func _handle_move_input(total_input : Dictionary) -> void:
 func _update_movement(delta : float) -> void:
 	if self.hitstun_timer._running:
 		self._state = PlayerState.KNOCKBACK
-		#print("ABCD im being knocked back! | ", self.knockback)
 		self.velocity = self.knockback
-		print("ABCD my velocity was chaged to KB | ", self.velocity)
 		return
 	
 	var is_moving : bool = self.move_direction.length() > 0.0

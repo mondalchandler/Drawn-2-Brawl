@@ -69,14 +69,7 @@ func deal_stun(hit_char : RollbackCharacterController) -> void:
 func deal_kb(hit_char : RollbackCharacterController) -> void:
 	var dir_to_enemy = (hit_char.position - owner_char.position).normalized()
 	var kb = Vector3(dir_to_enemy.x * knockback_strength.x, knockback_strength.y, dir_to_enemy.z * knockback_strength.z)
-	print("ABCD time to update the knockback vector! | ", kb)
 	hit_char.knockback = kb
-	pass
-	
-	#print(hit_char, " | i apply velocity | ", dir_to_enemy)
-	#hit_char.knockback = Vector3(dir_to_enemy.x * knockback_strength.x, knockback_strength.y, dir_to_enemy.z * knockback_strength.z)
-	#var knockback_tween = hit_char.get_tree().create_tween()
-	#knockback_tween.tween_property(hit_char, "knockback", Vector3.ZERO, kb_length)
 
 
 # computes a damage value, then updates an enemy char's hp value
@@ -128,7 +121,9 @@ func node_is_world(node):
 
 # determines if a hit node is a player
 func on_collision_detected(colliding_node) -> void:
-	if self.node_is_char(colliding_node) and colliding_node != self.owner_char and not self.hit_chars.has(colliding_node.id):
+	if colliding_node == self.owner_char:
+		return
+	if self.node_is_char(colliding_node) and not self.hit_chars.has(colliding_node.id):
 		self.hit_chars[colliding_node.id] = true
 		self.on_hit(colliding_node)
 	elif (self.node_is_object(colliding_node)):
