@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://ds6tdecxffyo8" path="res://resources/Images/LevelSelectImages/CharSelectBtn.png" id="4_k8p7d"]
 [ext_resource type="Texture2D" uid="uid://bvnroba7l3ivs" path="res://resources/Images/PlayerSelectImages/RangerPortrait.png" id="5_5d2ge"]
 [ext_resource type="Script" path="res://src/Scripts/UI/player_select_switch_view.gd" id="5_iihsk"]
-[ext_resource type="PackedScene" uid="uid://ds55r3e3det8w" path="res://src/Scenes/Characters/Ranger.tscn" id="6_8mryq"]
+[ext_resource type="PackedScene" uid="uid://ds55r3e3det8w" path="res://src/Scenes/characters/Ranger.tscn" id="6_8mryq"]
 [ext_resource type="Texture2D" uid="uid://do61w0no3t88s" path="res://resources/Images/LevelSelectImages/AssassinStageBtn.png" id="6_dv8rh"]
 [ext_resource type="Texture2D" uid="uid://dpv1knjr8e0rw" path="res://resources/Images/PlayerSelectImages/NoblePortrait.png" id="7_dubgh"]
 [ext_resource type="Texture2D" uid="uid://bdlwqjkpjttqf" path="res://resources/Images/LevelSelectImages/NobleStageBtn.png" id="7_yc8iv"]

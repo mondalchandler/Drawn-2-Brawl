@@ -46,7 +46,6 @@ var hit_chars: Dictionary
 
 # ------------------------------------------------ METHODS ---------------------------------------------------- #
 
-
 # overrideable virtual method.
 func _before_hit_computation() -> void:
 	pass
@@ -70,14 +69,7 @@ func deal_stun(hit_char : RollbackCharacterController) -> void:
 func deal_kb(hit_char : RollbackCharacterController) -> void:
 	var dir_to_enemy = (hit_char.position - owner_char.position).normalized()
 	var kb = Vector3(dir_to_enemy.x * knockback_strength.x, knockback_strength.y, dir_to_enemy.z * knockback_strength.z)
-	print("ABCD time to update the knockback vector! | ", kb)
-	hit_char.knockback += kb
-	pass
-	
-	#print(hit_char, " | i apply velocity | ", dir_to_enemy)
-	#hit_char.knockback = Vector3(dir_to_enemy.x * knockback_strength.x, knockback_strength.y, dir_to_enemy.z * knockback_strength.z)
-	#var knockback_tween = hit_char.get_tree().create_tween()
-	#knockback_tween.tween_property(hit_char, "knockback", Vector3.ZERO, kb_length)
+	hit_char.knockback = kb
 
 
 # computes a damage value, then updates an enemy char's hp value
@@ -103,7 +95,7 @@ func on_hit(hit_char) -> void:
 	if not hit_char.blocking:
 		self.deal_kb(hit_char)
 		self.deal_stun(hit_char)
-		#self.deal_dmg(hit_char)
+		self.deal_dmg(hit_char)
 	else:
 		hit_char.stamina -= hit_char.STAMINA_AMOUNT * PLAYER_STAMINA_PERCENT_REDUCTION
 		if hit_char.perfect_block:
@@ -112,35 +104,35 @@ func on_hit(hit_char) -> void:
 			#self.hitstun_length = 1 # is this just always applying the perfect block effect no matter what if the opponent is blocking?
 			#self.deal_stun(owner_char)
 			#self.hitstun_length = temp_stun
-	
-	self._after_hit_computation()
+
 
 # determines if a hit node is a character. chars have hurtboxes and health
 func node_is_char(node) -> bool:
 	return node.get_node_or_null("Hurtbox") != null and node.health and node.max_health
 
+
 func node_is_object(node):
 	return node.get_node_or_null("Destruction") != null
+
 
 func node_is_world(node):
 	return node != self.owner_char and !self.node_is_object(node) and !self.node_is_char(node)
 
+
 # determines if a hit node is a player
 func on_collision_detected(colliding_node) -> void:
-	if self.node_is_char(colliding_node) and colliding_node != self.owner_char and not self.hit_chars.has(colliding_node.id):
+	if colliding_node == self.owner_char:
+		return
+	if self.node_is_char(colliding_node) and not self.hit_chars.has(colliding_node.id):
 		self.hit_chars[colliding_node.id] = true
 		self.on_hit(colliding_node)
 	elif (self.node_is_object(colliding_node)):
 		# make it so the player can phase through the collding_node
 		colliding_node.get_node("Destruction").collision_layer = 0
 		colliding_node.get_node("Destruction").destroy()
-		self._after_hit_computation()
 	elif self.node_is_world(colliding_node):
-		self._after_hit_computation()
-
-# -------------------------------------------- SIGNAL CONNECTION --------------------------------------------- #
-
-
+		pass
+	self._after_hit_computation()
 
 # ---------------------------------------------- INIT AND LOOP ------------------------------------------------ #
 
@@ -183,10 +175,7 @@ func _save_state() -> Dictionary:
 		_prev_active = self._prev_active,
 		monitoring = self.monitoring,
 		hit_chars = self.hit_chars,
-		position = self.position,
-		#dealt_kb = self.dealt_kb,
-		#dealt_stun = self.dealt_stun,
-		#hit_char_path = self.hit_char_path
+		position = self.position
 	}
 
 
@@ -196,9 +185,6 @@ func _load_state(state: Dictionary) -> void:
 	self.monitoring = state["monitoring"]
 	self.hit_chars = state["hit_chars"]
 	self.position = state["position"]
-	#self.dealt_kb = state["dealt_kb"]
-	#self.dealt_stun = state["dealt_stun"]
-	#self.hit_char_path = state["hit_char_path"]
 
 
 # constructor
