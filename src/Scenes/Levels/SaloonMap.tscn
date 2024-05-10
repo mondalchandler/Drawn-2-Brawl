@@ -29,6 +29,7 @@ polygons = [PackedInt32Array(2, 1, 0), PackedInt32Array(5, 4, 3), PackedInt32Arr
 [node name="SaloonMap" type="Node3D"]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
 script = ExtResource("1_orbom")
+map_song = "WesternTownBeatdown"
 
 [node name="Spawns" type="Node" parent="."]
 

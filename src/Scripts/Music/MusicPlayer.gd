@@ -80,7 +80,8 @@ func on_game_unpause():
 func _process(_delta):
 	if current_song_scene:
 		if self.in_window:
-			current_song_scene.set_volume(volume)
+			current_song_scene.reset_volume()
+			#current_song_scene.set_volume(volume)
 		else:
 			current_song_scene.set_volume(-80)
 		

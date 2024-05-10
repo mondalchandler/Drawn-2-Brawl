@@ -16,6 +16,7 @@ extends Node
 
 enum GameMode {POINTS, LIVES, TRAINING}
 @export var gamemode: GameMode = GameMode.LIVES
+@export var map_song: String = "TestSong"
 
 var match_ended: bool = false
 var rankings = Array()
@@ -66,7 +67,6 @@ func spawn_players():
 		if char_name_to_create:
 			var full_char_path = "res://src/Scenes/Characters/" + char_name_to_create + ".tscn"
 			if FileAccess.file_exists(full_char_path):
-				print("FIRE ", [char_name_to_create, index, peer_id])
 				var new_player_char = char_spawner.spawn([char_name_to_create, index, peer_id])
 				#if new_player_char:
 				#	if peer_id and not players.localplay_mode:
@@ -98,7 +98,12 @@ func get_alive_players():
 # Called when the node enters the scene tree for the first time.
 func start_match():
 	music_node.stop()
+	print(self, map_song)
+	music_node.load_song("res://resources/Music/" + map_song + "/" + map_song + ".tscn")
+	music_node.play()
+	
 	$CanvasLayer.start()
+	
 	for character in players_node.get_children():
 		character.full_heal()
 		character.in_game = true
@@ -136,5 +141,6 @@ func _process(_delta):
 
 func _ready():
 	char_spawner.set_spawn_function(self.spawn_char_at_pos)
+	
 	#char_spawner.spawn_function = 
 

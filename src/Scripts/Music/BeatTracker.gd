@@ -57,6 +57,11 @@ func set_volume(volume: float) -> void:
 		layer.volume_db = volume
 
 
+func reset_volume() -> void:
+	for layer in self.get_children():
+		layer.volume_db = DEFAULT_VOLUME
+
+
 func set_layer_volume(layer_prefix: String, volume: float) -> void:
 	if self.find_child(layer_prefix + "Layer"):
 		self.find_child(layer_prefix + "Layer").volume_db = volume
@@ -71,10 +76,11 @@ func cur_ms():
 
 
 func load_mp3(path):
-	var file = FileAccess.open(path, FileAccess.READ)
-	var sound = AudioStreamMP3.new()
-	sound.data = file.get_buffer(file.get_length())
-	return sound
+	if FileAccess.file_exists(path): 
+		var file = FileAccess.open(path, FileAccess.READ)
+		var sound = AudioStreamMP3.new()
+		sound.data = file.get_buffer(file.get_length())
+		return sound
 
 
 # ----------------------- MAIN ---------------------------#
@@ -84,10 +90,11 @@ func _ready():
 	for layer_name in included_layers.keys():
 		var path = "res://resources/Music/" + MUSIC_FOLDER_NAME + "/" + layer_name + ".mp3"
 		var audio_stream = load_mp3(path)
-		audio_stream.loop = true
-		audio_stream.bpm = real_bpm()
-		included_layers[layer_name].stream = audio_stream
-		included_layers[layer_name].volume_db = DEFAULT_VOLUME
+		if audio_stream:
+			audio_stream.loop = true
+			audio_stream.bpm = real_bpm()
+			included_layers[layer_name].stream = audio_stream
+			included_layers[layer_name].volume_db = DEFAULT_VOLUME
 
 
 func _process(_delta):

@@ -1,9 +1,12 @@
-[gd_scene load_steps=2 format=3 uid="uid://dp40s7sjjk4to"]
+[gd_scene load_steps=2 format=3 uid="uid://b4gprjcu0vhxc"]
 
-[ext_resource type="Script" path="res://src/Scripts/Music/BeatTracker.gd" id="1_vwqag"]
+[ext_resource type="Script" path="res://src/Scripts/Music/BeatTracker.gd" id="1_682cl"]
 
-[node name="MenuMusic" type="Node"]
-script = ExtResource("1_vwqag")
+[node name="WesternTownBeatdown" type="Node"]
+script = ExtResource("1_682cl")
+MUSIC_FOLDER_NAME = "WesternTownBeatdown"
+BPM = 130.0
+DEFAULT_VOLUME = 2.0
 
 [node name="VocalLayer" type="AudioStreamPlayer" parent="."]
 
