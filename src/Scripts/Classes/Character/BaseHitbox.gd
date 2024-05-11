@@ -97,9 +97,9 @@ func on_hit(hit_char) -> void:
 		self.deal_stun(hit_char)
 		self.deal_dmg(hit_char)
 	else:
-		hit_char.stamina -= hit_char.STAMINA_AMOUNT * PLAYER_STAMINA_PERCENT_REDUCTION
-		if hit_char.perfect_block:
-			pass
+		hit_char.stamina -= int(hit_char.MAX_STAMINIA_TICKS * 0.25)
+		#if hit_char.perfect_block:
+		#	pass
 			#var temp_stun = self.hitstun_length
 			#self.hitstun_length = 1 # is this just always applying the perfect block effect no matter what if the opponent is blocking?
 			#self.deal_stun(owner_char)

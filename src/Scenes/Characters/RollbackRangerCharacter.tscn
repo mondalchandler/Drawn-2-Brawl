@@ -12,7 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://dasqrf4pd4bpe" path="res://src/Scenes/Stamina/StanimaBar3D.tscn" id="8_gb5s5"]
 [ext_resource type="Script" path="res://addons/godot-rollback-netcode/NetworkTimer.gd" id="9_3k4re"]
 [ext_resource type="Script" path="res://src/Scripts/Classes/Character/Moves/RollbackMoveController.gd" id="10_gomby"]
-[ext_resource type="PackedScene" uid="uid://dcwy6gxlinend" path="res://src/Scenes/characters/Character Nodes/SpectatorCooldowns.tscn" id="12_6k1du"]
+[ext_resource type="PackedScene" uid="uid://dcwy6gxlinend" path="res://src/Scenes/Characters/Character Nodes/SpectatorCooldowns.tscn" id="12_6k1du"]
 [ext_resource type="Script" path="res://src/Scripts/Classes/Character/Moves/Move.gd" id="12_n6nvk"]
 [ext_resource type="Texture2D" uid="uid://k1d6ljvlbigv" path="res://resources/Images/Animations/Ranger/Basic/RangerIdle1.png" id="13_bdi45"]
 [ext_resource type="Texture2D" uid="uid://innlwsw6s1s4" path="res://resources/Images/Animations/Ranger/Basic/RangerBlock.png" id="14_6xmey"]
@@ -731,6 +731,7 @@ air_sf = NodePath("WrangleEm")
 
 [node name="PistolWhip" type="Node" parent="MoveController" node_paths=PackedStringArray("cooldown_timer", "hitbox_spawn_timer", "move_end_timer", "hitbox") groups=["network_sync"]]
 script = ExtResource("12_n6nvk")
+DASH_FORCE = 20.0
 cooldown_timer = NodePath("CooldownTimer")
 hitbox_spawn_timer = NodePath("HitboxSpawnTimer")
 move_end_timer = NodePath("MoveEndTimer")

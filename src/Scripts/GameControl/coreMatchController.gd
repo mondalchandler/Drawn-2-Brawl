@@ -110,6 +110,13 @@ func start_match():
 	match_started = true
 
 
+func to_victory_screen():
+	var victory_screen_setup = func(victory_scene):
+		victory_scene.rankings.assign(rankings)
+		victory_scene.level = self.name
+		victory_scene.players = players
+	main_scene.change_ui("res://src/Scenes/UI/Victory/victory_screen.tscn", victory_screen_setup)
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
@@ -125,18 +132,11 @@ func _process(_delta):
 		if current_alive_players and current_alive_players.size() <= 1 and not match_ended:
 			match_ended = true
 			insert_char_into_next_available_slot(current_alive_players[0])
+			to_victory_screen()
 	else:
 		for character in players_node.get_children():
 			character.full_heal()
 			character.lives = 100
-		
-		
-		#var victory_screen_setup = func(victory_scene):
-		#	victory_scene.rankings.assign(rankings)
-		#	victory_scene.level = self.name
-			#victory_scene.players = players
-			#print(victory_scene.rankings)
-		#main_scene.change_ui("res://src/Scenes/UI/VictoryUI/victory_screen.tscn", victory_screen_setup)
 
 
 func _ready():

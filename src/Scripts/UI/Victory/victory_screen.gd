@@ -14,7 +14,7 @@ extends CanvasLayer
 @onready var main_menu_button: Button = $PanelContainer/MarginContainer/Rows/Options/MainMenuButton
 @onready var player_stats = $PanelContainer/MarginContainer/Rows/MarginContainer/PlayerStats
 
-var player_card = preload("res://src/Scenes/UI/VictoryUI/player_card.tscn")
+var player_card = preload("res://src/Scenes/UI/Victory/player_card.tscn")
 var rankings = Array()
 var previous_match_scene: Node3D
 var level: String
@@ -32,29 +32,34 @@ func to_menu_music():
 
 
 func on_rematch():
+	pass
 	
 	# obtain a path of the level to rematch
-	var path = "res://src/Scenes/Levels/" + level + ".tscn"
-	
-	var rematch_setup = func(rematch_scene):
-		rematch_scene.players = players
-		rematch_scene.match_started = false
-		rematch_scene.match_ended = false
-
+	#var path = "res://src/Scenes/Levels/" + level + ".tscn"
+	#
+	#var rematch_setup = func(rematch_scene):
+		#rematch_scene.players = players
+		#rematch_scene.match_started = false
+		#rematch_scene.match_ended = false
+	#main_scene.change_ui(path, rematch_button)
+	#main_scene.clear_map()
 	#var rematch_scene = main_scene._change_scene(path, rematch_setup)
 	#rematch_scene.spawn_players()
 
-	to_game_music()
+	#to_game_music()
 
 
 func on_char_select():
-	main_scene.change_ui("res://src/Scenes/UI/player_select.tscn")
-	to_menu_music()
+	pass
+	#main_scene.change_ui("res://src/Scenes/UI/player_select.tscn")
+	#to_menu_music()
 
 
 func on_main_menu():
-	main_scene.change_ui("res://src/Scenes/UI/main_menu.tscn")
-	to_menu_music()
+	pass
+	#main_scene.change_ui("res://src/Scenes/UI/main_menu.tscn")
+	#main_scene.clear_map()
+	#to_menu_music()
 
 
 # Called when the node enters the scene tree for the first time.

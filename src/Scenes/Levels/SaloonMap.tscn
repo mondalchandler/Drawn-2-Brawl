@@ -52,7 +52,7 @@ script = null
 [node name="Players" type="Node" parent="."]
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(-0.707107, -0.307755, 0.636622, 0, 0.900319, 0.435231, -0.707107, 0.307755, -0.636622, 9.8394, 14.0201, -10.0228)
+transform = Transform3D(-0.707107, -0.307755, 0.636621, 0, 0.900319, 0.435231, -0.707107, 0.307755, -0.636621, 9.8394, 14.0201, -10.0228)
 cull_mask = 1048573
 projection = 1
 current = true
@@ -62,6 +62,7 @@ size = 30.0
 script = ExtResource("10_1ligi")
 
 [node name="PlayerHealthUI" parent="CanvasLayer" instance=ExtResource("11_412a5")]
+mouse_filter = 2
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
 navigation_mesh = SubResource("NavigationMesh_5cb5o")

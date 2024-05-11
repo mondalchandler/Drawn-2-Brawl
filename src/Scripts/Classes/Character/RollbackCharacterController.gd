@@ -26,7 +26,7 @@ const ROLL_COST : int = MAX_STAMINIA_TICKS / 6
 const TARGET_ARROW_DEFAULT_SIZE: float = 0.0002
 
 # private variable to show our debug UI
-const SHOW_DEBUG_INFO: bool = true
+const SHOW_DEBUG_INFO: bool = false
 
 const INPUT_MOVE_NAMES = [
 	"normal_close", "normal_far",

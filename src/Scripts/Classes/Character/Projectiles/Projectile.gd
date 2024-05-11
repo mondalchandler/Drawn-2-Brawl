@@ -68,7 +68,7 @@ func emit():
 
 
 func get_direction():
-	if self.owner_char.targetting:
+	if self.owner_char and self.owner_char.targetting and self.owner_char.z_target:
 		return self.owner_char.global_position.direction_to(self.owner_char.z_target.global_position)
 	else:
 		# if not targetting, simply shoot left or right
