@@ -898,11 +898,6 @@ _data = {
 "run": SubResource("Animation_727vt")
 }
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_y3gwe"]
-properties/0/path = NodePath(".:position")
-properties/0/spawn = true
-properties/0/replication_mode = 1
-
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ss7qx"]
 animation = &"air_nc"
 
@@ -1107,6 +1102,11 @@ states/run/position = Vector2(484.756, 256.523)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_u83ke"), "idle", "run", SubResource("AnimationNodeStateMachineTransition_gvbk0"), "idle", "jump", SubResource("AnimationNodeStateMachineTransition_ysa4w"), "idle", "End", SubResource("AnimationNodeStateMachineTransition_hq702"), "jump", "idle", SubResource("AnimationNodeStateMachineTransition_0gub3"), "run", "idle", SubResource("AnimationNodeStateMachineTransition_lah6g"), "idle", "block", SubResource("AnimationNodeStateMachineTransition_md28m"), "block", "idle", SubResource("AnimationNodeStateMachineTransition_n1p6x"), "idle", "ground_nc", SubResource("AnimationNodeStateMachineTransition_hhs3o"), "ground_nc", "idle", SubResource("AnimationNodeStateMachineTransition_6p1mv"), "idle", "ground_nf", SubResource("AnimationNodeStateMachineTransition_aa7ik"), "ground_nf", "idle", SubResource("AnimationNodeStateMachineTransition_u8381"), "idle", "ground_sc", SubResource("AnimationNodeStateMachineTransition_h8jym"), "ground_sc", "idle", SubResource("AnimationNodeStateMachineTransition_s4ry3"), "idle", "ground_sf", SubResource("AnimationNodeStateMachineTransition_3stpb"), "ground_sf", "idle", SubResource("AnimationNodeStateMachineTransition_u01e7"), "idle", "air_nc", SubResource("AnimationNodeStateMachineTransition_0pt1f"), "air_nc", "idle", SubResource("AnimationNodeStateMachineTransition_8ac27"), "idle", "air_nf", SubResource("AnimationNodeStateMachineTransition_l7xug"), "air_nf", "idle", SubResource("AnimationNodeStateMachineTransition_a0it0"), "idle", "air_sc", SubResource("AnimationNodeStateMachineTransition_ac2hu"), "air_sc", "idle", SubResource("AnimationNodeStateMachineTransition_u2wjx"), "idle", "air_sf", SubResource("AnimationNodeStateMachineTransition_4sjcg"), "air_sf", "idle", SubResource("AnimationNodeStateMachineTransition_r8opi"), "roll", "idle", SubResource("AnimationNodeStateMachineTransition_d3lit"), "idle", "roll", SubResource("AnimationNodeStateMachineTransition_1h07p")]
 graph_offset = Vector2(45.7559, -68.9565)
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_y3gwe"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
 [sub_resource type="ViewportTexture" id="ViewportTexture_jj52t"]
 viewport_path = NodePath("BillboardViewport")
 
@@ -1154,6 +1154,22 @@ libraries = {
 }
 speed_scale = 2.0
 
+[node name="AnimationTree" type="AnimationTree" parent="."]
+callback_mode_process = 2
+libraries = {
+"": SubResource("AnimationLibrary_bchoe")
+}
+tree_root = SubResource("AnimationNodeStateMachine_ata2m")
+anim_player = NodePath("../AnimationPlayer")
+parameters/air_nc/TimeScale/scale = 1.0
+parameters/air_nf/TimeScale/scale = 1.0
+parameters/air_sc/TimeScale/scale = 1.0
+parameters/air_sf/TimeScale/scale = 1.0
+parameters/ground_nc/TimeScale/scale = 1.0
+parameters/ground_nf/TimeScale/scale = 1.0
+parameters/ground_sc/TimeScale/scale = 1.0
+parameters/ground_sf/TimeScale/scale = 1.0
+
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_y3gwe")
 
@@ -1191,22 +1207,6 @@ lower_fade = 1e-05
 [node name="FloorRaycast" type="RayCast3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.46114e-05, -1.09399, 0.000412941)
 target_position = Vector3(0, -10, 0)
-
-[node name="AnimationTree" type="AnimationTree" parent="."]
-callback_mode_process = 2
-libraries = {
-"": SubResource("AnimationLibrary_bchoe")
-}
-tree_root = SubResource("AnimationNodeStateMachine_ata2m")
-anim_player = NodePath("../AnimationPlayer")
-parameters/air_nc/TimeScale/scale = 1.0
-parameters/air_nf/TimeScale/scale = 1.0
-parameters/air_sc/TimeScale/scale = 1.0
-parameters/air_sf/TimeScale/scale = 1.0
-parameters/ground_nc/TimeScale/scale = 1.0
-parameters/ground_nf/TimeScale/scale = 1.0
-parameters/ground_sc/TimeScale/scale = 1.0
-parameters/ground_sf/TimeScale/scale = 1.0
 
 [node name="PlayerNametag" parent="." instance=ExtResource("2_qo63s")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.859205, 0)

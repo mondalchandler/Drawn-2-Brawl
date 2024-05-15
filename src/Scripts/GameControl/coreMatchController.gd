@@ -98,7 +98,6 @@ func get_alive_players():
 # Called when the node enters the scene tree for the first time.
 func start_match():
 	music_node.stop()
-	print(self, map_song)
 	music_node.load_song("res://resources/Music/" + map_song + "/" + map_song + ".tscn")
 	music_node.play()
 	

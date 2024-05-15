@@ -1,4 +1,4 @@
-[gd_scene load_steps=65 format=3 uid="uid://xrbqa40p1wry"]
+[gd_scene load_steps=64 format=3 uid="uid://xrbqa40p1wry"]
 
 [ext_resource type="Script" path="res://src/Scripts/Classes/Character/RollbackCharacterController.gd" id="1_hml51"]
 [ext_resource type="PackedScene" uid="uid://cojs7ish64cv5" path="res://src/Scenes/UI/Billboard/billboard_sprite_3d.tscn" id="2_l266c"]
@@ -12,7 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://dasqrf4pd4bpe" path="res://src/Scenes/Stamina/StanimaBar3D.tscn" id="8_gb5s5"]
 [ext_resource type="Script" path="res://addons/godot-rollback-netcode/NetworkTimer.gd" id="9_3k4re"]
 [ext_resource type="Script" path="res://src/Scripts/Classes/Character/Moves/RollbackMoveController.gd" id="10_gomby"]
-[ext_resource type="PackedScene" uid="uid://dcwy6gxlinend" path="res://src/Scenes/Characters/Character Nodes/SpectatorCooldowns.tscn" id="12_6k1du"]
+[ext_resource type="PackedScene" uid="uid://dcwy6gxlinend" path="res://src/Scenes/characters/Character Nodes/SpectatorCooldowns.tscn" id="12_6k1du"]
 [ext_resource type="Script" path="res://src/Scripts/Classes/Character/Moves/Move.gd" id="12_n6nvk"]
 [ext_resource type="Texture2D" uid="uid://k1d6ljvlbigv" path="res://resources/Images/Animations/Ranger/Basic/RangerIdle1.png" id="13_bdi45"]
 [ext_resource type="Texture2D" uid="uid://innlwsw6s1s4" path="res://resources/Images/Animations/Ranger/Basic/RangerBlock.png" id="14_6xmey"]
@@ -22,7 +22,6 @@
 [ext_resource type="Texture2D" uid="uid://dqmrb10oj7jog" path="res://resources/Images/Animations/Ranger/Basic/RangerRoll2.png" id="18_qfrsn"]
 [ext_resource type="Texture2D" uid="uid://h7gja44gkn6f" path="res://resources/Images/Animations/Ranger/Basic/RangerRoll3.png" id="19_2ed45"]
 [ext_resource type="Texture2D" uid="uid://bh5ficx1unnk8" path="res://resources/Images/Animations/Ranger/Basic/RangerRoll4.png" id="20_xv0wj"]
-[ext_resource type="Texture2D" uid="uid://dqdgww1mkqy0w" path="res://resources/Images/Animations/Ranger/Basic/RangerRoll1.png" id="21_6jldx"]
 [ext_resource type="Texture2D" uid="uid://dpw7pb0cm3ah5" path="res://resources/Images/Animations/Ranger/Basic/RangerRun1.png" id="22_nxmh6"]
 [ext_resource type="Texture2D" uid="uid://buh8fvdr6lpji" path="res://resources/Images/Animations/Ranger/Basic/RangerRun2.png" id="23_blgt1"]
 [ext_resource type="Script" path="res://addons/godot-rollback-netcode/NetworkAnimationPlayer.gd" id="24_83usy"]
@@ -60,6 +59,18 @@ viewport_path = NodePath("SubViewport")
 
 [sub_resource type="Animation" id="Animation_hnhue"]
 length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CharacterSprite:offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(50, -30)]
+}
 
 [sub_resource type="Animation" id="Animation_2gj6d"]
 resource_name = "air_nc"
@@ -489,7 +500,7 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id="Animation_10x3q"]
 resource_name = "roll"
-length = 0.4
+length = 0.3
 step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -498,10 +509,22 @@ tracks/0/path = NodePath("CharacterSprite:texture")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.15, 0.25, 0.35),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
-"values": [ExtResource("18_qfrsn"), ExtResource("19_2ed45"), ExtResource("20_xv0wj"), ExtResource("21_6jldx")]
+"values": [ExtResource("18_qfrsn"), ExtResource("19_2ed45"), ExtResource("20_xv0wj")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CharacterSprite:offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [Vector2(50, -30), Vector2(0, -115), Vector2(0, -140)]
 }
 
 [sub_resource type="Animation" id="Animation_w0m0c"]
@@ -566,10 +589,10 @@ texture = SubResource("ViewportTexture_1yy5m")
 
 [node name="CharacterSprite" type="Sprite3D" parent="." groups=["network_sync"]]
 transform = Transform3D(0.37, 0, 0, 0, 0.343, 0, 0, 0, 0.467, 0, -0.0537091, 0)
-offset = Vector2(-40, -30)
+offset = Vector2(50, -30)
 billboard = 1
 shaded = true
-texture = ExtResource("33_kf7n2")
+texture = ExtResource("20_xv0wj")
 script = ExtResource("4_ejnp6")
 
 [node name="Hurtbox" type="CollisionShape3D" parent="."]
@@ -648,6 +671,24 @@ shape = SubResource("SphereShape3D_hlx15")
 visible = false
 mesh = SubResource("SphereMesh_a6uef")
 
+[node name="RollHitbox" type="Area3D" parent="Hurtbox" node_paths=PackedStringArray("collision_shape", "mesh_instance", "owner_char") groups=["network_sync"]]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, 0, 0)
+monitoring = false
+script = ExtResource("4_cdt0h")
+collision_shape = NodePath("CollisionShape3D")
+mesh_instance = NodePath("VisualMesh")
+owner_char = NodePath("../..")
+damage_range = [5, 5]
+hitstun_ticks = 5
+knockback_strength = Vector3(0.25, 0.1, 0.25)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox/RollHitbox"]
+shape = SubResource("SphereShape3D_hlx15")
+
+[node name="VisualMesh" type="MeshInstance3D" parent="Hurtbox/RollHitbox"]
+visible = false
+mesh = SubResource("SphereMesh_a6uef")
+
 [node name="FloorRing" type="Decal" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00604342, -0.884379, -0.0541416)
 size = Vector3(1.75, 0.541, 1.75)
@@ -716,7 +757,7 @@ hash_state = false
 
 [node name="SpectatorCooldowns" parent="Cooldowns" instance=ExtResource("12_6k1du")]
 
-[node name="MoveController" type="Node" parent="." node_paths=PackedStringArray("char", "ground_nc", "ground_nf", "ground_sc", "ground_sf", "air_nc", "air_nf", "air_sc", "air_sf")]
+[node name="MoveController" type="Node" parent="." node_paths=PackedStringArray("char", "ground_nc", "ground_nf", "ground_sc", "ground_sf", "air_nc", "air_nf", "air_sc", "air_sf", "roll")]
 script = ExtResource("10_gomby")
 char = NodePath("..")
 debug_on = true
@@ -728,6 +769,7 @@ air_nc = NodePath("AirSwing")
 air_nf = NodePath("ThrowingKnife")
 air_sc = NodePath("ShotgunExplosion")
 air_sf = NodePath("WrangleEm")
+roll = NodePath("Roll")
 
 [node name="PistolWhip" type="Node" parent="MoveController" node_paths=PackedStringArray("cooldown_timer", "hitbox_spawn_timer", "move_end_timer", "hitbox") groups=["network_sync"]]
 script = ExtResource("12_n6nvk")
@@ -857,7 +899,7 @@ script = ExtResource("9_3k4re")
 one_shot = true
 wait_ticks = 30
 
-[node name="ThrowingKnife" type="Node" parent="MoveController" node_paths=PackedStringArray("cooldown_timer", "hitbox_spawn_timer", "move_end_timer")]
+[node name="ThrowingKnife" type="Node" parent="MoveController" node_paths=PackedStringArray("cooldown_timer", "hitbox_spawn_timer", "move_end_timer") groups=["network_sync"]]
 script = ExtResource("12_n6nvk")
 DASH_FORCE = 0.0
 HITBOX_DIST = 0.0
@@ -936,6 +978,34 @@ script = ExtResource("9_3k4re")
 one_shot = true
 wait_ticks = 30
 
+[node name="Roll" type="Node" parent="MoveController" node_paths=PackedStringArray("cooldown_timer", "hitbox_spawn_timer", "move_end_timer", "hitbox") groups=["network_sync"]]
+script = ExtResource("12_n6nvk")
+SPEED_REDUCTION = 1.0
+JUMP_REDUCTION = 1.0
+DASH_FORCE = 1.0
+HITBOX_DIST = 0.0
+cooldown_timer = NodePath("CooldownTimer")
+hitbox_spawn_timer = NodePath("HitboxSpawnTimer")
+move_end_timer = NodePath("MoveEndTimer")
+move_input = "roll"
+move_type = "MELEE"
+hitbox = NodePath("../../Hurtbox/RollHitbox")
+
+[node name="CooldownTimer" type="Node" parent="MoveController/Roll"]
+script = ExtResource("9_3k4re")
+one_shot = true
+wait_ticks = 9
+
+[node name="HitboxSpawnTimer" type="Node" parent="MoveController/Roll"]
+script = ExtResource("9_3k4re")
+one_shot = true
+wait_ticks = 1
+
+[node name="MoveEndTimer" type="Node" parent="MoveController/Roll"]
+script = ExtResource("9_3k4re")
+one_shot = true
+wait_ticks = 9
+
 [node name="NetworkAnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_p8tbk")
@@ -969,3 +1039,6 @@ script = ExtResource("24_83usy")
 [connection signal="timeout" from="MoveController/WrangleEm/CooldownTimer" to="MoveController/WrangleEm" method="_on_cooldown_timeout"]
 [connection signal="timeout" from="MoveController/WrangleEm/HitboxSpawnTimer" to="MoveController/WrangleEm" method="_on_hitbox_spawn_timer_timeout"]
 [connection signal="timeout" from="MoveController/WrangleEm/MoveEndTimer" to="MoveController/WrangleEm" method="_on_move_end_timer_timeout"]
+[connection signal="timeout" from="MoveController/Roll/CooldownTimer" to="MoveController/Roll" method="_on_cooldown_timeout"]
+[connection signal="timeout" from="MoveController/Roll/HitboxSpawnTimer" to="MoveController/Roll" method="_on_hitbox_spawn_timer_timeout"]
+[connection signal="timeout" from="MoveController/Roll/MoveEndTimer" to="MoveController/Roll" method="_on_move_end_timer_timeout"]

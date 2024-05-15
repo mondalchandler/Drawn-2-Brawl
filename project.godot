@@ -24,7 +24,6 @@ SyncDebugger="*res://addons/godot-rollback-netcode/SyncDebugger.gd"
 
 window/size/viewport_width=1280
 window/size/viewport_height=720
-window/size/mode=3
 
 [dotnet]
 

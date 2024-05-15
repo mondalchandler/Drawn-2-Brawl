@@ -61,7 +61,7 @@ func move_ready(set_char : RollbackCharacterController, debug_on : bool) -> void
 
 
 # this function is called on every rollback network update
-func move_update(input_down : bool) -> void:
+func move_update(input_down : bool) -> void:	
 	if not self.char: return
 	if not input_down: return
 	if input_down and self.on_cooldown: return
@@ -80,7 +80,6 @@ func move_update(input_down : bool) -> void:
 			var temp_timer : NetworkTimer = NetworkTimer.new()
 			temp_timer.one_shot = true
 			temp_timer.wait_ticks = int(self.move_data[1][i-1] * 30)
-			print(self.move_data[1][i-1] * 30)
 			self.get_parent().add_child(temp_timer)
 			temp_timer.connect("timeout", self._on_hitbox_spawn_timer_timeout)
 			temp_timer.start()
@@ -88,7 +87,7 @@ func move_update(input_down : bool) -> void:
 		hitbox_spawn_timer.start()
 	move_end_timer.start()
 	
-	self.char.can_move = false
+	if self.move_input != "roll": self.char.can_move = false
 	self.char.play_action_anim(self.move_input)
 	self.char.speed /= SPEED_REDUCTION
 	self.char.jump_power /= JUMP_REDUCTION

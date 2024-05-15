@@ -90,25 +90,6 @@ func _ready() -> void:
 	self.set_collision_mask_value(5, true)
 
 
-# TODO: NEEDS TO BE RE-WORKED TO USE _network_process() and a proper DELTA
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):	
-	#if self.active:
-		#if self.target_displayed:
-			#self.map.remove_child(self.target)
-		#self.global_position += self.speed * self.direction * delta
-		#self.hit_chars = {}
-		#self.monitoring = true
-		#if self.debug_on == true and self.mesh_instance != null:
-			#self.mesh_instance.visible = true
-	#else:
-		#display_target()
-		#self.global_position = self.owner_char.global_position
-		#self.monitoring = false
-		#self.hit_chars = {}
-		#if self.mesh_instance != null:
-			#self.mesh_instance.visible = false
-
 func _network_process(input: Dictionary) -> void:
 	if self.active:
 		if self.target_displayed:

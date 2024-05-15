@@ -60,10 +60,6 @@ func deal_stun(hit_char : RollbackCharacterController) -> void:
 	hit_char.hitstun_timer.stop()
 	hit_char.hitstun_timer.wait_ticks = self.hitstun_ticks
 	hit_char.hitstun_timer.start()
-	#hit_char.hitstun_ticks += self.hitstun_ticks
-	#hit_char.can_move = false
-	#var stun_tween = hit_char.get_tree().create_tween()
-	#stun_tween.tween_property(hit_char, "can_move", true, hitstun_length)
 
 
 func deal_kb(hit_char : RollbackCharacterController) -> void:
