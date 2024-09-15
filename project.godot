@@ -20,11 +20,6 @@ SyncManager="*res://addons/godot-rollback-netcode/SyncManager.gd"
 PlayFabManager="*res://addons/godot-playfab/PlayFabManager.gd"
 SyncDebugger="*res://addons/godot-rollback-netcode/SyncDebugger.gd"
 
-[display]
-
-window/size/viewport_width=1280
-window/size/viewport_height=720
-
 [dotnet]
 
 project/assembly_name="Testing Godot"

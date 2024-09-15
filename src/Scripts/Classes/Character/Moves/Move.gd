@@ -42,6 +42,7 @@ extends Node
 @export var hitbox: BaseHitbox      # HOW TO ADD CUSTOM HITBOXES documentation in BaseHitbox.gd
 @export var hitscan: Hitscan
 @export var projectile_path: String
+@export var tether_path: String
 @export var is_chargable: bool = false
 
 var char : RollbackCharacterController = null
@@ -66,6 +67,8 @@ func move_update(input_down : bool) -> void:
 	if not input_down: return
 	if input_down and self.on_cooldown: return
 	if self.char.performing > 0: return
+	
+	self.char.current_move = self
 	
 	self.on_cooldown = true
 	self.char.performing += 1
@@ -115,9 +118,15 @@ func _on_hitbox_spawn_timer_timeout():
 			self.char.get_parent().get_parent().add_child(projectile)
 			projectile.global_position = self.char.global_position
 			projectile.owner_char = self.char
-			# TODO: Create timer for spawning multiple projectiles
-			#await get_tree().create_timer(self.move_data[1][i-1]).timeout
 			projectile.emit()
+	elif self.move_type == "GRAPPLE":
+		var TETHER: PackedScene = load(self.tether_path)
+		if TETHER:
+			var spawn_data := {
+				global_position = self.char.global_position,
+				owner_char = self.char
+			}
+			var tether = SyncManager.spawn("Tether", self.char.get_parent().get_parent(), TETHER, spawn_data)
 	else:
 		self.char.velocity += self.cached_move_dir * DASH_FORCE
 		if hitbox:
@@ -126,7 +135,7 @@ func _on_hitbox_spawn_timer_timeout():
 
 # ----------------------------------------- INIT ------------------------------------------------ #
 
-func _init(new_move_input = "", new_move_type = "", new_move_name = "", new_move_data = [], new_hitbox = null, new_hitscan = null, new_projectile_path = ""):
+func _init(new_move_input = "", new_move_type = "", new_move_name = "", new_move_data = [], new_hitbox = null, new_hitscan = null, new_projectile_path = "", new_tether_path = ""):
 	self.move_input = new_move_input
 	self.move_type = new_move_type
 	self.move_name = new_move_name
@@ -134,6 +143,7 @@ func _init(new_move_input = "", new_move_type = "", new_move_name = "", new_move
 	self.hitbox = new_hitbox
 	self.hitscan = new_hitscan
 	self.projectile_path = new_projectile_path
+	self.tether_path = new_tether_path
 
 # ---------------------------------------- ROLLBACK FUNCTIONS ------------------------------------------ #
 
@@ -143,9 +153,11 @@ func _network_process(_input: Dictionary) -> void:
 func _save_state() -> Dictionary:
 	return {
 		on_cooldown = self.on_cooldown,
-		cached_move_dir = self.cached_move_dir
+		cached_move_dir = self.cached_move_dir,
+		move_type = self.move_type
 	}
 
 func _load_state(state: Dictionary) -> void:
 	self.on_cooldown = state["on_cooldown"]
 	self.cached_move_dir = state["cached_move_dir"]
+	self.move_type = state["move_type"]

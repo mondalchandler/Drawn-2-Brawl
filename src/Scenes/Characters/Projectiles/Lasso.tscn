@@ -1,21 +1,19 @@
-[gd_scene load_steps=5 format=3 uid="uid://cnessjo3sjmeh"]
+[gd_scene load_steps=5 format=3 uid="uid://cxjdh704ibjkg"]
 
-[ext_resource type="Script" path="res://src/Scripts/Classes/Character/Projectiles/Projectile.gd" id="1_b5ngm"]
-[ext_resource type="Script" path="res://addons/godot-rollback-netcode/NetworkTimer.gd" id="2_8w0dy"]
+[ext_resource type="Script" path="res://src/Scripts/Classes/Character/Moves/Tether.gd" id="1_sq2ds"]
+[ext_resource type="Script" path="res://addons/godot-rollback-netcode/NetworkTimer.gd" id="2_5jsbb"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_l15p4"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_flc1b"]
 
-[node name="Bullet" type="Area3D" node_paths=PackedStringArray("collision_shape", "mesh_instance") groups=["network_sync"]]
-script = ExtResource("1_b5ngm")
-speed = 50
+[node name="Lasso" type="Area3D" node_paths=PackedStringArray("collision_shape", "mesh_instance") groups=["network_sync"]]
+script = ExtResource("1_sq2ds")
+speed = 20
 collision_shape = NodePath("CollisionShape3D")
 mesh_instance = NodePath("VisualMesh")
-damage_range = [10, 10]
-kb_length = 0.1
-hitstun_ticks = 5
-knockback_strength = Vector3(0.25, 0.1, 0.25)
+hitstun_ticks = 3
+knockback_strength = Vector3(-0.5, 0.5, -0.5)
 debug_on = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
@@ -26,11 +24,11 @@ visible = false
 mesh = SubResource("SphereMesh_flc1b")
 
 [node name="ActiveTimer" type="Node" parent="."]
-script = ExtResource("2_8w0dy")
+script = ExtResource("2_5jsbb")
 one_shot = true
 wait_ticks = 15
 
 [node name="FinishTimer" type="Node" parent="."]
-script = ExtResource("2_8w0dy")
+script = ExtResource("2_5jsbb")
 one_shot = true
 wait_ticks = 12

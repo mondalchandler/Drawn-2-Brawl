@@ -1,7 +1,8 @@
-[gd_scene load_steps=64 format=3 uid="uid://xrbqa40p1wry"]
+[gd_scene load_steps=66 format=3 uid="uid://xrbqa40p1wry"]
 
 [ext_resource type="Script" path="res://src/Scripts/Classes/Character/RollbackCharacterController.gd" id="1_hml51"]
 [ext_resource type="PackedScene" uid="uid://cojs7ish64cv5" path="res://src/Scenes/UI/Billboard/billboard_sprite_3d.tscn" id="2_l266c"]
+[ext_resource type="Texture2D" uid="uid://dkry0a70etpxx" path="res://resources/Images/Animations/Ranger/Moves/RangerASF3.png" id="3_552lh"]
 [ext_resource type="Texture2D" uid="uid://c78gwvfeiv0v8" path="res://resources/Images/Animations/Ranger/Moves/RangerGNC1.png" id="3_bsp8x"]
 [ext_resource type="Script" path="res://src/Scripts/Classes/Character/BaseHitbox.gd" id="4_cdt0h"]
 [ext_resource type="Script" path="res://src/Scenes/characters/CharacterSprite.gd" id="4_ejnp6"]
@@ -12,7 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://dasqrf4pd4bpe" path="res://src/Scenes/Stamina/StanimaBar3D.tscn" id="8_gb5s5"]
 [ext_resource type="Script" path="res://addons/godot-rollback-netcode/NetworkTimer.gd" id="9_3k4re"]
 [ext_resource type="Script" path="res://src/Scripts/Classes/Character/Moves/RollbackMoveController.gd" id="10_gomby"]
-[ext_resource type="PackedScene" uid="uid://dcwy6gxlinend" path="res://src/Scenes/characters/Character Nodes/SpectatorCooldowns.tscn" id="12_6k1du"]
+[ext_resource type="PackedScene" uid="uid://dcwy6gxlinend" path="res://src/Scenes/Characters/Character Nodes/SpectatorCooldowns.tscn" id="12_6k1du"]
 [ext_resource type="Script" path="res://src/Scripts/Classes/Character/Moves/Move.gd" id="12_n6nvk"]
 [ext_resource type="Texture2D" uid="uid://k1d6ljvlbigv" path="res://resources/Images/Animations/Ranger/Basic/RangerIdle1.png" id="13_bdi45"]
 [ext_resource type="Texture2D" uid="uid://innlwsw6s1s4" path="res://resources/Images/Animations/Ranger/Basic/RangerBlock.png" id="14_6xmey"]
@@ -23,6 +24,7 @@
 [ext_resource type="Texture2D" uid="uid://h7gja44gkn6f" path="res://resources/Images/Animations/Ranger/Basic/RangerRoll3.png" id="19_2ed45"]
 [ext_resource type="Texture2D" uid="uid://bh5ficx1unnk8" path="res://resources/Images/Animations/Ranger/Basic/RangerRoll4.png" id="20_xv0wj"]
 [ext_resource type="Texture2D" uid="uid://dpw7pb0cm3ah5" path="res://resources/Images/Animations/Ranger/Basic/RangerRun1.png" id="22_nxmh6"]
+[ext_resource type="Texture2D" uid="uid://b1u5vppemu7an" path="res://resources/Images/Animations/Ranger/Moves/RangerASF4.png" id="23_aypvn"]
 [ext_resource type="Texture2D" uid="uid://buh8fvdr6lpji" path="res://resources/Images/Animations/Ranger/Basic/RangerRun2.png" id="23_blgt1"]
 [ext_resource type="Script" path="res://addons/godot-rollback-netcode/NetworkAnimationPlayer.gd" id="24_83usy"]
 [ext_resource type="Texture2D" uid="uid://0sm548fs50ud" path="res://resources/Images/Animations/Ranger/Moves/RangerGNC2.png" id="24_bg06u"]
@@ -70,6 +72,18 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(50, -30)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CharacterSprite:texture")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("3_552lh")]
 }
 
 [sub_resource type="Animation" id="Animation_2gj6d"]
@@ -191,6 +205,7 @@ tracks/2/keys = {
 
 [sub_resource type="Animation" id="Animation_2woax"]
 resource_name = "air_sf"
+length = 2.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -198,10 +213,10 @@ tracks/0/path = NodePath("CharacterSprite:texture")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.4),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(0, 0.3, 0.8, 1.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
-"values": [ExtResource("38_xmlyw"), ExtResource("39_bf0s3")]
+"values": [ExtResource("38_xmlyw"), ExtResource("39_bf0s3"), ExtResource("3_552lh"), ExtResource("23_aypvn")]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -210,10 +225,10 @@ tracks/1/path = NodePath("CharacterSprite:offset")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.4),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(0, 0.3, 0.8, 1.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
-"values": [Vector2(-50, 50), Vector2(500, -300)]
+"values": [Vector2(-50, 50), Vector2(500, -300), Vector2(200, -100), Vector2(100, 0)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -588,11 +603,11 @@ pixel_size = 0.015
 texture = SubResource("ViewportTexture_1yy5m")
 
 [node name="CharacterSprite" type="Sprite3D" parent="." groups=["network_sync"]]
-transform = Transform3D(0.37, 0, 0, 0, 0.343, 0, 0, 0, 0.467, 0, -0.0537091, 0)
+transform = Transform3D(0.35, 0, 0, 0, 0.324, 0, 0, 0, 0.442, 0, -0.0537091, 0)
 offset = Vector2(50, -30)
 billboard = 1
 shaded = true
-texture = ExtResource("20_xv0wj")
+texture = ExtResource("3_552lh")
 script = ExtResource("4_ejnp6")
 
 [node name="Hurtbox" type="CollisionShape3D" parent="."]
@@ -959,9 +974,9 @@ cooldown_timer = NodePath("CooldownTimer")
 hitbox_spawn_timer = NodePath("HitboxSpawnTimer")
 move_end_timer = NodePath("MoveEndTimer")
 move_input = "air_sf"
-move_type = "PROJECTILE"
-move_data = [1, [0.2]]
-projectile_path = "res://src/Scenes/characters/Projectiles/Bullet.tscn"
+move_type = "GRAPPLE"
+move_data = [0.5, 2.0, 0.8, 0.4]
+tether_path = "res://src/Scenes/Characters/Projectiles/Lasso.tscn"
 
 [node name="CooldownTimer" type="Node" parent="MoveController/WrangleEm"]
 script = ExtResource("9_3k4re")
@@ -971,12 +986,12 @@ wait_ticks = 30
 [node name="HitboxSpawnTimer" type="Node" parent="MoveController/WrangleEm"]
 script = ExtResource("9_3k4re")
 one_shot = true
-wait_ticks = 12
+wait_ticks = 9
 
 [node name="MoveEndTimer" type="Node" parent="MoveController/WrangleEm"]
 script = ExtResource("9_3k4re")
 one_shot = true
-wait_ticks = 30
+wait_ticks = 45
 
 [node name="Roll" type="Node" parent="MoveController" node_paths=PackedStringArray("cooldown_timer", "hitbox_spawn_timer", "move_end_timer", "hitbox") groups=["network_sync"]]
 script = ExtResource("12_n6nvk")

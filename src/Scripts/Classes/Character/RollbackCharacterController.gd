@@ -95,6 +95,8 @@ var grabbing_player : RollbackCharacterController = null
 
 var in_game : bool = false
 
+var current_move = null
+
 # --------------------------------------- PRIVATE PROPERTIES ------------------------------------------- #
 
 var _on_floor : bool = false

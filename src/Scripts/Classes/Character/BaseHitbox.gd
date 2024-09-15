@@ -100,6 +100,7 @@ func on_hit(hit_char) -> void:
 			#self.hitstun_length = 1 # is this just always applying the perfect block effect no matter what if the opponent is blocking?
 			#self.deal_stun(owner_char)
 			#self.hitstun_length = temp_stun
+	self._after_hit_computation()
 
 
 # determines if a hit node is a character. chars have hurtboxes and health
@@ -128,7 +129,6 @@ func on_collision_detected(colliding_node) -> void:
 		colliding_node.get_node("Destruction").destroy()
 	elif self.node_is_world(colliding_node):
 		pass
-	self._after_hit_computation()
 
 # ---------------------------------------------- INIT AND LOOP ------------------------------------------------ #
 
@@ -165,22 +165,22 @@ func _network_process(input: Dictionary) -> void:
 	self._prev_active = self.active
 
 
-func _save_state() -> Dictionary:
-	return {
-		active = self.active,
-		_prev_active = self._prev_active,
-		monitoring = self.monitoring,
-		hit_chars = self.hit_chars,
-		position = self.position
-	}
-
-
-func _load_state(state: Dictionary) -> void:
-	self.active = state["active"]
-	self._prev_active = state["_prev_active"]
-	self.monitoring = state["monitoring"]
-	self.hit_chars = state["hit_chars"]
-	self.position = state["position"]
+#func _save_state() -> Dictionary:
+	#return {
+		#active = self.active,
+		#_prev_active = self._prev_active,
+		#monitoring = self.monitoring,
+		#hit_chars = self.hit_chars,
+		#position = self.position
+	#}
+#
+#
+#func _load_state(state: Dictionary) -> void:
+	#self.active = state["active"]
+	#self._prev_active = state["_prev_active"]
+	#self.monitoring = state["monitoring"]
+	#self.hit_chars = state["hit_chars"]
+	#self.position = state["position"]
 
 
 # constructor
